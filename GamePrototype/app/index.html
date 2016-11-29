@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <title>Angular Material - Starter App</title>
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
+  <link rel="stylesheet" href="./jspm_packages/github/angular/bower-material@master/angular-material.css"/>
+  <link rel="stylesheet" href="./assets/app.css"/>
+</head>
+
+<body ng-cloak layout="column" ng-controller="AppController as app">
+
+
+  <!-- Container #1 (see wireframe) -->
+  <md-toolbar layout="row" class="md-toolbar-tools">
+    <md-button class="menu md-icon-button" hide-gt-sm ng-click="app.toggleList()"
+               aria-label="Show User List">
+      <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+    <h1>Configuration Screen</h1>
+  </md-toolbar>
+  <!-- <div ng-controller="AppCtrl" ng-cloak="" class="carddemoCardActionButtons" ng-app="MyApp"> -->
+  <!-- <div ng-controller="AppCtrl" ng-cloak="" class="carddemoCardActionButtons" ng-app="MyApp"> -->
+<md-content class="md-padding" layout-xs="column" layout="row">
+  <div flex-xs="" flex-gt-xs="100" layout="column">
+    <md-card>
+      <md-card-header>
+        <md-card-avatar>
+          <img src="assets/svg/person-flat.png">
+        </md-card-avatar>
+        <md-card-header-text>
+          <span class="md-title">Player</span>
+          <span class="md-subhead">Starter Settings</span>
+        </md-card-header-text>
+      </md-card-header>
+<!--         <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out"> -->
+      <!-- <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Player 1</span>
+        </md-card-title-text>
+      </md-card-title> -->
+      <md-card-content>
+<div>
+<div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>No. of 'A' patients</label>
+        <input ng-model="">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>No. of 'B' patients</label>
+        <input ng-model="">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>No. of doctors</label>
+        <input ng-model="">
+      </md-input-container>
+</div>
+<div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>No. of surgeons</label>
+        <input ng-model="" >
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>No. of nurses</label>
+        <input ng-model="">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Total time in seconds</label>
+        <input ng-model="" >
+      </md-input-container>
+</div>
+    </div>
+      </md-card-content>
+    </md-card>
+
+    <md-card>
+      <md-card-header>
+        <md-card-avatar>
+          <img src="assets/svg/robot.png">
+        </md-card-avatar>
+        <md-card-header-text>
+          <span class="md-title">Agent</span>
+          <span class="md-subhead">Starter Settings</span>
+        </md-card-header-text>
+      </md-card-header>
+<!--         <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out"> -->
+      <!-- <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Agent Settings</span>
+        </md-card-title-text>
+      </md-card-title> -->
+      <md-card-content>
+<div>
+  <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Co-operation Type</label>
+          <md-select name="type" ng-model="project.type" required>
+            <md-option value="app">High</md-option>
+            <md-option value="web">Low</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Mode</label>
+          <md-select name="type" ng-model="project.type" required>
+            <md-option value="app">Normal</md-option>
+            <md-option value="web">Practice</md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Type</label>
+          <md-select name="type" ng-model="project.type" required>
+            <md-option value="app">Early Slow</md-option>
+            <md-option value="web">Early Fast</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+
+ <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>NH No. of 'A' patients</label>
+        <input ng-model="">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>NH No. of 'B' patients</label>
+        <input ng-model="">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>NH No. of doctors</label>
+        <input ng-model="">
+      </md-input-container>
+</div>
+<div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>NH No. of surgeons</label>
+        <input ng-model="" >
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>NH No. of nurses</label>
+        <input ng-model="">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Patient help time in seconds</label>
+        <input ng-model="" >
+      </md-input-container>
+</div>
+</div>
+  </md-card-content>
+</md-card>
+</div>
+</md-content>
+<section layout="row" class="md-padding" layout-sm="column" layout-align="end center" layout-wrap>
+    <md-button class="md-raised md-primary">Submit</md-button>
+  </section>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
+-->
+  <!-- </div> -->
+
+
+  <!-- <div ng-controller="DemoCtrl" layout="column" ng-app="MyApp"> -->
+
+    <!-- <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
+      <div>
+        <md-input-container >
+          <label>No. of 'A' patients</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>No. of 'B' patients</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>No. of doctors</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>No. of surgeons</label>
+          <input ng-model="" >
+        </md-input-container>
+        <md-input-container>
+          <label>No. of nurses</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Total time in seconds</label>
+          <input ng-model="" >
+        </md-input-container>
+      </div>
+      <div>
+         <md-input-container>
+          <label>NH No. of 'A' patients</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>NH No. of 'B' patients</label>
+          <input ng-model="">
+
+        <md-input-container>
+          <label>NH No. of doctors</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>NH No. of surgeons</label>
+          <input ng-model="" >
+        </md-input-container>
+        <md-input-container>
+          <label>NH No. of nurses</label>
+          <input ng-model="">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Patient Help Time</label>
+          <input ng-model="" >
+        </md-input-container>
+      </div>
+    </md-content>
+  -->
+
+  <!-- </div> -->
+
+
+  <script src="./jspm_packages/system.js" type="text/javascript"></script>
+  <script src="config.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    System
+        .import('src/boot/boot')
+        .catch( console.error.bind(console) ); // make sure any errors print to console
+  </script>
+
+</body>
+</html>
