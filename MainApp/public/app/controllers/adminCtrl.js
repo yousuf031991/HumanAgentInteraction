@@ -1,10 +1,10 @@
-angular.module('adminControllers', [])
-    .controller('signInCtrl', function ($http, $location) {
+angular.module('adminControllers', ['adminServices'])
+    .controller('signInCtrl', function ($http, $location, Admin) {
         var app = this;
         this.signInAdmin = function (signInData) {
             app.errorMsg = false;
             app.loading = true;
-            $http.post('/api/admin', this.signInData).then(function (returnData) {
+            Admin.create(app.signInData).then(function (returnData) {
                 if (returnData.data.success) {
                     app.successMsg = returnData.data.message;
                     $location.path('/adminpage');
