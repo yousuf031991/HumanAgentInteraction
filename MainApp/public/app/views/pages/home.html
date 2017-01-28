@@ -1,0 +1,31 @@
+<div class="page-header">
+    <h1>Home</h1>
+</div>
+
+<form ng-submit="signIn.signInAdmin(signInData);">
+    <label>Username:</label>
+    <input class="form-control" type="text" name="username" placeholder="Enter username"
+           ng-model="signIn.signInData.username">
+    <br>
+    <label>Password:</label>
+    <input class="form-control" type="password" name="password" placeholder="Enter password"
+           ng-model="signIn.signInData.password">
+    <br>
+    <button class="btn btn-primary" type="submit">Login</button>
+</form>
+
+<div class="jumbotron text-center" ng-show="signIn.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading...</p>
+</div>
+
+<div class="row show-hide-message" ng-show="signIn.successMsg">
+    <div class="alert alert-success">
+        {{signIn.successMsg}}
+    </div>
+</div>
+<div class="row show-hide-message" ng-show="signIn.errorMsg">
+    <div class="alert alert-danger">
+        {{signIn.errorMsg}}
+    </div>
+</div>
