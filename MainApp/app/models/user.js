@@ -15,7 +15,6 @@ var adminSchema = new Schema({
     }
 });
 
-
 adminSchema.pre('save', function (next) {
     var currentAdmin = this;
     bcrypt.hash(currentAdmin.password, null, null, function (err, hash) {
@@ -26,3 +25,5 @@ adminSchema.pre('save', function (next) {
 });
 
 module.exports = mongoose.model('Admin', adminSchema, 'admin');
+
+
