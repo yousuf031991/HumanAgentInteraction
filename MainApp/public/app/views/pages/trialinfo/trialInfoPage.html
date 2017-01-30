@@ -1,0 +1,38 @@
+<div class="page-header">
+    <h1>User Trial Info</h1>
+</div>
+
+<form ng-submit="trialData.trialInfoData(trailData);">
+    <label>Username:</label>
+    <input class="form-control" type="text" name="username" placeholder="Enter username"
+           ng-model="trialData.trailData.username">
+    <br>
+
+    <label>Trial:</label>
+    <input class="form-control" type="text" name="trialid" placeholder="Enter trial id"
+           ng-model="trialData.trailData.trialid">
+    <br>
+
+    <label>Condition:</label>
+    <input class="form-control" type="text" name="condition" placeholder="Enter condition"
+           ng-model="trialData.trailData.condition">
+    <br>
+
+    <button class="btn btn-primary" type="submit">Proceed to Game</button>
+</form>
+
+<div class="jumbotron text-center" ng-show="trialData.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading...</p>
+</div>
+
+<div class="row show-hide-message" ng-show="trialData.successMsg">
+    <div class="alert alert-success">
+        {{trialData.successMsg}}
+    </div>
+</div>
+<div class="row show-hide-message" ng-show="trialData.errorMsg">
+    <div class="alert alert-danger">
+        {{trialData.errorMsg}}
+    </div>
+</div>
