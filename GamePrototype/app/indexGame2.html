@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="./assets/app.css"/>
 </head>
 
-<body ng-cloak layout="column" ng-controller="AppController as app">
+<body ng-cloak layout="column" ng-controller="AppController as app" >
 
 
   <!-- Container #1 (see wireframe) -->
-  <md-toolbar layout="row" class="md-toolbar-tools">
+  <md-toolbar layout="row" class="md-toolbar-tools" md-colors="{background: 'cyan-700'}">
     <md-button class="menu md-icon-button" hide-gt-sm ng-click="app.toggleList()"
                aria-label="Show User List">
       <md-icon md-svg-icon="menu"></md-icon>
@@ -31,14 +31,14 @@
           </md-button>
   </md-toolbar>
   <!-- <start-settings></start-settings> -->
-  <div layout="row" layout-margin>
-  <div class="gridListdemoBasicUsage" flex>
+  <div layout="row" layout-margin md-colors="{background: 'cyan-700'}">
+  <div class="gridListdemoBasicUsage" flex >
 
-  <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+  <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px" md-colors="{background: 'cyan-700'}">
 
-    <md-grid-tile md-colors="{background: 'grey'}" md-rowspan="3" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
+    <md-grid-tile md-colors="{background: 'cyan-700'}" md-rowspan="3" md-colspan="2" md-colspan-sm="1" md-colspan-xs="1">
     <div layout="column" style="padding-top: 0.23px; padding-left: 2px; padding-right: 2px" flex>  
-    <md-card>
+    <md-card  md-colors="{background: 'lime-50'}">
       <md-card-header>
         <md-card-avatar>
           <img src="assets/svg/person-flat.png">
@@ -57,7 +57,7 @@
       </md-card>
 
      
-    <md-card>
+    <md-card md-colors="{background: 'lime-50'}">
       <md-card-header>
         <md-card-avatar>
           <img src="assets/svg/doctor.png">
@@ -74,7 +74,7 @@
       </md-card-content>
       </md-card>
 
-      <md-card>
+      <md-card md-colors="{background: 'lime-50'}">
       <md-card-header>
         <md-card-avatar>
           <img src="assets/svg/robot.png">
@@ -93,7 +93,7 @@
       </md-card-content>
       </md-card>
 
-      <md-card>
+      <md-card md-colors="{background: 'lime-50'}">
       <md-card-header>
         <md-card-avatar>
           <img src="assets/svg/doctor.png">
@@ -118,20 +118,20 @@
 
     </md-grid-tile>
 
-    <md-grid-tile md-colors="{background: 'red'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
       <p> <b>BUSY</b> </p>
       <md-grid-tile-footer>
         <h3>Room 1</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
 
-    <md-grid-tile md-colors="{background: 'red'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>BUSY</b> </p>
       <md-grid-tile-footer>
         <h3>Room 2</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
-    <md-grid-tile md-colors="{background: 'red'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>BUSY</b> </p>
       <md-grid-tile-footer>
         <h3>Room 3</h3>
@@ -139,33 +139,33 @@
     </md-grid-tile>
 
     <!--ROW 2-->
-    <md-grid-tile md-colors="{background: 'green'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>VACANT</b> </p>
       <md-grid-tile-footer>
         <h3>Room 4</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
 
-    <md-grid-tile md-colors="{background: 'green'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>VACANT</b> </p>
       <md-grid-tile-footer>
         <h3>Room 5</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
-    <md-grid-tile md-colors="{background: 'red'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>BUSY</b> </p>
       <md-grid-tile-footer>
         <h3>Room 6</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
 
-    <md-grid-tile md-colors="{background: 'green'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>VACANT</b></p>
       <md-grid-tile-footer>
         <h3>Room 7</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
-    <md-grid-tile md-colors="{background: 'green'}">
+    <md-grid-tile md-colors="{background: 'lime-50'}">
     <p> <b>BUSY </b></p>
       <md-grid-tile-footer>
         <h3>Room 8</h3>
@@ -188,27 +188,27 @@
       <md-divider inset></md-divider>
  --> 
  
- <div layout="column" style="padding: 10px" flex>     
+ <div layout="column" style="padding: 10px" flex md-colors="{background: 'cyan-700'}">     
 
   <md-divider></md-divider>
-  <md-subheader class="md-no-sticky" ><b>Actions</b>
+  <md-subheader class="md-no-sticky" md-colors="{background: 'lime-50'}" ><b>Actions</b>
   <md-list-item class="md-no-sticky" style="padding-top: 10px">
     <div layout="row" layout-align="space-between center" flex>
-      <md-button class="md-raised md-primary"  flex>Assign Patient to Room</md-button>
-      <md-button ng-disabled="false" class="md-raised md-primary" flex>Assign Resources to Room</md-button>
-      <md-button class="md-raised md-primary" flex>Request Resources</md-button>
+      <md-button class="md-raised md-primary"  flex md-colors="{background: 'cyan-700'}">Assign Patient to Room</md-button>
+      <md-button ng-disabled="false" class="md-raised md-primary" flex md-colors="{background: 'cyan-700'}">Assign Resources to Room</md-button>
+      <md-button class="md-raised md-primary" md-colors="{background: 'cyan-700'}" flex >Request Resources</md-button>
       </div>
   </md-list-item>
   </md-subheader>
 
 
   <md-divider></md-divider>
-  <md-subheader class="md-no-sticky"><b>Incoming requests/responses</b>
+  <md-subheader class="md-no-sticky" md-colors="{background: 'lime-50'}"><b>Incoming requests/responses</b>
   <md-list-item class="md-no-sticky">
     <img ng-src="assets/svg/robot.png" alt="Someone" class="md-avatar">
     <p>Neighbour: Requesting two doctors</p>
-    <md-button class="md-raised" layout-align="center center" md-colors="{background: 'green'}">Accept</md-button>
-      <md-button class="md-raised" layout-align="center center" md-colors="{background: 'red'}">Reject</md-button>
+    <md-button class="md-raised" layout-align="center center" md-colors="{background: 'cyan-700'}">Accept</md-button>
+      <md-button class="md-raised" layout-align="center center" md-colors="{background: 'cyan-700'}">Reject</md-button>
   </md-list-item>
   </md-subheader>
 </div>
