@@ -7,7 +7,13 @@ Clone this repository and execute the following commands in a terminal:
 * `git checkout master`
 * `npm install`
 * 'start mongoDB on the default port'
-* `nodemon index.js`
+
+How to run this app?
+
+* Dev? `npm run start`
+* Staging or Production? `npm run build` and `npm run serve`
+* Make sure you do `npm run test` before building the app.
+
 
 > **Note:** Everything is built using [this tutorial](https://www.youtube.com/watch?v=-gd73iczlS8&list=PL3vQyqzqjZ637sWpKvniMCxdqZhnMJC1d)
 
