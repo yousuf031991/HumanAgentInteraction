@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon lib/index.js --exec babel-node",
     "build": "babel lib -d dist",
-    "serve": "node dist/index.js",
+    "serve": "NODE_ENV=production node dist/index.js",
     "test": "mocha --recursive --compilers js:babel-register"
   },
   "author": "yousuf",

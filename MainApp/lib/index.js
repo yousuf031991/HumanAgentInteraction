@@ -1,3 +1,6 @@
+// one time initialization of configs into memory
+import setConfigs from './app/configs';
+
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
@@ -5,8 +8,9 @@ import path from 'path';
 import api from './app/routes/api';
 import connectDB from './app/helpers/db';
 
+const configs = JSON.parse(process.env.CONFIGS);
 const app = express();
-const port = process.env.PORT || 8080; // TODO move to constants
+const port = configs.appPort;
 const router = express.Router();
 const appRoutes = api(router);
 
@@ -19,7 +23,7 @@ app.use('/api', appRoutes);
 connectDB();
 
 app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/../public/app/views/index.html'));
+	res.sendFile(path.join(__dirname + configs.homeRoute));
 });
 
 app.listen(port, function(){

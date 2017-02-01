@@ -1,14 +1,12 @@
 import mongoose from 'mongoose';
 
-// TODO - get from configs
-const dbURI = 'mongodb://localhost:27017/hospital';
-const totalConnections = 10;
-const connectionTimeout = 15000;
+const configs = JSON.parse(process.env.CONFIGS);
+const dbURI = "mongodb://" + configs.mongoHost + "/" + configs.database;
 const options = {
     replset: {
-        socketOptions: { connectTimeoutMS : connectionTimeout }
+        socketOptions: { connectTimeoutMS : configs.connectionTimeout }
     },
-    server: { poolSize: totalConnections }
+    server: { poolSize: configs.totalConnections }
 };
 
 export default function connectDB() {
