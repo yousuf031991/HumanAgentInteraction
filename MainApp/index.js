@@ -1,12 +1,14 @@
-var express = require('express');
-var app = express();
-var port = process.env.PORT || 8080;
-var morgan = require('morgan');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var router = express.Router();
-var appRoutes = require('./app/routes/api')(router);
-var path = require('path');
+import express from 'express';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import path from 'path';
+import api from './app/routes/api';
+
+const app = express();
+const port = process.env.PORT || 8080; // TODO move to constants
+const router = express.Router();
+const appRoutes = api(router);
 
 // logging all requests
 app.use(morgan('dev'));
