@@ -14,6 +14,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/gamepage', {
             templateUrl: 'app/views/pages/game/game.html'
         })
+        .when('/gameconfigpage', {
+            templateUrl: 'app/views/pages/admin/gameConfigPage.html' , controller: 'gameConfigCtrl', controllerAs: 'gameConf'
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
