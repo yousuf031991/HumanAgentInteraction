@@ -14,7 +14,7 @@ const appRoutes = api(router);
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 app.use('/api', appRoutes);
 
 mongoose.connect('mongodb://localhost:27017/hospital', function(err){
@@ -26,7 +26,7 @@ mongoose.connect('mongodb://localhost:27017/hospital', function(err){
 });
 
 app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
+	res.sendFile(path.join(__dirname + '/../public/app/views/index.html'));
 });
 
 app.listen(port, function(){
