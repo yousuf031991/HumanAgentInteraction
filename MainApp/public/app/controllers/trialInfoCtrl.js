@@ -7,7 +7,8 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
             TrialInfo.create(app.trailData).then(function (returnData) {
                 if (returnData.data.success) {
                     app.successMsg = returnData.data.message;
-                    $location.path('/gamepage');
+                    var username = app.trailData.username;
+                    $location.path('/gamepage/'+username);
                 } else {
                     app.errorMsg = returnData.data.message;
                 }
