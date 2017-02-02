@@ -1,10 +1,10 @@
-var Admin       = require('../models/user');
-var TrialInfo   = require('../models/trialinfo');
+import Admin from '../models/user';
+import TrialInfo from '../models/trialinfo';
 
-module.exports = function (router) {
+export default function (router) {
     //http://localhost:8080/api/admin
     router.post('/admin', function (req, res) {
-        var admin = new Admin();
+        let admin = new Admin();
         admin.username = req.body.username;
         admin.password = req.body.password;
         if (admin.username == null || admin.username == '' || admin.password == null || admin.password == '') {
@@ -24,7 +24,7 @@ module.exports = function (router) {
 
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
-        var trialinfo = new TrialInfo();
+        let trialinfo = new TrialInfo();
         trialinfo.username = req.body.username;
         trialinfo.trialid = req.body.trialid;
         trialinfo.condition = req.body.condition;
@@ -47,4 +47,4 @@ module.exports = function (router) {
         res.send("Hello from home!");
     });
     return router;
-}
+};
