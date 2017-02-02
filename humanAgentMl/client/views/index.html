@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = "humanAgentmlApp">
+<head>
+	 <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+
+	<div ng-controller="adminsController">
+
+		<h1>Admins Page</h1>
+    	<p>There are {{admins.length}} admins</p>
+		<ul>
+          <li ng-repeat="admin in admins">
+            {{admin.name}}
+          </li>
+    	</ul>
+    	<form ng-submit="createAdmin()">
+    		<br>
+    		Admin Name:
+			<input type="text" name="adminName" placeholder="Enter a username for Admin" ng-model="adminName" />
+			<br>
+			Password:
+			<input type="password" name="adminPassword" placeholder="Enter a password for Admin" ng-model="adminPassword" />
+			<br>
+			<input type="submit"/>
+		</form>
+	</div>	
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
+   <script type="text/javascript" src="/js/app.js"></script>
+   <script type="text/javascript" src="/js/controllers/admins-controller.js"></script>
+	
+</body>
+</html>
