@@ -1,0 +1,172 @@
+<form class="form-horizontal" ng-submit="gameConf.gameConfig(gameConfigData);">
+    <div class="panel panel-default">
+        <div class="panel-heading">Player settings</div>
+        <div class="panel-body">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="numAPatients" class="col-lg-6 control-label">No. of 'A' patients</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="numAPatients" value="1"
+                               ng-model="gameConf.gameConfigData.startNumPatientAs">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="numSurgeons" class="col-lg-6 control-label">No. of Surgeons</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="numSurgeons" value="2"
+                               ng-model="gameConf.gameConfigData.numOfSurgeons">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="numBPatients" class="col-lg-6 control-label">No. of 'B' patients</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="numBPatients" value="0"
+                               ng-model="gameConf.gameConfigData.startNumPatientBs">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="numNurses" class="col-lg-6 control-label">No. of Nurses</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="numNurses" value="3"
+                               ng-model="gameConf.gameConfigData.numOfNurses">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="numDoctors" class="col-lg-6 control-label">No. of Doctors</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="numDoctors" value="2"
+                               ng-model="gameConf.gameConfigData.numOfDoctors">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="totTime" class="col-lg-6 control-label">Total time in seconds</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="totTime" value="480"
+                               ng-model="gameConf.gameConfigData.totalTimeInSeconds">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Agent settings</div>
+        <div class="panel-body">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="cooperation" class="col-lg-6 control-label">Cooperation type</label>
+
+                    <div class="col-lg-6">
+                        <select class="form-control" id="cooperation" ng-model="gameConf.gameConfigData.cooperation">
+                            <option ng-repeat="option in coopData.availableOptions" value="{{option.name}}">
+                                {{option.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NHnumAPatients" class="col-lg-6 control-label">NH No. of 'A' patients</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="NHnumAPatients"
+                               ng-model="gameConf.gameConfigData.NHstartNumPatientAs">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NHnumSurgeons" class="col-lg-6 control-label">NH No. of Surgeons</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="NHnumSurgeons" value="2"
+                               ng-model="gameConf.gameConfigData.NHnumOfSurgeons">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="mode" class="col-lg-6 control-label">Mode</label>
+
+                    <div class="col-lg-6">
+                        <select class="form-control" id="mode" ng-model="gameConf.gameConfigData.mode">
+                            <option>Normal Mode</option>
+                            <option>Practice Mode</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NHnumBPatients" class="col-lg-6 control-label">NH No. of 'B' patients</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="NHnumBPatients" value="1"
+                               ng-model="gameConf.gameConfigData.NHstartNumPatientBs">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NHnumNurses" class="col-lg-6 control-label">NH No. of Nurses</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="NHnumNurses" value="3"
+                               ng-model="gameConf.gameConfigData.NHnumOfNurses">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="gameSpeed" class="col-lg-6 control-label">Game Speed</label>
+
+                    <div class="col-lg-6">
+                        <select class="form-control" id="gameSpeed" ng-model="gameConf.gameConfigData.earlyType">
+                            <option>Early Slow</option>
+                            <option>Early Fast</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NHnumDoctors" class="col-lg-6 control-label">NH No. of Doctors</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="NHnumDoctors" value="2"
+                               ng-model="gameConf.gameConfigData.NHnumOfDoctors">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="patientHelpTime" class="col-lg-6 control-label">Patient help time in seconds</label>
+
+                    <div class="col-lg-6">
+                        <input type="number" class="form-control" id="patientHelpTime" value="60"
+                               ng-model="gameConf.gameConfigData.patientHelpTimeInSeconds">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-8">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+<div class="jumbotron text-center" ng-show="gameConf.loading">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+
+    <p>Loading...</p>
+</div>
+<div class="row show-hide-message" ng-show="gameConf.successMsg">
+    <div class="alert alert-success">
+        {{gameConf.successMsg}}
+    </div>
+</div>
+<div class="row show-hide-message" ng-show="gameConf.errorMsg">
+    <div class="alert alert-danger">
+        {{gameConf.errorMsg}}
+    </div>
+</div>
