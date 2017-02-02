@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 var gameConfigSchema = new Schema({
     cooperation: {
@@ -67,4 +67,4 @@ var gameConfigSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('GameConfig', gameConfigSchema, 'gameConfig');
+export default mongoose.model('GameConfig', gameConfigSchema, 'gameConfig');

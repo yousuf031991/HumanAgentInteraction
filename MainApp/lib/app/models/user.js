@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt-nodejs';
+const Schema = mongoose.Schema;
 
-var adminSchema = new Schema({
+const adminSchema = new Schema({
     username: {
         type: String,
         lowercase: true,
@@ -16,7 +16,7 @@ var adminSchema = new Schema({
 });
 
 adminSchema.pre('save', function (next) {
-    var currentAdmin = this;
+    let currentAdmin = this;
     bcrypt.hash(currentAdmin.password, null, null, function (err, hash) {
         if (err) return next(err);
         currentAdmin.password = hash;
@@ -24,6 +24,6 @@ adminSchema.pre('save', function (next) {
     });
 });
 
-module.exports = mongoose.model('Admin', adminSchema, 'admin');
+export default mongoose.model('Admin', adminSchema, 'admin');
 
 

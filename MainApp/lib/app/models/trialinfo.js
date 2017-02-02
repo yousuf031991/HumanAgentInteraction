@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
-var trialInfoSchema = new Schema({
+const trialInfoSchema = new Schema({
     username: {
         type: String,
         lowercase: true,
@@ -18,4 +18,4 @@ var trialInfoSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('TrialInfo', trialInfoSchema, 'trialinfo');
+export default mongoose.model('TrialInfo', trialInfoSchema, 'trialinfo');
