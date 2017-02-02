@@ -25,5 +25,3 @@ adminSchema.pre('save', function (next) {
 });
 
 export default mongoose.model('Admin', adminSchema, 'admin');
-
-
