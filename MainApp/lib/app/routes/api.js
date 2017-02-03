@@ -78,6 +78,24 @@ export default function (router) {
             });
         }
     });
+    
+//http://localhost:8080/api/adminLogin
+router.post("/adminLogin",function(req,res){
+   console.log("Received...");
+   var admin=new Admin();
+   var emailID=req.body.email;
+   console.log("Email:"+emailID);
+   Admin.count({username: emailID},function(err,count){
+      //console.log("Count:"+count);
+      if(count>0){
+         //console.log("Admin Exists");
+         res.send(true);
+      }
+      else{
+         res.send(false);
+      }
+   });
+});
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
