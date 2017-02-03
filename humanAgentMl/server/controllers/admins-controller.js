@@ -12,3 +12,17 @@ module.exports.list = function (req, res) {
     res.json(results);
   });
 }
+
+module.exports.checkAdmin= function(req,res){
+   var admin=new Admin();
+   var emailID=req.body.email;
+   console.log("Email:"+emailID);
+   Admin.count({name: emailID},function(err,count){
+      if(count>0){
+         res.send(true);
+      }
+      else{
+         res.send(false);
+      }
+   });
+}
