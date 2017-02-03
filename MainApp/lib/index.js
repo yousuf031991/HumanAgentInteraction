@@ -22,9 +22,15 @@ app.use(express.static(__dirname + '/../public'));
 app.use('/api', appRoutes);
 connectDB();
 
+app.get('/login', function(req, res) {
+	res.sendFile(path.join(__dirname + configs.loginRoute));
+});
+
+
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + configs.homeRoute));
 });
+
 
 app.listen(port, function(){
 	console.log('Running the server on ' + port);
