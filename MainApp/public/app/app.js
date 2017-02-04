@@ -7,7 +7,7 @@ angular.module('trialInfoApp', ['appRoutes', 'trialInfoControllers', 'trialInfoS
      console.log('testing game app');
  });
 
-angular.module('userApp', ['appRoutes', 'adminControllers', 'adminServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp']).config(function () {
+angular.module('userApp', ['appRoutes', 'authControllers', 'authServices', 'adminControllers', 'adminServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp']).config(function () {
     //console.log('testing user app');
 });
 

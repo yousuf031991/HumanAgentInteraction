@@ -11,12 +11,16 @@
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     
 
     <!--Main Angular Files-->
     <script src="assets/js/angular.js"></script>
     <script src="assets/js/angular-route.js"></script>
     <script src="assets/js/angular-animate.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- TODO - get client_id from constants. right now, it is visible to public. -->
+    <meta name="google-signin-client_id" content="713815641075-vge8ouravfnq07fko03patep79djuu0o.apps.googleusercontent.com">
 
     <!--Angular Config/Routes-->
     <script src="app/app.js"></script>
@@ -27,12 +31,14 @@
     <script src="app/controllers/trialInfoCtrl.js"></script>
     <script src="app/controllers/gameConfigCtrl.js"></script>
     <script src="app/controllers/gamePageCtrl.js"></script>
+    <script src="app/controllers/authCtrl.js"></script>
 
     
     <!--Angular Services-->
     <script src="app/services/adminServices.js"></script>
     <script src="app/services/trialInfoServices.js"></script>
     <script src="app/services/gameConfigServices.js"></script>
+    <script src="app/services/authServices.js"></script>
     
 
     <title>Index</title>
