@@ -1,0 +1,12 @@
+#logout {
+    float:right;
+    margin-right:20px;
+    height:5px;
+    visibility: hidden;
+}
+
+#my-signin2 {
+    'position':'absolute',
+    'top':'50%',
+    'left':'50%'
+}

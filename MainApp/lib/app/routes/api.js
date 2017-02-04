@@ -95,20 +95,13 @@ export default function (router) {
             });
         }
     });
-
+    
     //http://localhost:8080/api/adminLogin
-    router.post("/adminLogin", function (req, res) {
-        console.log("Received...");
-        var admin = new Admin();
-        var emailID = req.body.email;
-        console.log("Email:" + emailID);
-        Admin.count({username: emailID}, function (err, count) {
-            //console.log("Count:"+count);
-            if (count > 0) {
-                //console.log("Admin Exists");
+    router.post("/adminLogin",function(req,res) {
+        Admin.count({ username: req.body.email }, function(err,count) {
+            if(count>0) {
                 res.send(true);
-            }
-            else {
+            } else {
                 res.send(false);
             }
         });
