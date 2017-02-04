@@ -4,7 +4,7 @@ angular.module('trialInfoApp', ['appRoutes', 'trialInfoControllers', 'trialInfoS
 
 
  angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'ngAnimate']).config(function () {
-     console.log('testing game app');
+     //console.log('testing game app');
  });
 
 angular.module('userApp', ['appRoutes', 'adminControllers', 'adminServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp']).config(function () {
