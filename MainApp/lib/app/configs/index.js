@@ -16,7 +16,6 @@ if(configs.mode === "production") {
     configs.connectionTimeout = 5000;
 }
 configs.homeRoute = '/../public/app/views/index.html';
-configs.loginRoute = '/../public/app/views/google-Login.html';
 
 // set the configs as an env variable
 process.env.CONFIGS = JSON.stringify(configs);
