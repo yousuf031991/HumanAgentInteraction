@@ -29,9 +29,12 @@ export default function (router) {
         trialinfo.username = req.body.username;
         trialinfo.trialid = req.body.trialid;
         trialinfo.condition = req.body.condition;
-        
-        if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null ||trialinfo.condition == '') {
-            res.send({success: false, message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' +trialinfo.trialid + 'CON:' + trialinfo.condition});
+
+        if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null || trialinfo.condition == '') {
+            res.send({
+                success: false,
+                message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid + 'CON:' + trialinfo.condition
+            });
         } else {
             trialinfo.save(function (error) {
                 if (error) {
@@ -64,14 +67,28 @@ export default function (router) {
         gameConfig.NHnumOfNurses = req.body.NHnumOfNurses;
         gameConfig.NHnumOfSurgeons = req.body.NHnumOfSurgeons;
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
-
-        if (gameConfig.cooperation == null || gameConfig.cooperation == '') {
-            res.send({success: false, message: 'Cooperation was empty was empty'});
-        } else {
+        if (gameConfig.cooperation == null || gameConfig.cooperation === '' ||
+            gameConfig.mode == null || gameConfig.mode === '' ||
+            gameConfig.earlyType == null || gameConfig.earlyType === '' ||
+            gameConfig.startNumPatientAs == null || gameConfig.startNumPatientAs === '' ||
+            gameConfig.startNumPatientBs == null || gameConfig.startNumPatientBs === '' ||
+            gameConfig.numOfDoctors == null || gameConfig.numOfDoctors === '' ||
+            gameConfig.numOfNurses == null || gameConfig.numOfNurses === '' ||
+            gameConfig.numOfSurgeons == null || gameConfig.numOfSurgeons === '' ||
+            gameConfig.totalTimeInSeconds == null || gameConfig.totalTimeInSeconds === '' ||
+            gameConfig.NHstartNumPatientAs == null || gameConfig.NHstartNumPatientAs === '' ||
+            gameConfig.NHstartNumPatientBs == null || gameConfig.NHstartNumPatientBs === '' ||
+            gameConfig.NHnumOfDoctors == null || gameConfig.NHnumOfDoctors === '' ||
+            gameConfig.NHnumOfNurses == null || gameConfig.NHnumOfNurses === '' ||
+            gameConfig.NHnumOfSurgeons == null || gameConfig.NHnumOfSurgeons === '' ||
+            gameConfig.patientHelpTimeInSeconds == null || gameConfig.patientHelpTimeInSeconds === '') {
+            res.send({success: false, message: 'One or more fields were empty'});
+        }
+        else {
             gameConfig.save(function (error) {
                 if (error) {
                     console.log(error);
-                    res.send({success: false, message: error});
+                    res.send({success: false, message: error.errors});
                 } else {
                     res.send({success: true, message: "Game config saved"});
                 }
