@@ -5,27 +5,36 @@
 <form ng-submit="signIn.signInAdmin(signInData);">
     <label>Username:</label>
     <input class="form-control" type="text" name="username" placeholder="Enter username"
-           ng-model="signIn.signInData.username">
+           ng-model="signIn.signInData.username" ng-readonly="signIn.showGmailLogin">
     <br>
-    <label>Password:</label>
+<!--     <label>Password:</label>
     <input class="form-control" type="password" name="password" placeholder="Enter password"
            ng-model="signIn.signInData.password">
-    <br>
-    <button class="btn btn-primary" type="submit">Login</button>
+ -->    <br>
+    <button class="btn btn-primary" type="submit" id="customBtn" ng-show="signIn.showLoginButton">Login</button>
 </form>
+
+
 
 <div class="jumbotron text-center" ng-show="signIn.loading">
     <span class="glyphicon glyphicon-repeat spinner"></span>
     <p>Loading...</p>
 </div>
 
-<div class="row show-hide-message" ng-show="signIn.successMsg">
+ <div class="row show-hide-message" ng-show="signIn.successMsg">
     <div class="alert alert-success">
         {{signIn.successMsg}}
     </div>
 </div>
-<div class="row show-hide-message" ng-show="signIn.errorMsg">
+
+<button class="btn btn-primary" id="gmailSignIn" ng-show="signIn.showGmailLogin">Continue with Gmail Login</button>
+<br> 
+<br>
+ <div class="row show-hide-message" ng-show="signIn.errorMsg">
     <div class="alert alert-danger">
         {{signIn.errorMsg}}
     </div>
 </div>
+
+<br>
+<button class="btn btn-primary" id="switchUser" ng-show="signIn.signInAsDiffUser" ng-click="signIn.changeUser();">Signin as different user</button>
