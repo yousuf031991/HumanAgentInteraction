@@ -5,13 +5,11 @@
 <form ng-submit="signIn.signInAdmin(signInData);">
     <label>Username:</label>
     <input class="form-control" type="text" name="username" placeholder="Enter username"
-           ng-model="signIn.signInData.username" ng-readonly="signIn.showGmailLogin">
+           ng-model="signIn.signInData.username">
     <br>
-<!--     <label>Password:</label>
-    <input class="form-control" type="password" name="password" placeholder="Enter password"
-           ng-model="signIn.signInData.password">
- -->    <br>
-    <button class="btn btn-primary" type="submit" id="customBtn" ng-show="signIn.showLoginButton">Login</button>
+
+    <br>
+    <button class="btn btn-primary" type="submit">Signin with Gmail</button>
 </form>
 
 
@@ -21,13 +19,6 @@
     <p>Loading...</p>
 </div>
 
- <div class="row show-hide-message" ng-show="signIn.successMsg">
-    <div class="alert alert-success">
-        {{signIn.successMsg}}
-    </div>
-</div>
-
-<button class="btn btn-primary" id="gmailSignIn" ng-show="signIn.showGmailLogin">Continue with Gmail Login</button>
 <br> 
 <br>
  <div class="row show-hide-message" ng-show="signIn.errorMsg">
@@ -37,4 +28,3 @@
 </div>
 
 <br>
-<button class="btn btn-primary" id="switchUser" ng-show="signIn.signInAsDiffUser" ng-click="signIn.changeUser();">Signin as different user</button>
