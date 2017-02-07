@@ -1,9 +1,8 @@
 angular.module('adminControllers', ['adminServices'])
     .controller('signInCtrl', function ($scope,$http, $location, Admin) {
         var app = this;
-        app.showLoginButton=true;
-        app.showGmailLogin=false;
-        app.signInAsDiffUser=false;         
+        
+        app.client_id=null;
 
         this.signInAdmin = function (signInData) {
             app.errorMsg = false;
@@ -13,12 +12,10 @@ angular.module('adminControllers', ['adminServices'])
                
                 if (returnData.data.success) {
                     app.successMsg = returnData.data.message;
-                    app.showLoginButton=false;
-                    app.showGmailLogin=true;
-                    app.signInAsDiffUser=true;
                     app.user=app.signInData.username;
-                    //$location.path('/adminpage');
-                    //startGmailLogin();
+                    
+                    signInWithGmail();
+           
                 } else {
                     app.errorMsg = returnData.data.message;
                     
@@ -27,56 +24,49 @@ angular.module('adminControllers', ['adminServices'])
             });
         };
     
-  
 
-    startGmailLogin=function() {
-    gapi.load('auth2', function(){
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      auth2 = gapi.auth2.init({
-        client_id: '713815641075-vge8ouravfnq07fko03patep79djuu0o.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-        'data-prompt':'select_account'
-        // Request scopes in addition to 'profile' and 'email'
-        //scope: 'additional_scope'
-      });
-      attachSignin(document.getElementById('gmailSignIn'));
-    });
+//Signin with google OAuth2
+    let signInWithGmail=function(){
+         var options={
+                        prompt:"select_account consent", 
+                        scope:"profile email"
+                    };
+
+         gapi.auth2.getAuthInstance().signIn(options).then(function(googleUser){
+                        var email=googleUser.getBasicProfile().getEmail();
+                        console.log("Signed in as:"+googleUser.getBasicProfile().getName()); 
+                        if(app.user!=email){
+                            app.errorMsg="The gmail id "+email+" used for sign in with gmail is not the same as the id "+app.user+" you entered above.Please sign in again with gmail using "+app.user;
+                            app.successMsg=false;
+                        }
+                        else{
+                            $location.path('/adminpage');  
+                            }
+                            $scope.$apply();
+
+                    }); 
+
+
+    };
+  
+    //initializes gmail OAuth2 signin functionality
+    let loadGmailLogin=function() {
+        app.client_id=document.getElementsByTagName('meta').item(name="google-signin-client_id").content;
+        console.log("CLienid:"+app.client_id);
+        gapi.load('auth2', function(){
+          // Retrieve the singleton for the GoogleAuth library and set up the client.
+            auth2 = gapi.auth2.init({
+                client_id: app.client_id,
+                cookiepolicy: 'single_host_origin',
+            });
+        });
   };
    
+  
+  //Init Gmail Signin when the page loads
+  loadGmailLogin();
 
-   attachSignin=function (element) {
-    console.log(element.id);
-    auth2.attachClickHandler(element, {prompt:'select_account'},
-        function(googleUser) {
-        console.log("Signed in as:"+googleUser.getBasicProfile().getName()); 
-        if(app.user!=googleUser.getBasicProfile().getEmail()){
-            app.errorMsg="The gmail id "+googleUser.getBasicProfile().getEmail()+" used for sign in with gmail is not the same as the id "+app.user+" you entered above.Please sign in again with gmail using "+app.user;
-            app.successMsg=false;
-        }
-        else{
-            $location.path('/adminpage');  
-            }
-            $scope.$apply();
-        
-        }, function(error) {
-          alert(JSON.stringify(error, undefined, 2));
-        });
-  }
 
-  init=function(){
-    console.log("Init");
-    startGmailLogin();
-  }
-
-  this.changeUser=function(){
-       app.showLoginButton=true;
-       app.showGmailLogin=false;
-       app.successMsg=false;
-       app.errorMsg=false;
-       app.signInAsDiffUser=false; 
-  }
-
-  init();
 });
 
     
