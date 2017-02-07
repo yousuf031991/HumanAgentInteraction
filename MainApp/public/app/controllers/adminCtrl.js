@@ -11,9 +11,7 @@ angular.module('adminControllers', ['adminServices'])
             Admin.create(app.signInData).then(function (returnData) {
                
                 if (returnData.data.success) {
-                    app.successMsg = returnData.data.message;
-                    app.user=app.signInData.username;
-                    
+                    app.user=app.signInData.username;              
                     signInWithGmail();
            
                 } else {
