@@ -20,6 +20,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/gameconfigpage', {
             templateUrl: 'app/views/pages/admin/gameConfigPage.html' , controller: 'gameConfigCtrl', controllerAs: 'gameConf'
         })
+        .when('/manageAdmin', {
+            templateUrl: 'app/views/pages/admin/manageAdmin.html' , controller: 'manageAdminCtrl', controllerAs: 'manageAdm'
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
