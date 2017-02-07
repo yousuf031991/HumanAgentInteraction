@@ -98,11 +98,11 @@ export default function (router) {
     
     //http://localhost:8080/api/adminLogin
     router.post("/adminLogin",function(req,res) {
-        Admin.count({ username: req.body.email }, function(err,count) {
+        Admin.count({ username: req.body.username}, function(err,count) {
             if(count>0) {
-                res.send(true);
+                res.send({success: true, message: "The username you entered is a valid admin username. Please continue with gmail sigin."});
             } else {
-                res.send(false);
+                res.send({success: false, message: "Sorry! There is no admin user with the username you provided."});
             }
         });
     });
