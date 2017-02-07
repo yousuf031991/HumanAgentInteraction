@@ -35,12 +35,11 @@ angular.module('adminControllers', ['adminServices'])
                         console.log("Signed in as:"+googleUser.getBasicProfile().getName()); 
                         if(app.user!=email){
                             app.errorMsg="The gmail id "+email+" used for sign in with gmail is not the same as the id "+app.user+" you entered above.Please sign in again with gmail using "+app.user;
-                            app.successMsg=false;
                         }
                         else{
                             $location.path('/adminpage');  
                             }
-                            $scope.$apply();
+                        $scope.$apply();
 
                     }); 
 
@@ -50,7 +49,6 @@ angular.module('adminControllers', ['adminServices'])
     //initializes gmail OAuth2 signin functionality
     let loadGmailLogin=function() {
         app.client_id=document.getElementsByTagName('meta').item(name="google-signin-client_id").content;
-        console.log("CLienid:"+app.client_id);
         gapi.load('auth2', function(){
           // Retrieve the singleton for the GoogleAuth library and set up the client.
             auth2 = gapi.auth2.init({
