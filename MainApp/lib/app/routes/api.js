@@ -102,7 +102,7 @@ export default function (router) {
             if(count>0) {
                 res.send({success: true, message: "The username you entered is a valid admin username. Please continue with gmail sigin."});
             } else {
-                res.send({success: false, message: "The username you entered does not exist."});
+                res.send({success: false, message: "Sorry! There is no admin user with the username you provided."});
             }
         });
     });
