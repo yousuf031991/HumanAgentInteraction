@@ -1,6 +1,7 @@
 import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
+import ManageAdmin from '../models/admin';
 
 export default function (router) {
     //http://localhost:8080/api/admin
@@ -95,14 +96,54 @@ export default function (router) {
             });
         }
     });
-    
+
     //http://localhost:8080/api/adminLogin
-    router.post("/adminLogin",function(req,res) {
-        Admin.count({ username: req.body.email }, function(err,count) {
-            if(count>0) {
+    router.post("/adminLogin", function (req, res) {
+        Admin.count({username: req.body.email}, function (err, count) {
+            if (count > 0) {
                 res.send(true);
             } else {
                 res.send(false);
+            }
+        });
+    });
+
+    router.post("/newAdmin", function (req, res) {
+        let manageAdmin = new ManageAdmin();
+        manageAdmin.emailId = req.body.emailId;
+        manageAdmin.role = "ADMIN";
+        if (!manageAdmin.emailId) {
+            res.send({success: false, message: 'Email was empty'});
+        } else {
+            manageAdmin.save(function (error) {
+                if (error) {
+                    console.log(error);
+                    res.send({success: false, message: "Email Id already exists"});
+                } else {
+                    res.send({success: true, message: "Admin saved"});
+                }
+            });
+        }
+    });
+
+    router.get("/viewAdmin", function (req, res) {
+        ManageAdmin.find({}, function (error, docs) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                res.send({success: true, message: "Found users", data: docs});
+            }
+        });
+    });
+
+    router.post("/deleteAdmin", function (req, res) {
+        ManageAdmin.remove({emailId: req.body.emailId}, function(error){
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Email Id doesn't exist"});
+            } else {
+                res.send({success: true, message: "Admin deleted"});
             }
         });
     });
