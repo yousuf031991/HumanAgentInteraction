@@ -8,7 +8,7 @@ angular.module('adminControllers', ['adminServices'])
             app.errorMsg = false;
             app.loading = true;
             app.user=null;
-            Admin.create(app.signInData).then(function (returnData) {
+            Admin.verify(app.signInData).then(function (returnData) {
                
                 if (returnData.data.success) {
                     app.user=app.signInData.username;              
