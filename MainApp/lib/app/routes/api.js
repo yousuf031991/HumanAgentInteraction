@@ -1,6 +1,9 @@
 import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
+import Game from '../models/game';
+import request from 'request';
+
 
 export default function (router) {
     //http://localhost:8080/api/admin
@@ -26,9 +29,13 @@ export default function (router) {
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
+
         trialinfo.username = req.body.username;
         trialinfo.trialid = req.body.trialid;
         trialinfo.condition = req.body.condition;
+
+        // TODO: Query the gameConfigId, userStatsId
+        let gameParams = {"gameConfigId": 3, "trialInfoId": trialinfo.trialid, "username": trialinfo.username, "userStatsId": 3};
         
         if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null ||trialinfo.condition == '') {
             res.send({success: false, message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' +trialinfo.trialid + 'CON:' + trialinfo.condition});
@@ -38,6 +45,16 @@ export default function (router) {
                     console.log(error);
                     res.send({success: false, message: "Username already exists"});
                 } else {
+                    request.post({
+                        url:'http://localhost:8080/api/gameinfo', 
+                        body: gameParams,
+                        json: true
+                    }, function(err, response, body){
+                        console.log(err);
+                        console.log(response);
+                        console.log(body);
+                    });
+
                     res.send({success: true, message: "Trial Information saved"});
                 }
             });
@@ -84,6 +101,7 @@ export default function (router) {
         gameinfo.gameConfigId = req.body.gameConfigId;
         gameinfo.trialInfoId = req.body.trialInfoId;
         gameinfo.userStatsId = req.body.userStatsId;
+        gameinfo.username = req.body.username;
         
         if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
             res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
@@ -93,6 +111,7 @@ export default function (router) {
                     console.log(error);
                     res.send({success: false, message: "Error inserting into collection"});
                 } else {
+
                     res.send({success: true, message: "Game Information Saved"});
                 }
             });

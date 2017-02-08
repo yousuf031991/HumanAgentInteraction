@@ -10,6 +10,10 @@ const gameSchema = new Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     userStatsId: {
         type: String,
         required: true
