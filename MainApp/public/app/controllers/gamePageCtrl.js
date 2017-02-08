@@ -1,21 +1,3 @@
-var secondPassed = function() {
-	var seconds = 1500;
-	var minutes = Math.round((seconds - 30)/60),
-    remainingSeconds = seconds % 60;
-  
-	if (remainingSeconds < 10) {
-	remainingSeconds = "0" + remainingSeconds;  
-	}
-
-	document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
-		if (seconds == 0) {
-			clearInterval(countdownTimer);
-			document.getElementById('countdown').innerHTML = "00:00";
-			console.log(seconds);
-		} else {
-			seconds--;
-		}
-}
 angular.module('gamePageControllers', ['timer'])
     .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout) {
 		var app = this;
@@ -23,6 +5,12 @@ angular.module('gamePageControllers', ['timer'])
      	
      	$scope.counter = "10:00";
      	var seconds = 600;
+
+
+     	// app.myClickfunc = function(event) {
+
+
+     	// }
 
 	    $scope.onTimeout = function(){
 	    	minutes = Math.round((seconds - 30)/60),
