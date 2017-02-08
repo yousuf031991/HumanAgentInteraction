@@ -66,7 +66,7 @@ export default function (router) {
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
 
         if (gameConfig.cooperation == null || gameConfig.cooperation == '') {
-            res.send({success: false, message: 'Cooperation was empty was empty'});
+            res.send({success: false, message: 'Cooperation was empty'});
         } else {
             gameConfig.save(function (error) {
                 if (error) {
@@ -74,6 +74,26 @@ export default function (router) {
                     res.send({success: false, message: error});
                 } else {
                     res.send({success: true, message: "Game config saved"});
+                }
+            });
+        }
+    });
+
+    router.post('/gameinfo', function (req, res) {
+        let gameinfo = new Game();
+        gameinfo.gameConfigId = req.body.gameConfigId;
+        gameinfo.trialInfoId = req.body.trialInfoId;
+        gameinfo.userStatsId = req.body.userStatsId;
+        
+        if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
+            res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
+        } else {
+            gameinfo.save(function (error) {
+                if (error) {
+                    console.log(error);
+                    res.send({success: false, message: "Error inserting into collection"});
+                } else {
+                    res.send({success: true, message: "Game Information Saved"});
                 }
             });
         }
