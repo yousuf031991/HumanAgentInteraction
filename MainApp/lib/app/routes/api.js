@@ -3,6 +3,7 @@ import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
 import request from 'request';
+import UserStatistics from '../models/UserStatistics'
 
 
 export default function (router) {
@@ -117,6 +118,26 @@ export default function (router) {
             });
         }
     });
+
+    router.post('/userStatistics', function(req, res) {
+
+        let userStatistics = new UserStatistics();
+        userStatistics.username = req.body.username;
+        userStatistics.finalScore = req.body.finalScore;
+
+        userStatistics.save(function (err) {
+            
+            console.log("Printing userStatistics")
+            console.log(userStatistics)
+            if (err) {
+                    console.log(err);
+                    res.send({success: false, message: "Userstatiscts row not created"});
+                } else {
+                    res.send({success: true, message: "Userstatiscts row created"});
+                }
+        });
+    });
+
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
