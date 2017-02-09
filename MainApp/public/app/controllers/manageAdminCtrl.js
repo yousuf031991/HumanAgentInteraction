@@ -4,8 +4,8 @@ angular.module('manageAdminControllers', ['manageAdminServices'])
             $scope.successMsg = false;
             $scope.errorMsg = false;
             $scope.loading = true;
-            $scope.email = JSON.stringify({emailId: $scope.emailId});
-            ManageAdmin.create($scope.email).then(function (returnData) {
+            $scope.user = JSON.stringify({username: $scope.username});
+            ManageAdmin.create($scope.user).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg = returnData.data.message;
                     $scope.adminList = false;
@@ -17,9 +17,9 @@ angular.module('manageAdminControllers', ['manageAdminServices'])
             });
         };
 
-        $scope.removeAdmin = function(adminEmail){
-            adminEmail = JSON.stringify({emailId: adminEmail});
-            ManageAdmin.deleteAdm(adminEmail).then(function (returnData){
+        $scope.removeAdmin = function(adminUserName){
+            adminUserName = JSON.stringify({username: adminUserName});
+            ManageAdmin.deleteAdm(adminUserName).then(function (returnData){
                 if (returnData.data.success) {
                     // TODO: Add some indicator of success or failure
                     //console.log(returnData.data.message);

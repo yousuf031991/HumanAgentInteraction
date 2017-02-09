@@ -11,7 +11,7 @@
                 <form ng-submit="createNewAdmin();">
                     <label>Email Id:</label>
                     <input class="form-control" type="text" name="emailId" placeholder="Enter email"
-                           ng-model="emailId">
+                           ng-model="username">
                     <br>
                     <button class="btn btn-success" type="submit">Add Admin</button>
                 </form>
@@ -50,9 +50,9 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="admin in adminList">
-                        <td>{{admin.emailId}}</td>
+                        <td>{{admin.username}}</td>
                         <td><input type="button" class="btn btn-danger" value="Delete"
-                                   ng-click="removeAdmin(admin.emailId)"></td>
+                                   ng-click="removeAdmin(admin.username)"></td>
                     </tr>
                     </tbody>
                 </table>
