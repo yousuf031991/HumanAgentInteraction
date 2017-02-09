@@ -1,28 +1,8 @@
 import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
-import ManageAdmin from '../models/admin';
 
 export default function (router) {
-    //http://localhost:8080/api/admin
-    router.post('/admin', function (req, res) {
-        let admin = new Admin();
-        admin.username = req.body.username;
-        admin.password = req.body.password;
-        if (admin.username == null || admin.username == '' || admin.password == null || admin.password == '') {
-            res.send({success: false, message: 'Username or password were empty'});
-        } else {
-            admin.save(function (error) {
-                if (error) {
-                    console.log(error);
-                    res.send({success: false, message: "Username already exists"});
-                } else {
-                    res.send({success: true, message: "Admin saved"});
-                }
-            });
-        }
-    });
-
 
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
@@ -98,27 +78,27 @@ export default function (router) {
     });
 
     //http://localhost:8080/api/adminLogin
-    router.post("/adminLogin", function (req, res) {
-        Admin.count({username: req.body.email}, function (err, count) {
-            if (count > 0) {
-                res.send(true);
+    router.post("/adminLogin",function(req,res) {
+        Admin.count({ username: req.body.username}, function(err,count) {
+            if(count>0) {
+                res.send({success: true, message: "The username you entered is a valid admin username. Please continue with Gmail sign in."});
             } else {
-                res.send(false);
+                res.send({success: false, message: "Sorry! There is no admin user with the username you provided."});
             }
         });
     });
 
     router.post("/newAdmin", function (req, res) {
-        let manageAdmin = new ManageAdmin();
-        manageAdmin.emailId = req.body.emailId;
-        manageAdmin.role = "ADMIN";
-        if (!manageAdmin.emailId) {
-            res.send({success: false, message: 'Email was empty'});
+        let admin = new Admin();
+        admin.username = req.body.username;
+        admin.role = "ADMIN";
+        if (!admin.username) {
+            res.send({success: false, message: 'User name was empty'});
         } else {
-            manageAdmin.save(function (error) {
+            admin.save(function (error) {
                 if (error) {
                     console.log(error);
-                    res.send({success: false, message: "Email Id already exists"});
+                    res.send({success: false, message: "User name already exists"});
                 } else {
                     res.send({success: true, message: "Admin saved"});
                 }
@@ -127,7 +107,7 @@ export default function (router) {
     });
 
     router.get("/viewAdmin", function (req, res) {
-        ManageAdmin.find({}, function (error, docs) {
+        Admin.find({}, function (error, docs) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
@@ -138,10 +118,10 @@ export default function (router) {
     });
 
     router.post("/deleteAdmin", function (req, res) {
-        ManageAdmin.remove({emailId: req.body.emailId}, function(error){
+        Admin.remove({username: req.body.username}, function(error){
             if (error) {
                 console.log(error);
-                res.send({success: false, message: "Email Id doesn't exist"});
+                res.send({success: false, message: "User Name doesn't exist"});
             } else {
                 res.send({success: true, message: "Admin deleted"});
             }
