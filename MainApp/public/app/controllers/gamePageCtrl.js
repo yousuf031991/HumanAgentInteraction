@@ -73,10 +73,18 @@ angular.module('gamePageControllers', ['timer'])
             //alert('1')
             patientMap.forEach(function (value, key) {
 
+                $("div[class='panel-body fixed-panel']")
+                    .hover(  function() {
+                                $(this).css('background-color', '#D3D3D3')
+                            }, function() {
+                                $(this).css('background-color', '')
+                });
+
 
                 if(value === 'patientB') {
                     //alert(key);
                     $('#' + key).removeClass().addClass('panel panel-success');
+
                 } else {
                     $('#' + key).removeClass().addClass('panel panel-danger');
                 }
@@ -114,14 +122,23 @@ angular.module('gamePageControllers', ['timer'])
      		//alert('disbaled')
      		$("div[class='panel-body fixed-panel']").off('click');
 
-     	}
+            $("div[class='panel-body fixed-panel']")
+                    .hover(  function() {
+                                $(this).css('background-color', '')
+                            }, function() {
+                                $(this).css('background-color', '')
+                    });
 
+     	}
 
 
         $('#btnDoctor').click(function () {
            // alert('1')
             
             patientMap.forEach(function (value, key) {
+
+
+               
                 
                 //alert('color is ')
                 //alert(map.get(key))
@@ -130,6 +147,13 @@ angular.module('gamePageControllers', ['timer'])
                 if(value === 'patientA') {
                 //alert(key);
                     $('#' + key).removeClass().addClass('panel panel-success');
+                     $("div[class='panel-body fixed-panel']")
+                    .hover(  function() {
+                                $(this).css('background-color', '#D3D3D3')
+                            }, function() {
+                                $(this).css('background-color', '')
+                    });
+
                 } else {
                     $('#' + key).removeClass().addClass('panel panel-danger');
                 }
@@ -168,6 +192,13 @@ angular.module('gamePageControllers', ['timer'])
 
                 $('#btnNurse').click(function () {
 
+                    $("div[class='panel-body fixed-panel']")
+                    .hover(  function() {
+                                $(this).css('background-color', '#D3D3D3')
+                            }, function() {
+                                $(this).css('background-color', '')
+                    });
+
                     if(typeof patientType == 'undefined') {
                         alert("Cannot assign Nurses, assign patient first")
                     } else {
@@ -194,6 +225,12 @@ angular.module('gamePageControllers', ['timer'])
      			if(value == 'green') {
      				//change div panel to success
      				$('#' + key).removeClass().addClass('panel panel-success');
+                    $("div[class='panel-body fixed-panel']")
+                    .hover(  function() {
+                                $(this).css('background-color', '#D3D3D3')
+                            }, function() {
+                                $(this).css('background-color', '')
+                    });
      				
      			} else if(value == 'red') {
      				//change div to red danger
