@@ -1,20 +1,20 @@
 angular.module('gamePageControllers', ['timer'])
     .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout) {
-		var app = this;
+		let app = this;
      	app.username = $routeParams.username;
      	
      	$scope.counter = "10:00";
-     	var seconds = 600;
+     	let seconds = 600;
 
-     	var div1 = document.getElementById("R1");
-    	var div2 = document.getElementById("R2");
-    	var div3 = document.getElementById("R3");
-    	var div4 = document.getElementById("R4");
-    	var div5 = document.getElementById("R5");
-    	var div6 = document.getElementById("R6");
+     	let div1 = document.getElementById("R1");
+    	let div2 = document.getElementById("R2");
+    	let div3 = document.getElementById("R3");
+    	let div4 = document.getElementById("R4");
+    	let div5 = document.getElementById("R5");
+    	let div6 = document.getElementById("R6");
 
-    	var map = new Map();
-    	var patientMap = new Map();
+    	let map = new Map();
+    	let patientMap = new Map();
 
     	map.set("div1", "green") 
     	map.set("div2", "green")
@@ -30,28 +30,35 @@ angular.module('gamePageControllers', ['timer'])
     	patientMap.set("div5", null)
     	patientMap.set("div6", null)
 
-    	var patients = 0;
-    	var doctors = 0;
-    	var surgeons = 0;
-    	var patientSelected;
+    	let patients = 0;
+    	let doctors = 0;
+    	let surgeons = 0;
+    	let patientSelected;
 
 
   		$("#patients").click(function () {
   			$('#patientsgroup').show();
   			$('#patients').hide();
-  			$('#resorucesGroup').hide();
+  			$('#resourcesGroup').hide();
   			$('#resources').show();
 
   		});
 
   		$('#resources').click(function () {
   			$('#resources').hide();
-  			$('#resorucesGroup').show();
+  			$('#resourcesGroup').show();
   			$('#patients').show();
   			$('#patientsgroup').hide();
 
   		})
-     
+        
+        $('#requestResources').click(function () {
+            $('#resources').show();
+            $('#resourcesGroup').show();
+            $('#patients').hide();
+            $('#patientsgroup').hide();
+
+        })
 
      	$('#btnA').click(function(e) {
      		//alert("patient A");
@@ -97,13 +104,13 @@ angular.module('gamePageControllers', ['timer'])
                 e.preventDefault();
                 //alert('right div cLicked for Surgeon')
                 //alert(event.target.id);
-                var roomid = event.target.id;
+                let roomid = event.target.id;
                 
                 $('#'+roomid).text('Patient B');
                 $('#'+roomid).append('<br>1 Surgeon<br/>');
                 $('#'+roomid).append('0 Nurse');
 
-                var divid =  $(this).parent("div[class='panel panel-success']").attr("id");
+                let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
                 //alert("div is "+ $(this).parent("div[class='panel panel-success']").attr("id"))
                 $('#'+divid).removeClass().addClass('panel panel-danger');
                 //$('#'+key).removeClass().addClass('panel panel-danger');
@@ -142,7 +149,7 @@ angular.module('gamePageControllers', ['timer'])
                 
                 //alert('color is ')
                 //alert(map.get(key))
-                /*var color = $('#' + key).attr("class")
+                /*let color = $('#' + key).attr("class")
                 alert('color is' + color)*/
                 if(value === 'patientA') {
                 //alert(key);
@@ -165,12 +172,12 @@ angular.module('gamePageControllers', ['timer'])
                     e.preventDefault();
                     //alert('right div cLicked for Doctor')
                    // alert(event.target.id);
-                    var roomid = event.target.id;
+                    let roomid = event.target.id;
                     $('#'+roomid).text('Patient A');
                     $('#'+roomid).append('<br>1 Doctor<br/>');
                     $('#'+roomid).append('0 Nurse'); 
 
-                    var divid =  $(this).parent("div[class='panel panel-success']").attr("id");
+                    let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
 
                     //alert("div is "+ $(this).parent("div[class='panel panel-success']").attr("id"))
                     $('#'+divid).removeClass().addClass('panel panel-danger');
@@ -254,7 +261,7 @@ angular.module('gamePageControllers', ['timer'])
      			
                 myroomid = event.target.id;
 
-                var key = myroomid.replace("R", "div");
+                let key = myroomid.replace("R", "div");
               //  console.log("Printing div:"+key)
               //  console.log("Printing R:"+myroomid)
 
@@ -309,12 +316,12 @@ angular.module('gamePageControllers', ['timer'])
 	        mytimeout = $timeout($scope.onTimeout,1000);
 	    }
 
-	    var mytimeout = $timeout($scope.onTimeout,1000);
+	    let mytimeout = $timeout($scope.onTimeout,1000);
 
 
 
 	    
 	    
 
-		// var countdownTimer = setInterval('secondPassed()', 1000);
+		// let countdownTimer = setInterval('secondPassed()', 1000);
 });
