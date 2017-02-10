@@ -42,3 +42,31 @@ header .navbar {
     }
 }
 
+/* Game Screen CSS*/
+.fixed-panel {
+  min-height: 25%;
+  max-height: 25%;
+  overflow-y: scroll;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+time {
+  color: hsl(0,0%,100%);
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 4em;
+  font-weight: 300;
+  height: 100px;
+  left: 0;
+  line-height: 100px;
+  margin-top: -50px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  user-select: none;
+  z-index: 2;
+}
+
