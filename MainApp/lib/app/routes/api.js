@@ -1,10 +1,13 @@
 import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
+import Game from '../models/game';
+import request from 'request';
+import UserStatistics from '../models/UserStatistics'
+
 
 export default function (router) {
-
-    //http://localhost:8080/api/trialinfo
+//http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
         trialinfo.username = req.body.username;
@@ -48,6 +51,7 @@ export default function (router) {
         gameConfig.NHnumOfNurses = req.body.NHnumOfNurses;
         gameConfig.NHnumOfSurgeons = req.body.NHnumOfSurgeons;
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
+
         if (gameConfig.cooperation == null || gameConfig.cooperation === '' ||
             gameConfig.mode == null || gameConfig.mode === '' ||
             gameConfig.earlyType == null || gameConfig.earlyType === '' ||
@@ -72,6 +76,29 @@ export default function (router) {
                     res.send({success: false, message: error.errors});
                 } else {
                     res.send({success: true, message: "Game config saved"});
+                }
+            });
+        }
+    });
+
+    //http://localhost:8080/api/gameinfo
+    router.post('/gameinfo', function (req, res) {
+        let gameinfo = new Game();
+        gameinfo.gameConfigId = req.body.gameConfigId;
+        gameinfo.trialInfoId = req.body.trialInfoId;
+        gameinfo.userStatsId = req.body.userStatsId;
+        gameinfo.username = req.body.username;
+        
+        if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
+            res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
+        } else {
+            gameinfo.save(function (error) {
+                if (error) {
+                    console.log(error);
+                    res.send({success: false, message: "Error inserting into collection"});
+                } else {
+
+                    res.send({success: true, message: "Game Information Saved"});
                 }
             });
         }
@@ -106,6 +133,26 @@ export default function (router) {
         }
     });
 
+
+    router.post('/userStatistics', function(req, res) {
+
+        let userStatistics = new UserStatistics();
+        userStatistics.username = req.body.username;
+        userStatistics.finalScore = req.body.finalScore;
+
+        userStatistics.save(function (err) {
+            
+            console.log("Printing userStatistics")
+            console.log(userStatistics)
+            if (err) {
+                    console.log(err);
+                    res.send({success: false, message: "Userstatiscts row not created"});
+                } else {
+                    res.send({success: true, message: "Userstatiscts row created"});
+                }
+        });
+    });
+
     router.get("/viewAdmin", function (req, res) {
         Admin.find({}, function (error, docs) {
             if (error) {
@@ -127,6 +174,7 @@ export default function (router) {
             }
         });
     });
+
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
