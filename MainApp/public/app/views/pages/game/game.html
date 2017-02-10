@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Bootstrap Example</title>
@@ -26,7 +26,7 @@
         <h1 class="text-left"><b>Time Left : {{counter}}</b></h1>
       </div>
       <div class="col-md-8">
-        <h1><strong>Hi {{gameData.username}}!. Welcome to Hospital Management Game.</strong></h1>
+        <h1><strong>Hi {{gameData.username}}! Welcome to Hospital Management Game.</strong></h1>
       </div>
   </div>
 
@@ -153,18 +153,28 @@
         <div class="col-md-12">
             <br>
             <div class="btn-group btn-group-justified" id ="prdiv">
-              <a  class="btn btn-default" id="patients" >Patients</a>
+              <a href="#" class="btn btn-default" id="patients"> Assign Patients</a>
               <a href="#" class="btn btn-default" id="resources">Assign Resources</a>
+              <a href="#" class="btn btn-default" id="requestResources">Request Resources</a>
             </div>
-            <div class="col-md-6" id ="patientsgroup" style="display: none;">
-              <button class="btn btn-primary" id="btnA" type="submit" >Patient A</button>
-              <button class="btn btn-primary" id="btnB" type="submit" >Patient B</button>
+            <div id ="patientsgroup" style="display: none;">
+                <div class="btn-group btn-group-justified">
+                  <a  class="btn btn-primary" id="btnA" >Patient A</a>
+                  <a href="#" class="btn btn-primary" id="btnB">Patient B</a>
+                </div>
+              <!-- <button class="btn btn-primary" id="btnA" type="submit" >Patient A</button>
+              <button class="btn btn-primary" id="btnB" type="submit" >Patient B</button> -->
             </div>
 
-            <div class="col-md-6" id ="resorucesGroup" style="display: none;">
-              <button class="btn btn-primary" id="btnDoctor" type="submit" >Doctor</button>
+            <div id ="resourcesGroup" style="display: none;">
+                <div class="btn-group btn-group-justified">
+                  <a href='#' class="btn btn-primary" id="btnDoctor" >Doctor</a>
+                  <a href="#" class="btn btn-primary" id="btnNurse">Nurse</a>
+                  <a href="#" class="btn btn-primary" id="btnSurgeon">Surgeon</a>
+                </div>
+              <<!-- button class="btn btn-primary" id="btnDoctor" type="submit" >Doctor</button>
               <button class="btn btn-primary" id="btnNurse" type="submit" >Nurse</button>
-              <button class="btn btn-primary" id="btnSurgeon" type="submit" >Surgeon</button>
+              <button class="btn btn-primary" id="btnSurgeon" type="submit" >Surgeon</button> -->
               
             </div>
 
@@ -263,4 +273,3 @@
 <!-- 
 </body>
 </html>
- -->
