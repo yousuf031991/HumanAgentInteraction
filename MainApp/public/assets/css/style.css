@@ -49,6 +49,9 @@ header .navbar {
   overflow-y: scroll;
 }
 
+.center {
+  margin: 0 auto;
+}
 
 time {
   color: hsl(0,0%,100%);

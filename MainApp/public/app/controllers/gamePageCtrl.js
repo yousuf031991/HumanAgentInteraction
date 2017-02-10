@@ -6,6 +6,7 @@ angular.module('gamePageControllers', ['timer'])
      	$scope.counter = "10:00";
      	let seconds = 600;
 
+        let roomSelector = "div[class='panel-body fixed-panel center']";
      	let div1 = document.getElementById("R1");
     	let div2 = document.getElementById("R2");
     	let div3 = document.getElementById("R3");
@@ -61,18 +62,12 @@ angular.module('gamePageControllers', ['timer'])
         })
 
      	$('#btnA').click(function(e) {
-     		//alert("patient A");
-
-     		//$.when(assignRoom(event.target.id)).then(disableClick());
-
      		assignRoom(event.target.id)
 
      	});
 
      	$('#btnB').click(function(event) {
     		assignRoom(event.target.id)
-    		//alert("button B clicked")
-
     	});
 
         $('#btnSurgeon').click(function() {
@@ -89,110 +84,81 @@ angular.module('gamePageControllers', ['timer'])
                 }
 
             });
-
-            
-            $("div[class='panel panel-success'] div[class='panel-body fixed-panel']").bind('click', function (e) {
-                
-                e.preventDefault();
-                //alert('right div cLicked for Surgeon')
-                //alert(event.target.id);
-                let roomid = event.target.id;
-                
-                $('#'+roomid).text('Patient B');
-                $('#'+roomid).append('<br>1 Surgeon<br/>');
-                $('#'+roomid).append('0 Nurse');
-
-                let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
-                //alert("div is "+ $(this).parent("div[class='panel panel-success']").attr("id"))
-                $('#'+divid).removeClass().addClass('panel panel-danger');
-                //$('#'+key).removeClass().addClass('panel panel-danger');
-                map.set(divid, 'red')
-
-                    
-                //map.set(key, 'red');
-                //patientMap.set(key, 'patientA');
-
-                disableClick();
-                    
-            });
+            assignResource(event.target.id);
         });
 
      	function disableClick() {
      		//alert('disbaled')
-     		$("div[class='panel-body fixed-panel']").off('click');
+     		$(roomSelector).off('click');
 
      	}
 
 
 
         $('#btnDoctor').click(function () {
-           // alert('1')
-            
             patientMap.forEach(function (value, key) {
-                
-                //alert('color is ')
-                //alert(map.get(key))
-                /*let color = $('#' + key).attr("class")
-                alert('color is' + color)*/
-                if(value === 'patientA') {
-                //alert(key);
-                    $('#' + key).removeClass().addClass('panel panel-success');
-                } else {
-                    $('#' + key).removeClass().addClass('panel panel-danger');
-                }
+            if(value === 'patientA') {
+                $('#' + key).removeClass().addClass('panel panel-success');
+            } else {
+                $('#' + key).removeClass().addClass('panel panel-danger');
+            }
             });
-            
-
-            $("div[class='panel panel-success'] div[class='panel-body fixed-panel']").bind('click', function (e) {
-                
-                    e.preventDefault();
-                    //alert('right div cLicked for Doctor')
-                   // alert(event.target.id);
-                    let roomid = event.target.id;
-                    $('#'+roomid).text('Patient A');
-                    $('#'+roomid).append('<br>1 Doctor<br/>');
-                    $('#'+roomid).append('0 Nurse'); 
-
-                    let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
-
-                    //alert("div is "+ $(this).parent("div[class='panel panel-success']").attr("id"))
-                    $('#'+divid).removeClass().addClass('panel panel-danger');
-                    //$('#'+key).removeClass().addClass('panel panel-danger');
-
-                    map.set(divid, 'red')
-
-                    
-                    //map.set(key, 'red');
-                    //patientMap.set(key, 'patientA');
-
-                    disableClick();
-            });
-
-
-
-
+            assignResource(event.target.id)
         });
 
-                $('#btnNurse').click(function () {
+        $('#btnNurse').click(function () {
+            if(typeof patientType == 'undefined') {
+                alert("Cannot assign Nurses, assign patient first")
+            } else {
+                alert("nurse can be assigned")
+            }
+        });
 
-                    if(typeof patientType == 'undefined') {
-                        alert("Cannot assign Nurses, assign patient first")
-                    } else {
-                        alert("nurse can be assigned")
-                    }
-                });
+        function updateRoomInfo(resourceId) {
+            $("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
+                e.preventDefault();
 
+                let myroomid = event.target.id;
+                let key = myroomid.replace("R", "div");
+                console.log(resourceId)
+                console.log(myroomid);
 
-               
+                if (resourceId === 'btnDoctor') {
+                    $("#"+ myroomid + " span[id='nDoctors']").text('1');
+                } else if (resourceId === 'btnSurgeon') {
+                    $("#"+ myroomid + " span[id='nSurgeons']").text('1');
+                    let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
+                    $('#'+divid).removeClass().addClass('panel panel-danger');
+                    map.set(divid, 'red')
+                } else if (resourceId === 'btnA') {
+                    $("#"+ myroomid + " span[id='assignedPatient']").text('Patient A');
+                    $('#'+ key).removeClass().addClass('panel panel-danger');
+                    map.set(key, 'red');
+                    patientMap.set(key, 'patientA');
+                } else if(resourceId == 'btnB') {
+                    $("#"+ myroomid + " span[id='assignedPatient']").text('Patient B');
+                    $('#'+ key).removeClass().addClass('panel panel-danger');
+                    map.set(key, 'red');
+                    patientMap.set(key, 'patientB');
+                }
 
+                let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
+                $('#'+divid).removeClass().addClass('panel panel-danger');
 
+                map.set(divid, 'red')
+                disableClick();
+            });
+        }
 
-     	
+        function assignResource(resourceId) {
+            console.log(resourceId);
+            updateRoomInfo(resourceId);
+     	}
+
      	function assignRoom(patientType) {
      		//display available and non-available rooms
 
      		console.log(patientType)
-            patientSelected = patientType;
      		
      		//displaying colors
      		map.forEach(function(value, key) {
@@ -209,54 +175,9 @@ angular.module('gamePageControllers', ['timer'])
 
             
             });
-     		
-
-
-     		
-     		
-
-            //rooms are clicked
-     		$("div[class='panel-body fixed-panel']").bind('click', function (e) {
-     			
-     			e.preventDefault();
-               // alert('CLicked')
-     			//alert(event.target.id);
-     			
-                myroomid = event.target.id;
-
-                let key = myroomid.replace("R", "div");
-              //  console.log("Printing div:"+key)
-              //  console.log("Printing R:"+myroomid)
-
-                if(patientType == 'btnA') {
-                        //assign patient to that room
-                        $('#'+myroomid).text('Patient A');
-                        $('#'+myroomid).append('<br>0 Doctor<br/>');
-                        $('#'+myroomid).append('0 Nurse');
-                        $('#'+key).removeClass().addClass('panel panel-danger');
-                        map.set(key, 'red');
-                        patientMap.set(key, 'patientA');
-
-                } else if(patientType == 'btnB') {
-                        $('#'+myroomid).text('Patient B');
-                        $('#'+myroomid).append('<br>0 Surgeon<br/>');
-                        $('#'+myroomid).append('0 Nurse');
-                        $('#'+key).removeClass().addClass('panel panel-danger');
-                        map.set(key, 'red');
-                        patientMap.set(key, 'patientB');
-
-                }
-
-                disableClick();
-     		});
-
-         		
-
+     		updateRoomInfo(patientType);
      	}
-
      
-
-
 
 	    $scope.onTimeout = function(){
 	    	minutes = Math.round((seconds - 30)/60),
@@ -281,10 +202,4 @@ angular.module('gamePageControllers', ['timer'])
 
 	    let mytimeout = $timeout($scope.onTimeout,1000);
 
-
-
-	    
-	    
-
-		// let countdownTimer = setInterval('secondPassed()', 1000);
 });
