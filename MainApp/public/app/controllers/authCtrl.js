@@ -44,16 +44,16 @@ angular.module('authControllers', ['authServices'])
 
              gapi.auth2.getAuthInstance().signIn(options).then(function(googleUser){
                             var email=googleUser.getBasicProfile().getEmail();
-                            console.log("Signed in as:"+googleUser.getBasicProfile().getName()); 
+                            console.log("Signed in as:"+googleUser.getBasicProfile().getName());
                             if(app.user!=email){
                                 app.errorMsg="The gmail id "+email+" used for sign in with gmail is not the same as the id "+app.user+" you entered above.Please sign in again with gmail using "+app.user;
                             }
                             else{
-                                $location.path('/adminpage');  
+                                $location.path('/admin');
                                 }
                             $scope.$apply();
 
-                        }); 
+                        });
 
 
         };
