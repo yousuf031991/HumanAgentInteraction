@@ -23,16 +23,16 @@
 <div class="container-fluid">
   <div class="row well">
       <div class="col-md-4">
-        <h1 class="text-left"><b>Time Left : {{counter}}</b></h1>
+        <h3 class="text-left"><b>Time Left : {{counter}}</b></h3>
       </div>
       <div class="col-md-8">
-        <h1><strong>Hi {{gameData.username}}! Welcome to Hospital Management Game.</strong></h1>
+        <h3><strong>Hi {{gameData.username}}! Welcome to Hospital Management Game.</strong></h3>
       </div>
   </div>
 
   <div class="row">
     <div class="col-md-4">
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">
             Your Waiting room
@@ -43,7 +43,7 @@
           <p> Patient B: </p>
         </div>
       </div>
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">
             Your Available Resources
@@ -55,7 +55,7 @@
           <p> # Surgeons: </p>
         </div>
       </div>
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">
             Neighbor's Waiting room
@@ -66,7 +66,7 @@
           <p> Patient B: </p>
         </div>
       </div>
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">
             Neighbor's Available Resources
@@ -83,68 +83,86 @@
     <div class="col-md-8">
       <div class="row">
         <div class="col-md-4">
-          <div id = "div1" class="panel panel-default">
+          <div id = "div1" class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title  ">
-                Room
+                Room 1
               </h3>
             </div>
-            <div class="panel-body fixed-panel" id="R1">
-              VACANT
+            <div class="panel-body fixed-panel center" id="R1">
+              <span id="assignedPatient">VACANT</span> <br/>
+              <span id="nDoctors">0</span> Doctors <br/>
+              <span id="nNurses">0</span> Nurses <br/>
+              <span id="nSurgeons">0</span> Surgeons <br/> 
             </div>
           </div>
-          <div id= "div2" class="panel panel-default">
+          <div id= "div2" class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Room
+                Room 2
               </h3>
             </div>
-            <div class="panel-body fixed-panel" id="R2">
-              VACANT
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div id= "div3" class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Room
-              </h3>
-            </div>
-            <div class="panel-body fixed-panel" id="R3">
-              VACANT
-            </div>
-          </div>
-          <div id="div4" class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Room
-              </h3>
-            </div>
-            <div class="panel-body fixed-panel" id="R4">
-              VACANT
+            <div class="panel-body fixed-panel center" id="R2">
+              <span id="assignedPatient">VACANT</span> <br/>
+              <span id="nDoctors">0</span> Doctors <br/>
+              <span id="nNurses">0</span> Nurses <br/>
+              <span id="nSurgeons">0</span> Surgeons <br/> 
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div id= "div5" class="panel panel-default">
+          <div id= "div3" class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Room
+                Room 3
               </h3>
             </div>
-            <div class="panel-body fixed-panel" id="R5">
-              VACANT
+            <div class="panel-body fixed-panel center" id="R3">
+              <span id="assignedPatient">VACANT</span> <br/>
+              <span id="nDoctors">0</span> Doctors <br/>
+              <span id="nNurses">0</span> Nurses <br/>
+              <span id="nSurgeons">0</span> Surgeons <br/>    
             </div>
           </div>
-          <div id= "div6" class="panel panel-default">
+          <div id="div4" class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Room
+                Room 4
               </h3>
             </div>
-            <div class="panel-body fixed-panel" id="R6">
-              VACANT
+            <div class="panel-body fixed-panel center" id="R4">
+              <span id="assignedPatient">VACANT</span> <br/>
+              <span id="nDoctors">0</span> Doctors <br/>
+              <span id="nNurses">0</span> Nurses <br/>
+              <span id="nSurgeons">0</span> Surgeons <br/> 
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div id= "div5" class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Room 5
+              </h3>
+            </div>
+            <div class="panel-body fixed-panel center" id="R5">
+              <span id="assignedPatient">VACANT</span> <br/>
+              <span id="nDoctors">0</span> Doctors <br/>
+              <span id="nNurses">0</span> Nurses <br/>
+              <span id="nSurgeons">0</span> Surgeons <br/> 
+            </div>
+          </div>
+          <div id= "div6" class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Room 6
+              </h3>
+            </div>
+            <div class="panel-body fixed-panel center" id="R6">             
+              <span id="assignedPatient">VACANT</span> <br/>
+              <span id="nDoctors">0</span> Doctors <br/>
+              <span id="nNurses">0</span> Nurses <br/>
+              <span id="nSurgeons">0</span> Surgeons <br/> 
             </div>
           </div>
         </div>
@@ -153,11 +171,12 @@
         <div class="col-md-12">
             <br>
             <div class="btn-group btn-group-justified" id ="prdiv">
-              <a href="#" class="btn btn-default" id="patients"> Assign Patients</a>
-              <a href="#" class="btn btn-default" id="resources">Assign Resources</a>
-              <a href="#" class="btn btn-default" id="requestResources">Request Resources</a>
+              <a href="#" class="btn btn-primary" id="patients">Assign Patients</a>
+              <a href="#" class="btn btn-primary" id="resources">Assign Resources</a>
+              <a href="#" class="btn btn-primary" id="requestResources">Request Resources</a>
             </div>
             <div id ="patientsgroup" style="display: none;">
+                <br/>
                 <div class="btn-group btn-group-justified">
                   <a  class="btn btn-primary" id="btnA" >Patient A</a>
                   <a href="#" class="btn btn-primary" id="btnB">Patient B</a>
@@ -167,6 +186,7 @@
             </div>
 
             <div id ="resourcesGroup" style="display: none;">
+                <br/>
                 <div class="btn-group btn-group-justified">
                   <a href='#' class="btn btn-primary" id="btnDoctor" >Doctor</a>
                   <a href="#" class="btn btn-primary" id="btnNurse">Nurse</a>
