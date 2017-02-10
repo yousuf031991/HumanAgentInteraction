@@ -11,42 +11,41 @@
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     
 
     <!--Main Angular Files-->
     <script src="assets/js/angular.js"></script>
     <script src="assets/js/angular-route.js"></script>
     <script src="assets/js/angular-animate.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- TODO - get client_id from constants. right now, it is visible to public. -->
+    <meta name="google-signin-client_id" content="713815641075-vge8ouravfnq07fko03patep79djuu0o.apps.googleusercontent.com">
 
     <!--Angular Config/Routes-->
     <script src="app/app.js"></script>
     <script src="app/routes.js"></script>
 
     <!--Angular Controllers-->
-    <script src="app/controllers/adminCtrl.js"></script>
     <script src="app/controllers/trialInfoCtrl.js"></script>
     <script src="app/controllers/gameConfigCtrl.js"></script>
     <script src="app/controllers/gamePageCtrl.js"></script>
+    <script src="app/controllers/authCtrl.js"></script>
+    <script src="app/controllers/manageAdminCtrl.js"></script>
 
     
     <!--Angular Services-->
-    <script src="app/services/adminServices.js"></script>
     <script src="app/services/trialInfoServices.js"></script>
     <script src="app/services/gameConfigServices.js"></script>
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script> 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
-    <!--Cusom css styling-->
-    <link rel="stylesheet" href="assets/css/flipclock.css"> 
+    <script src="app/services/authServices.js"></script>
+    <script src="app/services/manageAdminServices.js"></script>
+    
 
     <!-- Timer -->
     <script src="bower_components/momentjs/min/moment.min.js"></script>
     <script src="bower_components/momentjs/min/locales.min.js"></script>
     <script src="bower_components/humanize-duration/humanize-duration.js"></script>
     <script type="text/javascript" src="assets/js/angular-timer-all.min.js"></script>
-
 
     <title>Index</title>
 </head>
@@ -67,8 +66,8 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-
-                <li><a href="/gameconfigpage">New Game</a></li>
+                <li><a href="/admin/manage">Manage Admin</a></li>
+                <li><a href="/admin/gameconfig">New Game</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Dropdown <span class="caret"></span></a>

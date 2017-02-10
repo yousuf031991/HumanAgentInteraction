@@ -1,4 +1,5 @@
-<form class="form-horizontal" ng-submit="gameConf.gameConfig(gameConfigData);">
+<form name="gameConfForm" class="form-horizontal" ng-submit="gameConf.gameConfig(gameConfigData, gameConfForm.$valid);"
+      novalidate>
     <div class="panel panel-default">
         <div class="panel-heading">Player settings</div>
         <div class="panel-body">
@@ -7,16 +8,37 @@
                     <label for="numAPatients" class="col-lg-6 control-label">No. of 'A' patients</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="numAPatients" value="1"
-                               ng-model="gameConf.gameConfigData.startNumPatientAs">
+                        <div ng-class="{'has-success': (gameConfForm.numAPat.$valid && !gameConfForm.numAPat.$pristine),
+                        'has-error': (!gameConfForm.numAPat.$valid && !gameConfForm.numAPat.$pristine) ||
+                         (!gameConfForm.numAPat.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="numAPatients" name="numAPat"
+                                   ng-model="gameConf.gameConfigData.startNumPatientAs" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numAPat.$pristine &&
+                            gameConfForm.numAPat.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.numAPat.$error.required)">
+                                This field is required</p>
+
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="numSurgeons" class="col-lg-6 control-label">No. of Surgeons</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="numSurgeons" value="2"
-                               ng-model="gameConf.gameConfigData.numOfSurgeons">
+                        <div ng-class="{'has-success': (gameConfForm.numSur.$valid && !gameConfForm.numSur.$pristine),
+                        'has-error': (!gameConfForm.numSur.$valid && !gameConfForm.numSur.$pristine) ||
+                         (!gameConfForm.numSur.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="numSurgeons" name="numSur"
+                                   ng-model="gameConf.gameConfigData.numOfSurgeons" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numSur.$pristine &&
+                            gameConfForm.numSur.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.numSur.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,16 +47,36 @@
                     <label for="numBPatients" class="col-lg-6 control-label">No. of 'B' patients</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="numBPatients" value="0"
-                               ng-model="gameConf.gameConfigData.startNumPatientBs">
+                        <div ng-class="{'has-success': (gameConfForm.numBPat.$valid && !gameConfForm.numBPat.$pristine),
+                        'has-error': (!gameConfForm.numBPat.$valid && !gameConfForm.numBPat.$pristine) ||
+                         (!gameConfForm.numBPat.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="numBPatients" name="numBPat"
+                                   ng-model="gameConf.gameConfigData.startNumPatientBs" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numBPat.$pristine &&
+                            gameConfForm.numBPat.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.numBPat.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="numNurses" class="col-lg-6 control-label">No. of Nurses</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="numNurses" value="3"
-                               ng-model="gameConf.gameConfigData.numOfNurses">
+                        <div ng-class="{'has-success': (gameConfForm.numNurs.$valid && !gameConfForm.numNurs.$pristine),
+                        'has-error': (!gameConfForm.numNurs.$valid && !gameConfForm.numNurs.$pristine) ||
+                         (!gameConfForm.numNurs.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="numNurses" name="numNurs"
+                                   ng-model="gameConf.gameConfigData.numOfNurses" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numNurs.$pristine &&
+                            gameConfForm.numNurs.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.numNurs.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,16 +85,37 @@
                     <label for="numDoctors" class="col-lg-6 control-label">No. of Doctors</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="numDoctors" value="2"
-                               ng-model="gameConf.gameConfigData.numOfDoctors">
+                        <div ng-class="{'has-success': (gameConfForm.numDoc.$valid && !gameConfForm.numDoc.$pristine),
+                        'has-error': (!gameConfForm.numDoc.$valid && !gameConfForm.numDoc.$pristine) ||
+                         (!gameConfForm.numDoc.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="numDoctors" name="numDoc"
+                                   ng-model="gameConf.gameConfigData.numOfDoctors" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numDoc.$pristine &&
+                            gameConfForm.numDoc.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.numDoc.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="totTime" class="col-lg-6 control-label">Total time in seconds</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="totTime" value="480"
-                               ng-model="gameConf.gameConfigData.totalTimeInSeconds">
+
+                        <div ng-class="{'has-success': (gameConfForm.toTim.$valid && !gameConfForm.toTim.$pristine),
+                        'has-error': (!gameConfForm.toTim.$valid && !gameConfForm.toTim.$pristine) ||
+                         (!gameConfForm.toTim.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="totTime" name="toTim"
+                                   ng-model="gameConf.gameConfigData.totalTimeInSeconds" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.toTim.$pristine &&
+                            gameConfForm.toTim.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.toTim.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,27 +129,61 @@
                     <label for="cooperation" class="col-lg-6 control-label">Cooperation type</label>
 
                     <div class="col-lg-6">
-                        <select class="form-control" id="cooperation" ng-model="gameConf.gameConfigData.cooperation">
-                            <option ng-repeat="option in coopData.availableOptions" value="{{option.name}}">
-                                {{option.name}}
-                            </option>
-                        </select>
+
+                        <div ng-class="{'has-success': (gameConfForm.coop.$valid && !gameConfForm.coop.$pristine),
+                        'has-error': (!gameConfForm.coop.$valid && !gameConfForm.coop.$pristine) ||
+                         (!gameConfForm.coop.$valid && gameConfForm.$submitted)}">
+
+                            <select class="form-control" id="cooperation" ng-model="gameConf.gameConfigData.cooperation"
+                                    name="coop" required>
+                                <option ng-repeat="option in coopData.availableOptions" value="{{option.name}}">
+                                    {{option.name}}
+                                </option>
+                            </select>
+
+                            <p class="help-block" ng-show="(!gameConfForm.coop.$pristine &&
+                            gameConfForm.coop.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.coop.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="NHnumAPatients" class="col-lg-6 control-label">NH No. of 'A' patients</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="NHnumAPatients"
-                               ng-model="gameConf.gameConfigData.NHstartNumPatientAs">
+
+                        <div ng-class="{'has-success': (gameConfForm.NHnumAPat.$valid && !gameConfForm.NHnumAPat.$pristine),
+                        'has-error': (!gameConfForm.NHnumAPat.$valid && !gameConfForm.NHnumAPat.$pristine) ||
+                         (!gameConfForm.NHnumAPat.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="NHnumAPatients" name="NHnumAPat"
+                                   ng-model="gameConf.gameConfigData.NHstartNumPatientAs" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumAPat.$pristine &&
+                            gameConfForm.NHnumAPat.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumAPat.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="NHnumSurgeons" class="col-lg-6 control-label">NH No. of Surgeons</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="NHnumSurgeons" value="2"
-                               ng-model="gameConf.gameConfigData.NHnumOfSurgeons">
+
+                        <div ng-class="{'has-success': (gameConfForm.NHnumSur.$valid && !gameConfForm.NHnumSur.$pristine),
+                        'has-error': (!gameConfForm.NHnumSur.$valid && !gameConfForm.NHnumSur.$pristine) ||
+                         (!gameConfForm.NHnumSur.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="NHnumSurgeons" name="NHnumSur"
+                                   ng-model="gameConf.gameConfigData.NHnumOfSurgeons" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumSur.$pristine &&
+                            gameConfForm.NHnumSur.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumSur.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,26 +192,61 @@
                     <label for="mode" class="col-lg-6 control-label">Mode</label>
 
                     <div class="col-lg-6">
-                        <select class="form-control" id="mode" ng-model="gameConf.gameConfigData.mode">
-                            <option>Normal Mode</option>
-                            <option>Practice Mode</option>
-                        </select>
+
+                        <div ng-class="{'has-success': (gameConfForm.mode.$valid && !gameConfForm.mode.$pristine),
+                        'has-error': (!gameConfForm.mode.$valid && !gameConfForm.mode.$pristine) ||
+                         (!gameConfForm.mode.$valid && gameConfForm.$submitted)}">
+
+                            <select class="form-control" id="mode" ng-model="gameConf.gameConfigData.mode" name="mode"
+                                    required>
+                                <option>Normal Mode</option>
+                                <option>Practice Mode</option>
+                            </select>
+
+                            <p class="help-block" ng-show="(!gameConfForm.mode.$pristine &&
+                            gameConfForm.mode.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.mode.$error.required)">
+                                This field is required</p>
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="NHnumBPatients" class="col-lg-6 control-label">NH No. of 'B' patients</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="NHnumBPatients" value="1"
-                               ng-model="gameConf.gameConfigData.NHstartNumPatientBs">
+
+                        <div ng-class="{'has-success': (gameConfForm.NHnumBPat.$valid && !gameConfForm.NHnumBPat.$pristine),
+                        'has-error': (!gameConfForm.NHnumBPat.$valid && !gameConfForm.NHnumBPat.$pristine) ||
+                         (!gameConfForm.NHnumBPat.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="NHnumBPatients" name="NHnumBPat"
+                                   ng-model="gameConf.gameConfigData.NHstartNumPatientBs" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumBPat.$pristine &&
+                            gameConfForm.NHnumBPat.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumBPat.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="NHnumNurses" class="col-lg-6 control-label">NH No. of Nurses</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="NHnumNurses" value="3"
-                               ng-model="gameConf.gameConfigData.NHnumOfNurses">
+
+                        <div ng-class="{'has-success': (gameConfForm.NHnumNurs.$valid && !gameConfForm.NHnumNurs.$pristine),
+                        'has-error': (!gameConfForm.NHnumNurs.$valid && !gameConfForm.NHnumNurs.$pristine) ||
+                         (!gameConfForm.NHnumNurs.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="NHnumNurses" name="NHnumNurs"
+                                   ng-model="gameConf.gameConfigData.NHnumOfNurses" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumNurs.$pristine &&
+                            gameConfForm.NHnumNurs.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumNurs.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -123,31 +255,67 @@
                     <label for="gameSpeed" class="col-lg-6 control-label">Game Speed</label>
 
                     <div class="col-lg-6">
-                        <select class="form-control" id="gameSpeed" ng-model="gameConf.gameConfigData.earlyType">
-                            <option>Early Slow</option>
-                            <option>Early Fast</option>
-                        </select>
+
+                        <div ng-class="{'has-success': (gameConfForm.speed.$valid && !gameConfForm.speed.$pristine),
+                        'has-error': (!gameConfForm.speed.$valid && !gameConfForm.speed.$pristine) ||
+                         (!gameConfForm.speed.$valid && gameConfForm.$submitted)}">
+
+                            <select class="form-control" id="gameSpeed" ng-model="gameConf.gameConfigData.earlyType"
+                                   name="speed" required>
+                                <option>Early Slow</option>
+                                <option>Early Fast</option>
+                            </select>
+
+                            <p class="help-block" ng-show="(!gameConfForm.speed.$pristine &&
+                            gameConfForm.speed.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.speed.$error.required)">
+                                This field is required</p>
+
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="NHnumDoctors" class="col-lg-6 control-label">NH No. of Doctors</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="NHnumDoctors" value="2"
-                               ng-model="gameConf.gameConfigData.NHnumOfDoctors">
+
+                        <div ng-class="{'has-success': (gameConfForm.NHnumDoc.$valid && !gameConfForm.NHnumDoc.$pristine),
+                        'has-error': (!gameConfForm.NHnumDoc.$valid && !gameConfForm.NHnumDoc.$pristine) ||
+                         (!gameConfForm.NHnumDoc.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="NHnumDoctors" name="NHnumDoc"
+                                   ng-model="gameConf.gameConfigData.NHnumOfDoctors" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumDoc.$pristine &&
+                            gameConfForm.NHnumDoc.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumDoc.$error.required)">
+                                This field is required</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="patientHelpTime" class="col-lg-6 control-label">Patient help time in seconds</label>
 
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" id="patientHelpTime" value="60"
-                               ng-model="gameConf.gameConfigData.patientHelpTimeInSeconds">
+
+                        <div ng-class="{'has-success': (gameConfForm.NHpatHelpTim.$valid && !gameConfForm.NHpatHelpTim.$pristine),
+                        'has-error': (!gameConfForm.NHpatHelpTim.$valid && !gameConfForm.NHpatHelpTim.$pristine) ||
+                         (!gameConfForm.NHpatHelpTim.$valid && gameConfForm.$submitted)}">
+
+                            <input type="number" class="form-control" id="patientHelpTime" name="NHpatHelpTim"
+                                   ng-model="gameConf.gameConfigData.patientHelpTimeInSeconds" required>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHpatHelpTim.$pristine &&
+                            gameConfForm.NHpatHelpTim.$error.required) || (gameConfForm.$submitted &&
+                            gameConfForm.NHpatHelpTim.$error.required)">
+                                This field is required</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-8">
+                <div class="col-lg-2 col-lg-offset-10">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
