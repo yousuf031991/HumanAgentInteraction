@@ -3,25 +3,6 @@ import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 
 export default function (router) {
-    //http://localhost:8080/api/admin
-    router.post('/admin', function (req, res) {
-        let admin = new Admin();
-        admin.username = req.body.username;
-        admin.password = req.body.password;
-        if (admin.username == null || admin.username == '' || admin.password == null || admin.password == '') {
-            res.send({success: false, message: 'Username or password were empty'});
-        } else {
-            admin.save(function (error) {
-                if (error) {
-                    console.log(error);
-                    res.send({success: false, message: "Username already exists"});
-                } else {
-                    res.send({success: true, message: "Admin saved"});
-                }
-            });
-        }
-    });
-
 
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
@@ -95,14 +76,54 @@ export default function (router) {
             });
         }
     });
-    
+
     //http://localhost:8080/api/adminLogin
     router.post("/adminLogin",function(req,res) {
         Admin.count({ username: req.body.username}, function(err,count) {
             if(count>0) {
-                res.send({success: true, message: "The username you entered is a valid admin username. Please continue with gmail sigin."});
+                res.send({success: true, message: "The username you entered is a valid admin username. Please continue with Gmail sign in."});
             } else {
                 res.send({success: false, message: "Sorry! There is no admin user with the username you provided."});
+            }
+        });
+    });
+
+    router.post("/newAdmin", function (req, res) {
+        let admin = new Admin();
+        admin.username = req.body.username;
+        admin.role = "ADMIN";
+        if (!admin.username) {
+            res.send({success: false, message: 'User name was empty'});
+        } else {
+            admin.save(function (error) {
+                if (error) {
+                    console.log(error);
+                    res.send({success: false, message: "User name already exists"});
+                } else {
+                    res.send({success: true, message: "Admin saved"});
+                }
+            });
+        }
+    });
+
+    router.get("/viewAdmin", function (req, res) {
+        Admin.find({}, function (error, docs) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                res.send({success: true, message: "Found users", data: docs});
+            }
+        });
+    });
+
+    router.post("/deleteAdmin", function (req, res) {
+        Admin.remove({username: req.body.username}, function(error){
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "User Name doesn't exist"});
+            } else {
+                res.send({success: true, message: "Admin deleted"});
             }
         });
     });

@@ -2,12 +2,11 @@ angular.module('trialInfoApp', ['appRoutes', 'trialInfoControllers', 'trialInfoS
     //console.log('testing trialInfo app');
 });
 
+angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'ngAnimate']).config(function () {
+    //console.log('testing game app');
+});
 
- angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'ngAnimate']).config(function () {
-     //console.log('testing game app');
- });
-
-angular.module('userApp', ['appRoutes', 'authControllers', 'authServices', 'adminControllers', 'adminServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp']).config(function () {
+angular.module('userApp', ['appRoutes', 'authControllers', 'authServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp']).config(function () {
     //console.log('testing user app');
 });
 
@@ -15,4 +14,7 @@ angular.module('gameConfigApp', ['appRoutes', 'gameConfigControllers', 'gameConf
     /*console.log('testing game config app');*/
 });
 
+angular.module('manageAdminApp', ['appRoutes', 'manageAdminControllers', 'manageAdminServices', 'ngAnimate']).config(function () {
+    /*console.log('testing manageAdmin app');*/
+});
 
