@@ -105,7 +105,7 @@ export default function (router) {
     });
 
     //http://localhost:8080/api/adminLogin
-    router.post("/adminLogin",function(req,res) {
+    router.post("/admin/login",function(req,res) {
         Admin.count({ username: req.body.username}, function(err,count) {
             if(count>0) {
                 res.send({success: true, message: "The username you entered is a valid admin username. Please continue with Gmail sign in."});
@@ -174,7 +174,6 @@ export default function (router) {
             }
         });
     });
-
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
