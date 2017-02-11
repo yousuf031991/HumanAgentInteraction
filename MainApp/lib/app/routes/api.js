@@ -175,6 +175,32 @@ export default function (router) {
         });
     });
 
+    router.post("/admin/signInUser", function (req, res) {
+        Admin.findOne({username: req.body.username}, function(error, user){
+            if (error) {
+                console.log(error);
+                res.send({success: false, error: error});
+            } else {
+
+                if(req.body.fullname) {
+                    user.fullname = req.body.fullname;
+                    user.save(function (error) {
+                        if (error) {
+                            console.log(error);
+                            res.send({success: false, error: error});
+                        } else {
+                            res.send({success: true, redirectTo: '/admin'});
+                        }
+                    });
+                } else {
+                    res.send({success: true, redirectTo: '/admin'});
+                }
+
+            }
+        });
+    });
+
+
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
     });

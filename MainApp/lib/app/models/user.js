@@ -13,6 +13,9 @@ const adminSchema = new Schema({
         uppercase: true,
         required: true,
         enum: ['ADMIN', 'SUPER ADMIN']
+    },
+    fullname: {
+        type: String
     }
 });
 
