@@ -44,19 +44,24 @@ angular.module('authControllers', ['authServices'])
             gapi.auth2.getAuthInstance().signIn(options)
                 .then(function(googleUser) {
                     const email = googleUser.getBasicProfile().getEmail();
-                    console.log("Signed in as:"+googleUser.getBasicProfile().getName());
+                    const name = googleUser.getBasicProfile().getName();
+                    console.log("Signed in as:" + name);
 
                     if(app.user != email) {
                         app.errorMsg="The gmail id " + email
                             + " used for sign in with gmail is not the same as the id " + app.user
                             + " you entered above.Please sign in again with gmail using " + app.user;
                     } else {
-                        return Auth.signInUser({email: email});
+                        return Auth.signInUser({username: email, fullname: name});
                     }
                 })
                 .then(function (response) {
-                    if(response && response.data && response.data.redirectTo) {
-                        $location.path(response.data.redirectTo);
+                    if(response && response.data) {
+                        if(response.data.success) {
+                            $location.path(response.data.redirectTo);
+                        } else {
+                            app.errorMsg = JSON.stringify(response.data.error);
+                        }
                     }
                     $scope.$apply();
                 });
