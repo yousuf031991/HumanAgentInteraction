@@ -8,7 +8,7 @@ const adminSchema = new Schema({
         required: true,
         unique: true
     },
-    role:{
+    role: {
         type: String,
         uppercase: true,
         required: true,
