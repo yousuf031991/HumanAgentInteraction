@@ -11,12 +11,12 @@ function authenticate(req, res, next) {
                 next();
             }
         } else if(hasSignedIn(req)) {
-            const email = req.session.user.email;
-            serializeUser(email, req, res, function () {
+            const username = req.session.user.username;
+            serializeUser(username, req, res, function () {
                 next();
             });
         } else {
-            res.redirect("/admin/login");
+            res.redirect("/admin/login?redirect=true");
         }
     } else {
         next();
@@ -26,8 +26,10 @@ function authenticate(req, res, next) {
 function serializeUser(email, req, res, callback) {
     Admin.findOne({ username: email }, function(err, user) {
         if (user) {
-            // TODO - give away user id, name and role only
+            // TODO - don't send unnecessary info to the insecure client side
+            // TODO - encrypt
             req.user = user;
+            delete req.user.password;
             req.session.user = user;  //refresh the session value
             res.locals.user = user;
         }

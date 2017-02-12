@@ -15,7 +15,7 @@ if(configs.mode === "production") {
     configs.totalConnections = 10;
     configs.connectionTimeout = 5000;
 }
-configs.homeRoute = '/../public/app/views/index.html';
+configs.views = '/../public/app/views';
 configs.session_secret = "softwarefactory_ser518_human_agent_interaction_project";
 configs.session_duration = 30 * 60 * 100 * 1000; // in ms
 configs.session_activeDuration = 5 * 60 * 100 * 1000; // in ms
