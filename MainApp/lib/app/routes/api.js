@@ -2,8 +2,8 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import request from 'request';
-import UserStatistics from '../models/UserStatistics'
+import UserStatistics from '../models/UserStatistics';
+import Authenticator from '../helpers/authentication';
 
 
 export default function (router) {
@@ -104,8 +104,8 @@ export default function (router) {
         }
     });
 
-    //http://localhost:8080/api/adminLogin
-    router.post("/adminLogin",function(req,res) {
+    //http://localhost:8080/api/admin/login
+    router.post("/admin/login",function(req,res) {
         Admin.count({ username: req.body.username}, function(err,count) {
             if(count>0) {
                 res.send({success: true, message: "The username you entered is a valid admin username. Please continue with Gmail sign in."});
@@ -113,6 +113,12 @@ export default function (router) {
                 res.send({success: false, message: "Sorry! There is no admin user with the username you provided."});
             }
         });
+    });
+
+    //http://localhost:8080/api/admin/logout
+    router.post('/admin/logout', function(req, res) {
+        req.session.reset();
+        res.send({success: true, redirectTo: '/admin/login'});
     });
 
     router.post("/newAdmin", function (req, res) {
@@ -171,6 +177,29 @@ export default function (router) {
                 res.send({success: false, message: "User Name doesn't exist"});
             } else {
                 res.send({success: true, message: "Admin deleted"});
+            }
+        });
+    });
+
+    router.post("/admin/signInUser", function (req, res) {
+        Authenticator.serializeUser(req.body.username, req, res, function (err, user) {
+            if(err) {
+                console.log(err);
+                res.send({success: false, error: err});
+            } else {
+                if(req.body.fullname) {
+                    user.fullname = req.body.fullname;
+                    user.save(function (error) {
+                        if (error) {
+                            console.log(error);
+                            res.send({success: false, error: error});
+                        } else {
+                            res.send({success: true, redirectTo: '/admin'});
+                        }
+                    });
+                } else {
+                    res.send({success: true, redirectTo: '/admin'});
+                }
             }
         });
     });
