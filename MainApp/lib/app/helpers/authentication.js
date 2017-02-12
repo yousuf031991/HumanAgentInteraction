@@ -12,8 +12,12 @@ function authenticate(req, res, next) {
             }
         } else if(hasSignedIn(req)) {
             const username = req.session.user.username;
-            serializeUser(username, req, res, function () {
-                next();
+            serializeUser(username, req, res, function (err, user) {
+                if(isSuperAdminOnlyRoute(req) && user && user.role !== "SUPER ADMIN") {
+                    res.redirect("/admin?reason=not_super");
+                } else {
+                    next();
+                }
             });
         } else {
             res.redirect("/admin/login?redirect=true");
@@ -37,12 +41,12 @@ function serializeUser(email, req, res, callback) {
     });
 }
 
-function deserializeUser(id) {
-
-}
-
 function isLoginRoute(req) {
     return req.url.startsWith("/admin/login");
+}
+
+function isSuperAdminOnlyRoute(req) {
+    return req.url.startsWith("/admin/manage");
 }
 
 function isAdminRoute(req) {

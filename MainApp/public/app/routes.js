@@ -7,7 +7,7 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/admin/adminPage.html'
         })
         .when('/admin/login', {
-            templateUrl: 'app/views/pages/authentication/login.html', controller: 'authController', controllerAs: 'signIn'
+            templateUrl: 'app/views/pages/authentication/login.html', controller: 'authController', controllerAs: 'signIn', isLogin: true
         })
         .when('/', {
             templateUrl: 'app/views/pages/trialinfo/trialInfoPage.html' , controller: 'trialInfoCtrl', controllerAs: 'trialData'
