@@ -35,8 +35,12 @@ app.use(Authenticator.authenticate);
 app.use('/api', appRoutes);
 
 app.get('*', function(req, res) {
+    let user = undefined;
+    if(res.locals.user) {
+        user = JSON.stringify(res.locals.user);
+    }
     res.render('index', {
-        user: JSON.stringify(res.locals.user)
+        user: user
     });
 });
 

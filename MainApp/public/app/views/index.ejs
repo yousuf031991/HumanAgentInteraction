@@ -32,6 +32,7 @@
     <script src="app/controllers/gamePageCtrl.js"></script>
     <script src="app/controllers/authCtrl.js"></script>
     <script src="app/controllers/manageAdminCtrl.js"></script>
+    <script src="app/controllers/homeCtrl.js"></script>
 
     
     <!--Angular Services-->
@@ -49,7 +50,7 @@
 
     <title>Index</title>
 </head>
-<body ng-app="userApp" ng-init="currentUser=<%= user %>">
+<body ng-app="userApp" ng-controller="homeController" ng-init="setCurrentUser(<%= user %>)"  >
 <nav class="navbar navbar-inverse navbar-default navbar-static-top">
     <div class="container">
         <div class="navbar-header">
@@ -66,7 +67,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/admin/manage">Manage Admin</a></li>
+                <li ng-if="currentUser.role === 'SUPER ADMIN'"><a href="/admin/manage">Manage Admin</a></li>
                 <li><a href="/admin/gameconfig">New Game</a></li>
 
             </ul>
