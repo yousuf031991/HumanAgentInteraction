@@ -2,6 +2,12 @@
     <h1>Home</h1>
 </div>
 
+<div class="row show-hide-message" ng-show="signIn.warningMsg">
+    <div class="alert alert-warning">
+        {{signIn.warningMsg}}
+    </div>
+</div>
+
 <form ng-submit="signIn.signInAdmin(signInData);">
     <label>Username:</label>
     <input class="form-control" type="text" name="username" placeholder="Enter username"

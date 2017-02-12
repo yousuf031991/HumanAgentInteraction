@@ -27,13 +27,17 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
-app.use('/api', appRoutes);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, configs.views));
 connectDB();
 
 app.use(Authenticator.authenticate);
+app.use('/api', appRoutes);
 
 app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + configs.homeRoute));
+    res.render('index', {
+        user: JSON.stringify(res.locals.user)
+    });
 });
 
 

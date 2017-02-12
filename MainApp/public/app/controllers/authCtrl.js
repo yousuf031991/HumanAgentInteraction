@@ -1,7 +1,10 @@
 angular.module('authControllers', ['authServices'])
-    .controller('authController', function($http, $location, $scope, Auth) {
-        let failureCallback, signInCallback;
+    .controller('authController', function($http, $location, $scope, Auth, $routeParams) {
         let app = this;
+
+        if($routeParams.redirect) {
+            app.warningMsg = "Please login first.";
+        }
 
         // This flag we can use to show or hide the button in our HTML.
         $scope.signedIn = false;
