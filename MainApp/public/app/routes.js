@@ -4,7 +4,7 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/about.html'
         })
         .when('/admin', {
-            templateUrl: 'app/views/pages/admin/adminPage.html'
+            templateUrl: 'app/views/pages/admin/adminPage.html', controller: 'adminController', controllerAs: 'admin'
         })
         .when('/admin/login', {
             templateUrl: 'app/views/pages/authentication/login.html', controller: 'authController', controllerAs: 'signIn', isLogin: true
