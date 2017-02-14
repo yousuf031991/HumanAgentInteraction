@@ -13,12 +13,18 @@
                          (!gameConfForm.numAPat.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="numAPatients" name="numAPat"
-                                   ng-model="gameConf.gameConfigData.startNumPatientAs" required>
+                                   ng-model="gameConf.gameConfigData.startNumPatientAs"
+                                   ng-init="gameConf.gameConfigData.startNumPatientAs = 1" min ="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.numAPat.$pristine &&
                             gameConfForm.numAPat.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.numAPat.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numAPat.$pristine &&
+                            gameConfForm.numAPat.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.numAPat.$error.min)">
+                                This should be a positive number</p>
 
                         </div>
                     </div>
@@ -32,12 +38,18 @@
                          (!gameConfForm.numSur.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="numSurgeons" name="numSur"
-                                   ng-model="gameConf.gameConfigData.numOfSurgeons" required>
+                                   ng-model="gameConf.gameConfigData.numOfSurgeons"
+                                   ng-init="gameConf.gameConfigData.numOfSurgeons = 2" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.numSur.$pristine &&
                             gameConfForm.numSur.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.numSur.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numSur.$pristine &&
+                            gameConfForm.numSur.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.numSur.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -52,12 +64,18 @@
                          (!gameConfForm.numBPat.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="numBPatients" name="numBPat"
-                                   ng-model="gameConf.gameConfigData.startNumPatientBs" required>
+                                   ng-model="gameConf.gameConfigData.startNumPatientBs"
+                                   ng-init="gameConf.gameConfigData.startNumPatientBs = 0" min="0"required>
 
                             <p class="help-block" ng-show="(!gameConfForm.numBPat.$pristine &&
                             gameConfForm.numBPat.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.numBPat.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numBPat.$pristine &&
+                            gameConfForm.numBPat.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.numBPat.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -70,12 +88,18 @@
                          (!gameConfForm.numNurs.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="numNurses" name="numNurs"
-                                   ng-model="gameConf.gameConfigData.numOfNurses" required>
+                                   ng-model="gameConf.gameConfigData.numOfNurses"
+                                   ng-init="gameConf.gameConfigData.numOfNurses = 3" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.numNurs.$pristine &&
                             gameConfForm.numNurs.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.numNurs.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numNurs.$pristine &&
+                            gameConfForm.numNurs.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.numNurs.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -90,12 +114,18 @@
                          (!gameConfForm.numDoc.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="numDoctors" name="numDoc"
-                                   ng-model="gameConf.gameConfigData.numOfDoctors" required>
+                                   ng-model="gameConf.gameConfigData.numOfDoctors"
+                                   ng-init="gameConf.gameConfigData.numOfDoctors = 2" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.numDoc.$pristine &&
                             gameConfForm.numDoc.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.numDoc.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.numDoc.$pristine &&
+                            gameConfForm.numDoc.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.numDoc.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -109,12 +139,18 @@
                          (!gameConfForm.toTim.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="totTime" name="toTim"
-                                   ng-model="gameConf.gameConfigData.totalTimeInSeconds" required>
+                                   ng-model="gameConf.gameConfigData.totalTimeInSeconds"
+                                   ng-init="gameConf.gameConfigData.totalTimeInSeconds = 480" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.toTim.$pristine &&
                             gameConfForm.toTim.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.toTim.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.toTim.$pristine &&
+                            gameConfForm.toTim.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.toTim.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -135,10 +171,9 @@
                          (!gameConfForm.coop.$valid && gameConfForm.$submitted)}">
 
                             <select class="form-control" id="cooperation" ng-model="gameConf.gameConfigData.cooperation"
-                                    name="coop" required>
-                                <option ng-repeat="option in coopData.availableOptions" value="{{option.name}}">
-                                    {{option.name}}
-                                </option>
+                                    ng-init="gameConf.gameConfigData.cooperation='High Cooperation'" name="coop" required>
+                                <option>High Cooperation</option>
+                                <option>Low Cooperation</option>
                             </select>
 
                             <p class="help-block" ng-show="(!gameConfForm.coop.$pristine &&
@@ -158,12 +193,18 @@
                          (!gameConfForm.NHnumAPat.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="NHnumAPatients" name="NHnumAPat"
-                                   ng-model="gameConf.gameConfigData.NHstartNumPatientAs" required>
+                                   ng-model="gameConf.gameConfigData.NHstartNumPatientAs"
+                                   ng-init="gameConf.gameConfigData.NHstartNumPatientAs = 0" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.NHnumAPat.$pristine &&
                             gameConfForm.NHnumAPat.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.NHnumAPat.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumAPat.$pristine &&
+                            gameConfForm.NHnumAPat.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumAPat.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -177,12 +218,18 @@
                          (!gameConfForm.NHnumSur.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="NHnumSurgeons" name="NHnumSur"
-                                   ng-model="gameConf.gameConfigData.NHnumOfSurgeons" required>
+                                   ng-model="gameConf.gameConfigData.NHnumOfSurgeons"
+                                   ng-init="gameConf.gameConfigData.NHnumOfSurgeons = 2" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.NHnumSur.$pristine &&
                             gameConfForm.NHnumSur.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.NHnumSur.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumSur.$pristine &&
+                            gameConfForm.NHnumSur.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumSur.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -198,7 +245,7 @@
                          (!gameConfForm.mode.$valid && gameConfForm.$submitted)}">
 
                             <select class="form-control" id="mode" ng-model="gameConf.gameConfigData.mode" name="mode"
-                                    required>
+                                    ng-init="gameConf.gameConfigData.mode ='Normal Mode'" required>
                                 <option>Normal Mode</option>
                                 <option>Practice Mode</option>
                             </select>
@@ -221,12 +268,18 @@
                          (!gameConfForm.NHnumBPat.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="NHnumBPatients" name="NHnumBPat"
-                                   ng-model="gameConf.gameConfigData.NHstartNumPatientBs" required>
+                                   ng-model="gameConf.gameConfigData.NHstartNumPatientBs"
+                                   ng-init="gameConf.gameConfigData.NHstartNumPatientBs = 1" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.NHnumBPat.$pristine &&
                             gameConfForm.NHnumBPat.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.NHnumBPat.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumBPat.$pristine &&
+                            gameConfForm.NHnumBPat.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumBPat.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -240,12 +293,18 @@
                          (!gameConfForm.NHnumNurs.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="NHnumNurses" name="NHnumNurs"
-                                   ng-model="gameConf.gameConfigData.NHnumOfNurses" required>
+                                   ng-model="gameConf.gameConfigData.NHnumOfNurses"
+                                   ng-init="gameConf.gameConfigData.NHnumOfNurses = 3" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.NHnumNurs.$pristine &&
                             gameConfForm.NHnumNurs.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.NHnumNurs.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumNurs.$pristine &&
+                            gameConfForm.NHnumNurs.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumNurs.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -261,7 +320,7 @@
                          (!gameConfForm.speed.$valid && gameConfForm.$submitted)}">
 
                             <select class="form-control" id="gameSpeed" ng-model="gameConf.gameConfigData.earlyType"
-                                   name="speed" required>
+                                    ng-init="gameConf.gameConfigData.earlyType = 'Early Slow'" name="speed" required>
                                 <option>Early Slow</option>
                                 <option>Early Fast</option>
                             </select>
@@ -284,12 +343,18 @@
                          (!gameConfForm.NHnumDoc.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="NHnumDoctors" name="NHnumDoc"
-                                   ng-model="gameConf.gameConfigData.NHnumOfDoctors" required>
+                                   ng-model="gameConf.gameConfigData.NHnumOfDoctors"
+                                   ng-init="gameConf.gameConfigData.NHnumOfDoctors = 2" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.NHnumDoc.$pristine &&
                             gameConfForm.NHnumDoc.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.NHnumDoc.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHnumDoc.$pristine &&
+                            gameConfForm.NHnumDoc.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.NHnumDoc.$error.min)">
+                                This should be a positive number</p>
                         </div>
                     </div>
                 </div>
@@ -303,12 +368,18 @@
                          (!gameConfForm.NHpatHelpTim.$valid && gameConfForm.$submitted)}">
 
                             <input type="number" class="form-control" id="patientHelpTime" name="NHpatHelpTim"
-                                   ng-model="gameConf.gameConfigData.patientHelpTimeInSeconds" required>
+                                   ng-model="gameConf.gameConfigData.patientHelpTimeInSeconds"
+                                   ng-init="gameConf.gameConfigData.patientHelpTimeInSeconds = 60" min="0" required>
 
                             <p class="help-block" ng-show="(!gameConfForm.NHpatHelpTim.$pristine &&
                             gameConfForm.NHpatHelpTim.$error.required) || (gameConfForm.$submitted &&
                             gameConfForm.NHpatHelpTim.$error.required)">
                                 This field is required</p>
+
+                            <p class="help-block" ng-show="(!gameConfForm.NHpatHelpTim.$pristine &&
+                            gameConfForm.NHpatHelpTim.$error.min) || (gameConfForm.$submitted &&
+                            gameConfForm.NHpatHelpTim.$error.min)">
+                                This should be a positive number</p>
                         </div>
 
                     </div>
@@ -334,7 +405,5 @@
     </div>
 </div>
 <div class="row show-hide-message" ng-show="gameConf.errorMsg">
-    <div class="alert alert-danger">
-        {{gameConf.errorMsg}}
-    </div>
+    <pre class="alert alert-danger">{{gameConf.errorMsg}}</pre>
 </div>
