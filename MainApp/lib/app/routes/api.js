@@ -52,30 +52,35 @@ export default function (router) {
         gameConfig.NHnumOfSurgeons = req.body.NHnumOfSurgeons;
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
 
-        if (gameConfig.cooperation == null || gameConfig.cooperation === '' ||
-            gameConfig.mode == null || gameConfig.mode === '' ||
-            gameConfig.earlyType == null || gameConfig.earlyType === '' ||
-            gameConfig.startNumPatientAs == null || gameConfig.startNumPatientAs === '' ||
-            gameConfig.startNumPatientBs == null || gameConfig.startNumPatientBs === '' ||
-            gameConfig.numOfDoctors == null || gameConfig.numOfDoctors === '' ||
-            gameConfig.numOfNurses == null || gameConfig.numOfNurses === '' ||
-            gameConfig.numOfSurgeons == null || gameConfig.numOfSurgeons === '' ||
-            gameConfig.totalTimeInSeconds == null || gameConfig.totalTimeInSeconds === '' ||
-            gameConfig.NHstartNumPatientAs == null || gameConfig.NHstartNumPatientAs === '' ||
-            gameConfig.NHstartNumPatientBs == null || gameConfig.NHstartNumPatientBs === '' ||
-            gameConfig.NHnumOfDoctors == null || gameConfig.NHnumOfDoctors === '' ||
-            gameConfig.NHnumOfNurses == null || gameConfig.NHnumOfNurses === '' ||
-            gameConfig.NHnumOfSurgeons == null || gameConfig.NHnumOfSurgeons === '' ||
-            gameConfig.patientHelpTimeInSeconds == null || gameConfig.patientHelpTimeInSeconds === '') {
-            res.send({success: false, message: 'One or more fields were empty'});
-        }
-        else {
-            gameConfig.save(function (error) {
+        gameConfig.save(function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: error.errors});
+            } else {
+                res.send({success: true, message: "Game config saved"});
+            }
+        });
+
+    });
+
+    //http://localhost:8080/api/gameinfo
+    router.post('/gameinfo', function (req, res) {
+        let gameinfo = new Game();
+        gameinfo.gameConfigId = req.body.gameConfigId;
+        gameinfo.trialInfoId = req.body.trialInfoId;
+        gameinfo.userStatsId = req.body.userStatsId;
+        gameinfo.username = req.body.username;
+
+        if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
+            res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
+        } else {
+            gameinfo.save(function (error) {
                 if (error) {
                     console.log(error);
-                    res.send({success: false, message: error.errors});
+                    res.send({success: false, message: "Error inserting into collection"});
                 } else {
-                    res.send({success: true, message: "Game config saved"});
+
+                    res.send({success: true, message: "Game Information Saved"});
                 }
             });
         }
@@ -139,7 +144,6 @@ export default function (router) {
         }
     });
 
-
     router.post('/userStatistics', function(req, res) {
 
         let userStatistics = new UserStatistics();
@@ -148,14 +152,15 @@ export default function (router) {
 
         userStatistics.save(function (err) {
             
-            console.log("Printing userStatistics")
-            console.log(userStatistics)
+            //console.log("Printing userStatistics")
+            //console.log(userStatistics)
             if (err) {
                     console.log(err);
                     res.send({success: false, message: "Userstatiscts row not created"});
                 } else {
                     res.send({success: true, message: "Userstatiscts row created"});
                 }
+
         });
     });
 
@@ -171,7 +176,7 @@ export default function (router) {
     });
 
     router.post("/deleteAdmin", function (req, res) {
-        Admin.remove({username: req.body.username}, function(error){
+        Admin.remove({username: req.body.username}, function (error) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "User Name doesn't exist"});
