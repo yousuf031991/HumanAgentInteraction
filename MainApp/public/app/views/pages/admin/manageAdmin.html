@@ -22,14 +22,14 @@
                     <p>Loading...</p>
                 </div>
 
-                <div class="row show-hide-message" ng-show="successMsg">
-                    <div class="alert alert-success">
-                        {{successMsg}}
+                <div class="row show-hide-message" ng-show="successAddMsg">
+                    <div class="alert alert-success" >
+                        {{successAddMsg}}
                     </div>
                 </div>
-                <div class="row show-hide-message" ng-show="errorMsg">
+                <div class="row show-hide-message" ng-show="errorAddMsg">
                     <div class="alert alert-danger">
-                        {{errorMsg}}
+                        {{errorAddMsg}}
                     </div>
                 </div>
             </div>
@@ -57,6 +57,21 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="row show-hide-message" ng-show="successDeleteMsg">
+                    <div class="alert alert-success">
+                        {{successDeleteMsg}}
+                    </div>
+                </div>
+
+            <div class="row show-hide-message" ng-show="failureDeleteMsg">
+                    <div class="alert alert-danger">
+                        {{failureDeleteMsg}}
+                    </div>
+                </div>
+
+
+
         </div>
     </div>
 </div>
