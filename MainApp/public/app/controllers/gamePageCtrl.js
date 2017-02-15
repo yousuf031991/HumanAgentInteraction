@@ -107,11 +107,16 @@ angular.module('gamePageControllers', ['timer'])
         });
 
         $('#btnNurse').click(function () {
-            if(typeof patientType == 'undefined') {
-                alert("Cannot assign Nurses, assign patient first")
-            } else {
-                alert("nurse can be assigned")
-            }
+            // if(typeof patientType == 'undefined') {
+            //     alert("Cannot assign Nurses, assign patient first")
+            // } else {
+                patientMap.forEach(function (value, key) {
+                    if (value != null) {
+                        $('#' + key).removeClass().addClass('panel panel-success');
+                    }
+                });
+                assignResource(event.target.id)
+            // }
         });
 
         function updateRoomInfo(resourceId) {
@@ -124,13 +129,17 @@ angular.module('gamePageControllers', ['timer'])
                 console.log(myroomid);
 
                 if (resourceId === 'btnDoctor') {
+                    // TODO: Perform check to see if resource has been already set to room
                     $("#"+ myroomid + " span[id='nDoctors']").text('1');
                 } else if (resourceId === 'btnSurgeon') {
                     $("#"+ myroomid + " span[id='nSurgeons']").text('1');
-                    let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
-                    $('#'+divid).removeClass().addClass('panel panel-danger');
-                    map.set(divid, 'red')
-                } else if (resourceId === 'btnA') {
+                    // let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
+                    // $('#'+divid).removeClass().addClass('panel panel-danger');
+                    // map.set(divid, 'red')
+                } else if (resourceId === 'btnNurse') {
+                    $("#"+ myroomid + " span[id='nNurses']").text('1');
+                }
+                else if (resourceId === 'btnA') {
                     $("#"+ myroomid + " span[id='assignedPatient']").text('Patient A');
                     $('#'+ key).removeClass().addClass('panel panel-danger');
                     map.set(key, 'red');
