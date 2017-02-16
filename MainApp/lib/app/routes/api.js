@@ -4,12 +4,21 @@ import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
 import request from 'request';
 import UserStatistics from '../models/UserStatistics'
-
+import maclib from 'getMac';
 
 export default function (router) {
-//http://localhost:8080/api/trialinfo
+    //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
+
+        // Fetch the computer's mac address
+        console.log('Fetching MAC Address');
+        maclib.getMac(function(err, macAddress){
+            if (err)  throw err
+            console.log('Mac Address Obtained')
+            console.log(macAddress)
+        })
+
         trialinfo.username = req.body.username;
         trialinfo.trialid = req.body.trialid;
         trialinfo.condition = req.body.condition;

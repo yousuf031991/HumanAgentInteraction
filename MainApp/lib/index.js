@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import api from './app/routes/api';
 import connectDB from './app/helpers/db';
+import maclib from 'getmac';
 
 const configs = JSON.parse(process.env.CONFIGS);
 const app = express();
