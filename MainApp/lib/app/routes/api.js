@@ -2,7 +2,7 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import UserStatistics from '../models/UserStatistics';
+import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 
 
@@ -156,9 +156,9 @@ export default function (router) {
             //console.log(userStatistics)
             if (err) {
                     console.log(err);
-                    res.send({success: false, message: "Userstatiscts row not created"});
+                    res.send({success: false, message: "User statistics row not created"});
                 } else {
-                    res.send({success: true, message: "Userstatiscts row created"});
+                    res.send({success: true, message: "User statistics row created"});
                 }
 
         });
