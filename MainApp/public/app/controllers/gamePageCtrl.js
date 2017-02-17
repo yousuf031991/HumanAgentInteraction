@@ -1,70 +1,124 @@
+
+
 angular.module('gamePageControllers', ['timer'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService) {
 		let app = this;
-     	app.username = $routeParams.username;
-     	
-     	$scope.counter = "10:00";
-     	let seconds = 600;
+        let patientService = PatientService;
 
-        let roomSelector = "div[class='panel-body fixed-panel center']";
-     	let div1 = document.getElementById("R1");
-    	let div2 = document.getElementById("R2");
-    	let div3 = document.getElementById("R3");
-    	let div4 = document.getElementById("R4");
-    	let div5 = document.getElementById("R5");
-    	let div6 = document.getElementById("R6");
+       
+       let statsObject = {};
+       statsObject.finalScore = 10;
+       statsObject.username = "Syed";
+       let moves = [];
+       moves.push("Doctor to Room1");
+       moves.push("Surgeon to Room2");
+       moves.push("Nurse to Room3");
+       statsObject.moves = moves;
 
-    	let map = new Map();
-    	let patientMap = new Map();
-
-    	map.set("div1", "green") 
-    	map.set("div2", "green")
-    	map.set("div3", "green")
-    	map.set("div4", "green")
-    	map.set("div5", "green")
-    	map.set("div6", "green")
-
-    	patientMap.set("div1", null) 
-    	patientMap.set("div2", null)
-    	patientMap.set("div3", null)
-    	patientMap.set("div4", null)
-    	patientMap.set("div5", null)
-    	patientMap.set("div6", null)
-
-    	let patients = 0;
-    	let doctors = 0;
-    	let surgeons = 0;
-    	let patientSelected;
+        let patients = 0;
+        let doctors = 0;
+        let surgeons = 0;
+        let patientSelected;
 
 
-  		$("#patients").click(function () {
-  			$('#patientsgroup').show();
-  			$('#patients').hide();
-  			$('#resourcesGroup').hide();
-  			$('#resources').show();
+        /*alert(patientService)
+        console.log(patientService.myfunc(255))*/
 
-  		});
+        $("#patients").click(function () {
 
-  		$('#resources').click(function () {
-  			$('#resources').hide();
-  			$('#resourcesGroup').show();
-  			$('#patients').show();
-  			$('#patientsgroup').hide();
+            console.log(statsObject);
+            PatientService.create(statsObject);
 
-  		})
+
+            $('#patientsgroup').show();
+            $('#patients').hide();
+            $('#resourcesGroup').hide();
+            $('#resources').show();
+
+        });
+
+        $('#resources').click(function () {
+            $('#resources').hide();
+            $('#resourcesGroup').show();
+            $('#patients').show();
+            $('#patientsgroup').hide();
+
+        })
         
         $('#requestResources').click(function () {
             $('#resources').show();
             $('#resourcesGroup').show();
             $('#patients').hide();
             $('#patientsgroup').hide();
-
         })
 
-     	$('#btnA').click(function(e) {
-     		assignRoom(event.target.id)
+        $scope.counter = "10:00";
+        let seconds = 600;
 
-     	});
+
+        //Greeting user
+        app.username = $routeParams.username;
+
+
+        // TImer logic
+        $scope.onTimeout = function(){
+            minutes = Math.round((seconds - 30)/60),
+            remainingSeconds = seconds % 60;
+  
+            if (remainingSeconds < 10) {
+                remainingSeconds = "0" + remainingSeconds;  
+            }
+
+            if (seconds == 0) {
+                $scope.counter = "00:00";
+                console.log(seconds);
+            } else {
+                seconds--;
+            }
+            $scope.counter = minutes + ":" + remainingSeconds;
+
+
+            // $scope.counter++;
+            mytimeout = $timeout($scope.onTimeout,1000);
+        }
+
+        let mytimeout = $timeout($scope.onTimeout,1000);
+
+        $('#btnA').click(function(e) {
+            patientService.assignRoom(event.target.id)
+
+        });
+
+        $('#btnB').click(function(e) {
+            patientService.assignRoom(event.target.id)
+        });
+
+
+        $('#btnDoctor').click(function () {
+            patientService.assignResource(event.target.id)
+        });
+
+
+        $('#btnSurgeon').click(function() {
+            patientService.assignResource(event.target.id);
+        });
+
+
+         $('#btnNurse').click(function () {
+            patientService.assignResource(event.target.id)
+        });
+        
+      
+     	/*
+
+
+     	
+
+        
+
+
+
+     	
 
      	$('#btnB').click(function(event) {
     		assignRoom(event.target.id)
@@ -87,12 +141,7 @@ angular.module('gamePageControllers', ['timer'])
             assignResource(event.target.id);
         });
 
-     	function disableClick() {
-     		//alert('disbaled')
-     		$(roomSelector).off('click');
-
-     	}
-
+     
 
 
         $('#btnDoctor').click(function () {
@@ -188,27 +237,5 @@ angular.module('gamePageControllers', ['timer'])
      	}
      
 
-	    $scope.onTimeout = function(){
-	    	minutes = Math.round((seconds - 30)/60),
-    		remainingSeconds = seconds % 60;
-  
-			if (remainingSeconds < 10) {
-				remainingSeconds = "0" + remainingSeconds;  
-			}
-
-			if (seconds == 0) {
-				$scope.counter = "00:00";
-				console.log(seconds);
-			} else {
-				seconds--;
-			}
-			$scope.counter = minutes + ":" + remainingSeconds;
-
-
-	        // $scope.counter++;
-	        mytimeout = $timeout($scope.onTimeout,1000);
-	    }
-
-	    let mytimeout = $timeout($scope.onTimeout,1000);
-
+*/
 });

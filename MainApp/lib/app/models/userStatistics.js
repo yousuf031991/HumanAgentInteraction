@@ -18,6 +18,7 @@ var userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
+    moves:[String]
    
 });
 

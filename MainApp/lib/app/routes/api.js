@@ -148,6 +148,7 @@ export default function (router) {
         let userStatistics = new UserStatistics();
         userStatistics.username = req.body.username;
         userStatistics.finalScore = req.body.finalScore;
+        userStatistics.moves = req.body.moves;
 
         userStatistics.save(function (err) {
             
