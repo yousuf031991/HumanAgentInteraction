@@ -156,9 +156,15 @@ export default function (router) {
             //console.log(userStatistics)
             if (err) {
                     console.log(err);
+<<<<<<< HEAD
                     res.send({success: false, message: "Userstatiscts row not created"});
                 } else {
                     res.send({success: true, message: "Userstatiscts row created"});
+=======
+                    res.send({success: false, message: "User statistics row not created"});
+                } else {
+                    res.send({success: true, message: "User statistics row created"});
+>>>>>>> 31a490741f755e8c67c12c964033724296aa6e16
                 }
 
         });
