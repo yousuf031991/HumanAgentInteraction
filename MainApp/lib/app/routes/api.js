@@ -15,17 +15,24 @@ export default function (router) {
         maclib.getMac(function (err, macAddress){
             if (err)  throw err
 
-            let username = hash.murmurHash(macAddress) + 2;
-
-            trialinfo.username = userid;
-            console.log(trialinfo.username);
+            let username = hash.murmurHash(macAddress);
+            trialinfo.username = username;
             trialinfo.trialid = req.body.trialid;
-            trialinfo.condition = req.body.condition;
 
-            if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null || trialinfo.condition == '') {
+            // TODO: Need to add where clause to find
+            // Like: GameConfig.find({isActive : true}, ....
+            GameConfig.find({}, function(err, record) {
+                console.log("GAME CONFIG ID" + record[0]._id);
+            });
+            
+            trialinfo.condition = 'A';
+
+            console.log(trialinfo.username);
+
+            if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
                 res.send({
                     success: false,
-                    message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid + 'CON:' + trialinfo.condition
+                    message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
                 });
             } else {
                 trialinfo.save(function (error) {
@@ -38,28 +45,6 @@ export default function (router) {
                 });
             }
         });
-        
-       //  // Fetch the computer's mac address
-       //  console.log('Fetching MAC Address');
-
-       //  function x1(err, macAddress){
-       //          if (err)  throw err
-       //          console.log('Mac Address Obtained')
-       //          console.log(macAddress)
-       //          console.log(hash.murmurHash(macAddress))
-       //          // trialinfo.username = hash.murmurHash(macAddress);
-       //          return hash.murmurHash(macAddress);
-       //  };
-
-       // var x2 = maclib.getMac(x1);
-
-       //  console.log("Printing x2" + JSON.stringify(x2,null, 4));
-
-       //  //let username = maclib.getMac(x);
-       //  //console.log(username);
-       //  // .then(function (returnData) {
-
-        // });
     });
 
     //http://localhost:8080/api/gameConfig
