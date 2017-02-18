@@ -2,7 +2,7 @@
 
 angular.module('gamePageControllers', ['timer'])
     .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService) {
-		let app = this;
+        let app = this;
         let patientService = PatientService;
 
        
@@ -109,20 +109,20 @@ angular.module('gamePageControllers', ['timer'])
         });
         
       
-     	/*
+        /*
 
 
-     	
+        
 
         
 
 
 
-     	
+        
 
-     	$('#btnB').click(function(event) {
-    		assignRoom(event.target.id)
-    	});
+        $('#btnB').click(function(event) {
+            assignRoom(event.target.id)
+        });
 
         $('#btnSurgeon').click(function() {
 
@@ -211,30 +211,30 @@ angular.module('gamePageControllers', ['timer'])
         function assignResource(resourceId) {
             console.log(resourceId);
             updateRoomInfo(resourceId);
-     	}
+        }
 
-     	function assignRoom(patientType) {
-     		//display available and non-available rooms
+        function assignRoom(patientType) {
+            //display available and non-available rooms
 
-     		console.log(patientType)
-     		
-     		//displaying colors
-     		map.forEach(function(value, key) {
-     			
-     			console.log(key, value)
-     			if(value == 'green') {
-     				//change div panel to success
-     				$('#' + key).removeClass().addClass('panel panel-success');
-     				
-     			} else if(value == 'red') {
-     				//change div to red danger
-     				$('#' + key).removeClass().addClass('panel panel-danger');
-     			}
+            console.log(patientType)
+            
+            //displaying colors
+            map.forEach(function(value, key) {
+                
+                console.log(key, value)
+                if(value == 'green') {
+                    //change div panel to success
+                    $('#' + key).removeClass().addClass('panel panel-success');
+                    
+                } else if(value == 'red') {
+                    //change div to red danger
+                    $('#' + key).removeClass().addClass('panel panel-danger');
+                }
 
             
             });
-     		updateRoomInfo(patientType);
-     	}
+            updateRoomInfo(patientType);
+        }
      
 
 */
