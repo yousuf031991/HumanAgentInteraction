@@ -16,34 +16,36 @@ export default function (router) {
             if (err)  throw err
 
             let username = hash.murmurHash(macAddress);
-            trialinfo.username = username;
-            trialinfo.trialid = req.body.trialid;
-
+            trialinfo.username = username + 11;
             // TODO: Need to add where clause to find
             // Like: GameConfig.find({isActive : true}, ....
             GameConfig.find({}, function(err, record) {
-                console.log("GAME CONFIG ID" + record[0]._id);
+                let gameConfigId = record[0]._id;
+                trialinfo.trialid = gameConfigId;
+                
+                // Dummy field. Could be used for something later or removed.
+                trialinfo.condition = 'A';
+
+                console.log(trialinfo.username);
+                console.log("GAME CONFIG ID" + gameConfigId);
+
+                if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
+                    res.send({
+                        success: false,
+                        message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
+                    });
+                } else {
+                    trialinfo.save(function (error) {
+                        if (error) {
+                            console.log(error);
+                            // TODO: Redirect to Thank you for already playing the game page.
+                            res.send({success: false, message: "Username already exists"});
+                        } else {
+                            res.send({success: true, userid: username, message: "Trial Information saved"});
+                        }
+                    });
+                }
             });
-            
-            trialinfo.condition = 'A';
-
-            console.log(trialinfo.username);
-
-            if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
-                res.send({
-                    success: false,
-                    message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
-                });
-            } else {
-                trialinfo.save(function (error) {
-                    if (error) {
-                        console.log(error);
-                        res.send({success: false, message: "Username already exists"});
-                    } else {
-                        res.send({success: true, userid: username, message: "Trial Information saved"});
-                    }
-                });
-            }
         });
     });
 
