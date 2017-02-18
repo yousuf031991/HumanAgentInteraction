@@ -5,39 +5,61 @@ import Game from '../models/game';
 import request from 'request';
 import UserStatistics from '../models/UserStatistics'
 import maclib from 'getMac';
+import hash from 'murmurhash-native';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
 
-        // Fetch the computer's mac address
-        console.log('Fetching MAC Address');
-        maclib.getMac(function(err, macAddress){
+        maclib.getMac(function (err, macAddress){
             if (err)  throw err
-            console.log('Mac Address Obtained')
-            console.log(macAddress)
-        })
 
-        trialinfo.username = req.body.username;
-        trialinfo.trialid = req.body.trialid;
-        trialinfo.condition = req.body.condition;
+            let username = hash.murmurHash(macAddress) + 2;
 
-        if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null || trialinfo.condition == '') {
-            res.send({
-                success: false,
-                message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid + 'CON:' + trialinfo.condition
-            });
-        } else {
-            trialinfo.save(function (error) {
-                if (error) {
-                    console.log(error);
-                    res.send({success: false, message: "Username already exists"});
-                } else {
-                    res.send({success: true, message: "Trial Information saved"});
-                }
-            });
-        }
+            trialinfo.username = userid;
+            console.log(trialinfo.username);
+            trialinfo.trialid = req.body.trialid;
+            trialinfo.condition = req.body.condition;
+
+            if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null || trialinfo.condition == '') {
+                res.send({
+                    success: false,
+                    message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid + 'CON:' + trialinfo.condition
+                });
+            } else {
+                trialinfo.save(function (error) {
+                    if (error) {
+                        console.log(error);
+                        res.send({success: false, message: "Username already exists"});
+                    } else {
+                        res.send({success: true, userid: username, message: "Trial Information saved"});
+                    }
+                });
+            }
+        });
+        
+       //  // Fetch the computer's mac address
+       //  console.log('Fetching MAC Address');
+
+       //  function x1(err, macAddress){
+       //          if (err)  throw err
+       //          console.log('Mac Address Obtained')
+       //          console.log(macAddress)
+       //          console.log(hash.murmurHash(macAddress))
+       //          // trialinfo.username = hash.murmurHash(macAddress);
+       //          return hash.murmurHash(macAddress);
+       //  };
+
+       // var x2 = maclib.getMac(x1);
+
+       //  console.log("Printing x2" + JSON.stringify(x2,null, 4));
+
+       //  //let username = maclib.getMac(x);
+       //  //console.log(username);
+       //  // .then(function (returnData) {
+
+        // });
     });
 
     //http://localhost:8080/api/gameConfig
