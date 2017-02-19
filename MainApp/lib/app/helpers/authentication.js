@@ -3,6 +3,7 @@ import Admin from '../models/user';
 const configs = JSON.parse(process.env.CONFIGS);
 
 function authenticate(req, res, next) {
+
     if(isAdminRoute(req)) {
         if(isLoginRoute(req)) {
             if(hasSignedIn(req)) {
@@ -10,18 +11,20 @@ function authenticate(req, res, next) {
             } else {
                 next();
             }
-        } else if(hasSignedIn(req)) {
-            const username = req.session.user.username;
-            serializeUser(username, req, res, function (err, user) {
-                if(isSuperAdminOnlyRoute(req) && user && user.role !== "SUPER ADMIN") {
-                    res.redirect("/admin?reason=not_super");
-                } else {
-                    next();
-                }
-            });
-        } else {
+        } else if(!hasSignedIn(req)) {
             res.redirect("/admin/login?redirect=true");
         }
+    }
+
+    if(hasSignedIn(req)) {
+        const username = req.session.user.username;
+        serializeUser(username, req, res, function (err, user) {
+            if(isSuperAdminOnlyRoute(req) && user && user.role !== "SUPER ADMIN") {
+                res.redirect("/admin?reason=not_super");
+            } else {
+                next();
+            }
+        });
     } else {
         next();
     }

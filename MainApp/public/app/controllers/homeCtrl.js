@@ -1,5 +1,7 @@
-angular.module('homeControllers', [])
-    .controller('homeController', function($rootScope, $scope) {
+angular.module('homeControllers', ['authServices'])
+    .controller('homeController', function($rootScope, $scope, $window, $route, Auth) {
+        $rootScope.$route = $route;
+
         $scope.setCurrentUser = function (user) {
             if(user) {
                 $rootScope.currentUser = user;
@@ -21,5 +23,28 @@ angular.module('homeControllers', [])
             }
             return displayName;
         }
+
+        $scope.isSuperAdmin = function () {
+            if($rootScope.currentUser && $rootScope.currentUser.role === 'SUPER ADMIN') {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.isAdmin = function () {
+            if($rootScope.currentUser) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.logOut = function() {
+            Auth.signOutUser({})
+                .then(function (response) {
+                    $window.location.href = response.data.redirectTo;
+                });
+        };
 
     });
