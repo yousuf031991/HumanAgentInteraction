@@ -1,12 +1,25 @@
 import mongoose from 'mongoose';
+const validate = require('mongoose-validator');
+
 const Schema = mongoose.Schema;
+
+const emailValidator=[ 
+
+validate({
+    validator: 'matches',
+    arguments:['^.*@asu.edu$'],
+    message:'Please Enter Valid ASU Email Id'
+}
+)
+];
 
 const adminSchema = new Schema({
     username: {
         type: String,
         lowercase: true,
         required: true,
-        unique: true
+        unique: true,
+        validate: emailValidator
     },
     role: {
         type: String,
