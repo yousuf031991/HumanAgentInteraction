@@ -19,6 +19,9 @@ angular.module('manageAdminControllers', ['manageAdminServices'])
         };
 
         $scope.removeAdmin = function(adminUserName){
+            var confirmDelete=confirm("Are you sure yo want to delete "+adminUserName+" from the list of admins?");
+            if(!confirmDelete)
+            	return;
             adminUserName = JSON.stringify({username: adminUserName});
             ManageAdmin.deleteAdm(adminUserName).then(function (returnData){
                 $scope.successAddMsg=false;  
