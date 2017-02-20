@@ -1,5 +1,5 @@
 angular.module('authControllers', ['authServices'])
-    .controller('authController', function($http, $location, $scope, Auth, $routeParams) {
+    .controller('authController', function($http, $location, $scope, Auth, $routeParams, $window) {
         let app = this;
 
         if($routeParams.redirect) {
@@ -8,16 +8,6 @@ angular.module('authControllers', ['authServices'])
 
         // This flag we can use to show or hide the button in our HTML.
         $scope.signedIn = false;
-
-        $scope.logOut = function() {
-            let auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut()
-                .then(function () {
-                    // TODO - redirect to login page
-                    alert('User signed out.');
-                });
-            auth2.disconnect();
-        };
 
         this.signInAdmin = function (signInData) {
             app.errorMsg = false;
@@ -61,7 +51,7 @@ angular.module('authControllers', ['authServices'])
                 .then(function (response) {
                     if(response && response.data) {
                         if(response.data.success) {
-                            $location.path(response.data.redirectTo);
+                            $window.location.href = response.data.redirectTo;
                         } else {
                             app.errorMsg = JSON.stringify(response.data.error);
                         }
