@@ -79,6 +79,18 @@ var gameConfigSchema = new Schema({
         type: Number,
         min: [0, 'Patient help time should be greater than 0 seconds!'],
         required: 'Patient help time is empty!'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    active: {
+        type: Boolean,
+        default: false
+    },
+    author: {
+        type: String,
+        required: 'Admin session invalid!'
     }
 });
 

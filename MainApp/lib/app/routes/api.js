@@ -36,6 +36,7 @@ export default function (router) {
     router.post('/gameConfig', function (req, res) {
         let gameConfig = new GameConfig();
 
+        gameConfig.author = req.user.fullname;
         gameConfig.cooperation = req.body.cooperation;
         gameConfig.mode = req.body.mode;
         gameConfig.earlyType = req.body.earlyType;
