@@ -4,6 +4,7 @@ angular.module('authServices', [])
         authFactory.create = function(authData) {
             return $http.post('/api/adminLogin', authData);
         };
+        
         authFactory.verify=function(signInData){
                 return $http.post('/api/adminLogin', signInData);
         };  

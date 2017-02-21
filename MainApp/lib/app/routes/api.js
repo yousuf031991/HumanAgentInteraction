@@ -16,7 +16,7 @@ export default function (router) {
             if (err)  throw err
 
             let username = hash.murmurHash(macAddress);
-            trialinfo.username = username + 11;
+            trialinfo.username = username + 200;
             // TODO: Need to add where clause to find
             // Like: GameConfig.find({isActive : true}, ....
             GameConfig.find({}, function(err, record) {

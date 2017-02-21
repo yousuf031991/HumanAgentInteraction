@@ -1,34 +1,23 @@
-
-
-angular.module('gamePageControllers', ['timer'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService) {
+angular.module('gamePageControllers', ['roomServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room) {
         let app = this;
         let patientService = PatientService;
 
        
-       let statsObject = {};
-       statsObject.finalScore = 10;
-       statsObject.username = "Syed";
-       let moves = [];
-       moves.push("Doctor to Room1");
-       moves.push("Surgeon to Room2");
-       moves.push("Nurse to Room3");
-       statsObject.moves = moves;
+        let statsObject = {};
+        statsObject.finalScore = 10;
+        statsObject.username = "Syed";
+        let moves = [];
+        moves.push("Doctor to Room1");
+        moves.push("Surgeon to Room2");
+        moves.push("Nurse to Room3");
+        statsObject.moves = moves;
 
-        let patients = 0;
-        let doctors = 0;
-        let surgeons = 0;
-        let patientSelected;
-
-
-        /*alert(patientService)
-        console.log(patientService.myfunc(255))*/
-
+        
         $("#patients").click(function () {
 
             console.log(statsObject);
             PatientService.create(statsObject);
-
 
             $('#patientsgroup').show();
             $('#patients').hide();

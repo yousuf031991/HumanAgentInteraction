@@ -1,10 +1,11 @@
-angular.module('gamePageServices', [])
-    .factory('PatientService', function ($http) {
+angular.module('gamePageServices', ['roomServices'])
+    .factory('PatientService', function ($http, Room) {
 
     	gamePageFactory = {};
     	let roomSelector = "div[class='panel-body fixed-panel center']";
     	let map = new Map();
     	let patientMap = new Map();
+        let roomMap = new Map();
 
     	let div1 = document.getElementById("R1");
         let div2 = document.getElementById("R2");
@@ -27,6 +28,22 @@ angular.module('gamePageServices', [])
         patientMap.set("div5", null)
         patientMap.set("div6", null)
 
+        // Initial variables for Room
+        let roomData = {};
+        roomData.nDoctors = 0;
+        roomData.nSurgeons = 0;
+        roomData.nNurses = 0;
+        roomData.patientType = null;
+        roomData.timeLeft = 0;
+        roomData.timeStarted = 0;
+        roomData.collect = false;
+
+        // Create room instances
+        let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
+        for (var i = 0, len = roomIds.length; i < len; i++) {
+            roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
+        }
+
         gamePageFactory.create = function(userStatsData) {
 
         	return $http.post('/api/userStatistics', userStatsData);
@@ -40,33 +57,32 @@ angular.module('gamePageServices', [])
     	}
 
     	gamePageFactory.updateRoomInfo = function(resourceId) {
+            // Updates the text in the clicked room panel
     		$("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
                 e.preventDefault();
 
                 let myroomid = event.target.id;
                 let key = myroomid.replace("R", "div");
-                //console.log(resourceId)
-                //console.log(myroomid);
-               // alert("Printing myroomid" + myroomid)
 
                 if (resourceId === 'btnDoctor') {
-                    // TODO: Perform check to see if resource has been already set to room
-                    $("#"+ myroomid + " span[id='nDoctors']").text('1');
+                    roomMap.get(myroomid).nDoctors = 1;
+                    $("#"+ myroomid + " span[id='nDoctors']").text(roomMap.get(myroomid).nDoctors);
                 } else if (resourceId === 'btnSurgeon') {
-                    $("#"+ myroomid + " span[id='nSurgeons']").text('1');
-                    // let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
-                    // $('#'+divid).removeClass().addClass('panel panel-danger');
-                    // map.set(divid, 'red')
+                    roomMap.get(myroomid).nSurgeons = 1;
+                    $("#"+ myroomid + " span[id='nSurgeons']").text(roomMap.get(myroomid).nSurgeons);
                 } else if (resourceId === 'btnNurse') {
-                    $("#"+ myroomid + " span[id='nNurses']").text('1');
+                    roomMap.get(myroomid).nNurses = 1;
+                    $("#"+ myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
                 }
                 else if (resourceId === 'btnA') {
-                    $("#"+ myroomid + " span[id='assignedPatient']").text('Patient A');
+                    roomMap.get(myroomid).patientType = 'Patient A';
+                    $("#"+ myroomid + " span[id='assignedPatient']").text(roomMap.get(myroomid).patientType);
                     $('#'+ key).removeClass().addClass('panel panel-danger');
                     map.set(key, 'red');
                     patientMap.set(key, 'patientA');
                 } else if(resourceId == 'btnB') {
-                    $("#"+ myroomid + " span[id='assignedPatient']").text('Patient B');
+                    roomMap.get(myroomid).patientType = 'Patient B'
+                    $("#"+ myroomid + " span[id='assignedPatient']").text(roomMap.get(myroomid).patientType);
                     $('#'+ key).removeClass().addClass('panel panel-danger');
                     map.set(key, 'red');
                     patientMap.set(key, 'patientB');
