@@ -9,5 +9,9 @@ angular.module('authServices', [])
             return $http.post('/api/admin/signInUser', data);
         };
 
+        authFactory.signOutUser = function(data){
+            return $http.post('/api/admin/signOutUser', data);
+        };
+
         return authFactory;
     });

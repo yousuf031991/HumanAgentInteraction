@@ -6,6 +6,7 @@ import UserStatistics from '../models/UserStatistics';
 import Authenticator from '../helpers/authentication';
 
 
+
 export default function (router) {
 //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
@@ -120,12 +121,6 @@ export default function (router) {
         });
     });
 
-    //http://localhost:8080/api/admin/logout
-    router.post('/admin/logout', function(req, res) {
-        req.session.reset();
-        res.send({success: true, redirectTo: '/admin/login'});
-    });
-
     router.post("/newAdmin", function (req, res) {
         let admin = new Admin();
         admin.username = req.body.username;
@@ -136,7 +131,14 @@ export default function (router) {
             admin.save(function (error) {
                 if (error) {
                     console.log(error);
-                    res.send({success: false, message: "User name already exists"});
+                    var errorMsg;
+                    if(error.message.includes("duplicate key error")){
+                        errorMsg="Admin already exists";
+                    }
+                    else{
+                        errorMsg="Please Enter a valid ASU Email Id";
+                    }
+                    res.send({success: false, message: errorMsg});
                 } else {
                     res.send({success: true, message: "Admin saved"});
                 }
@@ -171,7 +173,7 @@ export default function (router) {
     });
 
     router.get("/viewAdmin", function (req, res) {
-        Admin.find({}, function (error, docs) {
+        Admin.find({role:"ADMIN"}, function (error, docs) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
@@ -215,6 +217,11 @@ export default function (router) {
         });
     });
 
+    //http://localhost:8080/api/admin/signOutUser
+    router.post('/admin/signOutUser', function(req, res) {
+        req.session.reset();
+        res.send({success: true, redirectTo: '/'});
+    });
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");

@@ -71,14 +71,22 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li ng-if="currentUser.role === 'SUPER ADMIN'"><a href="/admin/manage">Manage Admin</a></li>
-                <li><a href="/admin/gameconfig">New Game</a></li>
+                <li ng-class="{active: $route.current.activeTab === 'playGame'}"><a href="/">Play</a></li>
+                <li ng-class="{active: $route.current.activeTab === 'about'}"><a href="/about">About</a></li>
+                <li ng-class="{active: $route.current.activeTab === 'adminPanel'}" ng-if="isAdmin()">
+                    <a href="/admin">Admin Panel</a>
+                </li>
+                <li ng-class="{active: $route.current.activeTab === 'manageAdm'}" ng-if="isSuperAdmin()">
+                    <a href="/admin/manage">Manage Admin</a>
+                </li>
+                <li ng-class="{active: $route.current.activeTab === 'gameConf'}" ng-if="isAdmin()">
+                    <a href="/admin/gameconfig">New Game</a>
+                </li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/">Play</a></li>
+                <li ng-if="!isAdmin()"><a href="/admin/login">Login <small>(Admins Only)</small></a></li>
+                <li ng-if="isAdmin()"><a href="#" ng-click="logOut()">Logout</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

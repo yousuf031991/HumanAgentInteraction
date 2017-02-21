@@ -1,5 +1,5 @@
 angular.module('authControllers', ['authServices'])
-    .controller('authController', function($http, $location, $scope, Auth, $routeParams) {
+    .controller('authController', function($http, $location, $scope, Auth, $routeParams, $window) {
         let app = this;
 
         if($routeParams.redirect) {
@@ -8,16 +8,6 @@ angular.module('authControllers', ['authServices'])
 
         // This flag we can use to show or hide the button in our HTML.
         $scope.signedIn = false;
-
-        $scope.logOut = function() {
-            let auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut()
-                .then(function () {
-                    // TODO - redirect to login page
-                    alert('User signed out.');
-                });
-            auth2.disconnect();
-        };
 
         this.signInAdmin = function (signInData) {
             app.errorMsg = false;
@@ -61,7 +51,7 @@ angular.module('authControllers', ['authServices'])
                 .then(function (response) {
                     if(response && response.data) {
                         if(response.data.success) {
-                            $location.path(response.data.redirectTo);
+                            $window.location.href = response.data.redirectTo;
                         } else {
                             app.errorMsg = JSON.stringify(response.data.error);
                         }
@@ -72,7 +62,8 @@ angular.module('authControllers', ['authServices'])
 
         //initializes gmail OAuth2 signin functionality
         let loadGmailLogin=function() {
-            app.client_id = document.getElementsByTagName('meta').item(name="google-signin-client_id").content;
+            
+            app.client_id =getClientId();
             gapi.load('auth2', function(){
                 // Retrieve the singleton for the GoogleAuth library and set up the client.
                 auth2 = gapi.auth2.init({
@@ -82,7 +73,17 @@ angular.module('authControllers', ['authServices'])
             });
         };
 
-
+        let getClientId=function(){
+            var metaTags=document.getElementsByTagName('meta');
+            var len=metaTags.length;
+            var tag;
+            for(var i=0;i<len;i++){
+                tag=metaTags[i];
+                if(tag.name=="google-signin-client_id")
+                    return tag.content;
+            } 
+            return null;
+        };
         //Init Gmail Signin when the page loads
         loadGmailLogin();
 
