@@ -6,7 +6,7 @@ angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices
     //console.log('testing game app');
 });
 
-angular.module('userApp', ['appRoutes', 'authControllers', 'authServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp']).config(function () {
+angular.module('userApp', ['appRoutes', 'adminControllers', 'homeControllers', 'authControllers', 'authServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp']).config(function () {
     //console.log('testing user app');
 });
 

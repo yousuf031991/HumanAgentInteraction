@@ -5,6 +5,15 @@
     <title></title>
 </head>
 <body>
-I'm admin
+Welcome {{fetchDisplayName()}}
+
+<br />
+<br />
+<div class="row show-hide-message" ng-show="admin.warningMsg">
+    <div class="alert alert-warning">
+        {{admin.warningMsg}}
+    </div>
+</div>
+
 </body>
 </html>

@@ -3,9 +3,10 @@ import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
 import request from 'request';
-import UserStatistics from '../models/UserStatistics'
 import maclib from 'getMac';
 import hash from 'murmurhash-native';
+import UserStatistics from '../models/userStatistics';
+import Authenticator from '../helpers/authentication';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -53,6 +54,7 @@ export default function (router) {
     router.post('/gameConfig', function (req, res) {
         let gameConfig = new GameConfig();
 
+        gameConfig.author = req.user.fullname;
         gameConfig.cooperation = req.body.cooperation;
         gameConfig.mode = req.body.mode;
         gameConfig.earlyType = req.body.earlyType;
@@ -70,30 +72,35 @@ export default function (router) {
         gameConfig.NHnumOfSurgeons = req.body.NHnumOfSurgeons;
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
 
-        if (gameConfig.cooperation == null || gameConfig.cooperation === '' ||
-            gameConfig.mode == null || gameConfig.mode === '' ||
-            gameConfig.earlyType == null || gameConfig.earlyType === '' ||
-            gameConfig.startNumPatientAs == null || gameConfig.startNumPatientAs === '' ||
-            gameConfig.startNumPatientBs == null || gameConfig.startNumPatientBs === '' ||
-            gameConfig.numOfDoctors == null || gameConfig.numOfDoctors === '' ||
-            gameConfig.numOfNurses == null || gameConfig.numOfNurses === '' ||
-            gameConfig.numOfSurgeons == null || gameConfig.numOfSurgeons === '' ||
-            gameConfig.totalTimeInSeconds == null || gameConfig.totalTimeInSeconds === '' ||
-            gameConfig.NHstartNumPatientAs == null || gameConfig.NHstartNumPatientAs === '' ||
-            gameConfig.NHstartNumPatientBs == null || gameConfig.NHstartNumPatientBs === '' ||
-            gameConfig.NHnumOfDoctors == null || gameConfig.NHnumOfDoctors === '' ||
-            gameConfig.NHnumOfNurses == null || gameConfig.NHnumOfNurses === '' ||
-            gameConfig.NHnumOfSurgeons == null || gameConfig.NHnumOfSurgeons === '' ||
-            gameConfig.patientHelpTimeInSeconds == null || gameConfig.patientHelpTimeInSeconds === '') {
-            res.send({success: false, message: 'One or more fields were empty'});
-        }
-        else {
-            gameConfig.save(function (error) {
+        gameConfig.save(function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: error.errors});
+            } else {
+                res.send({success: true, message: "Game config saved"});
+            }
+        });
+
+    });
+
+    //http://localhost:8080/api/gameinfo
+    router.post('/gameinfo', function (req, res) {
+        let gameinfo = new Game();
+        gameinfo.gameConfigId = req.body.gameConfigId;
+        gameinfo.trialInfoId = req.body.trialInfoId;
+        gameinfo.userStatsId = req.body.userStatsId;
+        gameinfo.username = req.body.username;
+
+        if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
+            res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
+        } else {
+            gameinfo.save(function (error) {
                 if (error) {
                     console.log(error);
-                    res.send({success: false, message: error.errors});
+                    res.send({success: false, message: "Error inserting into collection"});
                 } else {
-                    res.send({success: true, message: "Game config saved"});
+
+                    res.send({success: true, message: "Game Information Saved"});
                 }
             });
         }
@@ -122,8 +129,8 @@ export default function (router) {
         }
     });
 
-    //http://localhost:8080/api/adminLogin
-    router.post("/adminLogin",function(req,res) {
+    //http://localhost:8080/api/admin/login
+    router.post("/admin/login",function(req,res) {
         Admin.count({ username: req.body.username}, function(err,count) {
             if(count>0) {
                 res.send({success: true, message: "The username you entered is a valid admin username. Please continue with Gmail sign in."});
@@ -143,14 +150,20 @@ export default function (router) {
             admin.save(function (error) {
                 if (error) {
                     console.log(error);
-                    res.send({success: false, message: "User name already exists"});
+                    var errorMsg;
+                    if(error.message.includes("duplicate key error")){
+                        errorMsg="Admin already exists";
+                    }
+                    else{
+                        errorMsg="Please Enter a valid ASU Email Id";
+                    }
+                    res.send({success: false, message: errorMsg});
                 } else {
                     res.send({success: true, message: "Admin saved"});
                 }
             });
         }
     });
-
 
     router.post('/userStatistics', function(req, res) {
 
@@ -161,19 +174,20 @@ export default function (router) {
 
         userStatistics.save(function (err) {
             
-            console.log("Printing userStatistics")
-            console.log(userStatistics)
+            //console.log("Printing userStatistics")
+            //console.log(userStatistics)
             if (err) {
                     console.log(err);
-                    res.send({success: false, message: "Userstatiscts row not created"});
+                    res.send({success: false, message: "User statistics row not created"});
                 } else {
-                    res.send({success: true, message: "Userstatiscts row created"});
+                    res.send({success: true, message: "User statistics row created"});
                 }
+
         });
     });
 
     router.get("/viewAdmin", function (req, res) {
-        Admin.find({}, function (error, docs) {
+        Admin.find({role:"ADMIN"}, function (error, docs) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
@@ -184,7 +198,7 @@ export default function (router) {
     });
 
     router.post("/deleteAdmin", function (req, res) {
-        Admin.remove({username: req.body.username}, function(error){
+        Admin.remove({username: req.body.username}, function (error) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "User Name doesn't exist"});
@@ -194,6 +208,34 @@ export default function (router) {
         });
     });
 
+    router.post("/admin/signInUser", function (req, res) {
+        Authenticator.serializeUser(req.body.username, req, res, function (err, user) {
+            if(err) {
+                console.log(err);
+                res.send({success: false, error: err});
+            } else {
+                if(req.body.fullname) {
+                    user.fullname = req.body.fullname;
+                    user.save(function (error) {
+                        if (error) {
+                            console.log(error);
+                            res.send({success: false, error: error});
+                        } else {
+                            res.send({success: true, redirectTo: '/admin'});
+                        }
+                    });
+                } else {
+                    res.send({success: true, redirectTo: '/admin'});
+                }
+            }
+        });
+    });
+
+    //http://localhost:8080/api/admin/signOutUser
+    router.post('/admin/signOutUser', function(req, res) {
+        req.session.reset();
+        res.send({success: true, redirectTo: '/'});
+    });
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");

@@ -1,13 +1,6 @@
 angular.module('gameConfigControllers', ['gameConfigServices'])
-    .controller('gameConfigCtrl', function ($http, $location, $scope, GameConfig, $timeout) {
-        var app = this;
-        $scope.coopData = {
-            availableOptions: [
-                {name: 'High Cooperation'},
-                {name: 'Low Cooperation'}
-            ],
-            selectedOption: {name: 'High Cooperation'}
-        };
+    .controller('gameConfigCtrl', function ($location, GameConfig, $timeout) {
+        let app = this;
         this.gameConfig = function (gameConfigData, valid) {
             app.errorMsg = false;
             app.loading = true;
@@ -17,9 +10,12 @@ angular.module('gameConfigControllers', ['gameConfigServices'])
                         app.successMsg = returnData.data.message + "....Redirecting";
                         $timeout(function () {
                             $location.path('/');
-                        }, 2000);
+                        }, 1500);
                     } else {
-                        app.errorMsg = returnData.data.message;
+                        app.errorMsg = "";
+                        for (key in returnData.data.message){
+                            app.errorMsg += returnData.data.message[key].message +"\n";
+                        }
                     }
                     app.loading = false;
                 });
