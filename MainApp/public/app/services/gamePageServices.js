@@ -7,27 +7,6 @@ angular.module('gamePageServices', ['roomServices'])
     	let patientMap = new Map();
         let roomMap = new Map();
 
-    	let div1 = document.getElementById("R1");
-        let div2 = document.getElementById("R2");
-        let div3 = document.getElementById("R3");
-        let div4 = document.getElementById("R4");
-        let div5 = document.getElementById("R5");
-        let div6 = document.getElementById("R6");
-
-    	map.set("div1", "green") 
-        map.set("div2", "green")
-        map.set("div3", "green")
-        map.set("div4", "green")
-        map.set("div5", "green")
-        map.set("div6", "green")
-
-        patientMap.set("div1", null) 
-        patientMap.set("div2", null)
-        patientMap.set("div3", null)
-        patientMap.set("div4", null)
-        patientMap.set("div5", null)
-        patientMap.set("div6", null)
-
         // Initial variables for Room
         let roomData = {};
         roomData.nDoctors = 0;
@@ -40,8 +19,12 @@ angular.module('gamePageServices', ['roomServices'])
 
         // Create room instances
         let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
+        let divIds = ['div1', 'div2', 'div3', 'div4', 'div5', 'div6'];
+
         for (var i = 0, len = roomIds.length; i < len; i++) {
             roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
+            map.set(divIds[i], "green");
+            patientMap.set(divIds[i], null);
         }
 
         gamePageFactory.create = function(userStatsData) {
