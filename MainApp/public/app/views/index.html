@@ -13,16 +13,13 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
 
-    <!--bootstrap tag for enabling mobile view-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
     <!--Main Angular Files-->
     <script src="assets/js/angular.js"></script>
     <script src="assets/js/angular-route.js"></script>
     <script src="assets/js/angular-animate.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- TODO - get client_id from constants. right now, it is visible to public. -->
-    <meta name="google-signin-client_id" content="79517414502-p33r8rq5viqvrb35ukgrdd0fk3a2mr8j.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="713815641075-vge8ouravfnq07fko03patep79djuu0o.apps.googleusercontent.com">
 
     <!--Angular Config/Routes-->
     <script src="app/app.js"></script>
@@ -34,8 +31,6 @@
     <script src="app/controllers/gamePageCtrl.js"></script>
     <script src="app/controllers/authCtrl.js"></script>
     <script src="app/controllers/manageAdminCtrl.js"></script>
-    <script src="app/controllers/homeCtrl.js"></script>
-    <script src="app/controllers/adminCtrl.js"></script>
 
     
     <!--Angular Services-->
@@ -50,7 +45,7 @@
 
     <title>Index</title>
 </head>
-<body ng-app="userApp" ng-controller="homeController" ng-init="setCurrentUser(<%= user %>)"  >
+<body ng-app="userApp">
 <nav class="navbar navbar-inverse navbar-default navbar-static-top">
     <div class="container">
         <div class="navbar-header">
@@ -65,28 +60,32 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{active: $route.current.activeTab === 'playGame'}"><a href="/">Play</a></li>
-                <li ng-class="{active: $route.current.activeTab === 'about'}"><a href="/about">About</a></li>
-                <li ng-class="{active: $route.current.activeTab === 'adminPanel'}" ng-if="isAdmin()">
-                    <a href="/admin">Admin Panel</a>
-                </li>
-                <li ng-class="{active: $route.current.activeTab === 'manageAdm'}" ng-if="isSuperAdmin()">
-                    <a href="/admin/manage">Manage Admin</a>
-                </li>
-                <li ng-class="{active: $route.current.activeTab === 'gameConf'}" ng-if="isAdmin()">
-                    <a href="/admin/gameconfig">New Game</a>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/admin/manage">Manage Admin</a></li>
+                <li><a href="/admin/gameconfig">New Game</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
                 </li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-if="!isAdmin()"><a href="/admin/login">Login <small>(Admins Only)</small></a></li>
-                <li ng-if="isAdmin()"><a href="#" ng-click="logOut()">Logout</a></li>
+                <li><a href="/trialinfo">Play</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->
     </div>
 </nav>
-
 <div class="container theme-showcase" role="main">
 <!--     <div class="jumbotron">
         <h3>Hospital management Game</h3>

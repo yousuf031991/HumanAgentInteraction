@@ -1,5 +1,5 @@
-angular.module('gamePageControllers', ['roomServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room) {
+angular.module('gamePageControllers', ['roomServices', 'agentServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent) {
         let app = this;
         let patientService = PatientService;
 
@@ -13,43 +13,52 @@ angular.module('gamePageControllers', ['roomServices'])
         moves.push("Nurse to Room3");
         statsObject.moves = moves;
 
-        
         $("#patients").click(function () {
 
             console.log(statsObject);
             PatientService.create(statsObject);
 
             $('#patientsgroup').show();
+            $('#resources').show();
+            $('#requestResources').show();
+
             $('#patients').hide();
             $('#resourcesGroup').hide();
-            $('#resources').show();
+            $('#requestGroup').hide();
 
         });
 
         $('#resources').click(function () {
-            $('#resources').hide();
             $('#resourcesGroup').show();
             $('#patients').show();
+            $('#requestResources').show();
+
+            $('#resources').hide();
+            $('#requestGroup').hide();
             $('#patientsgroup').hide();
 
-        })
+        });
         
         $('#requestResources').click(function () {
+            $('#requestGroup').show();
             $('#resources').show();
-            $('#resourcesGroup').show();
-            $('#patients').hide();
+            $('#patients').show();
+
+
+            $('#requestResources').hide();
+            $('#resourcesGroup').hide();
             $('#patientsgroup').hide();
-        })
+        });
+
 
         $scope.counter = "10:00";
         let seconds = 600;
-
 
         //Greeting user
         app.username = $routeParams.username;
 
 
-        // TImer logic
+        // Timer logic
         $scope.onTimeout = function(){
             minutes = Math.round((seconds - 30)/60),
             remainingSeconds = seconds % 60;
@@ -93,7 +102,7 @@ angular.module('gamePageControllers', ['roomServices'])
         });
 
 
-         $('#btnNurse').click(function () {
+        $('#btnNurse').click(function () {
             patientService.assignResource(event.target.id)
         });
         
