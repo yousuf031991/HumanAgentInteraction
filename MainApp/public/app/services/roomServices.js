@@ -17,13 +17,21 @@ angular.module('roomServices', [])
 			// Public properties, assigned to the instance ('this')
 			this.roomId = roomId;
 			this.patientType = roomData.patientType;
-			this.nDoctos = roomData.nDoctos;
+			this.nDoctors = roomData.nDoctors;
 			this.nNurses = roomData.nNurses;
 			this.nSurgeons = roomData.nSurgeons;
 			this.timeLeft = roomData.timeLeft;
 			this.timeStarted = roomData.timeStarted;
 			this.collect = roomData.collect;
 			console.log("Initializing room");
+
+			function collectResource(resource) {
+
+
+			}
+
+
+
 		}
 
     	return Room;  

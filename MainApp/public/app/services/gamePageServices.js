@@ -27,6 +27,8 @@ angular.module('gamePageServices', ['roomServices'])
             patientMap.set(divIds[i], null);
         }
 
+
+
         gamePageFactory.create = function(userStatsData) {
 
         	return $http.post('/api/userStatistics', userStatsData);
@@ -39,13 +41,33 @@ angular.module('gamePageServices', ['roomServices'])
      		$(roomSelector).css("background", "");	
     	}
 
+        gamePageFactory.updateSideBar = function() {
+
+            var docsCount = 0;
+            var nursesCount = 0;
+            var surgeonsCount = 0;
+
+            roomMap.forEach(function(value,key) {
+                docs = value.nDoctors; 
+                if(value.nDoctors != 0) {
+                    docsCount++;
+                }
+                if(value.nSurgeons != 0) {
+                    surgeonsCount++;
+                }
+                if(value.nNurses != 0 ) {
+                    nursesCount ++;
+                }
+            });
+        }
+
     	gamePageFactory.updateRoomInfo = function(resourceId) {
             // Updates the text in the clicked room panel
     		$("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
                 e.preventDefault();
 
                 let myroomid = event.target.id;
-                let key = myroomid.replace("R", "div");
+                let __roomId = myroomid.replace("R", "div");
 
                 if (resourceId === 'btnDoctor') {
                     roomMap.get(myroomid).nDoctors = 1;
@@ -60,15 +82,19 @@ angular.module('gamePageServices', ['roomServices'])
                 else if (resourceId === 'btnA') {
                     roomMap.get(myroomid).patientType = 'Patient A';
                     $("#"+ myroomid + " span[id='assignedPatient']").text(roomMap.get(myroomid).patientType);
-                    $('#'+ key).removeClass().addClass('panel panel-danger');
-                    map.set(key, 'red');
-                    patientMap.set(key, 'patientA');
+                    $('#'+ __roomId).removeClass().addClass('panel panel-danger');
+                    map.set(__roomId, 'red');
+                    patientMap.set(__roomId, 'patientA');
+                    console.log("Printing doctors and nurses")
+
+                    
                 } else if(resourceId == 'btnB') {
-                    roomMap.get(myroomid).patientType = 'Patient B'
+                    roomMap.get(myroomid).patientType = 'Patient B';
                     $("#"+ myroomid + " span[id='assignedPatient']").text(roomMap.get(myroomid).patientType);
-                    $('#'+ key).removeClass().addClass('panel panel-danger');
-                    map.set(key, 'red');
-                    patientMap.set(key, 'patientB');
+                    $('#'+ __roomId).removeClass().addClass('panel panel-danger');
+                    map.set(__roomId, 'red');
+                    patientMap.set(__roomId, 'patientB');
+
                 }
 
                 let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
@@ -76,7 +102,16 @@ angular.module('gamePageServices', ['roomServices'])
 
                 map.set(divid, 'red')
                 gamePageFactory.disableClick();
+
+
+                //iterate over roomMap and set the values for the corresponding room object
+                //printing roomMap
+                 
+
+
             });
+
+
 
     	}
 

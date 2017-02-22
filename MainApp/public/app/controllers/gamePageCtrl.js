@@ -13,6 +13,32 @@ angular.module('gamePageControllers', ['roomServices', 'agentServices'])
         moves.push("Nurse to Room3");
         statsObject.moves = moves;
 
+        //set initial values
+        var patientACount = 1;
+        var patientBCount = 0;
+        var doctorsCount = 2;
+        var surgeonsCount = 2;
+        var nursesCount = 3;
+
+        var otherPatientACount = 0;
+        var otherPatientBCount = 1;
+        var otherDoctorsCount = 2;
+        var otherSurgeonsCount = 2;
+        var otherNursesCount = 3;
+
+        var startTimeMilliseconds = 480000;
+        var patientTimeLeftMilliseconds = 60000;
+        var score = 0;
+        var otherScore = 0;
+
+        $("#S1 #totalDoctors").append(doctorsCount);
+        $("#S1 #totalSurgeons").append(surgeonsCount);
+        $("#S1 #totalNurses").append(nursesCount);
+        
+        $("#S2 #nbrDoctors").append(otherDoctorsCount);
+        $("#S2 #nbrSurgeons").append(otherSurgeonsCount);
+        $("#S2 #nbrNurses").append(otherNursesCount);
+
         $("#patients").click(function () {
 
             console.log(statsObject);
@@ -83,6 +109,7 @@ angular.module('gamePageControllers', ['roomServices', 'agentServices'])
         let mytimeout = $timeout($scope.onTimeout,1000);
 
         $('#btnA').click(function(e) {
+            //check if patientA is available in waiting room
             patientService.assignRoom(event.target.id)
 
         });
