@@ -2,11 +2,11 @@ angular.module('trialInfoApp', ['appRoutes', 'trialInfoControllers', 'trialInfoS
     //console.log('testing trialInfo app');
 });
 
-angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices', 'roomServices', 'ngAnimate']).config(function () {
+angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices', 'roomServices', 'agentServices', 'ngAnimate']).config(function () {
     //console.log('testing game app');
 });
 
-angular.module('userApp', ['appRoutes', 'adminControllers', 'homeControllers', 'authControllers', 'authServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp', 'agentServices']).config(function () {
+angular.module('userApp', ['appRoutes', 'adminControllers', 'homeControllers', 'authControllers', 'authServices', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp']).config(function () {
     //console.log('testing user app');
 });
 

@@ -1,4 +1,4 @@
-angular.module('gamePageControllers', ['roomServices', 'agentServices'])
+angular.module('gamePageControllers', ['roomServices'])
     .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent) {
         let app = this;
         let patientService = PatientService;
@@ -130,7 +130,24 @@ angular.module('gamePageControllers', ['roomServices', 'agentServices'])
 
 
         $('#btnNurse').click(function () {
-            patientService.assignResource(event.target.id)
+            patientService.assignResource(event.target.id);
+        });
+
+        // Listener for the request resource buttons  
+        $('#btnRequestDoctor').click(function () {
+            // TODO: Get Cooperation Mode from active game config
+            // TODO: Get player and agent resources
+            console.log(Agent.fulfillRequestAlgorithm(0, 2, 'high'));
+        });
+
+
+        $('#btnRequestSurgeon').click(function() {
+            console.log(Agent.fulfillRequestAlgorithm(2, 3, 'high'));
+        });
+
+
+        $('#btnRequestNurse').click(function () {
+            console.log(Agent.fulfillRequestAlgorithm(2, 3, 'high'));
         });
         
       
