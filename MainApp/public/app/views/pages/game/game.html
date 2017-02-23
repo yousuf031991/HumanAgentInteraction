@@ -188,6 +188,18 @@
                   <a href="#" class="btn btn-primary" id="btnRequestSurgeon">Surgeon</a>
                 </div>
             </div>
+
+            <div class="row show-hide-message padded" ng-show="gameData.successMsg">
+                <div class="alert alert-success">
+                    {{gameData.successMsg}}
+                </div>
+            </div>
+
+            <div class="row show-hide-message padded" ng-show="gameData.errorMsg">
+                <div class="alert alert-danger">
+                    {{gameData.errorMsg}}
+                </div>
+            </div>
         </div>
       </div>
     </div>

@@ -44,6 +44,7 @@ angular.module('gamePageControllers', ['roomServices'])
             console.log(statsObject);
             PatientService.create(statsObject);
 
+            resetMsg();
             $('#patientsgroup').show();
             $('#resources').show();
             $('#requestResources').show();
@@ -55,6 +56,7 @@ angular.module('gamePageControllers', ['roomServices'])
         });
 
         $('#resources').click(function () {
+            resetMsg();
             $('#resourcesGroup').show();
             $('#patients').show();
             $('#requestResources').show();
@@ -66,6 +68,7 @@ angular.module('gamePageControllers', ['roomServices'])
         });
         
         $('#requestResources').click(function () {
+            resetMsg();
             $('#requestGroup').show();
             $('#resources').show();
             $('#patients').show();
@@ -108,6 +111,11 @@ angular.module('gamePageControllers', ['roomServices'])
 
         let mytimeout = $timeout($scope.onTimeout,1000);
 
+        function resetMsg() {
+            app.errorMsg = false;
+            app.successMsg = false;
+        }
+
         $('#btnA').click(function(e) {
             //check if patientA is available in waiting room
             patientService.assignRoom(event.target.id)
@@ -137,17 +145,37 @@ angular.module('gamePageControllers', ['roomServices'])
         $('#btnRequestDoctor').click(function () {
             // TODO: Get Cooperation Mode from active game config
             // TODO: Get player and agent resources
-            console.log(Agent.fulfillRequestAlgorithm(0, 2, 'high'));
+            resetMsg();
+            let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+            console.log(decision);
+            if (decision) {
+                app.successMsg = "Doctor Request is accepted by neighbouring hospital";
+            } else {
+                app.errorMsg = "Doctor Request is denied by neighbouring hospital";
+            }
+
         });
 
 
         $('#btnRequestSurgeon').click(function() {
-            console.log(Agent.fulfillRequestAlgorithm(2, 3, 'high'));
+            resetMsg();
+            let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
+            if (decision) {
+                app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
+            } else {
+                app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
+            }
         });
 
 
         $('#btnRequestNurse').click(function () {
-            console.log(Agent.fulfillRequestAlgorithm(2, 3, 'high'));
+            resetMsg();
+            let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+            if (decision) {
+                app.successMsg = "Nurse Request is accepted by neighbouring hospital";
+            } else {
+                app.errorMsg = "NurseRequest is denied by neighbouring hospital";
+            }
         });
         
       
