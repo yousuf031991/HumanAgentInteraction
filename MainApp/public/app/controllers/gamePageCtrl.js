@@ -39,6 +39,12 @@ angular.module('gamePageControllers', ['roomServices'])
         $("#S2 #nbrSurgeons").append(otherSurgeonsCount);
         $("#S2 #nbrNurses").append(otherNursesCount);
 
+
+        for(var i=0;i<patientACount;i++) {
+             $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+        }
+
+
         $("#patients").click(function () {
 
             console.log(statsObject);

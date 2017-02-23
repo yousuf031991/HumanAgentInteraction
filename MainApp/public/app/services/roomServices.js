@@ -25,14 +25,10 @@ angular.module('roomServices', [])
 			this.collect = roomData.collect;
 			console.log("Initializing room");
 
-			function collectResource(resource) {
-
-
-			}
-
-
-
+			
 		}
+
+
 
     	return Room;  
     });

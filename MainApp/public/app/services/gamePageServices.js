@@ -41,7 +41,7 @@ angular.module('gamePageServices', ['roomServices'])
      		$(roomSelector).css("background", "");	
     	}
 
-        gamePageFactory.updateSideBar = function() {
+       /* gamePageFactory.updateSideBar = function() {
 
             var docsCount = 0;
             var nursesCount = 0;
@@ -60,7 +60,7 @@ angular.module('gamePageServices', ['roomServices'])
                 }
             });
         }
-
+       */
     	gamePageFactory.updateRoomInfo = function(resourceId) {
             // Updates the text in the clicked room panel
     		$("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
@@ -103,27 +103,76 @@ angular.module('gamePageServices', ['roomServices'])
                 map.set(divid, 'red')
                 gamePageFactory.disableClick();
 
-
-                //iterate over roomMap and set the values for the corresponding room object
-                //printing roomMap
-                 
-
-
+                //Collecting resources
+                gamePageFactory.isCollectible();
             });
-
-
-
     	}
 
 
+         gamePageFactory.collectResource = function(roomId) {
 
+            setTimeout(function () {
+                    alert("Time over. Collect resources")
+                    $("#" + roomId).text('');
+                    // introduce a collect resources button
+                    $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId +'\')" >Collect Resources</button> ');
+                }, 60000);
+        }
+
+        gamePageFactory.resetToVacantState = function(roomId) {
+
+              alert(roomId)
+              var vacantDiv = $("#" + roomId);
+              var vacantDiv = $('<div class="panel-body fixed-panel center" id="R1">'+      
+              '<span id="assignedPatient">VACANT</span> <br/>'+
+              '<span id="nDoctors">0</span> Doctors <br/>' +
+              '<span id="nNurses">0</span> Nurses <br/>' +
+              '<span id="nSurgeons">0</span> Surgeons <br/>' + 
+              '</div>');
+
+              $("#" + roomId).replaceWith(vacantDiv);
+              gamePageFactory.resetToDefault(roomId);
+        }
+
+        gamePageFactory.resetToDefault = function(roomId) {
+
+            divId = roomId.replace("R", "div");
+            alert("in reset function")
+            roomObject = roomMap.get(roomId);
+            roomObject.nDoctors = 0;
+            roomObject.nSurgeons = 0;
+            roomObject.nNurses = 0;
+            roomObject.patientType = null;
+            roomObject.timeLeft = 0;
+            roomObject.timeStarted = 0;
+            roomObject.collect = false;
+            roomMap.set(roomId, roomObject);
+            patientMap.set(divId, null);
+            map.set(divId, "green");
+            console.log(roomObject)
+        }
+
+        gamePageFactory.isCollectible = function() {
+
+           //iterate over map and collect resources
+           roomMap.forEach(function(value, key) {
+                if(value.patientType === 'Patient A' && value.nDoctors === 1 && value.nNurses === 1 && value.collect === false) {
+                   
+                    value.timeStarted = 60
+                    gamePageFactory.collectResource(key);
+                    value.collect = true;
+
+                } else if(value.patientType === 'Patient B' && value.nSurgeons === 1 && value.nNurses === 1 && value.collect === false) {
+                    //alert("start the timer")
+                     value.timeStarted = 60
+                     gamePageFactory.collectResource(key);
+                     value.collect = true
+                }
+            });
+        }
 
     	gamePageFactory.assignRoom = function(patientType) {
-    		//alert("printing id in service "+ patientType)
 
-    		//console.log(patientType)
-     		
-     		//displaying colors
      		map.forEach(function(value, key) {
      			
      			console.log(key, value)
@@ -140,9 +189,7 @@ angular.module('gamePageServices', ['roomServices'])
         					$(this).css("background", "");
     					}
     				);
-
-
-     				
+   				
      			} else if(value == 'red') {
      				//change div to red danger
      				$('#' + key).removeClass().addClass('panel panel-danger');
@@ -272,12 +319,13 @@ angular.module('gamePageServices', ['roomServices'])
             			
             			$('#' + key).removeClass().addClass('panel panel-danger');
             		}
+
+
+
                });
     		  console.log(resourceId);
-              gamePageFactory.updateRoomInfo(resourceId);
+              gamePageFactory.updateRoomInfo(resourceId);    
     	}
 
-
-    	return gamePageFactory;  
-
+    	return gamePageFactory;
     });
