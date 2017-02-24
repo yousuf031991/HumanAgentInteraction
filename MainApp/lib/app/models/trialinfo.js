@@ -5,8 +5,7 @@ const trialInfoSchema = new Schema({
     username: {
         type: String,
         lowercase: true,
-        required: true,
-        unique: true
+        required: true
     },
     trialid: {
         type: String,

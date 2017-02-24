@@ -53,6 +53,10 @@ header .navbar {
   margin: 0 auto;
 }
 
+.padded {
+  padding: 10px;
+}
+
 time {
   color: hsl(0,0%,100%);
   font-family: 'Source Sans Pro', sans-serif;

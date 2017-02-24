@@ -2,34 +2,50 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
+import maclib from 'getMac';
+import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 
-
-
 export default function (router) {
-//http://localhost:8080/api/trialinfo
+    //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
-        trialinfo.username = req.body.username;
-        trialinfo.trialid = req.body.trialid;
-        trialinfo.condition = req.body.condition;
 
-        if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '' || trialinfo.condition == null || trialinfo.condition == '') {
-            res.send({
-                success: false,
-                message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid + 'CON:' + trialinfo.condition
-            });
-        } else {
-            trialinfo.save(function (error) {
-                if (error) {
-                    console.log(error);
-                    res.send({success: false, message: "Username already exists"});
+        maclib.getMac(function (err, macAddress){
+            if (err)  throw err
+
+            let username = hash.murmurHash(macAddress);
+            trialinfo.username = username;
+
+            GameConfig.find({active : true}, function(err, record) {
+                let gameConfigId = record[0]._id;
+                trialinfo.trialid = gameConfigId;
+                
+                // Dummy field. Could be used for something later or removed.
+                trialinfo.condition = 'A';
+
+                console.log(trialinfo.username);
+                console.log("GAME CONFIG ID" + gameConfigId);
+
+                if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
+                    res.send({
+                        success: false,
+                        message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
+                    });
                 } else {
-                    res.send({success: true, message: "Trial Information saved"});
+                    trialinfo.save(function (error) {
+                        if (error) {
+                            console.log(error);
+                            // TODO: Redirect to Thank you for already playing the game page.
+                            res.send({success: false, message: "Username already exists"});
+                        } else {
+                            res.send({success: true, userid: username, message: "Trial Information saved"});
+                        }
+                    });
                 }
             });
-        }
+        });
     });
 
     //http://localhost:8080/api/gameConfig
@@ -152,6 +168,7 @@ export default function (router) {
         let userStatistics = new UserStatistics();
         userStatistics.username = req.body.username;
         userStatistics.finalScore = req.body.finalScore;
+        userStatistics.moves = req.body.moves;
 
         userStatistics.save(function (err) {
             

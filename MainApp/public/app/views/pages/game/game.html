@@ -7,7 +7,7 @@
         <h3 class="text-left"><b>Time Left : {{counter}}</b></h3>
       </div>
       <div class="col-md-8">
-        <h3><strong>Hi {{gameData.username}}! Welcome to Hospital Management Game.</strong></h3>
+        <h3><strong>Hospital Management Game</strong></h3>
       </div>
   </div>
 
@@ -19,21 +19,21 @@
             Your Waiting room
           </h3>
         </div>
-        <div class="panel-body">
-          <p> Patient A: </p>
-          <p> Patient B: </p>
+        <div class="panel-body" id="P1">
+          <span id="patientA"> Patient A: </span> <br/>
+          <span id="patientB"> Patient B: </span><br/>
         </div>
       </div>
-      <div class="panel panel-primary">
+      <div class="panel panel-primary" >
         <div class="panel-heading">
           <h3 class="panel-title">
             Your Available Resources
           </h3>
         </div>
-        <div class="panel-body">
-          <p> # Doctors: </p>
-          <p> # Nurses: </p>
-          <p> # Surgeons: </p>
+        <div class="panel-body" id="S1">
+          <span id ="totalDoctors"> # Doctors: </span> <br/>
+          <span id ="totalNurses"> # Nurses: </span> <br/>
+          <span id ="totalSurgeons"> # Surgeons: </span> <br/>
         </div>
       </div>
       <div class="panel panel-primary">
@@ -53,10 +53,10 @@
             Neighbor's Available Resources
           </h3>
         </div>
-        <div class="panel-body">
-          <p> # Doctors: </p>
-          <p> # Nurses: </p>
-          <p> # Surgeons: </p>
+        <div class="panel-body" id="S2">
+          <span id = "nbrDoctors"> # Doctors: </span> <br/>
+          <span id = "nbrNurses"> # Nurses: </span> <br/>
+          <span id = "nbrSurgeons"> # Surgeons: </span> <br/>
         </div>
       </div>  
 
@@ -173,14 +173,33 @@
                   <a href="#" class="btn btn-primary" id="btnNurse">Nurse</a>
                   <a href="#" class="btn btn-primary" id="btnSurgeon">Surgeon</a>
                 </div>
-              <<!-- button class="btn btn-primary" id="btnDoctor" type="submit" >Doctor</button>
+              <!-- button class="btn btn-primary" id="btnDoctor" type="submit" >Doctor</button>
               <button class="btn btn-primary" id="btnNurse" type="submit" >Nurse</button>
               <button class="btn btn-primary" id="btnSurgeon" type="submit" >Surgeon</button> -->
               
             </div>
 
+            <!-- Request Resources Button Group -->
+            <div id ="requestGroup" style="display: none;">
+                <br/>
+                <div class="btn-group btn-group-justified">
+                  <a href="#"" class="btn btn-primary" id="btnRequestDoctor">Doctor</a>
+                  <a href="#" class="btn btn-primary" id="btnRequestNurse">Nurse</a>
+                  <a href="#" class="btn btn-primary" id="btnRequestSurgeon">Surgeon</a>
+                </div>
+            </div>
 
+            <div class="row show-hide-message padded" ng-show="gameData.successMsg">
+                <div class="alert alert-success">
+                    {{gameData.successMsg}}
+                </div>
+            </div>
 
+            <div class="row show-hide-message padded" ng-show="gameData.errorMsg">
+                <div class="alert alert-danger">
+                    {{gameData.errorMsg}}
+                </div>
+            </div>
         </div>
       </div>
     </div>
