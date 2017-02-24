@@ -2,11 +2,10 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import UserStatistics from '../models/UserStatistics';
-import Authenticator from '../helpers/authentication';
-import request from 'request';
 import maclib from 'getMac';
 import hash from 'murmurhash-native';
+import UserStatistics from '../models/userStatistics';
+import Authenticator from '../helpers/authentication';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -17,10 +16,9 @@ export default function (router) {
             if (err)  throw err
 
             let username = hash.murmurHash(macAddress);
-            trialinfo.username = username + 200;
-            // TODO: Need to add where clause to find
-            // Like: GameConfig.find({isActive : true}, ....
-            GameConfig.find({}, function(err, record) {
+            trialinfo.username = username;
+
+            GameConfig.find({active : true}, function(err, record) {
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
                 
@@ -178,15 +176,9 @@ export default function (router) {
             //console.log(userStatistics)
             if (err) {
                     console.log(err);
-<<<<<<< HEAD
-                    res.send({success: false, message: "Userstatiscts row not created"});
-                } else {
-                    res.send({success: true, message: "Userstatiscts row created"});
-=======
                     res.send({success: false, message: "User statistics row not created"});
                 } else {
                     res.send({success: true, message: "User statistics row created"});
->>>>>>> 31a490741f755e8c67c12c964033724296aa6e16
                 }
 
         });

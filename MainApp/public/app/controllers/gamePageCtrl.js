@@ -1,5 +1,5 @@
 angular.module('gamePageControllers', ['roomServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent) {
         let app = this;
         let patientService = PatientService;
 
@@ -13,43 +13,87 @@ angular.module('gamePageControllers', ['roomServices'])
         moves.push("Nurse to Room3");
         statsObject.moves = moves;
 
+        //set initial values
+        var patientACount = 1;
+        var patientBCount = 0;
+        var doctorsCount = 2;
+        var surgeonsCount = 2;
+        var nursesCount = 3;
+
+        var otherPatientACount = 0;
+        var otherPatientBCount = 1;
+        var otherDoctorsCount = 2;
+        var otherSurgeonsCount = 2;
+        var otherNursesCount = 3;
+
+        var startTimeMilliseconds = 480000;
+        var patientTimeLeftMilliseconds = 60000;
+        var score = 0;
+        var otherScore = 0;
+
+        $("#S1 #totalDoctors").append(doctorsCount);
+        $("#S1 #totalSurgeons").append(surgeonsCount);
+        $("#S1 #totalNurses").append(nursesCount);
         
+        $("#S2 #nbrDoctors").append(otherDoctorsCount);
+        $("#S2 #nbrSurgeons").append(otherSurgeonsCount);
+        $("#S2 #nbrNurses").append(otherNursesCount);
+
+
+        for(var i=0;i<patientACount;i++) {
+             $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+        }
+
+
         $("#patients").click(function () {
 
             console.log(statsObject);
             PatientService.create(statsObject);
 
+            resetMsg();
             $('#patientsgroup').show();
+            $('#resources').show();
+            $('#requestResources').show();
+
             $('#patients').hide();
             $('#resourcesGroup').hide();
-            $('#resources').show();
+            $('#requestGroup').hide();
 
         });
 
         $('#resources').click(function () {
-            $('#resources').hide();
+            resetMsg();
             $('#resourcesGroup').show();
             $('#patients').show();
+            $('#requestResources').show();
+
+            $('#resources').hide();
+            $('#requestGroup').hide();
             $('#patientsgroup').hide();
 
-        })
+        });
         
         $('#requestResources').click(function () {
+            resetMsg();
+            $('#requestGroup').show();
             $('#resources').show();
-            $('#resourcesGroup').show();
-            $('#patients').hide();
+            $('#patients').show();
+
+
+            $('#requestResources').hide();
+            $('#resourcesGroup').hide();
             $('#patientsgroup').hide();
-        })
+        });
+
 
         $scope.counter = "10:00";
         let seconds = 600;
-
 
         //Greeting user
         app.username = $routeParams.username;
 
 
-        // TImer logic
+        // Timer logic
         $scope.onTimeout = function(){
             minutes = Math.round((seconds - 30)/60),
             remainingSeconds = seconds % 60;
@@ -73,7 +117,13 @@ angular.module('gamePageControllers', ['roomServices'])
 
         let mytimeout = $timeout($scope.onTimeout,1000);
 
+        function resetMsg() {
+            app.errorMsg = false;
+            app.successMsg = false;
+        }
+
         $('#btnA').click(function(e) {
+            //check if patientA is available in waiting room
             patientService.assignRoom(event.target.id)
 
         });
@@ -93,8 +143,45 @@ angular.module('gamePageControllers', ['roomServices'])
         });
 
 
-         $('#btnNurse').click(function () {
-            patientService.assignResource(event.target.id)
+        $('#btnNurse').click(function () {
+            patientService.assignResource(event.target.id);
+        });
+
+        // Listener for the request resource buttons  
+        $('#btnRequestDoctor').click(function () {
+            // TODO: Get Cooperation Mode from active game config
+            // TODO: Get player and agent resources
+            resetMsg();
+            let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+            console.log(decision);
+            if (decision) {
+                app.successMsg = "Doctor Request is accepted by neighbouring hospital";
+            } else {
+                app.errorMsg = "Doctor Request is denied by neighbouring hospital";
+            }
+
+        });
+
+
+        $('#btnRequestSurgeon').click(function() {
+            resetMsg();
+            let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
+            if (decision) {
+                app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
+            } else {
+                app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
+            }
+        });
+
+
+        $('#btnRequestNurse').click(function () {
+            resetMsg();
+            let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+            if (decision) {
+                app.successMsg = "Nurse Request is accepted by neighbouring hospital";
+            } else {
+                app.errorMsg = "NurseRequest is denied by neighbouring hospital";
+            }
         });
         
       
