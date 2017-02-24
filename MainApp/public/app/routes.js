@@ -1,7 +1,5 @@
 angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locationProvider) {
-    $routeProvider.when('/', {
-            templateUrl: 'app/views/pages/home.html', controller: 'authController', controllerAs: 'signIn'
-        })
+    $routeProvider
         .when('/about', {
             templateUrl: 'app/views/pages/about.html', activeTab: 'about'
         })

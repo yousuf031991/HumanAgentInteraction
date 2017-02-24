@@ -2,7 +2,6 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import request from 'request';
 import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
@@ -17,10 +16,9 @@ export default function (router) {
             if (err)  throw err
 
             let username = hash.murmurHash(macAddress);
-            trialinfo.username = username + 200;
-            // TODO: Need to add where clause to find
-            // Like: GameConfig.find({isActive : true}, ....
-            GameConfig.find({}, function(err, record) {
+            trialinfo.username = username;
+
+            GameConfig.find({active : true}, function(err, record) {
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
                 
