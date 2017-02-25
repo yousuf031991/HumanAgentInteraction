@@ -9,7 +9,7 @@ angular.module('gameConfigControllers', ['gameConfigServices'])
                     if (returnData.data.success) {
                         app.successMsg = returnData.data.message + "....Redirecting";
                         $timeout(function () {
-                            $location.path('/');
+                            $location.path('/admin');
                         }, 1500);
                     } else {
                         app.errorMsg = "";
