@@ -13,7 +13,20 @@ const jobsSchema = new Schema({
         uppercase: true,
         required: true,
         enum: ['ADMIN_LOGS', 'GAME_LOGS']
+    },
+    data: {
+        type: Object
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    completedAt: {
+        type: Date
+    },
+    filePath: {
+        type: String
     }
 });
 
-export default mongoose.model('Jobs', jobsSchema, 'jobs');
+export default mongoose.model('BackgroundJob', jobsSchema, 'BackgroundJobs');

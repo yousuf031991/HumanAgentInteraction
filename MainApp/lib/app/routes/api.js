@@ -6,7 +6,7 @@ import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
-import BackgroundJobs from '../helpers/background-jobs';
+import BackgroundHelper from '../helpers/background-jobs';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -266,17 +266,24 @@ export default function (router) {
     });
 
     router.get("/exportAdminLogs", function (req, res) {
-        BackgroundJobs.isQueueAvailable()
+        BackgroundHelper.isQueueAvailable()
             .then(function (response) {
-                if(response.data) {
-                    // TODO - start background job
-                    res.send({success: true, message: "Your job has been queued."});
+                if(response.isAvailable) {
+                    const jobData = {
+                        export_admin_id: req.body.export_admin_id,
+                        current_user_id: req.user.id
+                    };
+                    return BackgroundHelper.queueJob("ADMIN_LOGS", jobData);
                 } else {
                     res.send({success: false, message: response.message});
                 }
             })
+            .then(function (job) {
+                res.send({success: true, message: "Your job has been queued."});
+            })
             .catch(function (error) {
-                res.send({success: false, message: error});
+                console.error(error);
+                res.send({success: false, message: error.message});
             });
     });
 
