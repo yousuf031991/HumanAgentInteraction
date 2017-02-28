@@ -52,7 +52,7 @@ export default function (router) {
     router.post('/gameConfig', function (req, res) {
         let gameConfig = new GameConfig();
 
-        gameConfig.author = req.user.fullname;
+        gameConfig.author = req.user.fullname ? req.user.fullname : req.user.username;
         gameConfig.cooperation = req.body.cooperation;
         gameConfig.mode = req.body.mode;
         gameConfig.earlyType = req.body.earlyType;
@@ -79,29 +79,6 @@ export default function (router) {
             }
         });
 
-    });
-
-    //http://localhost:8080/api/gameinfo
-    router.post('/gameinfo', function (req, res) {
-        let gameinfo = new Game();
-        gameinfo.gameConfigId = req.body.gameConfigId;
-        gameinfo.trialInfoId = req.body.trialInfoId;
-        gameinfo.userStatsId = req.body.userStatsId;
-        gameinfo.username = req.body.username;
-
-        if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
-            res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
-        } else {
-            gameinfo.save(function (error) {
-                if (error) {
-                    console.log(error);
-                    res.send({success: false, message: "Error inserting into collection"});
-                } else {
-
-                    res.send({success: true, message: "Game Information Saved"});
-                }
-            });
-        }
     });
 
     //http://localhost:8080/api/gameinfo
