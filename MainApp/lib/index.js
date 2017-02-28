@@ -9,7 +9,10 @@ import api from './app/routes/api';
 import connectDB from './app/helpers/db';
 import session from 'client-sessions';
 import Authenticator from './app/helpers/authentication';
+import mongoose from 'mongoose';
+import Promise from 'bluebird';
 
+mongoose.Promise = Promise;
 const configs = JSON.parse(process.env.CONFIGS);
 const app = express();
 const port = configs.appPort;

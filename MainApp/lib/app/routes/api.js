@@ -6,6 +6,7 @@ import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
+import BackgroundJobs from '../helpers/background-jobs';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -262,6 +263,21 @@ export default function (router) {
                 res.send({success: true, message: "Configuration Deactivated"});
             }
         });
+    });
+
+    router.get("/exportAdminLogs", function (req, res) {
+        BackgroundJobs.isQueueAvailable()
+            .then(function (response) {
+                if(response.data) {
+                    // TODO - start background job
+                    res.send({success: true, message: "Your job has been queued."});
+                } else {
+                    res.send({success: false, message: response.message});
+                }
+            })
+            .catch(function (error) {
+                res.send({success: false, message: error});
+            });
     });
 
     router.get('/home', function (req, res) {

@@ -15,6 +15,7 @@ if(configs.mode === "production") {
     configs.totalConnections = 10;
     configs.connectionTimeout = 5000;
 }
+configs.maxConcurrentBackgroundJobs = 1; // this is the size of the queue which is used for running background jobs
 configs.views = '/../public/app/views';
 configs.session_secret = "softwarefactory_ser518_human_agent_interaction_project";
 configs.session_duration = 30 * 60 * 100 * 1000; // in ms
