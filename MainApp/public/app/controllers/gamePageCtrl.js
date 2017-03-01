@@ -1,5 +1,5 @@
-angular.module('gamePageControllers', ['roomServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle) {
         let app = this;
         let patientService = PatientService;
 
@@ -108,6 +108,27 @@ angular.module('gamePageControllers', ['roomServices'])
             } else {
                 seconds--;
             }
+           
+            var x = minutes*60*1000;
+            var y = remainingSeconds*1000;
+            var totalMs = x+y;
+/*
+            if(totalMs==0) {
+                if(patient)
+            }
+*/
+            PatientService.countdownTimer(totalMs);
+/*
+            setTimeout(function() {
+               milliseconds = PatientService.newPatient(totalxy);
+
+               //pass totalxy to cou
+            }, 0);*/
+            
+            
+
+          //  console.log(totalxy)
+
             $scope.counter = minutes + ":" + remainingSeconds;
 
 

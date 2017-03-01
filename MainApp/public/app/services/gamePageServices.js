@@ -1,11 +1,12 @@
-angular.module('gamePageServices', ['roomServices'])
-    .factory('PatientService', function ($http, Room) {
+angular.module('gamePageServices', ['roomServices', 'circleServices'])
+    .factory('PatientService', function ($http, Room, Circle) {
 
     	gamePageFactory = {};
     	let roomSelector = "div[class='panel-body fixed-panel center']";
     	let map = new Map();
     	let patientMap = new Map();
         let roomMap = new Map();
+        var i = 0;
 
         // Initial variables for Room
         let roomData = {};
@@ -17,6 +18,20 @@ angular.module('gamePageServices', ['roomServices'])
         roomData.timeStarted = 0;
         roomData.collect = false;
 
+        var startTimeMilliseconds = 10;
+        var practiceRound = false;
+        var numPatientsForHighQuintuplet = 8;
+        var numPatientsForMediumQuintuplet = 5;
+        var numPatientsForLowQuintuplet = 2;
+        var totalTimeLeftInMilliseconds;
+
+        var patientACount = 1;
+        var patientBCount = 0;
+        var totalMissedPatients = 0;
+
+        var highCooperation = true;
+        var earlySlowPattern = true;
+
         // Create room instances
         let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
         let divIds = ['div1', 'div2', 'div3', 'div4', 'div5', 'div6'];
@@ -27,7 +42,19 @@ angular.module('gamePageServices', ['roomServices'])
             patientMap.set(divIds[i], null);
         }
 
+       var circleA1 = new Circle('A1');
+       var circleA2 = new Circle('A2');
+       var circleA3 = new Circle('A3');
+       var circleA4 = new Circle('A4');
+       var circleA5 = new Circle('A5');
+       var circleA6 = new Circle('A6');
 
+       var circleB1 = new Circle('B1');
+       var circleB2 = new Circle('B2');
+       var circleB3 = new Circle('B3');
+       var circleB4 = new Circle('B4');
+       var circleB5 = new Circle('B5');
+       var circleB6 = new Circle('B6');
 
         gamePageFactory.create = function(userStatsData) {
 
@@ -41,9 +68,10 @@ angular.module('gamePageServices', ['roomServices'])
      		$(roomSelector).css("background", "");	
     	}
 
-       /* gamePageFactory.updateSideBar = function() {
+        gamePageFactory.updateSideBarMain = function() {
 
-            var docsCount = 0;
+        console.log('Updating side bar')
+         /*   var docsCount = 0;
             var nursesCount = 0;
             var surgeonsCount = 0;
 
@@ -58,9 +86,231 @@ angular.module('gamePageServices', ['roomServices'])
                 if(value.nNurses != 0 ) {
                     nursesCount ++;
                 }
-            });
+            });*/
+            gamePageFactory.updatePatientsinSideBar();
         }
-       */
+
+        gamePageFactory.updatePatientsinSideBar = function() {
+            console.log("Number of Patients A and B")
+            console.log(" A and B" + patientACount +" "+ patientBCount)
+            circleA1.setVisibility('invisible')
+            circleA2.setVisibility('invisible')
+            circleA3.setVisibility('invisible')
+            circleA4.setVisibility('invisible')
+            circleA5.setVisibility('invisible')
+            circleA6.setVisibility('invisible')
+
+            circleB1.setVisibility('invisible')
+            circleB2.setVisibility('invisible')
+            circleB3.setVisibility('invisible')
+            circleB4.setVisibility('invisible')
+            circleB5.setVisibility('invisible')
+            circleB6.setVisibility('invisible')
+
+            switch(patientACount) {
+                case 1:
+                    circleA1.setVisibility('visible')
+                    break;
+                case 2:
+                     circleA1.setVisibility('visible')
+                     circleA2.setVisibility('visible')
+                     break;
+                case 3:
+                     circleA1.setVisibility('visible')
+                     circleA2.setVisibility('visible')
+                     circleA3.setVisibility('visible')
+                     break;
+                case 4:
+                     circleA1.setVisibility('visible')
+                     circleA2.setVisibility('visible')
+                     circleA3.setVisibility('visible')
+                     circleA4.setVisibility('visible')
+                     break;
+                case 5:
+                     circleA1.setVisibility('visible')
+                     circleA2.setVisibility('visible')
+                     circleA3.setVisibility('visible')
+                     circleA4.setVisibility('visible')
+                     circleA5.setVisibility('visible')
+                     break;
+                case 6:
+                     circleA1.setVisibility('visible')
+                     circleA2.setVisibility('visible')
+                     circleA3.setVisibility('visible')
+                     circleA4.setVisibility('visible')
+                     circleA5.setVisibility('visible')
+                     circleA6.setVisibility('visible')
+                     break;
+                default:
+                    break;
+            }
+
+
+            switch(patientBCount) {
+                case 1:
+                    circleB1.setVisibility('visible')
+                    break;
+                case 2:
+                     circleB1.setVisibility('visible')
+                     circleB2.setVisibility('visible')
+                     break;
+                case 3:
+                     circleB1.setVisibility('visible')
+                     circleB2.setVisibility('visible')
+                     circleB3.setVisibility('visible')
+                     break;
+                case 4:
+                     circleB1.setVisibility('visible')
+                     circleB2.setVisibility('visible')
+                     circleB3.setVisibility('visible')
+                     circleB4.setVisibility('visible')
+                     break;
+                case 5:
+                     circleB1.setVisibility('visible')
+                     circleB2.setVisibility('visible')
+                     circleB3.setVisibility('visible')
+                     circleB4.setVisibility('visible')
+                     circleB5.setVisibility('visible')
+                     break;
+                case 6:
+                     circleB1.setVisibility('visible')
+                     circleB2.setVisibility('visible')
+                     circleB3.setVisibility('visible')
+                     circleB4.setVisibility('visible')
+                     circleB5.setVisibility('visible')
+                     circleB6.setVisibility('visible')
+                     break;
+                default:
+                    break;
+            }
+
+            var total = patientACount + patientBCount
+            if(total>=0 && total<=2) {
+                gamePageFactory.setColor('green')
+            } else if(total>2 && total<=4) {
+                gamePageFactory.setColor('yellow')
+            } else if(total>4 && total<=6) {
+                gamePageFactory.setColor('red')
+            }
+        }
+       
+       gamePageFactory.setColor = function(color) {
+            if(circleA1.getVisibility() === 'visible')
+                circleA1.setCircleColor(color, 'A')
+            if(circleA2.getVisibility() === 'visible')
+                circleA2.setCircleColor(color, 'A')
+            if(circleA3.getVisibility() === 'visible')
+                circleA3.setCircleColor(color, 'A')
+            if(circleA4.getVisibility() === 'visible')
+                circleA4.setCircleColor(color, 'A')
+            if(circleA5.getVisibility() === 'visible')
+                circleA5.setCircleColor(color, 'A')
+            if(circleA6.getVisibility() === 'visible')
+                circleA6.setCircleColor(color, 'A')
+
+            if(circleB1.getVisibility() === 'visible')
+                circleB1.setCircleColor(color, 'B')
+            if(circleB2.getVisibility() === 'visible')
+                circleB2.setCircleColor(color, 'B')
+            if(circleB3.getVisibility() === 'visible')
+                circleB3.setCircleColor(color, 'B')
+            if(circleB4.getVisibility() === 'visible')
+                circleB4.setCircleColor(color, 'B')
+            if(circleB5.getVisibility() === 'visible')
+                circleB5.setCircleColor(color, 'B')
+            if(circleB6.getVisibility() === 'visible')
+                circleB6.setCircleColor(color, 'B')            
+
+       }
+
+       //thread that keeps on executing
+       gamePageFactory.countdownTimer = function(totalMs) {
+
+             //   console.log(totalMs)
+                var patient = 1 + parseInt(Math.random() * ((1 - 0) + 1))
+                console.log("In totla")
+               // console.log(patient)
+                if(patient%2 == 0) {
+                    if(patientACount+patientBCount<6) {
+                        patientACount++;
+                        //writeStringAsFile
+                    } else {
+                        totalMissedPatients++;
+                        //writeStringAsFile
+                    }
+                    gamePageFactory.updateSideBarMain();
+                    gamePageFactory.newPatient();
+
+
+                }else if(patient%2 ==1) {
+                    if(patientACount+patientBCount<6) {
+                        patientBCount++;
+                        //writeStringAsFile
+                    } else {
+                        totalMissedPatients++;
+                        //writeStringAsFile
+                    }
+                    gamePageFactory.updateSideBarMain();
+                    gamePageFactory.newPatient();
+                }
+            
+       }
+
+       gamePageFactory.newPatient = function(x) {
+          
+           var milliseconds;
+            var quintupletTimeLeft = startTimeMilliseconds/5;
+            totalTimeLeftInMilliseconds = x;
+            i++;
+            
+            if(practiceRound) {
+                quintupletTimeLeft = 480000/5;
+                milliseconds = quintupletTimeLeft/numPatientsForMediumQuintuplet;
+            } else {
+                if(earlySlowPattern) {
+                    switch(gamePageFactory.whichQuintupletTimeLeft()) {
+                        case 1:
+                        case 3:
+                        case 5:
+                        default:
+                            milliseconds = quintupletTimeLeft/numPatientsForMediumQuintuplet;
+                            break;
+                        case 2:
+                            milliseconds = quintupletTimeLeft/numPatientsForLowQuintuplet;
+                            break;
+                        case 4:
+                            milliseconds = quintupletTimeLeft/numPatientsForHighQuintuplet;
+                            break;
+                    }
+                }
+            console.log("Printing milliseconds " + milliseconds)
+            }
+       }
+
+       gamePageFactory.whichQuintupletTimeLeft = function() {
+            var quintupletTimeLeft = startTimeMilliseconds/5;
+            if(totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft) //First Quintuplet
+                return 1;
+
+            if(totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft*2) //Second Quintuplet
+                return 2;
+
+            if(totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft*3) //Third Quintuplet
+                return 3;
+
+            if(totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft*4) //Fourth Quintuplet
+                return 4;
+
+            if(totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft*5) //Fifth Quintuplet
+                return 5;
+
+        return 1;
+
+
+       }
+
+
+
     	gamePageFactory.updateRoomInfo = function(resourceId) {
             // Updates the text in the clicked room panel
     		$("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
@@ -113,9 +363,12 @@ angular.module('gamePageServices', ['roomServices'])
 
             setTimeout(function () {
                     alert("Time over. Collect resources")
+
                     $("#" + roomId).text('');
                     // introduce a collect resources button
                     $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId +'\')" >Collect Resources</button> ');
+
+
                 }, 60000);
         }
 
@@ -146,6 +399,9 @@ angular.module('gamePageServices', ['roomServices'])
             roomObject.timeLeft = 0;
             roomObject.timeStarted = 0;
             roomObject.collect = false;
+
+            // send the resources which are to be collected to gameState(Tharun)
+            //[doctor, nurse, surgeon, patient type]
             roomMap.set(roomId, roomObject);
             patientMap.set(divId, null);
             map.set(divId, "green");
