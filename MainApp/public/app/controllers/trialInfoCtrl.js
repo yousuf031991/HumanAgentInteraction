@@ -11,6 +11,7 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     let username = returnData.data.userid;
                     $location.path('/gamepage/'+username);
                 } else {
+                    $location.path('/thankyou');
                     app.errorMsg = returnData.data.message;
                 }
                 app.loading = false;
