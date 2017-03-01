@@ -1,11 +1,10 @@
 import BackgroundJob from '../models/background-job';
 import Promise from 'bluebird';
-import Utils from './utils';
-import executeJobs from '../background-jobs';
-
+import Utils from '../helpers/utils';
+import initiateWorker from './initiate-worker'
 const configs = JSON.parse(process.env.CONFIGS);
 
-function isQueueAvailable() {
+function checkAvailability() {
     return BackgroundJob.find({status: "IN_PROGRESS"}).exec()
         .then(function (jobs) {
             if(jobs.length < configs.maxConcurrentBackgroundJobs) {
@@ -33,9 +32,12 @@ function queueJob(type, data) {
 }
 
 function dequeueJob(jobID) {
-    if(!jobID) return Promise.reject("JobID cannot be empty");
+    if(!jobID) return Promise.reject({message: "JobID cannot be empty"});
     return BackgroundJob.findByIdAndUpdate(jobID, {
-        $set: { status: "COMPLETED" }
+        $set: {
+            status: "SUCCESSFUL",
+            completedAt: Date.now
+        }
     });
 }
 
@@ -43,21 +45,16 @@ function retryJob(jobID) {
     // TODO
 }
 
-function executeQueue() {
-    return BackgroundJob.find({ status: "IN_PROGRESS"})
-        .sort({createdAt: 'desc'}).exec()
-        .then(function (jobs) {
-            return executeJobs(jobs);
-        })
-        .catch(function (error) {
-            return Promise.reject(error);
-        });
+function executeJob(job) {
+    if(!Utils.isObject(job)) return Promise.reject({message: "Job is not an object"});
+    if(Utils.isEmptyObject(job)) return Promise.reject({message: "Job cannot be empty"});
+    return initiateWorker(job);
 }
 
 export default {
-    isQueueAvailable: isQueueAvailable,
+    checkAvailability: checkAvailability,
     queueJob: queueJob,
     dequeueJob: dequeueJob,
     retryJob: retryJob,
-    executeQueue: executeQueue
+    executeJob: executeJob
 }

@@ -19,8 +19,8 @@ if(configs.mode === "production") {
     configs.backgroundJobsPath = path.join(process.cwd(), "lib/app/background-jobs");
 }
 configs.backgroundJobsModules = {
-    "ADMIN_LOGS": "export-admin-logs",
-    "GAME_LOGS": "export-game-logs"
+    "ADMIN_LOGS": "export-admin-logs-worker.js",
+    "GAME_LOGS": "export-game-logs-worker.js"
 };
 configs.maxConcurrentBackgroundJobs = 1; // this is the size of the queue which is used for running background jobs
 configs.views = '/../public/app/views';

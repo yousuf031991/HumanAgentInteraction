@@ -6,7 +6,7 @@ const jobsSchema = new Schema({
         type: String,
         uppercase: true,
         required: true,
-        enum: ['IN_PROGRESS', 'COMPLETED']
+        enum: ['IN_PROGRESS', 'SUCCESSFUL', 'UNSUCCESSFUL']
     },
     type: {
         type: String,
@@ -24,7 +24,14 @@ const jobsSchema = new Schema({
     completedAt: {
         type: Date
     },
-    filePath: {
+    error: {
+        type: String
+    },
+    retryCount: {
+        type: Number,
+        default: 0
+    },
+    outputFileName: {
         type: String
     }
 });
