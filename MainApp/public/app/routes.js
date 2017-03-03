@@ -21,6 +21,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/admin/manage', {
             templateUrl: 'app/views/pages/admin/manageAdmin.html' , controller: 'manageAdminCtrl', controllerAs: 'manageAdm', activeTab: 'manageAdm'
         })
+        .when('/admin/reporting', {
+            templateUrl: 'app/views/pages/admin/reporting.html' , controller: 'reportCtrl', controllerAs: 'report', activeTab: 'reporting'
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({

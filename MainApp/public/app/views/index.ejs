@@ -37,6 +37,7 @@
     <script src="app/controllers/manageAdminCtrl.js"></script>
     <script src="app/controllers/homeCtrl.js"></script>
     <script src="app/controllers/adminCtrl.js"></script>
+    <script src="app/controllers/reportCtrl.js"></script>
 
     
     <!--Angular Services-->
@@ -48,6 +49,7 @@
     <script src="app/services/gamePageServices.js"></script>
     <script src="app/services/roomServices.js"></script>
     <script src="app/services/agentServices.js"></script>
+    <script src="app/services/reportServices.js"></script>
 
     <script src="assets/images/"></script>
     <title>Index</title>
@@ -77,6 +79,9 @@
                 </li>
                 <li ng-class="{active: $route.current.activeTab === 'gameConf'}" ng-if="isAdmin()">
                     <a href="/admin/gameconfig">New Game</a>
+                </li>
+                <li ng-class="{active: $route.current.activeTab === 'reporting'}" ng-if="isAdmin()">
+                    <a href="/admin/reporting">Report</a>
                 </li>
 
             </ul>
