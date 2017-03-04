@@ -376,11 +376,32 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
          gamePageFactory.collectResource = function(roomId) {
         
+            $("#rTimeoutmodal").modal("show")
             //alert("Time over. Collect resources")
             $("#" + roomId).text('');
             // introduce a collect resources button
-            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId +'\')" >Collect Resources</button> ');
-       
+            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId +'\')" >Collect Resources</button>');
+
+            //var modal = document.getElementById('mymodal');            
+               /* $("#rTimeoutmodal").modal("show")
+                $("#modalbody").append('<a id = "collect"></a>')
+                 $('#modalbody #collect').text("Collect from "+roomId)
+                $('#modalbody #collect').click(function() {
+                 gamePageFactory.resetToVacantState(roomId);
+            });
+           */
+
+           /* $("#rTimeoutmodal").modal("show");
+            console.log($("#rTimeoutmodal").modal("show"));
+             console.log($("#rTimeoutmodal").modal("hide"));
+
+            $("#modalbody").append('<a id = "collect"></a>')
+             $('#modalbody #collect').append("Collect from "+roomId)
+            $('#modalbody #collect').click(function() {
+                 gamePageFactory.resetToVacantState(roomId);
+            });*/
+           
+                // add a modal pane as alert
         }
 
         gamePageFactory.resetToVacantState = function(roomId) {
@@ -396,6 +417,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
               $("#" + roomId).replaceWith(vacantDiv);
               gamePageFactory.resetToDefault(roomId);
+              $("#rTimeoutmodal").modal("hide");
         }
 
         gamePageFactory.resetToDefault = function(roomId) {
