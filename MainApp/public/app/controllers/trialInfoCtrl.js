@@ -1,5 +1,5 @@
 angular.module('trialInfoControllers', ['trialInfoServices'])
-    .controller('trialInfoCtrl', function ($http, $location, TrialInfo) {
+    .controller('trialInfoCtrl', function ($http, $location, TrialInfo,$rootScope) {
         var app = this;
         this.trialInfoData = function (trailData) {
             app.errorMsg = false;
@@ -8,7 +8,10 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                 if (returnData.data.success) {
                     app.successMsg = returnData.data.message;
                     var username = app.trailData.username;
-                    $location.path('/gamepage/'+username);
+                    $rootScope.username=username;
+                    console.log("Trial Username:"+username);
+                    //$location.path('/gamepage/'+username);
+                    $location.path('/preGameQuestionnaire');
                 } else {
                     app.errorMsg = returnData.data.message;
                 }

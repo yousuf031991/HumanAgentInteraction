@@ -18,7 +18,20 @@ var userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
+    demographics:[
+    {
+        question: String,
+        response: Schema.Types.Mixed
+    }
+    ],
+    trustAndTaskQuestionnaire:[
+    {
+        question: String,
+        response: String
+    }
+    ]
+}
    
-});
+);
 
 export default mongoose.model('UserStatistics', userStatisticsSchema, 'userStatistics');

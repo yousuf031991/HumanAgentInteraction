@@ -4,7 +4,7 @@ import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
-
+import Player from '../models/player';
 
 
 export default function (router) {
@@ -220,5 +220,53 @@ export default function (router) {
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
     });
+
+    router.post('/game/savePreGameQuestionnaire',function(req,res){
+        console.log("Saving Pre Game Responses");
+        var playerId=req.body.playerId;
+        var preGameQuestionnaire=req.body.preGameQuestionnaire;
+        let player=new Player();
+        player.playerId=playerId;
+        player.preGameQuestionnaire=preGameQuestionnaire;
+        console.log(player.preGameQuestionnaire);
+        player.save(function(error){
+            if(error){
+                res.send({success:false,message:"Responses could not be saved"});
+            }
+            else{
+             res.send({success:true,message:"Responses saved successfully"});   
+            }
+        });
+    });
+
+
+    router.post('/game/updateUserStatistics',function(req,res){
+        var query={'username':req.body.username};
+        
+        var userstatistics={};
+        
+        if(req.body.demographics!=undefined){
+            userstatistics.demographics=req.body.demographics;
+        }
+
+        else if(req.body.trustAndTaskQuestionnaire!=undefined){
+            userstatistics.trustAndTaskQuestionnaire=req.body.trustAndTaskQuestionnaire;
+        }
+
+
+       UserStatistics.findOneAndUpdate(query,userstatistics,{upsert:true},function(err,doc) {
+            
+            if (err) {
+                    res.send({success: false, message: "User statistics could not be saved"});
+                } 
+            else { 
+                    res.send({success: true, message: "User statistics saved Successfully"});
+                }
+
+        });
+
+        
+    });
+
     return router;
 };
