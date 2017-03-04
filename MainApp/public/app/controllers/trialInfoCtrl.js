@@ -11,7 +11,7 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     $rootScope.username=username;
                     console.log("Trial Username:"+username);
                     //$location.path('/gamepage/'+username);
-                    $location.path('/preGameQuestionnaire');
+                    $location.path('/demographics');
                 } else {
                     app.errorMsg = returnData.data.message;
                 }
