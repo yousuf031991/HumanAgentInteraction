@@ -1,5 +1,5 @@
 angular.module('gamePageServices', ['roomServices', 'circleServices'])
-    .factory('PatientService', function ($http, Room, Circle) {
+    .factory('PatientService', function ($http, $timeout, Room, Circle) {
 
     	gamePageFactory = {};
     	let roomSelector = "div[class='panel-body fixed-panel center']";
@@ -7,6 +7,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
     	let patientMap = new Map();
         let roomMap = new Map();
         var i = 0;
+        var x = 0;
 
         // Initial variables for Room
         let roomData = {};
@@ -70,7 +71,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.updateSideBarMain = function() {
 
-        console.log('Updating side bar')
+        //console.log('Updating side bar')
          /*   var docsCount = 0;
             var nursesCount = 0;
             var surgeonsCount = 0;
@@ -91,8 +92,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         }
 
         gamePageFactory.updatePatientsinSideBar = function() {
-            console.log("Number of Patients A and B")
-            console.log(" A and B" + patientACount +" "+ patientBCount)
+            /*console.log("Number of Patients A and B")
+            console.log(" A and B" + patientACount +" "+ patientBCount)*/
             circleA1.setVisibility('invisible')
             circleA2.setVisibility('invisible')
             circleA3.setVisibility('invisible')
@@ -195,6 +196,20 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         }
        
        gamePageFactory.setColor = function(color) {
+           /* console.log("In setColor")
+            console.log(circleA1)
+            console.log(circleA2)
+            console.log(circleA3)
+            console.log(circleA4)
+            console.log(circleA5)
+            console.log(circleA6)
+
+            console.log(circleB1)
+            console.log(circleB2)
+            console.log(circleB3)
+            console.log(circleB4)
+            console.log(circleB5)
+            console.log(circleB6)*/            
             if(circleA1.getVisibility() === 'visible')
                 circleA1.setCircleColor(color, 'A')
             if(circleA2.getVisibility() === 'visible')
@@ -228,7 +243,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
              //   console.log(totalMs)
                 var patient = 1 + parseInt(Math.random() * ((1 - 0) + 1))
-                console.log("In totla")
+               // console.log("In totla")
                // console.log(patient)
                 if(patient%2 == 0) {
                     if(patientACount+patientBCount<6) {
@@ -283,7 +298,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                             break;
                     }
                 }
-            console.log("Printing milliseconds " + milliseconds)
+            //console.log("Printing milliseconds " + milliseconds)
             }
        }
 
@@ -360,16 +375,12 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
 
          gamePageFactory.collectResource = function(roomId) {
-
-            setTimeout(function () {
-                    alert("Time over. Collect resources")
-
-                    $("#" + roomId).text('');
-                    // introduce a collect resources button
-                    $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId +'\')" >Collect Resources</button> ');
-
-
-                }, 60000);
+        
+            //alert("Time over. Collect resources")
+            $("#" + roomId).text('');
+            // introduce a collect resources button
+            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId +'\')" >Collect Resources</button> ');
+       
         }
 
         gamePageFactory.resetToVacantState = function(roomId) {
@@ -415,17 +426,65 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 if(value.patientType === 'Patient A' && value.nDoctors === 1 && value.nNurses === 1 && value.collect === false) {
                    
                     value.timeStarted = 60
-                    gamePageFactory.collectResource(key);
+                   // gamePageFactory.showTimer();
+
+                   // gamePageFactory.collectResource(key);
+                    //$("#" + key + "span[id='timerForRoom']").show();
+                    $("#" + key).append('<span id="timerForRoom">Timer started!</span>')
+                   // $timeout(gamePageFactory.showTimer(), 1000);
+
+                    gamePageFactory.showTimer(key);
+                   //$scope.roomTimer = 0;
+                   
                     value.collect = true;
+                    
+
 
                 } else if(value.patientType === 'Patient B' && value.nSurgeons === 1 && value.nNurses === 1 && value.collect === false) {
                     //alert("start the timer")
-                     value.timeStarted = 60
-                     gamePageFactory.collectResource(key);
+                    value.timeStarted = 60
+                    $("#" + key).append('<span id="timerForRoom">Timer started!</span>')
+                     gamePageFactory.showTimer(key);
                      value.collect = true
                 }
             });
         }
+
+
+        gamePageFactory.showTimer = function(key) {
+
+        var seconds = 60;
+        var rt = "01:00";
+        var roomTimer = setInterval(function() {
+            minutes = Math.round((seconds - 30)/60),
+            remainingSeconds = seconds % 60;
+  
+            if (remainingSeconds < 10) {
+                remainingSeconds = "0" + remainingSeconds;  
+            }
+                 
+            if (minutes < 10) {
+                minutes = "0" + minutes;  
+            }
+
+            if (seconds == 0) {
+                rt = "00:00";
+                console.log(rt)
+                clearInterval(roomTimer);
+                gamePageFactory.collectResource(key);
+
+            } else {
+                seconds--;
+            }
+            
+
+            rt = minutes + ":" + remainingSeconds;
+            $("#" + key + " #timerForRoom").text("Time left: " + rt);
+
+            }, 1000);
+  
+        }
+
 
     	gamePageFactory.assignRoom = function(patientType) {
 

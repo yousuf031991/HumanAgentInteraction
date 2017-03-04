@@ -21,16 +21,18 @@ angular.module('circleServices', [])
 		}
 
         Circle.prototype.setVisibility = function(visibility) {
+            //console.log("Setting visibility" + visibility)
             this.visibility = visibility;
         };
 
         Circle.prototype.getVisibility = function() {
+            //console.log("Getting visibility" + this.visibility)
             return this.visibility;
         };
 
         Circle.prototype.setCircleColor = function(color, patientType) {
-            console.log("Setting circle color to" + color)
-            if(patientType === 'A') {
+           // console.log("Setting circle color to" + color)
+            /*if(patientType === 'A') {
 
                 if(color === 'red') 
                     $("#P1 #patientA").append('<img src="assets/images/red.png" height = "30px" width="30px" >');
@@ -48,7 +50,7 @@ angular.module('circleServices', [])
                 else if(color == 'green') 
                     $("#P1 #patientB").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
-            
+            */
 
 
 

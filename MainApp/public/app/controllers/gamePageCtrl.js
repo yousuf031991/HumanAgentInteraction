@@ -104,7 +104,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
             if (seconds == 0) {
                 $scope.counter = "00:00";
-                console.log(seconds);
+                //console.log(seconds);
             } else {
                 seconds--;
             }
@@ -116,7 +116,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             if(totalMs==0) {
                 if(patient)
             }
-*/
+*/          
+
             PatientService.countdownTimer(totalMs);
 /*
             setTimeout(function() {
@@ -137,6 +138,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         }
 
         let mytimeout = $timeout($scope.onTimeout,1000);
+
 
         function resetMsg() {
             app.errorMsg = false;
