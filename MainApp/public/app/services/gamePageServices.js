@@ -63,6 +63,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         }
 
+        gamePageFactory.getGameConfig = function(){
+            return $http.get('/api/getGameConfig');
+        };
+
     	gamePageFactory.disableClick = function() {
     		//alert('disbaled')
      		$(roomSelector).off('click');

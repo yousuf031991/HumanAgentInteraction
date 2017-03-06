@@ -1,5 +1,5 @@
 angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle, GameState) {
         let app = this;
         let patientService = PatientService;
 
@@ -43,6 +43,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         for(var i=0;i<patientACount;i++) {
              $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
         }
+
 
 
         $("#patients").click(function () {

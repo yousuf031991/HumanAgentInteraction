@@ -81,6 +81,17 @@ export default function (router) {
 
     });
 
+    router.get("/getGameConfig", function (req, res) {
+        GameConfig.find({active : true}, function(err, record) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                res.send({success: true, message: "Success", data: record});
+            }
+        });
+    });
+
     //http://localhost:8080/api/gameinfo
     router.post('/gameinfo', function (req, res) {
         let gameinfo = new Game();
