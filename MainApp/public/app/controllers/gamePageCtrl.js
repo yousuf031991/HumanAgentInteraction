@@ -44,8 +44,21 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
              $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
         }
 
+        // Get active game config and initialize game state object
+        let activeGameConfig = {};
+        let gameState = {};
+        PatientService.getGameConfig().then(function (returnData){
+                if (returnData.data.success) {
+                    console.log(returnData.data.config);
+                    activeGameConfig = returnData.data.config;
+                    gameState = GameState(activeGameConfig);
 
-
+                } else {
+                    console.log("Failed");
+                    console.log(returnData.data);
+                }
+        });
+        
         $("#patients").click(function () {
 
             console.log(statsObject);

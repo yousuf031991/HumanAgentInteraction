@@ -82,12 +82,12 @@ export default function (router) {
     });
 
     router.get("/getGameConfig", function (req, res) {
-        GameConfig.find({active : true}, function(err, record) {
+        GameConfig.find({active : true}, function(error, record) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
             } else {
-                res.send({success: true, message: "Success", data: record});
+                res.send({success: true, message: "Success", config: record[0]});
             }
         });
     });
