@@ -62,7 +62,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 if (returnData.data.success) {
                     console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
-                    gameState = GameState(activeGameConfig);
+                    app.gameState = new GameState(activeGameConfig);
 
                 } else {
                     console.log("Failed");
@@ -116,9 +116,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         //Greeting user
         app.username = $routeParams.username;
-
-
-
 
         // Timer logic
         $scope.onTimeout = function(){
@@ -184,17 +181,17 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         $('#btnDoctor').click(function () {
-            patientService.assignResource(event.target.id)
+            patientService.assignResource(event.target.id, app.gameState)
         });
 
 
         $('#btnSurgeon').click(function() {
-            patientService.assignResource(event.target.id);
+            patientService.assignResource(event.target.id, app.gameState);
         });
 
 
         $('#btnNurse').click(function () {
-            patientService.assignResource(event.target.id);
+            patientService.assignResource(event.target.id, app.gameState);
         });
 
         // Listener for the request resource buttons  
