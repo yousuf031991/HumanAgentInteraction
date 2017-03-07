@@ -31,6 +31,17 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         var score = 0;
         var otherScore = 0;
 
+
+         (function startButton(){
+            alert("The goal is to save as many patients as possible")
+            // include tharun's timer here 
+
+            patientService.newPatient();
+
+        })();
+
+        
+
         $("#S1 #totalDoctors").append(doctorsCount);
         $("#S1 #totalSurgeons").append(surgeonsCount);
         $("#S1 #totalNurses").append(nursesCount);
@@ -107,6 +118,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         app.username = $routeParams.username;
 
 
+
+
         // Timer logic
         $scope.onTimeout = function(){
             minutes = Math.round((seconds - 30)/60),
@@ -132,7 +145,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             }
 */          
 
-            PatientService.countdownTimer(totalMs);
+            PatientService.timeProgress(totalMs);
 /*
             setTimeout(function() {
                milliseconds = PatientService.newPatient(totalxy);
