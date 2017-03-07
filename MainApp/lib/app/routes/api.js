@@ -287,6 +287,34 @@ export default function (router) {
         });
     });
 
+    router.post('/game/updateUserStatistics',function(req,res){
+        var query={'username':req.body.username};
+        
+        var userstatistics={};
+        
+        if(req.body.demographics!=undefined){
+            userstatistics.demographics=req.body.demographics;
+        }
+
+        else if(req.body.trustAndTaskQuestionnaire!=undefined){
+            userstatistics.trustAndTaskQuestionnaire=req.body.trustAndTaskQuestionnaire;
+        }
+
+
+       UserStatistics.findOneAndUpdate(query,userstatistics,{upsert:true},function(err,doc) {
+            
+            if (err) {
+                    res.send({success: false, message: "User statistics could not be saved"});
+                } 
+            else { 
+                    res.send({success: true, message: "User statistics saved Successfully"});
+                }
+
+        });
+
+        
+    });
+
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
     });
