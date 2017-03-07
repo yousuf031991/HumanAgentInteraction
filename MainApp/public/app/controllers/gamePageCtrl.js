@@ -1,5 +1,5 @@
-angular.module('gamePageControllers', ['roomServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle, GameState) {
         let app = this;
         let patientService = PatientService;
 
@@ -31,6 +31,17 @@ angular.module('gamePageControllers', ['roomServices'])
         var score = 0;
         var otherScore = 0;
 
+
+         (function startButton(){
+            alert("The goal is to save as many patients as possible")
+            // include tharun's timer here 
+
+            patientService.newPatient();
+
+        })();
+
+        
+
         $("#S1 #totalDoctors").append(doctorsCount);
         $("#S1 #totalSurgeons").append(surgeonsCount);
         $("#S1 #totalNurses").append(nursesCount);
@@ -44,7 +55,21 @@ angular.module('gamePageControllers', ['roomServices'])
              $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
         }
 
+        // Get active game config and initialize game state object
+        let activeGameConfig = {};
+        let gameState = {};
+        PatientService.getGameConfig().then(function (returnData){
+                if (returnData.data.success) {
+                    console.log(returnData.data.config);
+                    activeGameConfig = returnData.data.config;
+                    gameState = GameState(activeGameConfig);
 
+                } else {
+                    console.log("Failed");
+                    console.log(returnData.data);
+                }
+        });
+        
         $("#patients").click(function () {
 
             console.log(statsObject);
@@ -93,6 +118,8 @@ angular.module('gamePageControllers', ['roomServices'])
         app.username = $routeParams.username;
 
 
+
+
         // Timer logic
         $scope.onTimeout = function(){
             minutes = Math.round((seconds - 30)/60),
@@ -104,10 +131,32 @@ angular.module('gamePageControllers', ['roomServices'])
 
             if (seconds == 0) {
                 $scope.counter = "00:00";
-                console.log(seconds);
+                //console.log(seconds);
             } else {
                 seconds--;
             }
+           
+            var x = minutes*60*1000;
+            var y = remainingSeconds*1000;
+            var totalMs = x+y;
+/*
+            if(totalMs==0) {
+                if(patient)
+            }
+*/          
+
+            PatientService.timeProgress(totalMs);
+/*
+            setTimeout(function() {
+               milliseconds = PatientService.newPatient(totalxy);
+
+               //pass totalxy to cou
+            }, 0);*/
+            
+            
+
+          //  console.log(totalxy)
+
             $scope.counter = minutes + ":" + remainingSeconds;
 
 
@@ -116,6 +165,7 @@ angular.module('gamePageControllers', ['roomServices'])
         }
 
         let mytimeout = $timeout($scope.onTimeout,1000);
+
 
         function resetMsg() {
             app.errorMsg = false;

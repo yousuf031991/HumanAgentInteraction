@@ -2,7 +2,6 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import request from 'request';
 import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
@@ -17,10 +16,9 @@ export default function (router) {
             if (err)  throw err
 
             let username = hash.murmurHash(macAddress);
-            trialinfo.username = username + 200;
-            // TODO: Need to add where clause to find
-            // Like: GameConfig.find({isActive : true}, ....
-            GameConfig.find({}, function(err, record) {
+            trialinfo.username = username;
+
+            GameConfig.find({active : true}, function(err, record) {
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
                 
@@ -83,6 +81,17 @@ export default function (router) {
 
     });
 
+    router.get("/getGameConfig", function (req, res) {
+        GameConfig.find({active : true}, function(error, record) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                res.send({success: true, message: "Success", config: record[0]});
+            }
+        });
+    });
+
     //http://localhost:8080/api/gameinfo
     router.post('/gameinfo', function (req, res) {
         let gameinfo = new Game();
@@ -106,28 +115,6 @@ export default function (router) {
         }
     });
 
-    //http://localhost:8080/api/gameinfo
-    router.post('/gameinfo', function (req, res) {
-        let gameinfo = new Game();
-        gameinfo.gameConfigId = req.body.gameConfigId;
-        gameinfo.trialInfoId = req.body.trialInfoId;
-        gameinfo.userStatsId = req.body.userStatsId;
-        gameinfo.username = req.body.username;
-        
-        if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
-            res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
-        } else {
-            gameinfo.save(function (error) {
-                if (error) {
-                    console.log(error);
-                    res.send({success: false, message: "Error inserting into collection"});
-                } else {
-
-                    res.send({success: true, message: "Game Information Saved"});
-                }
-            });
-        }
-    });
 
     //http://localhost:8080/api/admin/login
     router.post("/admin/login",function(req,res) {
