@@ -38,6 +38,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         // Create room instances
         let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
         let divIds = ['div1', 'div2', 'div3', 'div4', 'div5', 'div6'];
+        let circleAIds = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
+        let circleBIds = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6'];
+
 
         for (let i = 0, len = roomIds.length; i < len; i++) {
             roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
@@ -45,19 +48,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             patientMap.set(divIds[i], null);
         }
 
-        let circleA1 = new Circle('A1');
-        let circleA2 = new Circle('A2');
-        let circleA3 = new Circle('A3');
-        let circleA4 = new Circle('A4');
-        let circleA5 = new Circle('A5');
-        let circleA6 = new Circle('A6');
-
-        let circleB1 = new Circle('B1');
-        let circleB2 = new Circle('B2');
-        let circleB3 = new Circle('B3');
-        let circleB4 = new Circle('B4');
-        let circleB5 = new Circle('B5');
-        let circleB6 = new Circle('B6');
+        let circleAs = [];
+        let circleBs = [];
+        // Assume circleA and circleB lengths are equal
+        for (let i = 0; i < circleAIds.length; i++) {
+            circleAs.push(new Circle(circleAIds[i]));
+            circleBs.push(new Circle(circleBIds[i]));
+        }
 
         gamePageFactory.create = function (userStatsData) {
             return $http.post('/api/userStatistics', userStatsData);
@@ -98,97 +95,24 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.updatePatientsinSideBar = function () {
-            /*console.log("Number of Patients A and B")
-             console.log(" A and B" + patientACount +" "+ patientBCount)*/
-            circleA1.setVisibility('invisible', 'A');
-            circleA2.setVisibility('invisible', 'A');
-            circleA3.setVisibility('invisible', 'A');
-            circleA4.setVisibility('invisible', 'A');
-            circleA5.setVisibility('invisible', 'A');
-            circleA6.setVisibility('invisible', 'A');
+            /* console.log("Number of Patients A and B")
+               console.log(" A and B" + patientACount +" "+ patientBCount)
+            */
 
-            circleB1.setVisibility('invisible', 'B');
-            circleB2.setVisibility('invisible', 'B');
-            circleB3.setVisibility('invisible', 'B');
-            circleB4.setVisibility('invisible', 'B');
-            circleB5.setVisibility('invisible', 'B');
-            circleB6.setVisibility('invisible', 'B');
-
-            switch (patientACount) {
-                case 1:
-                    circleA1.setVisibility('visible', 'A');
-                    break;
-                case 2:
-                    circleA1.setVisibility('visible', 'A');
-                    circleA2.setVisibility('visible', 'A');
-                    break;
-                case 3:
-                    circleA1.setVisibility('visible', 'A');
-                    circleA2.setVisibility('visible', 'A');
-                    circleA3.setVisibility('visible', 'A');
-                    break;
-                case 4:
-                    circleA1.setVisibility('visible', 'A');
-                    circleA2.setVisibility('visible', 'A');
-                    circleA3.setVisibility('visible', 'A');
-                    circleA4.setVisibility('visible', 'A');
-                    break;
-                case 5:
-                    circleA1.setVisibility('visible', 'A');
-                    circleA2.setVisibility('visible', 'A');
-                    circleA3.setVisibility('visible', 'A');
-                    circleA4.setVisibility('visible', 'A');
-                    circleA5.setVisibility('visible', 'A');
-                    break;
-                case 6:
-                    circleA1.setVisibility('visible', 'A');
-                    circleA2.setVisibility('visible', 'A');
-                    circleA3.setVisibility('visible', 'A');
-                    circleA4.setVisibility('visible', 'A');
-                    circleA5.setVisibility('visible', 'A');
-                    circleA6.setVisibility('visible', 'A');
-                    break;
-                default:
-                    break;
+            // Make all patient circles invisible
+            for (let i = 0; i < circleAs.length; i++) {
+                circleAs[i].setVisibility('invisible', 'A');
+                circleBs[i].setVisibility('invisible', 'B');
             }
 
+            // Update number of patient A circles
+            for (let i = 0; i < patientACount; i++) {
+                circleAs[i].setVisibility('visible', 'A');
+            }
 
-            switch (patientBCount) {
-                case 1:
-                    circleB1.setVisibility('visible');
-                    break;
-                case 2:
-                    circleB1.setVisibility('visible');
-                    circleB2.setVisibility('visible');
-                    break;
-                case 3:
-                    circleB1.setVisibility('visible');
-                    circleB2.setVisibility('visible');
-                    circleB3.setVisibility('visible');
-                    break;
-                case 4:
-                    circleB1.setVisibility('visible');
-                    circleB2.setVisibility('visible');
-                    circleB3.setVisibility('visible');
-                    circleB4.setVisibility('visible');
-                    break;
-                case 5:
-                    circleB1.setVisibility('visible');
-                    circleB2.setVisibility('visible');
-                    circleB3.setVisibility('visible');
-                    circleB4.setVisibility('visible');
-                    circleB5.setVisibility('visible');
-                    break;
-                case 6:
-                    circleB1.setVisibility('visible');
-                    circleB2.setVisibility('visible');
-                    circleB3.setVisibility('visible');
-                    circleB4.setVisibility('visible');
-                    circleB5.setVisibility('visible');
-                    circleB6.setVisibility('visible');
-                    break;
-                default:
-                    break;
+            // Update number of pateint B circles
+            for (let i = 0; i < patientBCount; i++) {
+                circleBs[i].setVisibility('visible');
             }
 
             let total = patientACount + patientBCount;
@@ -634,15 +558,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                         $('#' + key).removeClass().addClass('panel panel-success');
 
-                        // // Checking if enough doctors are present
-                        // if (gameState.numberOfDoctors > 0) {
-                        //     gamePageFactory.updateRoomInfo(resourceId);
-                        //     gameState.numberOfDoctors -= 1;
-                        //     // TODO: Write to moves
-                        // } else {
-                        //     // TODO: Show modal dialog
-                        //     // TODO: Write to Moves
-                        // }
                     } else if (doctorCount == 1) {
 
                         $('#' + bodyId).hover(function () {
