@@ -158,6 +158,7 @@ export default function (router) {
         userStatistics.username = req.body.username;
         userStatistics.finalScore = req.body.finalScore;
         userStatistics.moves = req.body.moves;
+        userStatistics.gameConfigId = req.body.gameConfigId;
 
         userStatistics.save(function (err) {
             

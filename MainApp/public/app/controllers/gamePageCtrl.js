@@ -1,69 +1,53 @@
 angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle, GameState) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle, GameState, UserStats) {
         let app = this;
-        let patientService = PatientService;
+        app.username = $routeParams.username;
 
-
-        let statsObject = {};
-        statsObject.finalScore = 10;
-        statsObject.username = "Syed";
-        let moves = [];
-        moves.push("Doctor to Room1");
-        moves.push("Surgeon to Room2");
-        moves.push("Nurse to Room3");
-        statsObject.moves = moves;
+        // let statsObject = {};
+        // statsObject.finalScore = 10;
+        // statsObject.username = "Syed";
+        // let moves = [];
+        // moves.push("Doctor to Room1");
+        // moves.push("Surgeon to Room2");
+        // moves.push("Nurse to Room3");
+        // statsObject.moves = moves;
 
         //set initial values
         let patientACount = 1;
-        var patientBCount = 0;
-        var doctorsCount = 2;
-        var surgeonsCount = 2;
-        var nursesCount = 3;
-
-        var otherPatientACount = 0;
-        var otherPatientBCount = 1;
-        var otherDoctorsCount = 2;
-        var otherSurgeonsCount = 2;
-        var otherNursesCount = 3;
-
-        var startTimeMilliseconds = 480000;
-        var patientTimeLeftMilliseconds = 60000;
-        var score = 0;
-        var otherScore = 0;
-
 
         (function startButton() {
             alert("The goal is to save as many patients as possible")
             // include tharun's timer here 
 
-            patientService.newPatient();
+            PatientService.newPatient();
 
         })();
 
-        for (var i = 0; i < patientACount; i++) {
+        for (let i = 0; i < patientACount; i++) {
             $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
         }
 
         // Get active game config and initialize game state object
         let activeGameConfig = {};
-        let gameState = {};
         PatientService.getGameConfig().then(function (returnData) {
             if (returnData.data.success) {
                 console.log(returnData.data.config);
                 activeGameConfig = returnData.data.config;
                 app.gameState = new GameState(activeGameConfig);
+                UserStats.create(app.username, activeGameConfig._id);
 
+                // Testing
+                // UserStats.addMove("Doctor to Room1", $scope.counter, app.gameState);
+                // UserStats.addMove("Doctor to Room2", $scope.counter, app.gameState);
+                // UserStats.addRecord();
             } else {
                 console.log("Failed");
                 console.log(returnData.data);
             }
         });
 
+
         $("#patients").click(function () {
-
-            console.log(statsObject);
-            PatientService.create(statsObject);
-
             resetMsg();
             $('#patientsgroup').show();
             $('#resources').show();
@@ -102,9 +86,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $scope.counter = "10:00";
         let seconds = 600;
-
-        //Greeting user
-        app.username = $routeParams.username;
 
         // Timer logic
         $scope.onTimeout = function () {
@@ -159,27 +140,27 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $('#btnA').click(function (e) {
             //check if patientA is available in waiting room
-            patientService.assignRoom(event.target.id)
+            PatientService.assignRoom(event.target.id)
 
         });
 
         $('#btnB').click(function (e) {
-            patientService.assignRoom(event.target.id)
+            PatientService.assignRoom(event.target.id)
         });
 
 
         $('#btnDoctor').click(function () {
-            patientService.assignResource(event.target.id, app.gameState)
+            PatientService.assignResource(event.target.id, app.gameState)
         });
 
 
         $('#btnSurgeon').click(function () {
-            patientService.assignResource(event.target.id, app.gameState);
+            PatientService.assignResource(event.target.id, app.gameState);
         });
 
 
         $('#btnNurse').click(function () {
-            patientService.assignResource(event.target.id, app.gameState);
+            PatientService.assignResource(event.target.id, app.gameState);
         });
 
         // Listener for the request resource buttons  

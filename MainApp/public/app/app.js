@@ -2,7 +2,7 @@ angular.module('trialInfoApp', ['appRoutes', 'trialInfoControllers', 'trialInfoS
     //console.log('testing trialInfo app');
 });
 
-angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices', 'roomServices', 'agentServices', 'circleServices', 'gameStateServices', 'ngAnimate']).config(function () {
+angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices', 'roomServices', 'agentServices', 'circleServices', 'gameStateServices', 'userStatsServices', 'ngAnimate']).config(function () {
     //console.log('testing game app');
 });
 

@@ -6,8 +6,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let map = new Map();
         let patientMap = new Map();
         let roomMap = new Map();
-        let i = 0;
-        let x = 0;
 
         // Initial variables for Room
         let roomData = {};
@@ -96,8 +94,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.updatePatientsinSideBar = function () {
             /* console.log("Number of Patients A and B")
-               console.log(" A and B" + patientACount +" "+ patientBCount)
-            */
+             console.log(" A and B" + patientACount +" "+ patientBCount)
+             */
 
             // Make all patient circles invisible
             for (let i = 0; i < circleAs.length; i++) {

@@ -10,8 +10,10 @@ var numberValidator =[
 ];
 
 var userStatisticsSchema = new Schema({
-  
     username: {
+        type: String,
+    },
+    gameConfigId: {
         type: String,
     },
     finalScore: {
