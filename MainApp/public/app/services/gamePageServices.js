@@ -364,7 +364,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
 
-        gamePageFactory.updateRoomInfo = function (resourceId) {
+        gamePageFactory.updateRoomInfo = function (resourceId, gameState) {
             // Updates the text in the clicked room panel
             $("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
                 e.preventDefault();
@@ -373,14 +373,40 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 let __roomId = myroomid.replace("R", "div");
 
                 if (resourceId === 'btnDoctor') {
-                    roomMap.get(myroomid).nDoctors = 1;
-                    $("#" + myroomid + " span[id='nDoctors']").text(roomMap.get(myroomid).nDoctors);
+                    // // Checking if enough doctors are present
+                    if (gameState.numberOfDoctors > 0) {
+                        gameState.numberOfDoctors -= 1;
+                        roomMap.get(myroomid).nDoctors = 1;
+                        $("#" + myroomid + " span[id='nDoctors']").text(roomMap.get(myroomid).nDoctors);
+                        // TODO: Write to moves
+                    } else {
+                        // TODO: Show modal dialog
+                        // TODO: Write to Moves
+                    }
                 } else if (resourceId === 'btnSurgeon') {
-                    roomMap.get(myroomid).nSurgeons = 1;
-                    $("#" + myroomid + " span[id='nSurgeons']").text(roomMap.get(myroomid).nSurgeons);
+                    // Checking if enough surgeons are present
+                    if (gameState.numberOfSurgeons > 0) {
+                        gamePageFactory.updateRoomInfo(resourceId);
+                        gameState.numberOfSurgeons -= 1;
+                        roomMap.get(myroomid).nSurgeons = 1;
+                        $("#" + myroomid + " span[id='nSurgeons']").text(roomMap.get(myroomid).nSurgeons);
+                        // TODO: Write to moves
+                    } else {
+                        // TODO: Show modal dialog
+                        // TODO: Write to moves
+                    }
                 } else if (resourceId === 'btnNurse') {
-                    roomMap.get(myroomid).nNurses = 1;
-                    $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
+                    // Checking if enough nurses are present
+                    if (gameState.numberOfNurses > 0) {
+                        gamePageFactory.updateRoomInfo(resourceId);
+                        gameState.numberOfNurses -= 1;
+                        roomMap.get(myroomid).nNurses = 1;
+                        $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
+                        // TODO: Write to moves
+                    } else {
+                        // TODO: Show modal dialog
+                        // TODO: Write to moves
+                    }
                 }
                 else if (resourceId === 'btnA') {
                     roomMap.get(myroomid).patientType = 'Patient A';
@@ -565,7 +591,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                             $(this).css("background", "");
                         }
                     );
-
                 } else if (value == 'red') {
                     //change div to red danger
                     $('#' + key).removeClass().addClass('panel panel-danger');
@@ -580,7 +605,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             });
 
 
-            gamePageFactory.updateRoomInfo(patientType);
+            gamePageFactory.updateRoomInfo(patientType, gameState);
 
         };
 
@@ -609,15 +634,15 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                         $('#' + key).removeClass().addClass('panel panel-success');
 
-                        // Checking if enough doctors are present
-                        if (gameState.numberOfDoctors > 0) {
-                            gamePageFactory.updateRoomInfo(resourceId);
-                            gameState.numberOfDoctors -= 1;
-                            // TODO: Write to moves
-                        } else {
-                            // TODO: Show modal dialog
-                            // TODO: Write to Moves
-                        }
+                        // // Checking if enough doctors are present
+                        // if (gameState.numberOfDoctors > 0) {
+                        //     gamePageFactory.updateRoomInfo(resourceId);
+                        //     gameState.numberOfDoctors -= 1;
+                        //     // TODO: Write to moves
+                        // } else {
+                        //     // TODO: Show modal dialog
+                        //     // TODO: Write to Moves
+                        // }
                     } else if (doctorCount == 1) {
 
                         $('#' + bodyId).hover(function () {
@@ -646,15 +671,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         );
                         $('#' + key).removeClass().addClass('panel panel-success');
 
-                        // Checking if enough surgeons are present
-                        if (gameState.numberOfSurgeons > 0) {
-                            gamePageFactory.updateRoomInfo(resourceId);
-                            gameState.numberOfSurgeons -= 1;
-                            // TODO: Write to moves
-                        } else {
-                            // TODO: Show modal dialog
-                            // TODO: Write to moves
-                        }
+
                     } else if (surgeonCount == 1) {
 
                         $('#' + bodyId).hover(function () {
@@ -687,15 +704,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         );
                         $('#' + key).removeClass().addClass('panel panel-success');
 
-                        // Checking if enough nurses are present
-                        if (gameState.numberOfNurses > 0) {
-                            gamePageFactory.updateRoomInfo(resourceId);
-                            gameState.numberOfNurses -= 1;
-                            // TODO: Write to moves
-                        } else {
-                            // TODO: Show modal dialog
-                            // TODO: Write to moves
-                        }
                     } else {
                         $('#' + bodyId).hover(function () {
                                 $(this).css("background", "");
@@ -714,8 +722,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
 
             });
-            // console.log(resourceId);
-            // gamePageFactory.updateRoomInfo(resourceId);
+            console.log(resourceId);
+            gamePageFactory.updateRoomInfo(resourceId, gameState);
         };
 
         return gamePageFactory;
