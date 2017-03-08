@@ -60,9 +60,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let circleB6 = new Circle('B6');
 
         gamePageFactory.create = function (userStatsData) {
-
             return $http.post('/api/userStatistics', userStatsData);
-
         };
 
         gamePageFactory.getGameConfig = function () {
@@ -208,10 +206,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.setColor = function (color) {
-
             let x = patientACount;
             let y = patientBCount;
-
 
             while (x != 0) {
                 $("#P1 #patientA").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
@@ -309,7 +305,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             setTimeout(function () {
                 if (totalMs !== 0) {
 
-                    alert("Updating patients");
+                    // alert("Updating patients");
                     console.log("\n In countdown timer function");
                     let patient = 1 + parseInt(Math.random() * ((1 - 0) + 1));
                     // console.log("In totla")
@@ -588,7 +584,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         };
 
-
         gamePageFactory.assignResource = function (resourceId, gameState) {
             //alert("resource id in assignResource " + resourceId)
             //console.log("Printing key value in assignResource")
@@ -672,10 +667,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         $('#' + key).removeClass().addClass('panel panel-danger');
                     }
 
-
                 }
-
-
                 else if (resourceId === 'btnNurse' && (assignedPatient != 'VACANT')) {
 
 

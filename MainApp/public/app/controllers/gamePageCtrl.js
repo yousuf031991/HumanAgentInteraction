@@ -3,7 +3,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         let app = this;
         let patientService = PatientService;
 
-       
+
         let statsObject = {};
         statsObject.finalScore = 10;
         statsObject.username = "Syed";
@@ -14,7 +14,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         statsObject.moves = moves;
 
         //set initial values
-        var patientACount = 1;
+        let patientACount = 1;
         var patientBCount = 0;
         var doctorsCount = 2;
         var surgeonsCount = 2;
@@ -32,7 +32,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         var otherScore = 0;
 
 
-         (function startButton(){
+        (function startButton() {
             alert("The goal is to save as many patients as possible")
             // include tharun's timer here 
 
@@ -40,36 +40,25 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         })();
 
-        
-
-        $("#S1 #totalDoctors").append(doctorsCount);
-        $("#S1 #totalSurgeons").append(surgeonsCount);
-        $("#S1 #totalNurses").append(nursesCount);
-        
-        $("#S2 #nbrDoctors").append(otherDoctorsCount);
-        $("#S2 #nbrSurgeons").append(otherSurgeonsCount);
-        $("#S2 #nbrNurses").append(otherNursesCount);
-
-
-        for(var i=0;i<patientACount;i++) {
-             $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+        for (var i = 0; i < patientACount; i++) {
+            $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
         }
 
         // Get active game config and initialize game state object
         let activeGameConfig = {};
         let gameState = {};
-        PatientService.getGameConfig().then(function (returnData){
-                if (returnData.data.success) {
-                    console.log(returnData.data.config);
-                    activeGameConfig = returnData.data.config;
-                    app.gameState = new GameState(activeGameConfig);
+        PatientService.getGameConfig().then(function (returnData) {
+            if (returnData.data.success) {
+                console.log(returnData.data.config);
+                activeGameConfig = returnData.data.config;
+                app.gameState = new GameState(activeGameConfig);
 
-                } else {
-                    console.log("Failed");
-                    console.log(returnData.data);
-                }
+            } else {
+                console.log("Failed");
+                console.log(returnData.data);
+            }
         });
-        
+
         $("#patients").click(function () {
 
             console.log(statsObject);
@@ -97,7 +86,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             $('#patientsgroup').hide();
 
         });
-        
+
         $('#requestResources').click(function () {
             resetMsg();
             $('#requestGroup').show();
@@ -118,12 +107,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         app.username = $routeParams.username;
 
         // Timer logic
-        $scope.onTimeout = function(){
-            minutes = Math.round((seconds - 30)/60),
-            remainingSeconds = seconds % 60;
-  
+        $scope.onTimeout = function () {
+            minutes = Math.round((seconds - 30) / 60),
+                remainingSeconds = seconds % 60;
+
             if (remainingSeconds < 10) {
-                remainingSeconds = "0" + remainingSeconds;  
+                remainingSeconds = "0" + remainingSeconds;
             }
 
             if (seconds == 0) {
@@ -132,36 +121,35 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             } else {
                 seconds--;
             }
-           
-            var x = minutes*60*1000;
-            var y = remainingSeconds*1000;
-            var totalMs = x+y;
-/*
-            if(totalMs==0) {
-                if(patient)
-            }
-*/          
+
+            let x = minutes * 60 * 1000;
+            let y = remainingSeconds * 1000;
+            let totalMs = x + y;
+            /*
+             if(totalMs==0) {
+             if(patient)
+             }
+             */
 
             PatientService.timeProgress(totalMs);
-/*
-            setTimeout(function() {
-               milliseconds = PatientService.newPatient(totalxy);
+            /*
+             setTimeout(function() {
+             milliseconds = PatientService.newPatient(totalxy);
 
-               //pass totalxy to cou
-            }, 0);*/
-            
-            
+             //pass totalxy to cou
+             }, 0);*/
 
-          //  console.log(totalxy)
+
+            //  console.log(totalxy)
 
             $scope.counter = minutes + ":" + remainingSeconds;
 
 
             // $scope.counter++;
-            mytimeout = $timeout($scope.onTimeout,1000);
+            mytimeout = $timeout($scope.onTimeout, 1000);
         }
 
-        let mytimeout = $timeout($scope.onTimeout,1000);
+        let mytimeout = $timeout($scope.onTimeout, 1000);
 
 
         function resetMsg() {
@@ -169,13 +157,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             app.successMsg = false;
         }
 
-        $('#btnA').click(function(e) {
+        $('#btnA').click(function (e) {
             //check if patientA is available in waiting room
             patientService.assignRoom(event.target.id)
 
         });
 
-        $('#btnB').click(function(e) {
+        $('#btnB').click(function (e) {
             patientService.assignRoom(event.target.id)
         });
 
@@ -185,7 +173,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         });
 
 
-        $('#btnSurgeon').click(function() {
+        $('#btnSurgeon').click(function () {
             patientService.assignResource(event.target.id, app.gameState);
         });
 
@@ -210,7 +198,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         });
 
 
-        $('#btnRequestSurgeon').click(function() {
+        $('#btnRequestSurgeon').click(function () {
             resetMsg();
             let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
             if (decision) {
@@ -230,135 +218,4 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 app.errorMsg = "NurseRequest is denied by neighbouring hospital";
             }
         });
-        
-      
-        /*
-
-
-        
-
-        
-
-
-
-        
-
-        $('#btnB').click(function(event) {
-            assignRoom(event.target.id)
-        });
-
-        $('#btnSurgeon').click(function() {
-
-            //alert('1')
-            patientMap.forEach(function (value, key) {
-
-
-                if(value === 'patientB') {
-                    //alert(key);
-                    $('#' + key).removeClass().addClass('panel panel-success');
-                } else {
-                    $('#' + key).removeClass().addClass('panel panel-danger');
-                }
-
-            });
-            assignResource(event.target.id);
-        });
-
-     
-
-
-        $('#btnDoctor').click(function () {
-            patientMap.forEach(function (value, key) {
-            if(value === 'patientA') {
-                $('#' + key).removeClass().addClass('panel panel-success');
-            } else {
-                $('#' + key).removeClass().addClass('panel panel-danger');
-            }
-            });
-            assignResource(event.target.id)
-        });
-
-        $('#btnNurse').click(function () {
-            // if(typeof patientType == 'undefined') {
-            //     alert("Cannot assign Nurses, assign patient first")
-            // } else {
-                patientMap.forEach(function (value, key) {
-                    if (value != null) {
-                        $('#' + key).removeClass().addClass('panel panel-success');
-                    }
-                });
-                assignResource(event.target.id)
-            // }
-        });
-
-        function updateRoomInfo(resourceId) {
-            $("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
-                e.preventDefault();
-
-                let myroomid = event.target.id;
-                let key = myroomid.replace("R", "div");
-                console.log(resourceId)
-                console.log(myroomid);
-
-                if (resourceId === 'btnDoctor') {
-                    // TODO: Perform check to see if resource has been already set to room
-                    $("#"+ myroomid + " span[id='nDoctors']").text('1');
-                } else if (resourceId === 'btnSurgeon') {
-                    $("#"+ myroomid + " span[id='nSurgeons']").text('1');
-                    // let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
-                    // $('#'+divid).removeClass().addClass('panel panel-danger');
-                    // map.set(divid, 'red')
-                } else if (resourceId === 'btnNurse') {
-                    $("#"+ myroomid + " span[id='nNurses']").text('1');
-                }
-                else if (resourceId === 'btnA') {
-                    $("#"+ myroomid + " span[id='assignedPatient']").text('Patient A');
-                    $('#'+ key).removeClass().addClass('panel panel-danger');
-                    map.set(key, 'red');
-                    patientMap.set(key, 'patientA');
-                } else if(resourceId == 'btnB') {
-                    $("#"+ myroomid + " span[id='assignedPatient']").text('Patient B');
-                    $('#'+ key).removeClass().addClass('panel panel-danger');
-                    map.set(key, 'red');
-                    patientMap.set(key, 'patientB');
-                }
-
-                let divid =  $(this).parent("div[class='panel panel-success']").attr("id");
-                $('#'+divid).removeClass().addClass('panel panel-danger');
-
-                map.set(divid, 'red')
-                disableClick();
-            });
-        }
-
-        function assignResource(resourceId) {
-            console.log(resourceId);
-            updateRoomInfo(resourceId);
-        }
-
-        function assignRoom(patientType) {
-            //display available and non-available rooms
-
-            console.log(patientType)
-            
-            //displaying colors
-            map.forEach(function(value, key) {
-                
-                console.log(key, value)
-                if(value == 'green') {
-                    //change div panel to success
-                    $('#' + key).removeClass().addClass('panel panel-success');
-                    
-                } else if(value == 'red') {
-                    //change div to red danger
-                    $('#' + key).removeClass().addClass('panel panel-danger');
-                }
-
-            
-            });
-            updateRoomInfo(patientType);
-        }
-     
-
-*/
-});
+    });
