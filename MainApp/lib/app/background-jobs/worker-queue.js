@@ -24,7 +24,7 @@ function checkAvailability() {
 function queueJob(type, data) {
     if(!type || Utils.isEmptyObject(data)) return Promise.reject({message: "Type or Data cannot be empty"});
 
-    const job = new BackgroundJob();
+    let job = new BackgroundJob();
     job.status = "IN_PROGRESS";
     job.type = type;
     job.data = data;
@@ -36,13 +36,31 @@ function dequeueJob(jobID) {
     return BackgroundJob.findByIdAndUpdate(jobID, {
         $set: {
             status: "SUCCESSFUL",
-            completedAt: Date.now
+            completedAt: Date.now()
         }
-    });
+    }).exec();
 }
 
 function retryJob(jobID) {
-    // TODO
+    if(!jobID) return Promise.reject({message: "JobID cannot be empty"});
+    return BackgroundJob.findById(jobID).exec()
+        .then(function (job) {
+            if(job.retryCount < configs.maxRetryCount) {
+                job.retryCount = job.retryCount + 1;
+                console.log("BACKGROUND JOB ------ RETRYING A JOB NOW " + job.retryCount);
+                executeJob(job);
+            } else {
+                job.status = "UNSUCCESSFUL";
+                console.log("BACKGROUND JOB ------ UNSUCCESSFUL");
+            }
+            return job;
+        })
+        .then(function (job) {
+            return job.save();
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
 }
 
 function executeJob(job) {

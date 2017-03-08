@@ -24,9 +24,6 @@ const jobsSchema = new Schema({
     completedAt: {
         type: Date
     },
-    error: {
-        type: String
-    },
     retryCount: {
         type: Number,
         default: 0

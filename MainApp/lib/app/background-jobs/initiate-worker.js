@@ -2,6 +2,7 @@ import childProcess from 'child_process';
 import path from 'path';
 import Promise from 'bluebird';
 import ps from "ps-node";
+import WorkerQueue from "./worker-queue";
 
 const pidLookup = Promise.promisify(ps.lookup);
 const configs = JSON.parse(process.env.CONFIGS);
@@ -16,20 +17,29 @@ export default function initiateWorker(job) {
 
         //always check msg type to filter out unnecessary signals
         if(msg.type === "success") {
-            // TODO - set job status as successful
+            WorkerQueue.dequeueJob(job._id);
         } else if(msg.type === "error") {
-            // TODO - set job status as unsuccessful
+            console.error("CHILD PROCESS RETURNED ERROR MESSAGE");
+            console.error(msg);
+            WorkerQueue.retryJob(job._id);
         }
 
         killChild(worker, job);
 
     });
 
-    worker.on("error", (err) => {
-        // TODO
+    worker.on("exit", (code) => {
+        console.log("EXIT event from child process");
+        console.log(code);
+        if(code === 1) {
+            // fatal error. hit retry
+            WorkerQueue.retryJob(job._id);
+        }
     });
 
     worker.send({ type: 'start', job: job });
+
+    return Promise.resolve();
 }
 
 function killChild(worker, job) {

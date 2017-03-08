@@ -265,7 +265,7 @@ export default function (router) {
         });
     });
 
-    router.get("/exportAdminLogs", function (req, res, next) {
+    router.get("/exportAdminLogs", function (req, res) {
         WorkerQueue.checkAvailability()
             .then(function (response) {
                 if(response.isAvailable) {
@@ -273,17 +273,20 @@ export default function (router) {
                         export_admin_id: req.body.export_admin_id,
                         current_user_id: req.user.id
                     };
-                    return WorkerQueue.queueJob("ADMIN_LOGS", jobData);
+                    WorkerQueue.queueJob("ADMIN_LOGS", jobData)
+                        .then(function (job) {
+                            return WorkerQueue.executeJob(job);
+                        })
+                        .then(function () {
+                            res.send({success: true, message: "Your job has been queued."});
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                            res.send({success: false, message: error.message});
+                        });
                 } else {
                     res.send({success: false, message: response.message});
-                    next();
                 }
-            })
-            .then(function (job) {
-                return WorkerQueue.executeJob(job);
-            })
-            .then(function () {
-                res.send({success: true, message: "Your job has been queued."});
             })
             .catch(function (error) {
                 console.error(error);

@@ -22,6 +22,7 @@ configs.backgroundJobsModules = {
     "ADMIN_LOGS": "export-admin-logs-worker.js",
     "GAME_LOGS": "export-game-logs-worker.js"
 };
+configs.maxRetryCount = 3; // max times a background job will be retried
 configs.maxConcurrentBackgroundJobs = 1; // this is the size of the queue which is used for running background jobs
 configs.views = '/../public/app/views';
 configs.session_secret = "softwarefactory_ser518_human_agent_interaction_project";
