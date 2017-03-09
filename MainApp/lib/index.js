@@ -11,6 +11,7 @@ import session from 'client-sessions';
 import Authenticator from './app/helpers/authentication';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
+import WorkerQueue from "./app/background-jobs/worker-queue";
 
 mongoose.Promise = Promise;
 const configs = JSON.parse(process.env.CONFIGS);
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, configs.views));
 connectDB();
+WorkerQueue.runInProgressJobs();
 
 app.use(Authenticator.authenticate);
 app.use('/api', appRoutes);

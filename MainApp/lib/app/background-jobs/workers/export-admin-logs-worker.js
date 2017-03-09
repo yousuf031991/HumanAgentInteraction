@@ -23,7 +23,7 @@ process.on("message", (msg) => {
         setTimeout(function () {
             // notify master that all tasks were successful
             process.send({type: "success"});
-        }, 50000);
+        }, 10000);
 
     }
 

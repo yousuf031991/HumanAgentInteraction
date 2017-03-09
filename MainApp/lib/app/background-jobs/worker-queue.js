@@ -69,10 +69,20 @@ function executeJob(job) {
     return initiateWorker(job);
 }
 
+function runInProgressJobs() {
+    BackgroundJob.find({status: "IN_PROGRESS"}).exec()
+        .then(function (jobs) {
+            jobs.forEach(function (job) {
+                executeJob(job);
+            });
+        });
+}
+
 export default {
     checkAvailability: checkAvailability,
     queueJob: queueJob,
     dequeueJob: dequeueJob,
     retryJob: retryJob,
-    executeJob: executeJob
+    executeJob: executeJob,
+    runInProgressJobs: runInProgressJobs
 }
