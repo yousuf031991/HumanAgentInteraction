@@ -87,6 +87,7 @@ export default function (router) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
             } else {
+                console.log("Getting record")
                 res.send({success: true, message: "Success", config: record[0]});
             }
         });
@@ -158,6 +159,7 @@ export default function (router) {
         userStatistics.username = req.body.username;
         userStatistics.finalScore = req.body.finalScore;
         userStatistics.moves = req.body.moves;
+        userStatistics.gameConfigId = req.body.gameConfigId;
 
         userStatistics.save(function (err) {
             
