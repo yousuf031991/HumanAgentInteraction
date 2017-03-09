@@ -1,4 +1,4 @@
-#questionnaireHeader{
+#trustQuestionnaireHeader, #taskQuestionnaireHeader{
 
 	background-color: #2c93ff;
 	color: #ffffff;
@@ -15,18 +15,18 @@ input[type='radio'] {
 
 th{
    height: 60px;
-   width:100px;
    align-content: center;
 }
 
 
 tr{
-	height: 40px;
+	height: 40px;	
 }
 
 td{
 	font-size: 14px;
 	align-content: center;
+	padding-left: 5px;
 }
 
 
@@ -34,8 +34,8 @@ table,th,tr,td{
 	border:1px solid gray;
 }
 
-#questionnaireTable{
-	overflow: auto;
+#taskQuestionnaireTable, #trustQuestionnaireTable{
+	overflow-y: auto;
 	max-height: 450px;
 	padding-right: 0px;
 }
