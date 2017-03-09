@@ -268,6 +268,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
        gamePageFactory.newPatient = function() {
           
+
+        
            var milliseconds;
             var quintupletTimeLeft = startTimeMilliseconds/5;
             console.log("startTimeMilliseconds " + startTimeMilliseconds)
@@ -309,7 +311,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             setTimeout(function() {
                 if(totalMs !== 0) {
 
-                    alert("Updating patients")
+                    //alert("Updating patients")
                     console.log("\n In countdown timer function")
                     var patient = 1 + parseInt(Math.random() * ((1 - 0) + 1))
                     // console.log("In totla")
