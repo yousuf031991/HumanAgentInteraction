@@ -10,15 +10,29 @@ var numberValidator =[
 ];
 
 var userStatisticsSchema = new Schema({
-  
     username: {
+        type: String,
+    },
+    gameConfigId: {
         type: String,
     },
     finalScore: {
         type: Number,
         validate: numberValidator,
     },
-    moves:[String]
+    moves:[String],
+    demographics:[
+    {
+        question: String,
+        response: Schema.Types.Mixed
+    }
+    ],
+    trustAndTaskQuestionnaire:[
+    {
+        question: String,
+        response: String
+    }
+    ]
    
 });
 
