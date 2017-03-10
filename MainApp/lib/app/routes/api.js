@@ -90,6 +90,7 @@ export default function (router) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
             } else {
+                console.log("Getting record")
                 res.send({success: true, message: "Success", config: record[0]});
             }
         });
