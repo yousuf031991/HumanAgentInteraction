@@ -18,7 +18,7 @@ angular.module('manageAdminApp', ['appRoutes', 'manageAdminControllers', 'manage
     /*console.log('testing manageAdmin app');*/
 });
 
-angular.module('questionnaireApp', ['appRoutes', 'questionnaireServices', 'ngAnimate', 'preGameQuestionnaireControllers']).config(function () {
+angular.module('questionnaireApp', ['appRoutes', 'questionnaireServices', 'ngAnimate', 'preGameQuestionnaireControllers','postGameQuestionnaireControllers']).config(function () {
     /*console.log('testing manageAdmin app');*/
 });
 

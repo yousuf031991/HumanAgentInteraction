@@ -27,6 +27,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/demographics', {
             templateUrl: 'app/views/pages/game/Demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
         })
+        .when('/trustTask', {
+            templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
