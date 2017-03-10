@@ -13,7 +13,10 @@ export default function (router) {
         let trialinfo = new TrialInfo();
 
         maclib.getMac(function (err, macAddress){
-            if (err)  throw err;
+            if (err) {
+                console.log(err);
+                res.send({success: false, message: "Error getting mac address"});
+            }
 
             let username = hash.murmurHash(macAddress);
             trialinfo.username = username;
