@@ -1,19 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-Welcome {{fetchDisplayName()}}
-
-<br />
-<br />
-<div class="row show-hide-message" ng-show="admin.warningMsg">
+<div class="well">
+    Welcome {{fetchDisplayName()}}
+</div>
+<div class="row show-hide-message" ng-show="warningMsg">
     <div class="alert alert-warning">
         {{admin.warningMsg}}
     </div>
 </div>
+<div class="container" ng-controller="AccordionDemoCtrl">
+    <div class="jumbotron text-center" ng-show="loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
 
-</body>
-</html>
+        <p>Loading...</p>
+    </div>
+    <div class="row show-hide-message" ng-show="successMsg">
+        <div class="alert alert-success">
+            {{successMsg}}
+        </div>
+    </div>
+    <div class="row show-hide-message" ng-show="errorMsg">
+        <div class="alert alert-danger">
+            {{errorMsg}}
+        </div>
+    </div>
+
+
+    <div class="col-md-12">
+        <h3>Game Configurations</h3>
+
+        <div>
+            <uib-accordion close-others="oneAtATime" ng-init="listConfigs()">
+                <div uib-accordion-group
+                     ng-class="{'panel panel-default':!conf.active ,'panel panel-success':conf.active}"
+                     ng-repeat="conf in confList | orderBy: '-createdAt'">
+                    <uib-accordion-heading>
+                        <span>Author: {{conf.author}}</span> - <span> created at: {{conf.createdAt}}</span>
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': state.selected==$index,
+                            'glyphicon-chevron-right': state.selected!=$index}"></i>
+                    </uib-accordion-heading>
+                    <div class="col-md-4">
+                        <p class="text-primary">
+                            Start number A Patients: {{conf.startNumPatientAs}}<br>
+                            Start number of B Patients: {{conf.startNumPatientBs}}<br>
+                            Start number of Doctors: {{conf.numOfDoctors}}<br>
+                            Start number of Surgeons: {{conf.numOfSurgeons}}<br>
+                            Start number of Nurses: {{conf.numOfNurses}}<br>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-success">
+                            Total time in seconds: {{conf.totalTimeInSeconds}}<br>
+                            Cooperation Type: {{conf.cooperation}}<br>
+                            Mode: {{conf.mode}}<br>
+                            Game Speed: {{conf.earlyType}}<br>
+                            Patient help time in seconds: {{conf.patientHelpTimeInSeconds}}<br>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-danger">
+                            NH Start number A Patients: {{conf.NHstartNumPatientAs}}<br>
+                            NH Start number B Patients: {{conf.NHstartNumPatientBs}}<br>
+                            NH Start number of Doctors: {{conf.numOfDoctors}}<br>
+                            NH Start number of Surgeons: {{conf.NHnumOfSurgeons}}<br>
+                            NH Start number of Nurses: {{conf.NHnumOfNurses}}<br>
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="button"
+                                    ng-class="{'btn btn-success pull-right':!conf.active ,'btn btn-warning pull-right':conf.active}"
+                                    ng-click="updateConf(conf._id, conf.active)">{{conf.active? 'Deactivate' :
+                                'Activate'}}
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-danger" ng-click="deleteConf(conf._id)">Delete Config
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </uib-accordion>
+        </div>
+    </div>
+</div>
+

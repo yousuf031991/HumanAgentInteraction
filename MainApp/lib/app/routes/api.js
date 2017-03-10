@@ -226,6 +226,86 @@ export default function (router) {
         res.send({success: true, redirectTo: '/'});
     });
 
+    router.get("/viewConf", function (req, res) {
+        GameConfig.find({}, function (error, docs) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                res.send({success: true, message: "Found configs", data: docs});
+            }
+        });
+    });
+
+    router.post("/deleteConf", function (req, res) {
+        GameConfig.findByIdAndRemove(req.body._id, function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Game Configuration doesn't exist"});
+            } else {
+                res.send({success: true, message: "Game Configuration deleted"});
+            }
+        });
+    });
+
+    router.post("/updateConf", function (req, res) {
+        // set the active config to inactive
+        GameConfig.update({ active: true }, { $set: { active: false } }, function (error) {
+            if (error) {
+                console.log(error);
+            }
+            // activate the required config
+            GameConfig.findByIdAndUpdate(req.body._id, { active: true }, function (error) {
+                if (error) {
+                    console.log(error);
+                    res.send({success: false, message: "Game Configuration doesn't exist"});
+                } else {
+                    res.send({success: true, message: "Configuration Activated"});
+                }
+            });
+        });
+    });
+
+    router.post("/deactivateConf", function (req, res) {
+        // set the active config to inactive
+        GameConfig.findByIdAndUpdate(req.body._id, { $set: { active: false } }, function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Configuration not found"});
+            } else {
+                res.send({success: true, message: "Configuration Deactivated"});
+            }
+        });
+    });
+
+    router.post('/game/updateUserStatistics',function(req,res){
+        var query={'username':req.body.username};
+        
+        var userstatistics={};
+        
+        if(req.body.demographics!=undefined){
+            userstatistics.demographics=req.body.demographics;
+        }
+
+        else if(req.body.trustAndTaskQuestionnaire!=undefined){
+            userstatistics.trustAndTaskQuestionnaire=req.body.trustAndTaskQuestionnaire;
+        }
+
+
+       UserStatistics.findOneAndUpdate(query,userstatistics,{upsert:true},function(err,doc) {
+            
+            if (err) {
+                    res.send({success: false, message: "User statistics could not be saved"});
+                } 
+            else { 
+                    res.send({success: true, message: "User statistics saved Successfully"});
+                }
+
+        });
+
+        
+    });
+
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
     });
