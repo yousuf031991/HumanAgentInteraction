@@ -13,12 +13,15 @@ export default function (router) {
         let trialinfo = new TrialInfo();
 
         maclib.getMac(function (err, macAddress){
-            if (err)  throw err
+            if (err)  throw err;
 
             let username = hash.murmurHash(macAddress);
             trialinfo.username = username;
 
-            GameConfig.find({active : true}, function(err, record) {
+            GameConfig.find({active : false}, function(err, record) {
+                if (record.length == 0)
+                    res.send({success: false, message: "No active game config"});
+
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
                 
