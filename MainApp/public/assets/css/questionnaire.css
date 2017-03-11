@@ -1,0 +1,56 @@
+#trustQuestionnaireHeader, #taskQuestionnaireHeader{
+
+	background-color: #2c93ff;
+	color: #ffffff;
+	z-index: 10;
+	height: 100px;
+	font-size: 12px;
+	
+}
+
+input[type='radio'] {
+    transform: scale(0.75);
+}
+
+
+th{
+   height: 60px;
+   align-content: center;
+}
+
+
+tr{
+	height: 40px;	
+}
+
+td{
+	font-size: 14px;
+	align-content: center;
+	padding-left: 5px;
+}
+
+
+table,th,tr,td{
+	border:1px solid gray;
+}
+
+#taskQuestionnaireTable, #trustQuestionnaireTable{
+	overflow-y: auto;
+	max-height: 450px;
+	padding-right: 0px;
+}
+
+
+.container{
+	width: 100%;
+	padding-right: 0px;
+}
+
+
+.required:before{content:" *";  
+color:#FF0000;
+}
+
+.incomplete{
+	color:#FF0000;
+}
