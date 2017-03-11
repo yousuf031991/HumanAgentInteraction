@@ -36,7 +36,6 @@ function serializeUser(email, req, res, callback) {
             // TODO - don't send unnecessary info to the insecure client side
             // TODO - encrypt
             req.user = user;
-            delete req.user.password;
             req.session.user = user;  //refresh the session value
             res.locals.user = user;
         }

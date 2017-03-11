@@ -6,6 +6,7 @@ import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
+import WorkerQueue from '../background-jobs/worker-queue';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -58,7 +59,7 @@ export default function (router) {
     router.post('/gameConfig', function (req, res) {
         let gameConfig = new GameConfig();
 
-        gameConfig.author = req.user.fullname;
+        gameConfig.author = req.user.fullname ? req.user.fullname : req.user.username;
         gameConfig.cooperation = req.body.cooperation;
         gameConfig.mode = req.body.mode;
         gameConfig.earlyType = req.body.earlyType;
@@ -284,6 +285,36 @@ export default function (router) {
         });
     });
 
+    router.get("/exportAdminLogs", function (req, res) {
+        WorkerQueue.checkAvailability()
+            .then(function (response) {
+                if(response.isAvailable) {
+                    const jobData = {
+                        export_admin_id: req.body.export_admin_id,
+                        current_user_id: req.user.id
+                    };
+                    WorkerQueue.queueJob("ADMIN_LOGS", jobData)
+                        .then(function (job) {
+                            return WorkerQueue.executeJob(job);
+                        })
+                        .then(function () {
+                            res.send({success: true, message: "Your job has been queued."});
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                            res.send({success: false, message: error.message});
+                        });
+                } else {
+                    res.send({success: false, message: response.message});
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+                res.send({success: false, message: error.message});
+            });
+
+    });
+
     router.post('/game/updateUserStatistics',function(req,res){
         var query={'username':req.body.username};
         
@@ -309,7 +340,6 @@ export default function (router) {
 
         });
 
-        
     });
 
     router.get('/home', function (req, res) {
