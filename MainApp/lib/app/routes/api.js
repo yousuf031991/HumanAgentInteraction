@@ -14,12 +14,18 @@ export default function (router) {
         let trialinfo = new TrialInfo();
 
         maclib.getMac(function (err, macAddress){
-            if (err)  throw err
+            if (err) {
+                console.log(err);
+                res.send({success: false, message: "Error getting mac address"});
+            }
 
             let username = hash.murmurHash(macAddress);
             trialinfo.username = username;
 
-            GameConfig.find({active : true}, function(err, record) {
+            GameConfig.find({active : false}, function(err, record) {
+                if (record.length == 0)
+                    res.send({success: false, message: "No active game config"});
+
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
                 
@@ -82,6 +88,18 @@ export default function (router) {
 
     });
 
+    router.get("/getGameConfig", function (req, res) {
+        GameConfig.find({active : true}, function(error, record) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                console.log("Getting record")
+                res.send({success: true, message: "Success", config: record[0]});
+            }
+        });
+    });
+
     //http://localhost:8080/api/gameinfo
     router.post('/gameinfo', function (req, res) {
         let gameinfo = new Game();
@@ -89,7 +107,7 @@ export default function (router) {
         gameinfo.trialInfoId = req.body.trialInfoId;
         gameinfo.userStatsId = req.body.userStatsId;
         gameinfo.username = req.body.username;
-        
+
         if (gameinfo.gameConfigId == null || gameinfo.gameConfigId == '' || gameinfo.trialInfoId == null || gameinfo.trialInfoId == '' || gameinfo.userStatsId == null || gameinfo.userStatsId == '') {
             res.send({success: false, message: 'gameConfigId or trialInfoId or userStatsId was empty'});
         } else {
@@ -104,6 +122,7 @@ export default function (router) {
             });
         }
     });
+
 
     //http://localhost:8080/api/admin/login
     router.post("/admin/login",function(req,res) {
@@ -147,6 +166,7 @@ export default function (router) {
         userStatistics.username = req.body.username;
         userStatistics.finalScore = req.body.finalScore;
         userStatistics.moves = req.body.moves;
+        userStatistics.gameConfigId = req.body.gameConfigId;
 
         userStatistics.save(function (err) {
             
@@ -292,6 +312,34 @@ export default function (router) {
                 console.error(error);
                 res.send({success: false, message: error.message});
             });
+
+    });
+
+    router.post('/game/updateUserStatistics',function(req,res){
+        var query={'username':req.body.username};
+        
+        var userstatistics={};
+        
+        if(req.body.demographics!=undefined){
+            userstatistics.demographics=req.body.demographics;
+        }
+
+        else if(req.body.trustAndTaskQuestionnaire!=undefined){
+            userstatistics.trustAndTaskQuestionnaire=req.body.trustAndTaskQuestionnaire;
+        }
+
+
+       UserStatistics.findOneAndUpdate(query,userstatistics,{upsert:true},function(err,doc) {
+            
+            if (err) {
+                    res.send({success: false, message: "User statistics could not be saved"});
+                } 
+            else { 
+                    res.send({success: true, message: "User statistics saved Successfully"});
+                }
+
+        });
+
     });
 
     router.get('/home', function (req, res) {
