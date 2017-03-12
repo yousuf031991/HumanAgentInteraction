@@ -2,11 +2,11 @@ angular.module('trialInfoApp', ['appRoutes', 'trialInfoControllers', 'trialInfoS
     //console.log('testing trialInfo app');
 });
 
-angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices', 'roomServices', 'agentServices', 'ngAnimate']).config(function () {
+angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices', 'roomServices', 'agentServices', 'circleServices', 'gameStateServices', 'userStatsServices', 'ngAnimate']).config(function () {
     //console.log('testing game app');
 });
 
-angular.module('userApp', ['appRoutes', 'adminControllers', 'adminServices', 'homeControllers', 'authControllers', 'authServices', 'ui.bootstrap', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp', 'reportingApp']).config(function () {
+angular.module('userApp', ['appRoutes', 'adminControllers', 'adminServices', 'homeControllers', 'authControllers', 'authServices', 'ui.bootstrap', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp', 'questionnaireApp', 'reportingApp']).config(function () {
     //console.log('testing user app');
 });
 
@@ -22,4 +22,6 @@ angular.module('reportingApp', ['appRoutes', 'reportControllers', 'reportService
     /*console.log('testing reporting app');*/
 });
 
-
+angular.module('questionnaireApp', ['appRoutes', 'questionnaireServices', 'ngAnimate', 'preGameQuestionnaireControllers','postGameQuestionnaireControllers']).config(function () {
+    /*console.log('testing manageAdmin app');*/
+});

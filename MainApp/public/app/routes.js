@@ -2,6 +2,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
     $routeProvider
         .when('/about', {
             templateUrl: 'app/views/pages/about.html', activeTab: 'about'
+        })        
+        .when('/thankyou', {
+            templateUrl: 'app/views/pages/thankyou.html', activeTab: 'thankyou'
         })
         .when('/admin', {
             templateUrl: 'app/views/pages/admin/adminPage.html', controller: 'adminController', controllerAs: 'admin', activeTab: 'adminPanel'
@@ -23,6 +26,12 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         })
         .when('/admin/reporting', {
             templateUrl: 'app/views/pages/admin/reporting.html' , controller: 'reportCtrl', controllerAs: 'report', activeTab: 'reporting'
+        })
+        .when('/demographics', {
+            templateUrl: 'app/views/pages/game/Demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
+        })
+        .when('/trustTask', {
+            templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
         })
         .otherwise({redirectTo: '/'});
 

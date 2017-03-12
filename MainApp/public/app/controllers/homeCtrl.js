@@ -22,7 +22,7 @@ angular.module('homeControllers', ['authServices'])
                 displayName = "Admin";
             }
             return displayName;
-        }
+        };
 
         $scope.isSuperAdmin = function () {
             if($rootScope.currentUser && $rootScope.currentUser.role === 'SUPER ADMIN') {
