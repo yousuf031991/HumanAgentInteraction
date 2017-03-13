@@ -1,5 +1,5 @@
 angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, PatientService, Room, Agent, Circle, GameState, UserStats) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, PatientService, Room, Agent, Circle, GameState, UserStats) {
         let app = this;
         app.username = $routeParams.username;
 
@@ -175,6 +175,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             } else {
                 app.errorMsg = "Doctor Request is denied by neighbouring hospital";
             }
+            $location.hash('notify');
+            $anchorScroll();
         });
 
 
@@ -183,19 +185,26 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
             if (decision) {
                 app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
+
             } else {
                 app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
             }
+            $location.hash('notify');
+            $anchorScroll();
         });
 
 
         $('#btnRequestNurse').click(function () {
             resetMsg();
             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+            $location.hash('notify');
+            $anchorScroll();
             if (decision) {
                 app.successMsg = "Nurse Request is accepted by neighbouring hospital";
             } else {
                 app.errorMsg = "NurseRequest is denied by neighbouring hospital";
             }
+
         });
+
     });
