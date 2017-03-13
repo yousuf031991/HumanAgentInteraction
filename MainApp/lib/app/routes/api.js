@@ -305,7 +305,8 @@ export default function (router) {
         });
     });
 
-    router.get("/exportAdminLogs", function (req, res) {
+    router.post("/exportAdminLogs", function (req, res) {
+        /*get from and to date by req.body.fromDate, req.body.toDate*/
         WorkerQueue.checkAvailability()
             .then(function (response) {
                 if(response.isAvailable) {
