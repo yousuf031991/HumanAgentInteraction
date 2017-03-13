@@ -1,5 +1,5 @@
-angular.module('authControllers', ['authServices'])
-    .controller('authController', function($http, $location, $scope, Auth, $routeParams, $window) {
+angular.module('authControllers', ['authServices', 'reportServices'])
+    .controller('authController', function($http, $location, $scope, Auth, $routeParams, $window, Report) {
         let app = this;
 
         if($routeParams.redirect) {
@@ -45,6 +45,9 @@ angular.module('authControllers', ['authServices'])
                             + " used for sign in with gmail is not the same as the id " + app.user
                             + " you entered above.Please sign in again with gmail using " + app.user;
                     } else {
+                        // Log in adminLog
+                        const reportData = {action: "Admin Logged in", username: email, fullname: name};
+                        Report.putLog(reportData);
                         return Auth.signInUser({username: email, fullname: name});
                     }
                 })

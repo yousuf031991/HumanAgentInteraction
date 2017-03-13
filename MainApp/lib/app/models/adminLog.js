@@ -8,7 +8,11 @@ const adminLogsSchema = new Schema({
     },
     action: {
         type: String,
-        required: true
+        required: 'No action specified!'
+    },
+    author: {
+        type: String,
+        required: 'Admin session invalid!'
     }
 });
 

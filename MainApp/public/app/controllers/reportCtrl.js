@@ -80,6 +80,10 @@ angular.module('reportControllers', ['reportServices'])
             Report.getLog(dateData).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg2 = returnData.data.message;
+
+                    // Log in adminLog
+                    const reportData = {action: "Generated Log: " + $scope.dt3 + " to " + $scope.dt4};
+                    Report.putLog(reportData);
                 } else {
                     $scope.errorMsg2 = returnData.data.message;
                 }
