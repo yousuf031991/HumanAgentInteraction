@@ -23,9 +23,11 @@ export default function (router) {
             let username = hash.murmurHash(macAddress);
             trialinfo.username = username;
 
-            GameConfig.find({active : false}, function(err, record) {
-                if (record.length == 0)
+            GameConfig.find({active : true}, function(err, record) {
+                if (record.length == 0) {
                     res.send({success: false, message: "No active game config"});
+                    return;
+                }
 
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
