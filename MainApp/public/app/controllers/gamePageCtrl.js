@@ -175,7 +175,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             } else {
                 app.errorMsg = "Doctor Request is denied by neighbouring hospital";
             }
-
         });
 
 

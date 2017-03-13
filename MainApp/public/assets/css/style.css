@@ -57,6 +57,10 @@ header .navbar {
   padding: 10px;
 }
 
+.sidebar {
+    float: right;
+}
+
 time {
   color: hsl(0,0%,100%);
   font-family: 'Source Sans Pro', sans-serif;

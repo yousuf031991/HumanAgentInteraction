@@ -51,8 +51,8 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="P1">
-                    <span id="patientA"> Patient A: </span> <br/>
-                    <span id="patientB"> Patient B: </span><br/>
+                    <strong><span id="patientA"> Patient A: </span> <br/> </strong>
+                    <strong><span id="patientB"> Patient B: </span><br/> </strong>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -62,9 +62,9 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="S1">
-                    <span id="totalDoctors"> # Doctors : {{gameData.gameState.numberOfDoctors}} </span> <br/>
-                    <span id="totalNurses"> # Nurses : {{gameData.gameState.numberOfNurses}} </span> <br/>
-                    <span id="totalSurgeons"> # Surgeons : {{gameData.gameState.numberOfSurgeons}} </span> <br/>
+                    <strong>Number of Available Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
+                    <strong>Number of Available Nurses   : <span id="totalNurses" class="sidebar">{{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
+                    <strong>Number of Available Surgeons : <span id="totalSurgeons" class="sidebar">{{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -74,8 +74,8 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <p> Patient A: </p>
-                    <p> Patient B: </p>
+                    <strong><p> Patient A: </p></strong>
+                    <strong><p> Patient B: </p></strong>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -85,9 +85,9 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="S2">
-                    <span id="nbrDoctors"> # Doctors: {{gameData.gameState.otherNumberOfDoctors}} </span> <br/>
-                    <span id="nbrNurses"> # Nurses: {{gameData.gameState.otherNumberOfNurses}} </span> <br/>
-                    <span id="nbrSurgeons"> # Surgeons: {{gameData.gameState.otherNumberOfSurgeons}} </span> <br/>
+                    <strong>Number of Available Doctors :<span id="nbrDoctors" class="sidebar">{{gameData.gameState.otherNumberOfDoctors}} </span> <br/> </strong>
+                    <strong>Number of Available Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
+                    <strong>Number of Available Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
                 </div>
             </div>
 
@@ -221,13 +221,13 @@
                         </div>
                     </div>
 
-                    <div class="row show-hide-message padded" ng-show="gameData.successMsg">
+                    <div id="successMsg" class="row show-hide-message padded" ng-show="gameData.successMsg">
                         <div class="alert alert-success">
                             {{gameData.successMsg}}
                         </div>
                     </div>
 
-                    <div class="row show-hide-message padded" ng-show="gameData.errorMsg">
+                    <div id="errorMsg" class="row show-hide-message padded" ng-show="gameData.errorMsg">
                         <div class="alert alert-danger">
                             {{gameData.errorMsg}}
                         </div>
