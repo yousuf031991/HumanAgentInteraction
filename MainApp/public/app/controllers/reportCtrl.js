@@ -1,12 +1,18 @@
 angular.module('reportControllers', ['reportServices'])
-    .controller('reportCtrl', function ($scope) {
-        $scope.today = function() {
-            $scope.dt = new Date();
+    .controller('reportCtrl', function (Report, $scope) {
+        $scope.today = function () {
+            $scope.dt1 = new Date();
+            $scope.dt2 = new Date();
+            $scope.dt3 = new Date();
+            $scope.dt4 = new Date();
         };
         $scope.today();
 
-        $scope.clear = function() {
-            $scope.dt = null;
+        $scope.clear = function () {
+            $scope.dt1 = null;
+            $scope.dt2 = null;
+            $scope.dt3 = null;
+            $scope.dt4 = null;
         };
 
         $scope.dateOptions = {
@@ -15,11 +21,20 @@ angular.module('reportControllers', ['reportServices'])
             startingDay: 1
         };
 
-        $scope.open1 = function() {
+        $scope.open1 = function () {
             $scope.popup1.opened = true;
         };
+        $scope.open2 = function () {
+            $scope.popup2.opened = true;
+        };
+        $scope.open3 = function () {
+            $scope.popup3.opened = true;
+        };
+        $scope.open4 = function () {
+            $scope.popup4.opened = true;
+        };
 
-        $scope.setDate = function(year, month, day) {
+        $scope.setDate = function (year, month, day) {
             $scope.dt = new Date(year, month, day);
         };
 
@@ -28,6 +43,48 @@ angular.module('reportControllers', ['reportServices'])
 
         $scope.popup1 = {
             opened: false
+        };
+        $scope.popup2 = {
+            opened: false
+        };
+        $scope.popup3 = {
+            opened: false
+        };
+        $scope.popup4 = {
+            opened: false
+        };
+
+        $scope.loading1 = false;
+        $scope.errorMsg1 = false;
+        $scope.successMsg1 = false;
+
+        $scope.loading2 = false;
+        $scope.errorMsg2 = false;
+        $scope.successMsg2 = false;
+
+        $scope.getReport = function () {
+            $scope.loading1 = true;
+            console.log($scope.dt1);
+            console.log($scope.dt2);
+            $scope.loading1 = false;
+        };
+
+        $scope.getLog = function () {
+            $scope.loading2 = true;
+            $scope.errorMsg2 = false;
+            $scope.successMsg2 = false;
+            let dateData = {
+                fromDate: $scope.dt3,
+                toDate: $scope.dt4
+            };
+            Report.getLog(dateData).then(function (returnData) {
+                if (returnData.data.success) {
+                    $scope.successMsg2 = returnData.data.message;
+                } else {
+                    $scope.errorMsg2 = returnData.data.message;
+                }
+            });
+            $scope.loading2 = false;
         };
 
     });
