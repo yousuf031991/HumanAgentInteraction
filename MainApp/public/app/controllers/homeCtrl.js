@@ -1,9 +1,9 @@
-angular.module('homeControllers', ['authServices'])
-    .controller('homeController', function($rootScope, $scope, $window, $route, Auth) {
+angular.module('homeControllers', ['authServices', 'reportServices'])
+    .controller('homeController', function ($rootScope, $scope, $window, $route, Auth, Report) {
         $rootScope.$route = $route;
 
         $scope.setCurrentUser = function (user) {
-            if(user) {
+            if (user) {
                 $rootScope.currentUser = user;
             } else {
                 $rootScope.currentUser = undefined;
@@ -12,8 +12,8 @@ angular.module('homeControllers', ['authServices'])
 
         $rootScope.fetchDisplayName = function () {
             let displayName = "";
-            if($rootScope.currentUser) {
-                if($rootScope.currentUser.fullname) {
+            if ($rootScope.currentUser) {
+                if ($rootScope.currentUser.fullname) {
                     displayName = $rootScope.currentUser.fullname;
                 } else {
                     displayName = $rootScope.currentUser.username;
@@ -25,7 +25,7 @@ angular.module('homeControllers', ['authServices'])
         };
 
         $scope.isSuperAdmin = function () {
-            if($rootScope.currentUser && $rootScope.currentUser.role === 'SUPER ADMIN') {
+            if ($rootScope.currentUser && $rootScope.currentUser.role === 'SUPER ADMIN') {
                 return true;
             } else {
                 return false;
@@ -33,16 +33,23 @@ angular.module('homeControllers', ['authServices'])
         };
 
         $scope.isAdmin = function () {
-            if($rootScope.currentUser) {
+            if ($rootScope.currentUser) {
                 return true;
             } else {
                 return false;
             }
         };
 
-        $scope.logOut = function() {
+        $scope.logOut = function () {
             Auth.signOutUser({})
                 .then(function (response) {
+                    // Log in adminLog
+                    const reportData = {
+                        action: "Admin Logged out",
+                        username: $rootScope.currentUser.username,
+                        fullname: $rootScope.currentUser.fullname
+                    };
+                    Report.putLog(reportData);
                     $window.location.href = response.data.redirectTo;
                 });
         };

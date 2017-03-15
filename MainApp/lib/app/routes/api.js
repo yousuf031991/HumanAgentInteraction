@@ -7,6 +7,7 @@ import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 import WorkerQueue from '../background-jobs/worker-queue';
+import AdminLog from '../models/adminLog';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -22,9 +23,11 @@ export default function (router) {
             let username = hash.murmurHash(macAddress);
             trialinfo.username = username;
 
-            GameConfig.find({active : false}, function(err, record) {
-                if (record.length == 0)
+            GameConfig.find({active : true}, function(err, record) {
+                if (record.length == 0) {
                     res.send({success: false, message: "No active game config"});
+                    return;
+                }
 
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
@@ -77,12 +80,12 @@ export default function (router) {
         gameConfig.NHnumOfSurgeons = req.body.NHnumOfSurgeons;
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
 
-        gameConfig.save(function (error) {
+        gameConfig.save(function (error, config) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: error.errors});
             } else {
-                res.send({success: true, message: "Game config saved"});
+                res.send({success: true, message: "Game config saved", configId: config.id});
             }
         });
 
@@ -285,7 +288,27 @@ export default function (router) {
         });
     });
 
-    router.get("/exportAdminLogs", function (req, res) {
+    router.post("/addToAdminLog", function (req, res) {
+        let adminLog = new AdminLog();
+        if(req.body.fullname || req.body.username) {
+            adminLog.author = req.body.fullname? req.body.fullname: req.body.username;
+        } else {
+            adminLog.author = req.user.fullname ? req.user.fullname : req.user.username;
+        }
+        adminLog.action = req.body.action;
+
+        adminLog.save(function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: error.errors});
+            } else {
+                res.send({success: true, message: "Log entry saved"});
+            }
+        });
+    });
+
+    router.post("/exportAdminLogs", function (req, res) {
+        /*get from and to date by req.body.fromDate, req.body.toDate*/
         WorkerQueue.checkAvailability()
             .then(function (response) {
                 if(response.isAvailable) {
