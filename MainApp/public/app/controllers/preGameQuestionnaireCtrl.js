@@ -36,8 +36,8 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
         
         app.validate=function(){
         	//To ensure that the user was navigated to this page from trial info page.
-        	if(app.username==undefined)
-        		return;
+        /*	if(app.username==undefined)
+        		return;*/
 
         	app.reset();
 
