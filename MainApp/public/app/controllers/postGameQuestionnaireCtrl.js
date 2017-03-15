@@ -28,9 +28,9 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
 
         app.validateResponse=function(){
               
-/*              if(app.username==undefined)
+              if(app.username==undefined)
                 return;
-*/              
+              
 
               app.reset();
 
