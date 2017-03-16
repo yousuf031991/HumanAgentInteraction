@@ -379,7 +379,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 gamePageFactory.disableClick();
 
                 //Collecting resources
-                gamePageFactory.isCollectible();
+                gamePageFactory.isCollectible(gameState, currentTime, userStats);
             });
         };
 
@@ -425,14 +425,17 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             totalMs = timeleft;
         };
 
-        gamePageFactory.collectResource = function (roomId) {
+        gamePageFactory.collectResource = function (roomId, gameState, finishedTime, userStats) {
 
             $("#rTimeoutmodal").modal("show");
             //alert("Time over. Collect resources")
-            
+
             $("#" + roomId).text('');
             // introduce a collect resources button
-            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId + '\')" >Collect Resources</button>');
+            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId+ '\')" >Collect Resources</button>');
+
+            // Update gamestate based on room map
+            userStats.addMove("PlayerCollect," + roomId, finishedTime, gameState);
 
             //let modal = document.getElementById('mymodal');
             /* $("#rTimeoutmodal").modal("show")
@@ -492,7 +495,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             console.log(roomObject)
         };
 
-        gamePageFactory.isCollectible = function () {
+        gamePageFactory.isCollectible = function (gameState, currentTime, userStats) {
 
             //iterate over map and collect resources
             roomMap.forEach(function (value, key) {
@@ -506,7 +509,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
                     // $timeout(gamePageFactory.showTimer(), 1000);
 
-                    gamePageFactory.showTimer(key);
+                    gamePageFactory.showTimer(key, gameState, currentTime, userStats);
                     //$scope.roomTimer = 0;
 
                     value.collect = true;
@@ -516,19 +519,19 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     //alert("start the timer")
                     value.timeStarted = 60;
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
-                    gamePageFactory.showTimer(key);
+                    gamePageFactory.showTimer(key, gameState, currentTime, userStats);
                     value.collect = true
                 }
             });
         };
 
 
-        gamePageFactory.showTimer = function (key) {
+        gamePageFactory.showTimer = function (key, gameState, currentTime, userStats) {
 
             let seconds = 60;
             let rt = "01:00";
             let roomTimer = setInterval(function () {
-                minutes = Math.round((seconds - 30) / 60),
+                let minutes = Math.round((seconds - 30) / 60),
                     remainingSeconds = seconds % 60;
 
                 if (remainingSeconds < 10) {
@@ -540,9 +543,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 }
 
                 if (seconds == 0) {
-                    rt = "00:00";
+                    let rt = "00:00";
                     clearInterval(roomTimer);
-                    gamePageFactory.collectResource(key);
+                    let initialTime = currentTime.split(":");
+
+                    // Subtract one minute from the time when the timer started.
+                    // As timer for room is changed, this param should be updated
+                    let finishedTime = (parseInt(initialTime[0]) - 1) + ":" + initialTime[1];
+                    gamePageFactory.collectResource(key, gameState, finishedTime, userStats);
 
                 } else {
                     seconds--;
