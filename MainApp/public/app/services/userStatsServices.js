@@ -12,6 +12,10 @@ angular.module('userStatsServices', [])
             userStatsData.moves = [];
         };
 
+        UserStatsFactory.getStats = function() {
+            return userStatsData;
+        };
+
         UserStatsFactory.addMove = function(moveInfo, mainTimeLeft, gameState) {
             let totalScore = gameState.score + gameState.otherScore;
             let csvLine = moveInfo + ","

@@ -150,17 +150,18 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         $('#btnDoctor').click(function () {
-            PatientService.assignResource(event.target.id, app.gameState)
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
         });
 
 
         $('#btnSurgeon').click(function () {
-            PatientService.assignResource(event.target.id, app.gameState);
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
         });
 
 
         $('#btnNurse').click(function () {
-            PatientService.assignResource(event.target.id, app.gameState);
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+            console.log(UserStats.getStats());
         });
 
         // Listener for the request resource buttons  
@@ -168,12 +169,15 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             // TODO: Get Cooperation Mode from active game config
             // TODO: Get player and agent resources
             resetMsg();
+            UserStats.addMove("PlayerRequest, Doctor", $scope.counter, app.gameState);
             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
             console.log(decision);
             if (decision) {
                 app.successMsg = "Doctor Request is accepted by neighbouring hospital";
+                UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
             } else {
                 app.errorMsg = "Doctor Request is denied by neighbouring hospital";
+                UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
             }
             $location.hash('notify');
             $anchorScroll();
@@ -182,12 +186,14 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $('#btnRequestSurgeon').click(function () {
             resetMsg();
+            UserStats.addMove("PlayerRequest, Surgeon", $scope.counter, app.gameState);
             let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
             if (decision) {
                 app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
-
+                UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
             } else {
                 app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
+                UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
             }
             $location.hash('notify');
             $anchorScroll();
@@ -196,13 +202,16 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $('#btnRequestNurse').click(function () {
             resetMsg();
+            UserStats.addMove("PlayerRequest, Nurse", $scope.counter, app.gameState);
             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
             $location.hash('notify');
             $anchorScroll();
             if (decision) {
                 app.successMsg = "Nurse Request is accepted by neighbouring hospital";
+                UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
             } else {
                 app.errorMsg = "NurseRequest is denied by neighbouring hospital";
+                UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
             }
 
         });

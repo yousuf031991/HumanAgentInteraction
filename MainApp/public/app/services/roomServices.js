@@ -24,7 +24,6 @@ angular.module('roomServices', [])
 			this.timeStarted = roomData.timeStarted;
 			this.collect = roomData.collect;
 			console.log("Initializing room");
-
 			
 		}
 
