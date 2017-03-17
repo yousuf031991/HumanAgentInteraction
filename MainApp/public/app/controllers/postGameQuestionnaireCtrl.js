@@ -1,5 +1,5 @@
 angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,QuestionnaireService) {
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,QuestionnaireService) {
         
         let app = this;
         app.questionnaireIncomplete=false;
@@ -16,12 +16,12 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
 
         
         app.collectQuestions=function(){
-        	var arr=document.getElementsByClassName('question');
-        	var len=arr.length;
-        	for(var i=0;i<len;i++){
-        		app.tableRows.push(arr[i]);
-        		app.questions.push(arr[i].textContent);
-        		}
+          var arr=document.getElementsByClassName('postGameQuestion');
+          var len=arr.length;
+          for(var i=0;i<len;i++){
+            app.tableRows.push(arr[i]);
+            app.questions.push(arr[i].textContent);
+            }
 
         }
 
@@ -37,29 +37,29 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
               var responses=app.responses;
               
               if(app.questions.length==0){
-              		app.collectQuestions();
-              	}
+                  app.collectQuestions();
+                }
               var rows=app.questions.length;
               var len=responses.length;
               var response;
               
               for(var i=0;i<len;i++){
-      					response=responses[i];
-      					if(response == undefined){
-      						app.unansweredQuestions.push(i);
-      					}	 
+                response=responses[i];
+                if(response == undefined){
+                  app.unansweredQuestions.push(i);
+                }  
               }
 
               if(len<rows){
-              	for(var i=len;i<rows;i++){
-              		app.unansweredQuestions.push(i);
-              	}
+                for(var i=len;i<rows;i++){
+                  app.unansweredQuestions.push(i);
+                }
               }
 
               if(app.unansweredQuestions.length>0){
-	              
+                
                 app.highlightUnansweredRows();
-	              app.questionnaireIncomplete=incompleteQuestionnaireMessage;
+                app.questionnaireIncomplete=incompleteQuestionnaireMessage;
               }
               else{
 
@@ -73,9 +73,9 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
                      var len=app.unansweredQuestions.length;
                      var element;
                      for(var i=0;i<len;i++){
-                     	//console.log(unanswered[i]);
-          						element=app.tableRows[app.unansweredQuestions[i]];
-          	          element.className='incomplete';                     	                     	
+                      //console.log(unanswered[i]);
+                      element=app.tableRows[app.unansweredQuestions[i]];
+                      element.className='incomplete';                                             
           }
 
         }
@@ -83,22 +83,22 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
 
         app.reset=function(){
           app.unansweredQuestions=[];
-        	var len=app.tableRows.length;
-        	var row;
-        	for(var i=0;i<len;i++){
-        		row=app.tableRows[i];
-        		row.className='question';
-        	}
+          var len=app.tableRows.length;
+          var row;
+          for(var i=0;i<len;i++){
+            row=app.tableRows[i];
+            row.className='postGameQuestion';
+          }
           app.questionnaireIncomplete=false;
             
-        }	
+        } 
 
 
         app.makeStickyHeader=function(){
-        		document.getElementById('trustQuestionnaireTable').addEventListener('scroll',function(event){   
-        		var stickyHeader='translate(0,'+this.scrollTop+'px)';
-        		document.getElementById('trustQuestionnaireHeader').style.transform=stickyHeader;  		
-        	});
+            document.getElementById('trustQuestionnaireTable').addEventListener('scroll',function(event){   
+            var stickyHeader='translate(0,'+this.scrollTop+'px)';
+            document.getElementById('trustQuestionnaireHeader').style.transform=stickyHeader;     
+          });
 
            document.getElementById('taskQuestionnaireTable').addEventListener('scroll',function(event){   
            var stickyHeader='translate(0,'+this.scrollTop+'px)';
@@ -109,16 +109,16 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
         }
        
         app.makeQuestionResponsePairs=function(){
-        	var pairs=[];
-        	var len=app.questions.length;
-        	var pair;
-        	for(var i=0;i<len;i++){
-        		pair={};
-        		pair.question=app.questions[i];
-        		pair.response=app.responses[i];
-        		pairs.push(pair);
-        	}
-        	return pairs;
+          var pairs=[];
+          var len=app.questions.length;
+          var pair;
+          for(var i=0;i<len;i++){
+            pair={};
+            pair.question=app.questions[i];
+            pair.response=app.responses[i];
+            pairs.push(pair);
+          }
+          return pairs;
         }
         
 
@@ -127,7 +127,12 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
           var obj={};
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
-             console.log(returnData.data.message);
+             if(returnData.data.success){
+                $location.path('/thankyou');
+             }
+             else{
+              console.log(returnData.data.message);
+             }
           });
         }
 
