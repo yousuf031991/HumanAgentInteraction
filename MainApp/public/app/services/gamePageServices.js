@@ -33,6 +33,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let earlySlowPattern = true;
         let totalMs = 0;
         let color;
+        let score = 0;
 
         // Create room instances
         let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
@@ -436,6 +437,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             // Update gamestate based on room map
             userStats.addMove("PlayerCollect," + roomId, finishedTime, gameState);
+
+            gameState.score += 1;
+
+            $("#playerScore").text().trigger('change');
 
             //let modal = document.getElementById('mymodal');
             /* $("#rTimeoutmodal").modal("show")
