@@ -94,4 +94,12 @@ var gameConfigSchema = new Schema({
     }
 });
 
+gameConfigSchema.pre('validate', function(next) {
+    if (this.totalTimeInSeconds < this.patientHelpTimeInSeconds) {
+        this.invalidate('totalTimeInSeconds', 'Total time in seconds must be greater than patient help time!',
+            this.totalTimeInSeconds);
+    }
+    next();
+});
+
 export default mongoose.model('GameConfig', gameConfigSchema, 'gameConfig');
