@@ -433,9 +433,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             $("#" + roomId).text('');
             // introduce a collect resources button
-            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId + '\')" >Collect Resources</button>');
+            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId+ '\')" >Collect Resources</button>');
 
-            // TODO: Update gamestate based on room map
+            // Update gamestate based on room map
             userStats.addMove("PlayerCollect," + roomId, finishedTime, gameState);
 
             gameState.score += 1;
@@ -533,8 +533,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.showTimer = function (key, gameState, currentTime, userStats) {
 
-            let seconds = 30;
-            let rt = "00:30";
+            let seconds = 60;
+            let rt = "01:00";
             let roomTimer = setInterval(function () {
                 let minutes = Math.round((seconds - 30) / 60),
                     remainingSeconds = seconds % 60;

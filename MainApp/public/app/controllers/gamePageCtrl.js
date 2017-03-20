@@ -63,7 +63,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         });
 
-
         $("#playerScore").on('change', function() {
 
             var count = 0;
@@ -77,23 +76,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $('#scoreDiv').toggleClass('backgroundRed');
                 count++;
             }, 500);
-
-           
-
-
-
-
-           /* count = 0;
-            setInterval(function() {
-
-                 if(count==2) {
-                    $("#scoreDiv").css({'background-color':'transparent'});
-                    clearInterval();
-                }
-                $("#scoreDiv").css({'background-color':'red'});
-                count++;               
-        }, 500);
-*/
         });
 
         $('#resources').click(function () {
