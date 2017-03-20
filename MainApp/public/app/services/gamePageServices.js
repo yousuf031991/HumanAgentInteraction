@@ -440,7 +440,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             gameState.score += 1;
 
-            $("#playerScore").text().trigger('change');
+            $("#playerScore").trigger('change');
 
             //let modal = document.getElementById('mymodal');
             /* $("#rTimeoutmodal").modal("show")
@@ -533,8 +533,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.showTimer = function (key, gameState, currentTime, userStats) {
 
-            let seconds = 60;
-            let rt = "01:00";
+            let seconds = 30;
+            let rt = "00:30";
             let roomTimer = setInterval(function () {
                 let minutes = Math.round((seconds - 30) / 60),
                     remainingSeconds = seconds % 60;

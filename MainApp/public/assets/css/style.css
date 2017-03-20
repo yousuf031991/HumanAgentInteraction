@@ -89,6 +89,7 @@ time {
   width: 40px;
   height: 40px;
   border: 2px solid #000;
+  background-color:'red'
 }
 
 #scoreSpan {
@@ -96,4 +97,8 @@ time {
   text-align: center;
   vertical-align: middle;
   line-height: 40px;
+}
+
+.backgroundRed{
+        background: red;
 }

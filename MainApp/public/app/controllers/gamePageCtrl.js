@@ -2,6 +2,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
     .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, PatientService, Room, Agent, Circle, GameState, UserStats) {
         let app = this;
         app.username = $routeParams.username;
+        var blinkTimer;
 
         // let statsObject = {};
         // statsObject.finalScore = 10;
@@ -64,7 +65,35 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         $("#playerScore").on('change', function() {
-                
+
+            var count = 0;
+            blinkTimer = setInterval(function() {
+
+                 if(count == 7) {
+                    $('#scoreDiv').css({'background':''});
+                    clearInterval(blinkTimer);
+                }
+                console.log ("in set interval")
+                $('#scoreDiv').toggleClass('backgroundRed');
+                count++;
+            }, 500);
+
+           
+
+
+
+
+           /* count = 0;
+            setInterval(function() {
+
+                 if(count==2) {
+                    $("#scoreDiv").css({'background-color':'transparent'});
+                    clearInterval();
+                }
+                $("#scoreDiv").css({'background-color':'red'});
+                count++;               
+        }, 500);
+*/
         });
 
         $('#resources').click(function () {
