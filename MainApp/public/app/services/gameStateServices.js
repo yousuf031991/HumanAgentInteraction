@@ -17,7 +17,7 @@ angular.module('gameStateServices', [])
             this.otherNumberOfRooms         = 6;
             this.score = 0;
 			this.otherScore = 0;
-			console.log("Initializing game state");
+			//console.log("Initializing game state");
 		}
 	return GameState;
 });

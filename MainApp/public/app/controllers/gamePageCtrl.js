@@ -26,7 +26,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             let otherNumberOfPatientBsCount;
             PatientService.getGameConfig().then(function (returnData) {
                 if (returnData.data.success) {
-                    console.log(returnData.data.config);
+                   // console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
                     app.gameState = new GameState(activeGameConfig);
 
@@ -48,8 +48,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     // TODO: Start patient queueing algorithm for agent.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
                 } else {
-                    console.log("Failed");
-                    console.log(returnData.data);
+                    //console.log("Failed");
+                   // console.log(returnData.data);
                 }
             });
 
@@ -60,7 +60,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         })();
 
         function initializeSideBarQueue(patientACount, patientBCount) {
-             alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
+             //alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
 
             for (let i = 0; i<patientACount; i++) {
                 $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
@@ -93,7 +93,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     $('#scoreDiv').css({'background':''});
                     clearInterval(blinkTimer);
                 }
-                console.log ("in set interval")
+               // console.log ("in set interval")
                 $('#scoreDiv').toggleClass('backgroundRed');
                 count++;
             }, 500);
@@ -201,7 +201,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $('#btnNurse').click(function () {
             PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-            console.log(UserStats.getStats());
+            //console.log(UserStats.getStats());
         });
 
         // Listener for the request resource buttons  
@@ -211,7 +211,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             resetMsg();
             UserStats.addMove("PlayerRequest, Doctor", $scope.counter, app.gameState);
             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
-            console.log(decision);
+            //console.log(decision);
             if (decision) {
                 app.successMsg = "Doctor Request is accepted by neighbouring hospital";
                 UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);

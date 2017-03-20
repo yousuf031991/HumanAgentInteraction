@@ -69,7 +69,7 @@ angular.module('agentServices', [])
             setTimeout(function () {
 				if (currentTime != "00:00") {
 					let patientChoice;
-					console.log('Inside NHHelpPatient');
+					//console.log('Inside NHHelpPatient');
 					// If agent has both patient types in queue, pick at random
 					// Else pick non zero patient type
 					if (gameState.otherNumberOfPatientAs > 0 && gameState.otherNumberOfPatientBs > 0 && gameState.otherNumberOfRooms != 6) {
@@ -81,8 +81,8 @@ angular.module('agentServices', [])
 					} else {
 						patientChoice = 2;
 					}
-					console.log(gameState);
-					console.log('Patient Choice' + patientChoice);
+					//console.log(gameState);
+					//console.log('Patient Choice' + patientChoice);
 					// Patient Choice = A
 					if (patientChoice == 0) {
 						// Check if enough resources exists to treat chosen patient type, if so treat patient
