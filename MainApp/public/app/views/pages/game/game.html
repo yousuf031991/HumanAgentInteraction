@@ -62,9 +62,21 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="S1">
-                    <strong>Number of Available Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
-                    <strong>Number of Available Nurses   : <span id="totalNurses" class="sidebar">{{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
-                    <strong>Number of Available Surgeons : <span id="totalSurgeons" class="sidebar">{{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
+                    <div class = "col-sm-6" >
+                        <strong>Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
+                    <strong>Nurses   : <span id="totalNurses" class="sidebar">{{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
+                    <strong>Surgeons : <span id="totalSurgeons" class="sidebar">{{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
+                    </div>
+                    <div class="col-sm-6" id = "scorePanel">
+                        <strong>
+                            score
+                            <div id = "scoreDiv">
+                                <div id ="scoreSpan">
+                                    <span id = "playerScore">{{gameData.gameState.score}}</span>
+                                </div>
+                           </div>
+                        </strong>
+                    </div>   
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -85,19 +97,31 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="S2">
-                    <strong>Number of Available Doctors :<span id="nbrDoctors" class="sidebar">{{gameData.gameState.otherNumberOfDoctors}} </span> <br/> </strong>
-                    <strong>Number of Available Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
-                    <strong>Number of Available Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
+                    <div class = "col-sm-6" >
+                        <strong>Doctors :<span id="nbrDoctors" class="sidebar">{{gameData.gameState.otherNumberOfDoctors}} </span> <br/> </strong>
+                        <strong>Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
+                        <strong>Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
+                    </div>
+
+                    <div class="col-sm-6" id = "scorePanel">
+                        <strong>
+                            score
+                            <div id = "scoreDiv">
+                                <div id ="scoreSpan">
+                                    <span id = "agentScore">{{gameData.gameState.otherScore}}</span>
+                                </div>
+                           </div>
+                        </strong>
+                    </div>    
                 </div>
             </div>
-
         </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-4">
                     <div id="div1" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title  ">
+                            <h3 class="panel-title">
                                 Room 1
                             </h3>
                         </div>

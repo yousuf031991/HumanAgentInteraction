@@ -78,3 +78,22 @@ time {
   z-index: 2;
 }
 
+#scorePanel {
+  position: relative;
+  left: 90px;
+  bottom: 5px;
+}
+
+
+#scoreDiv {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #000;
+}
+
+#scoreSpan {
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+}

@@ -59,6 +59,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         });
 
+
+        $("#playerScore").on('change', function() {
+                
+        });
+
         $('#resources').click(function () {
             resetMsg();
             $('#resourcesGroup').show();
