@@ -432,9 +432,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             $("#" + roomId).text('');
             // introduce a collect resources button
-            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId+ '\')" >Collect Resources</button>');
+            $("#" + roomId).append('<button onclick= "gamePageFactory.resetToVacantState(\'' + roomId + '\')" >Collect Resources</button>');
 
-            // Update gamestate based on room map
+            // TODO: Update gamestate based on room map
             userStats.addMove("PlayerCollect," + roomId, finishedTime, gameState);
 
             //let modal = document.getElementById('mymodal');

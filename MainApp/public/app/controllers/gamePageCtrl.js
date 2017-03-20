@@ -16,7 +16,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         let patientACount = 1;
 
         (function startButton() {
-            alert("The goal is to save as many patients as possible")
+            alert("The goal is to save as many patients as possible");
             // include tharun's timer here 
 
             PatientService.newPatient();
@@ -24,7 +24,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         })();
 
         for (let i = 0; i < patientACount; i++) {
-            $("#P1 #patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+            $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
         }
 
         // Get active game config and initialize game state object
@@ -89,7 +89,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         // Timer logic
         $scope.onTimeout = function () {
-            minutes = Math.round((seconds - 30) / 60),
+            let minutes = Math.round((seconds - 30) / 60),
                 remainingSeconds = seconds % 60;
 
             if (remainingSeconds < 10) {
@@ -128,7 +128,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
             // $scope.counter++;
             mytimeout = $timeout($scope.onTimeout, 1000);
-        }
+        };
 
         let mytimeout = $timeout($scope.onTimeout, 1000);
 
@@ -138,13 +138,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             app.successMsg = false;
         }
 
-        $('#btnA').click(function (e) {
+        $('#btnA').click(function () {
             //check if patientA is available in waiting room
             PatientService.assignRoom(event.target.id)
 
         });
 
-        $('#btnB').click(function (e) {
+        $('#btnB').click(function () {
             PatientService.assignRoom(event.target.id)
         });
 
