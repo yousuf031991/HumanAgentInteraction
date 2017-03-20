@@ -6,6 +6,8 @@ import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
+import WorkerQueue from '../background-jobs/worker-queue';
+import AdminLog from '../models/adminLog';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -21,9 +23,11 @@ export default function (router) {
             let username = hash.murmurHash(macAddress);
             trialinfo.username = username;
 
-            GameConfig.find({active : false}, function(err, record) {
-                if (record.length == 0)
+            GameConfig.find({active : true}, function(err, record) {
+                if (record.length == 0) {
                     res.send({success: false, message: "No active game config"});
+                    return;
+                }
 
                 let gameConfigId = record[0]._id;
                 trialinfo.trialid = gameConfigId;
@@ -58,7 +62,7 @@ export default function (router) {
     router.post('/gameConfig', function (req, res) {
         let gameConfig = new GameConfig();
 
-        gameConfig.author = req.user.fullname;
+        gameConfig.author = req.user.username;
         gameConfig.cooperation = req.body.cooperation;
         gameConfig.mode = req.body.mode;
         gameConfig.earlyType = req.body.earlyType;
@@ -76,12 +80,12 @@ export default function (router) {
         gameConfig.NHnumOfSurgeons = req.body.NHnumOfSurgeons;
         gameConfig.patientHelpTimeInSeconds = req.body.patientHelpTimeInSeconds;
 
-        gameConfig.save(function (error) {
+        gameConfig.save(function (error, config) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: error.errors});
             } else {
-                res.send({success: true, message: "Game config saved"});
+                res.send({success: true, message: "Game config saved", configId: config.id});
             }
         });
 
@@ -230,6 +234,135 @@ export default function (router) {
     router.post('/admin/signOutUser', function(req, res) {
         req.session.reset();
         res.send({success: true, redirectTo: '/'});
+    });
+
+    router.get("/viewConf", function (req, res) {
+        GameConfig.find({}, function (error, docs) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Error"});
+            } else {
+                res.send({success: true, message: "Found configs", data: docs});
+            }
+        });
+    });
+
+    router.post("/deleteConf", function (req, res) {
+        GameConfig.findByIdAndRemove(req.body._id, function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Game Configuration doesn't exist"});
+            } else {
+                res.send({success: true, message: "Game Configuration deleted"});
+            }
+        });
+    });
+
+    router.post("/updateConf", function (req, res) {
+        // set the active config to inactive
+        GameConfig.update({ active: true }, { $set: { active: false } }, function (error) {
+            if (error) {
+                console.log(error);
+            }
+            // activate the required config
+            GameConfig.findByIdAndUpdate(req.body._id, { active: true }, function (error) {
+                if (error) {
+                    console.log(error);
+                    res.send({success: false, message: "Game Configuration doesn't exist"});
+                } else {
+                    res.send({success: true, message: "Configuration Activated"});
+                }
+            });
+        });
+    });
+
+    router.post("/deactivateConf", function (req, res) {
+        // set the active config to inactive
+        GameConfig.findByIdAndUpdate(req.body._id, { $set: { active: false } }, function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: "Configuration not found"});
+            } else {
+                res.send({success: true, message: "Configuration Deactivated"});
+            }
+        });
+    });
+
+    router.post("/addToAdminLog", function (req, res) {
+        let adminLog = new AdminLog();
+        if(req.body.fullname || req.body.username) {
+            adminLog.author = req.body.username;
+        } else {
+            adminLog.author = req.user.username;
+        }
+        adminLog.action = req.body.action;
+
+        adminLog.save(function (error) {
+            if (error) {
+                console.log(error);
+                res.send({success: false, message: error.errors});
+            } else {
+                res.send({success: true, message: "Log entry saved"});
+            }
+        });
+    });
+
+    router.post("/exportAdminLogs", function (req, res) {
+        /*get from and to date by req.body.fromDate, req.body.toDate*/
+        WorkerQueue.checkAvailability()
+            .then(function (response) {
+                if(response.isAvailable) {
+                    const jobData = {
+                        export_admin_id: req.body.export_admin_id,
+                        current_user_id: req.user.id
+                    };
+                    WorkerQueue.queueJob("ADMIN_LOGS", jobData)
+                        .then(function (job) {
+                            return WorkerQueue.executeJob(job);
+                        })
+                        .then(function () {
+                            res.send({success: true, message: "Your job has been queued."});
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                            res.send({success: false, message: error.message});
+                        });
+                } else {
+                    res.send({success: false, message: response.message});
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+                res.send({success: false, message: error.message});
+            });
+
+    });
+
+    router.post('/game/updateUserStatistics',function(req,res){
+        var query={'username':req.body.username};
+        
+        var userstatistics={};
+        
+        if(req.body.demographics!=undefined){
+            userstatistics.demographics=req.body.demographics;
+        }
+
+        else if(req.body.trustAndTaskQuestionnaire!=undefined){
+            userstatistics.trustAndTaskQuestionnaire=req.body.trustAndTaskQuestionnaire;
+        }
+
+
+       UserStatistics.findOneAndUpdate(query,userstatistics,{upsert:true},function(err,doc) {
+            
+            if (err) {
+                    res.send({success: false, message: "User statistics could not be saved"});
+                } 
+            else { 
+                    res.send({success: true, message: "User statistics saved Successfully"});
+                }
+
+        });
+
     });
 
     router.get('/home', function (req, res) {

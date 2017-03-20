@@ -1,0 +1,357 @@
+<div class="container">
+
+<h2>Demographics Questionnaire</h2>
+
+<p>Please answer following demographics questionnaire to help us know you better. Please be assured that your responses will be saved
+anonymously and will be used only for research purposes. Please note that the questions marked with asterisk(*) are 
+mandatory.</p>
+
+<br>
+
+<div class="form-group">
+
+<div class="required">
+<label for="age" id="questionAge" class="question"><b>Age:</b></label> <br> <br>
+
+<input type="number" class="form-control" id="age" ng-model="preGameQuestionnaire.age">
+
+
+<br>
+<br>
+
+
+<div class="required">
+
+<label id="questionGender" class="question"><b>Gender:</b></label> <br> <br>
+ 
+ <br>
+
+
+<input type="radio" name="gender" value="Male" ng-model="preGameQuestionnaire.gender"> Male
+<br>
+<br>
+<input type="radio" name="gender" value="Female" ng-model="preGameQuestionnaire.gender"> Female
+<br>
+<br>
+<input type="radio" name="gender" value="Other" ng-model="preGameQuestionnaire.gender"> Other
+
+
+</div>
+
+<br>
+<br>
+
+<label><b>If a current student, please write in the following</b></label> <br> <br>
+
+<br>
+
+
+<label for="college" >College:</b></label> <br> <br>
+<input type="text" class="form-control" id="college" ng-model="preGameQuestionnaire.college">
+<br>
+<br>
+
+<label for="major">Major:</b></label> <br> <br>
+<input type="text" class="form-control" id="major" ng-model="preGameQuestionnaire.major">
+<br>
+<br>
+
+
+<label for="degree">Degree in pursuit of:</b></label> <br> <br>
+<input type="text" class="form-control" id="degree" ng-model="preGameQuestionnaire.degree">
+<br>
+<br>
+
+
+<label for="noOfYears">Number of years pursuing this degree:</b></label> <br> <br>
+<input type="text" class="form-control" id="noOfYears" ng-model="preGameQuestionnaire.noOfYears">
+
+<br>
+<br>
+<br>
+<br>
+
+
+<label for="occupation">If employed, please write in your occupation</b></label> <br> <br>
+
+
+
+<input type="text" class="form-control" id="occupation" ng-model="preGameQuestionnaire.occupation">
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="required">
+
+
+<label id="questionHighestDegree" class="question"><b>Highest Level of Education Earned:</b></label> <br> <br>
+
+<br>
+
+
+<input type="radio" value="Some high school or less"  name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('highschool');"> Some high school or less
+<br>
+<br>
+<input type="radio" value="High School Diploma"  name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('highSchoolDiploma');"> High School Diploma
+<br>
+<br>
+<input type="radio" value="2 year college degree/ trades school" name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('twoYearDegree');"> 2 year college degree/ trade school (please specify area of focus/major)
+<br>
+<br>
+<input type="text" class="form-control" id="twoYearDegree" ng-show="preGameQuestionnaire.showDegreeText('twoYearDegree');" ng-model="preGameQuestionnaire.highestDegreeMajor">
+<br>
+<input type="radio" value="4 year college degree/ trades school" name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('fourYearDegree');"> 4 year college degree/ trade school (please specify area of focus/major)
+<br>
+<br>
+<input type="text" class="form-control" id="fourYearDegree" ng-show="preGameQuestionnaire.showDegreeText('fourYearDegree');" ng-model="preGameQuestionnaire.highestDegreeMajor">
+<br>
+<input type="radio" value="Masters Degree/ trades school" name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('mastersDegree');"> Masters degree/ trade school (please specify area of focus/major)
+<br>
+<br>
+<input type="text" class="form-control" id="mastersDegree" ng-show="preGameQuestionnaire.showDegreeText('mastersDegree');" ng-model="preGameQuestionnaire.highestDegreeMajor" >
+<br>
+<input type="radio" value="Professional Degree/ trades school" name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('professionalDegree');"> Professional degree/ trade school (please specify area of focus/major)
+<br>
+<br>
+<input type="text" class="form-control" id="professionalDegree" ng-show="preGameQuestionnaire.showDegreeText('professionalDegree');" ng-model="preGameQuestionnaire.highestDegreeMajor" >
+<br>
+<input type="radio" value="Doctorate Degree/ trades school" name="education"  ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('doctorateDegree');"> Doctorate degree/ trade school (please specify area of focus/major)
+<br>
+<br>
+<input type="text" class="form-control" id="doctorateDegree" ng-show="preGameQuestionnaire.showDegreeText('doctorateDegree');" ng-model="preGameQuestionnaire.highestDegreeMajor">
+<br>
+<br>
+</div>
+
+<br>
+<br>
+
+<div class="required">
+<label id="questionComputerUsageFrequency" class="question"><b>I use computer</b></label> <br> <br>
+<br>
+<input type="radio" value="Daily" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage' > Daily
+<br>
+<br>
+<input type="radio" value="Every Couple Days" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage'> Every Couple Days
+<br>
+<br>
+<input type="radio" value="Once a week" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage'> Once a week
+<br>
+<br>
+<input type="radio" value="Every couple weeks" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage'> Every couple weeks
+<br>
+<br>
+<input type="radio" value="Less than once a month" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage'> Less than once a month
+<br>
+<br>
+<input type="radio" value="Never" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage'> Never
+<br>
+<br>
+</div>
+	
+<div class="required">
+  <label id="questionComputerUsageTypes" class="question"><b>I use the computer for (check all that apply):</b></label> <br> <br> 
+   
+   
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.lookingForInfo" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Looking up information',preGameQuestionnaire.lookingForInfo)">Looking up information
+   
+   <br>
+   <br>
+   
+   <input type="checkbox"  ng-model="preGameQuestionnaire.checkingEmail" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Checking Email',preGameQuestionnaire.checkingEmail)">Checking email
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.wordProcessing" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Word Processing',preGameQuestionnaire.wordProcessing)">Word processing
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.spreadsheets" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Spreadsheets',preGameQuestionnaire.spreadsheets)">Spreadsheets
+   
+   <br>
+   <br>
+   
+  <input type="checkbox" ng-model="preGameQuestionnaire.playingGames" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Playing Games',preGameQuestionnaire.playingGames)">Playing games
+   
+   <br>
+   <br>
+   
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.otherPurposes" >Others (Please Specify)
+   
+   <br>
+   <br>
+   <input type="text" ng-show="preGameQuestionnaire.otherPurposes" ng-model="preGameQuestionnaire.otherComputerUsagePurpose">
+   
+   
+   <br>
+   <br>
+   
+  
+</div>
+
+<div class="required">
+  <label id="questionVideoGameDevices" class="question"><b>I own or play video games on the following (check all that apply):</b></label> <br> <br> 
+   
+   
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.television" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Console connected to a television',preGameQuestionnaire.television)" >Console connected to a television
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.tabletOrMobile" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Hand-held, tablet, or mobile phone',preGameQuestionnaire.tabletOrMobile)">Hand-held, tablet, or mobile phone
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.personalComputer" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Personal computer',preGameQuestionnaire.personalComputer)">Personal computer
+   
+   <br>
+   <br>
+   
+</div>
+
+
+
+<div class="required">
+  <label id="questionVideoGameTypes" class="question"><b>I play following types of video games (check all that apply):</b></label> <br> <br> 
+   
+     
+   <input type="checkbox" ng-model="preGameQuestionnaire.sportsOrRacing" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Sports or Racing',preGameQuestionnaire.sportsOrRacing)" >Sports or Racing
+   
+   <br>
+   <br>
+   
+   <input type="checkbox"  ng-model="preGameQuestionnaire.realTimeStrategy" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Real-time strategy',preGameQuestionnaire.realTimeStrategy)">Real-time strategy
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.firstPersonShooter" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'First person shooter',preGameQuestionnaire.firstPersonShooter)">First person shooter
+   
+   <br>
+   <br>
+
+   <input type="checkbox" ng-model="preGameQuestionnaire.rolePlaying" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Role-playing (RPG)',preGameQuestionnaire.rolePlaying)">Role-playing (RPG)
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.adventure" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Adventure',preGameQuestionnaire.adventure)">Adventure
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.puzzle" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Puzzle',preGameQuestionnaire.puzzle)">Puzzle
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.otherGameTypes">Other (please specify):
+   
+   <br>
+   <br>
+   
+   <input type="text" ng-show="preGameQuestionnaire.otherGameTypes" ng-model="preGameQuestionnaire.otherVideoGameTypeNames">
+   <br>
+   <br>
+</div>
+
+<div class="required">
+  <label id="questionDevicesUsed" class="question"><b>I use the following (check all that apply):</b></label> <br> <br> 
+   
+   
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.useBasicMobilePhone" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Basic mobile phone',preGameQuestionnaire.useBasicMobilePhone)">Basic mobile phone
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.useSmartPhonePDAIpad" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Mobile smart phone / PDA / iPod touch',preGameQuestionnaire.useSmartPhonePDAIpad)">Mobile smart phone / PDA / iPod touch
+   
+   <br>
+   <br>
+   
+   <input type="checkbox" ng-model="preGameQuestionnaire.useGPS" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'GPS navigation device with touch screen',preGameQuestionnaire.useGPS)">GPS navigation device with touch screen
+   
+   <br>
+   <br>
+
+   <input type="checkbox" ng-model="preGameQuestionnaire.noDevice" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'None of the above',preGameQuestionnaire.noDevice)">None of the above
+   
+   </div>
+   
+   <br>
+   <br>
+
+<div class="required">
+
+<label id="questionVideoGameExperience" class="question"><b>How much experience do you have playing video games?</b></label> <br> <br>
+
+
+
+<input type="radio" value="None" name="videoGameExperience" ng-model='preGameQuestionnaire.videoGameExperience'> None
+<br>
+<br>
+<input type="radio" value="Less than 1 year" name="videoGameExperience" ng-model='preGameQuestionnaire.videoGameExperience'> Less than 1 year
+<br>
+<br>
+<input type="radio" value="1 - 2 years" name="videoGameExperience" ng-model='preGameQuestionnaire.videoGameExperience'> 1 - 2 years
+<br>
+<br>
+<input type="radio" value="More than 2 years" name="videoGameExperience" ng-model='preGameQuestionnaire.videoGameExperience'> More than 2 years
+<br>
+<br>
+</div>
+
+
+
+<div class="required">
+
+<label id="questionVideoGameUsageFrequency" class="question"><b>I play video games</b></label> <br> <br>
+
+
+
+<input type="radio" value="Daily"  name="videoGameUsage" ng-model='preGameQuestionnaire.videoGameUsage'> Daily
+<br>
+<br>
+<input type="radio" value="A few times a week" name="videoGameUsage" ng-model='preGameQuestionnaire.videoGameUsage'> A few times a week
+<br>
+<br>
+<input type="radio" value="A few times a month" name="videoGameUsage" ng-model='preGameQuestionnaire.videoGameUsage' > A few times a month
+<br>
+<br>
+<input type="radio" value="A few times a year" name="videoGameUsage" ng-model='preGameQuestionnaire.videoGameUsage'> A few times a year
+<br>
+<br>
+
+<input type="radio" value="Less than a few times a year" name="videoGameUsage" ng-model='preGameQuestionnaire.videoGameUsage'> Less than a few times a year
+<br>
+<br>
+
+<input type="radio" value="Never" name="videoGameUsage" ng-model='preGameQuestionnaire.videoGameUsage'> Never
+<br>
+<br>
+</div>
+
+<button class="btn btn-primary" class="form-control" ng-click="preGameQuestionnaire.validate();">Submit</button>
+
+</div>
+<br>
+<br>
+
+<div class="row show-hide-message" ng-show="preGameQuestionnaire.questionnaireIncomplete">
+                          <div class="alert alert-danger">
+                              {{preGameQuestionnaire.questionnaireIncomplete}}
+            
+             
+                          </div>
+      </div>
+
+</div>

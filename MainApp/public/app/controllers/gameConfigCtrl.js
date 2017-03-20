@@ -1,5 +1,5 @@
-angular.module('gameConfigControllers', ['gameConfigServices'])
-    .controller('gameConfigCtrl', function ($location, GameConfig, $timeout) {
+angular.module('gameConfigControllers', ['gameConfigServices', 'reportServices'])
+    .controller('gameConfigCtrl', function ($location, GameConfig, $timeout, Report) {
         let app = this;
         this.gameConfig = function (gameConfigData, valid) {
             app.errorMsg = false;
@@ -8,13 +8,18 @@ angular.module('gameConfigControllers', ['gameConfigServices'])
                 GameConfig.create(app.gameConfigData).then(function (returnData) {
                     if (returnData.data.success) {
                         app.successMsg = returnData.data.message + "....Redirecting";
+
+                        // Log in adminLog
+                        const reportData = {action: "Created Config: " + returnData.data.configId};
+                        Report.putLog(reportData);
+
                         $timeout(function () {
-                            $location.path('/');
+                            $location.path('/admin');
                         }, 1500);
                     } else {
                         app.errorMsg = "";
-                        for (key in returnData.data.message){
-                            app.errorMsg += returnData.data.message[key].message +"\n";
+                        for (key in returnData.data.message) {
+                            app.errorMsg += returnData.data.message[key].message + "\n";
                         }
                     }
                     app.loading = false;

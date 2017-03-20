@@ -24,6 +24,15 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/admin/manage', {
             templateUrl: 'app/views/pages/admin/manageAdmin.html' , controller: 'manageAdminCtrl', controllerAs: 'manageAdm', activeTab: 'manageAdm'
         })
+        .when('/admin/reporting', {
+            templateUrl: 'app/views/pages/admin/reporting.html' , controller: 'reportCtrl', controllerAs: 'report', activeTab: 'reporting'
+        })
+        .when('/demographics', {
+            templateUrl: 'app/views/pages/game/Demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
+        })
+        .when('/trustAndTaskQuestionnaire', {
+            templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({

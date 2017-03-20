@@ -1,0 +1,104 @@
+<div class="page-header">
+    <h1>Reporting and Logs</h1>
+</div>
+<div class="row" ng-controller="reportCtrl">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Download Report</h3>
+            </div>
+            <form class="panel-body" ng-submit="getReport()">
+                <p>From:</p>
+
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1"
+                           is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+                           close-text="Close"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open1()"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                </p>
+                <p>To:</p>
+
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2"
+                           is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
+                           close-text="Close"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open2()"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                </p>
+
+                <button class="btn btn-success" type="submit">Generate Report</button>
+
+                <div class="jumbotron text-center" ng-show="loading1">
+                    <span class="glyphicon glyphicon-repeat spinner"></span>
+
+                    <p>Loading...</p>
+                </div>
+
+                <div class="row show-hide-message" ng-show="successMsg1">
+                    <div class="alert alert-success">
+                        {{successMsg1}}
+                    </div>
+                </div>
+                <div class="row show-hide-message" ng-show="errorMsg1">
+                    <div class="alert alert-danger">
+                        {{errorMsg1}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Download Admin Log</h3>
+            </div>
+            <form class="panel-body" ng-submit="getLog()">
+                <p>From:</p>
+
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt3"
+                           is-open="popup3.opened" datepicker-options="dateOptions" ng-required="true"
+                           close-text="Close"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open3()"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                </p>
+                <p>To:</p>
+
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt4"
+                           is-open="popup4.opened" datepicker-options="dateOptions" ng-required="true"
+                           close-text="Close"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open4()"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                </p>
+
+                <button class="btn btn-success" type="submit">Generate Log</button>
+                <div class="jumbotron text-center" ng-show="loading2">
+                    <span class="glyphicon glyphicon-repeat spinner"></span>
+
+                    <p>Loading...</p>
+                </div>
+
+                <div class="row show-hide-message" ng-show="successMsg2">
+                    <div class="alert alert-success">
+                        {{successMsg2}}
+                    </div>
+                </div>
+                <div class="row show-hide-message" ng-show="errorMsg2">
+                    <div class="alert alert-danger">
+                        {{errorMsg2}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

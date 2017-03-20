@@ -1,0 +1,332 @@
+<div class="container questionnaireContainer" ng-controller="postGameQuestionnaireCtrl">
+  <h2>Trust Questionnaire</h2>
+  <p>Please fill the following survey to let us know you better. Please be assured your responses will be saved anonymously and will be used only for research purposes</p>                                        
+  <div class="table table-responsive" id="trustQuestionnaireTable">
+  <table class="questionnaireTableClass">
+    <thead id="trustQuestionnaireHeader">
+      
+        <th class="col-lg-6 col-md-6 col-sm-6 col-xs-6 questionnaireHeaderClass">Question</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Strongly Inaccurate</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Inaccurate</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Somewhat Inaccurate</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Somewhat accurate</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Accurate</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Strongly accurate</th>        
+      
+    </thead>
+    <tbody>
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I listen to my conscience.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[0]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[0]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[0]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[0]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[0]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[0]></td>
+        <br>
+      </tr>
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I anticipate the needs of others.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[1]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[1]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[1]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[1]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[1]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[1]></td>
+        <br>
+        </tr>
+      
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I respect others.</td>
+
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[2]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[2]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[2]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[2]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[2]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[2]></td> 
+       </tr>
+       
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >  I can get along with most people.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[3]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[3]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[3]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[3]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[3]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[3]></td> 
+       </tr>
+      
+       
+       <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I have always been completely fair to others.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[4]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[4]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[4]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[4]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[4]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[4]></td> 
+       </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I stick to the rules.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[5]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[5]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[5]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[5]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[5]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[5]></td> 
+       </tr>
+
+
+       <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I believe that laws should be strictly enforced.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[6]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[6]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[6]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[6]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[6]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[6]></td> 
+       </tr>
+      
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I have a good word for everyone.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[7]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[7]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[7]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[7]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[7]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[7]></td> 
+       </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I value cooperation over competition.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[8]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[8]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[8]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[8]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[8]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[8]></td> 
+       </tr>
+
+
+       <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I return extra change when a cashier makes a mistake.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[9]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[9]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[9]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[9]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[9]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[9]></td> 
+       </tr> 
+      
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I would never cheat on my taxes.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[10]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[10]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[10]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[10]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[10]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[10]></td> 
+      </tr>
+      
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I follow through with my plans.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[11]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[11]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[11]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[11]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[11]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[11]></td> 
+      </tr>
+      
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I believe that people are basically moral.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[12]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[12]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[12]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[12]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[12]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[12]></td> 
+      </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I finish what I start.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[13]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[13]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[13]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[13]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[13]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[13]></td> 
+      </tr>
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I retreat from others.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[14]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[14]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[14]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[14]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[14]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[14]></td> 
+      </tr>
+      
+      
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I am filled with doubts about things.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[15]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[15]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[15]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[15]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[15]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[15]></td> 
+      </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I feel short-changed in life.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[16]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[16]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[16]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[16]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[16]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[16]></td> 
+      </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I avoid contact with others.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[17]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[17]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[17]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[17]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[17]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[17]></td> 
+      </tr>
+       
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I believe that most people would lie to get ahead.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[18]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[18]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[18]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[18]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[18]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[18]></td> 
+      </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I find it hard to forgive others.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[19]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[19]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat Inaccurate" ng-model=postGameQuestionnaireCtrl.responses[19]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Somewhat accurate" ng-model=postGameQuestionnaireCtrl.responses[19]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Accurate" ng-model=postGameQuestionnaireCtrl.responses[19]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"   value="Strongly accurate" ng-model=postGameQuestionnaireCtrl.responses[19]></td> 
+      </tr>
+      
+
+
+    </tbody>
+  </table>
+  <br>
+  <br>
+  </div>
+
+  <h2>Task Questionnaire</h2>
+  <p>Please fill the following survey to let us know your experience with the game. Please be assured your responses will be saved anonymously and will be used only for research purposes
+  </p>                                        
+  <div class="table table-responsive" id="taskQuestionnaireTable">
+  <table class="questionnaireTableClass">
+        <thead id="taskQuestionnaireHeader">
+      
+        <th class="col-lg-6 col-md-6 col-sm-6 col-xs-6 questionnaireHeaderClass">Question</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Strongly disagree</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Disagree</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Somewhat disagree</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Somewhat agree</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Agree</th>
+        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 questionnaireHeaderClass">Strongly agree</th>          
+    </thead>
+    
+    <tbody>
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   I frequently must co-ordinate my efforts with the neighbouring hospital.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly disagree" ng-model=postGameQuestionnaireCtrl.responses[20]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Disagree" ng-model=postGameQuestionnaireCtrl.responses[20]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat disagree" ng-model=postGameQuestionnaireCtrl.responses[20]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat agree" ng-model=postGameQuestionnaireCtrl.responses[20]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Agree" ng-model=postGameQuestionnaireCtrl.responses[20]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly agree" ng-model=postGameQuestionnaireCtrl.responses[20]></td>
+        
+      </tr>
+    
+     
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >   Goal attainment for one hospital helped goal attainment for the other hospital.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly disagree" ng-model=postGameQuestionnaireCtrl.responses[21]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Disagree" ng-model=postGameQuestionnaireCtrl.responses[21]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat disagree" ng-model=postGameQuestionnaireCtrl.responses[21]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat agree" ng-model=postGameQuestionnaireCtrl.responses[21]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Agree" ng-model=questionnaire.reponses[21]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly agree" ng-model=questionnaire.reponses[21]></td>
+        
+      </tr>
+      
+    
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" >To achieve high performance it was important to rely on each other.</td>
+       <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly disagree" ng-model=postGameQuestionnaireCtrl.responses[22]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Disagree" ng-model=postGameQuestionnaireCtrl.responses[22]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat disagree" ng-model=postGameQuestionnaireCtrl.responses[22]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat agree" ng-model=postGameQuestionnaireCtrl.responses[22]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Agree" ng-model=postGameQuestionnaireCtrl.responses[22]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly agree" ng-model=postGameQuestionnaireCtrl.responses[22]></td>
+          
+      </tr>
+      
+    
+    
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" > The tasks performed by the different hospital schedulers were related to one another.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly disagree" ng-model=postGameQuestionnaireCtrl.responses[23]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Disagree" ng-model=postGameQuestionnaireCtrl.responses[23]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat disagree" ng-model=postGameQuestionnaireCtrl.responses[23]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat agree" ng-model=postGameQuestionnaireCtrl.responses[23]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Agree" ng-model=postGameQuestionnaireCtrl.responses[23]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly agree" ng-model=postGameQuestionnaireCtrl.responses[23]></td>
+         
+      </tr>
+      
+
+      <tr class="questionnaireRowClass" >
+        <td  class="postGameQuestion" > Success for one hospital implied success for the other hospital.</td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly disagree" ng-model=postGameQuestionnaireCtrl.responses[24]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Disagree" ng-model=postGameQuestionnaireCtrl.responses[24]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat disagree" ng-model=postGameQuestionnaireCtrl.responses[24]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Somewhat agree" ng-model=postGameQuestionnaireCtrl.responses[24]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Agree" ng-model=postGameQuestionnaireCtrl.responses[24]></td>
+        <td class="questionnaireCellClass"><input type="radio" class="questionnaireRadioButton"    value="Strongly agree" ng-model=postGameQuestionnaireCtrl.responses[24]></td>
+         
+      </tr>
+    
+      </tbody>
+        </table>
+        </div>
+        
+      <button class="btn btn-primary" ng-click="postGameQuestionnaireCtrl.validateResponse();">Submit</button>
+      <br>
+      <br>
+      <div class="row show-hide-message" ng-show="postGameQuestionnaireCtrl.questionnaireIncomplete">
+                          <div class="alert alert-danger">
+                              {{postGameQuestionnaireCtrl.questionnaireIncomplete}}
+            
+             
+                          </div>
+      </div>
+</div>
+
+

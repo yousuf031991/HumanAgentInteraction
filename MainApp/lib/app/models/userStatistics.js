@@ -20,7 +20,19 @@ var userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
-    moves:[String]
+    moves:[String],
+    demographics:[
+    {
+        question: String,
+        response: Schema.Types.Mixed
+    }
+    ],
+    trustAndTaskQuestionnaire:[
+    {
+        question: String,
+        response: String
+    }
+    ]
    
 });
 
