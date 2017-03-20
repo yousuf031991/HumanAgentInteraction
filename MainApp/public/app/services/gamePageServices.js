@@ -25,9 +25,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let numPatientsForLowQuintuplet = 2;
         let totalTimeLeftInMilliseconds;
 
-        let patientACount = 1;
-        let patientBCount = 0;
+        let patientACount;
+        let patientBCount;
+        let otherNumberOfPatientAsCount;
+        let otherNumberOfPatientBsCount;
+
         let totalMissedPatients = 0;
+        let NHtotalMissedPatients = 0;
 
         let highCooperation = true;
         let earlySlowPattern = true;
@@ -117,10 +121,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 circleBs[i].setVisibility('visible');
             }
 
-            console.log("Number of patientAs: " + patientACount);
+            /*console.log("Number of patientAs: " + patientACount);
             console.log("Number of patientBs: " + patientBCount);
             console.log("totalMissedPatients: " + totalMissedPatients);
-
+*/
 
             let total = patientACount + patientBCount;
 
@@ -197,8 +201,98 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         };
 
-        gamePageFactory.newPatient = function () {
+        gamePageFactory.newPatient = function (pACount, pBCount) {
 
+            patientACount = pACount;
+            patientBCount = pBCount;
+            /*console.log("Printing patientA's and patientB's" + patientACount + patientBCount)*/
+            let milliseconds;
+            let quintupletTimeLeft = startTimeMilliseconds / 5;
+           /* console.log("startTimeMilliseconds " + startTimeMilliseconds);
+            console.log("quintupletTimeLeft " + quintupletTimeLeft);
+*/
+            //totalTimeLeftInMilliseconds = x;
+            // i++;
+
+            if (practiceRound) {
+                quintupletTimeLeft = 480000 / 5;
+                milliseconds = quintupletTimeLeft / numPatientsForMediumQuintuplet;
+            } else {
+                if (earlySlowPattern) {
+                    switch (gamePageFactory.whichQuintupletTimeLeft()) {
+                        case 1:
+                        case 3:
+                        case 5:
+                        default:
+                            milliseconds = quintupletTimeLeft / numPatientsForMediumQuintuplet;
+                            break;
+                        case 2:
+                            milliseconds = quintupletTimeLeft / numPatientsForLowQuintuplet;
+                            break;
+                        case 4:
+                            milliseconds = quintupletTimeLeft / numPatientsForHighQuintuplet;
+                            break;
+                    }
+                }
+              //  console.log("Printing milliseconds " + milliseconds)
+            }
+
+            //start a countdowntimer which takes countdown value and timeinterval as milliseconds
+            gamePageFactory.countdownTimer(milliseconds);
+
+        };
+
+
+        gamePageFactory.countdownTimer = function (milliseconds) {
+
+          //  console.log("In countdown printing milliseconds value: " + milliseconds)
+            setTimeout(function () {
+                if (totalMs !== 0) {
+
+                    // alert("Updating patients");
+                   // console.log("\n In countdown timer function");
+                    let patient = 1 + parseInt(Math.random() * ((1 - 0) + 1));
+                    // console.log("In totla")
+                    // console.log(patient)
+
+                   // console.log("patientACount and patientBCount in countdowntimer: " + patientACount + patientBCount)
+
+                    if (patient % 2 == 0) {
+                        if (patientACount + patientBCount < 6) {
+                            patientACount++;
+                            //writeStringAsFile
+                        } else {
+                            totalMissedPatients++;
+                            //writeStringAsFile
+                        }
+                        gamePageFactory.updateSideBarMain();
+                        gamePageFactory.newPatient(patientACount, patientBCount);
+
+
+                    } else if (patient % 2 == 1) {
+                        if (patientACount + patientBCount < 6) {
+                            patientBCount++;
+                            //writeStringAsFile
+                        } else {
+                            totalMissedPatients++;
+                            //writeStringAsFile
+                        }
+                        gamePageFactory.updateSideBarMain();
+                        gamePageFactory.newPatient(patientACount, patientBCount);
+                    }
+
+                }
+
+            }, milliseconds);
+        };
+
+
+        gamePageFactory.newPatientforNH = function(otherpACount, otherpBCount) {
+
+            otherNumberOfPatientAsCount = otherpACount;
+            otherNumberOfPatientBsCount = otherpBCount;
+
+            console.log("Printing patientA's and patientB's for NH" + otherNumberOfPatientAsCount + otherNumberOfPatientBsCount)
             let milliseconds;
             let quintupletTimeLeft = startTimeMilliseconds / 5;
             console.log("startTimeMilliseconds " + startTimeMilliseconds);
@@ -231,11 +325,11 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             }
 
             //start a countdowntimer which takes countdown value and timeinterval as milliseconds
-            gamePageFactory.countdownTimer(milliseconds);
+            gamePageFactory.countdownTimerforNH(milliseconds);
 
-        };
+        }
 
-        gamePageFactory.countdownTimer = function (milliseconds) {
+        gamePageFactory.countdownTimerforNH = function(milliseconds) {
 
             setTimeout(function () {
                 if (totalMs !== 0) {
@@ -246,35 +340,34 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     // console.log("In totla")
                     // console.log(patient)
 
-
                     if (patient % 2 == 0) {
-                        if (patientACount + patientBCount < 6) {
-                            patientACount++;
+                        if (otherNumberOfPatientAsCount + otherNumberOfPatientBsCount < 6) {
+                            otherNumberOfPatientAsCount++;
                             //writeStringAsFile
                         } else {
-                            totalMissedPatients++;
+                            NHtotalMissedPatients++;
                             //writeStringAsFile
                         }
                         gamePageFactory.updateSideBarMain();
-                        gamePageFactory.newPatient();
+                        gamePageFactory.newPatientforNH(otherNumberOfPatientAsCount, otherNumberOfPatientBsCount);
 
 
                     } else if (patient % 2 == 1) {
-                        if (patientACount + patientBCount < 6) {
-                            patientBCount++;
+                        if (otherNumberOfPatientAsCount + otherNumberOfPatientBsCount < 6) {
+                            otherNumberOfPatientBsCount++;
                             //writeStringAsFile
                         } else {
-                            totalMissedPatients++;
+                            NHtotalMissedPatients++;
                             //writeStringAsFile
                         }
                         gamePageFactory.updateSideBarMain();
-                        gamePageFactory.newPatient();
+                        gamePageFactory.newPatientforNH(otherNumberOfPatientAsCount, otherNumberOfPatientBsCount);
                     }
 
                 }
 
             }, milliseconds);
-        };
+        }
 
 
         gamePageFactory.whichQuintupletTimeLeft = function () {

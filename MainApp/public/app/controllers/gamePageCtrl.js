@@ -20,14 +20,27 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
             // Get active game config and initialize game state object
             let activeGameConfig = {};
+            let patientACount;
+            let patientBCount;
+            let otherNumberOfPatientAsCount;
+            let otherNumberOfPatientBsCount;
             PatientService.getGameConfig().then(function (returnData) {
                 if (returnData.data.success) {
                     console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
                     app.gameState = new GameState(activeGameConfig);
 
+                    patientACount = activeGameConfig.startNumPatientAs;
+                    patientBCount = activeGameConfig.startNumPatientBs;
+                    otherNumberOfPatientAsCount = activeGameConfig.NHstartNumPatientAs;
+                    otherNumberOfPatientBsCount = activeGameConfig.NHstartNumPatientBs; 
+
                     // Initialize Side Bar with start number of patients specified in config file
-                    initializeSideBarQueue(activeGameConfig.startNumPatientAs);
+                    initializeSideBarQueue(patientACount, patientBCount);
+
+                    // Start patient queueing algorithm for player.
+                    PatientService.newPatient(patientACount, patientBCount);
+                    PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
 
                     // Initialize User Statistics Service, to record user moves.
                     UserStats.create(app.username, activeGameConfig._id);
@@ -40,15 +53,23 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 }
             });
 
-            // Start patient queueing algorithm for player.
-            PatientService.newPatient();
-
+            /*// Start patient queueing algorithm for player.
+            PatientService.newPatient(patientACount, patientBCount);
+            PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
+*/
         })();
 
-        function initializeSideBarQueue(startNumOfPatientAs) {
-            for (let i = 0; i < startNumOfPatientAs; i++) {
+        function initializeSideBarQueue(patientACount, patientBCount) {
+             alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
+
+            for (let i = 0; i<patientACount; i++) {
                 $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
+
+            for(let j=0;j<patientBCount;j++) {
+                $("#P1").find("#patientB").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+            }
+
         }
 
         $("#patients").click(function () {
@@ -68,7 +89,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             var count = 0;
             blinkTimer = setInterval(function() {
 
-                 if(count == 7) {
+                 if(count == 5) {
                     $('#scoreDiv').css({'background':''});
                     clearInterval(blinkTimer);
                 }
