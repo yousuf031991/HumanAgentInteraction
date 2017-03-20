@@ -14,6 +14,7 @@ angular.module('gameStateServices', [])
 			this.otherNumberOfPatientBs 	= gameData.NHstartNumPatientAs;
 			this.startTime 					= gameData.totalTimeInSeconds;
             this.patientTimeLeft 			= gameData.patientHelpTimeInSeconds;
+            this.otherNumberOfRooms         = 6;
             this.score = 0;
 			this.otherScore = 0;
 			console.log("Initializing game state");

@@ -12,40 +12,43 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         // moves.push("Nurse to Room3");
         // statsObject.moves = moves;
 
-        //set initial values
-        let patientACount = 1;
 
         (function startButton() {
             alert("The goal is to save as many patients as possible");
             // include tharun's timer here 
 
+            // Get active game config and initialize game state object
+            let activeGameConfig = {};
+            PatientService.getGameConfig().then(function (returnData) {
+                if (returnData.data.success) {
+                    console.log(returnData.data.config);
+                    activeGameConfig = returnData.data.config;
+                    app.gameState = new GameState(activeGameConfig);
+
+                    // Initialize Side Bar with start number of patients specified in config file
+                    initializeSideBarQueue(activeGameConfig.startNumPatientAs);
+
+                    // Initialize User Statistics Service, to record user moves.
+                    UserStats.create(app.username, activeGameConfig._id);
+
+                    // TODO: Start patient queueing algorithm for agent.
+                    Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
+                } else {
+                    console.log("Failed");
+                    console.log(returnData.data);
+                }
+            });
+
+            // Start patient queueing algorithm for player.
             PatientService.newPatient();
 
         })();
 
-        for (let i = 0; i < patientACount; i++) {
-            $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
-        }
-
-        // Get active game config and initialize game state object
-        let activeGameConfig = {};
-        PatientService.getGameConfig().then(function (returnData) {
-            if (returnData.data.success) {
-                console.log(returnData.data.config);
-                activeGameConfig = returnData.data.config;
-                app.gameState = new GameState(activeGameConfig);
-                UserStats.create(app.username, activeGameConfig._id);
-
-                // Testing
-                // UserStats.addMove("Doctor to Room1", $scope.counter, app.gameState);
-                // UserStats.addMove("Doctor to Room2", $scope.counter, app.gameState);
-                // UserStats.addRecord();
-            } else {
-                console.log("Failed");
-                console.log(returnData.data);
+        function initializeSideBarQueue(startNumOfPatientAs) {
+            for (let i = 0; i < startNumOfPatientAs; i++) {
+                $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
-        });
-
+        }
 
         $("#patients").click(function () {
             resetMsg();
