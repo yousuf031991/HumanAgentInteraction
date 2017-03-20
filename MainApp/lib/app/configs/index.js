@@ -18,6 +18,7 @@ if(configs.mode === "production") {
     configs.connectionTimeout = 5000;
     configs.backgroundJobsPath = path.join(process.cwd(), "lib/app/background-jobs");
 }
+configs.csvPath = "public/downloads/";
 configs.backgroundJobsModules = {
     "ADMIN_LOGS": "export-admin-logs-worker.js",
     "GAME_LOGS": "export-game-logs-worker.js"

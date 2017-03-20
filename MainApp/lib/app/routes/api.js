@@ -313,10 +313,10 @@ export default function (router) {
             .then(function (response) {
                 if(response.isAvailable) {
                     const jobData = {
-                        export_admin_id: req.body.export_admin_id,
-                        current_user_id: req.user.id
+                        fromDate: req.body.fromDate,
+                        toDate: req.body.toDate
                     };
-                    WorkerQueue.queueJob("ADMIN_LOGS", jobData)
+                    WorkerQueue.queueJob("ADMIN_LOGS", req.user.username, jobData)
                         .then(function (job) {
                             return WorkerQueue.executeJob(job);
                         })

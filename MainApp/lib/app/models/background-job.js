@@ -30,6 +30,9 @@ const jobsSchema = new Schema({
     },
     outputFileName: {
         type: String
+    },
+    author: {
+        type: String
     }
 });
 
