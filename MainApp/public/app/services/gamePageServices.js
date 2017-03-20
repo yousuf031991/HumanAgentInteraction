@@ -611,9 +611,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 if (value.patientType === 'Patient A' && value.nDoctors === 1 && value.nNurses === 1 && value.collect === false) {
 
                     value.timeStarted = 60;
-                    // gamePageFactory.showTimer();
-
-                    // gamePageFactory.collectResource(key);
+                    
                     //$("#" + key + "span[id='timerForRoom']").show();
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
                     // $timeout(gamePageFactory.showTimer(), 1000);
