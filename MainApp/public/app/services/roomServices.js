@@ -23,8 +23,7 @@ angular.module('roomServices', [])
 			this.timeLeft = roomData.timeLeft;
 			this.timeStarted = roomData.timeStarted;
 			this.collect = roomData.collect;
-			console.log("Initializing room");
-
+			//console.log("Initializing room");
 			
 		}
 
