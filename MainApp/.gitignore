@@ -9,3 +9,4 @@ tmp
 !.gitkeep
 dist
 ../.idea/*
+public/downloads/*
