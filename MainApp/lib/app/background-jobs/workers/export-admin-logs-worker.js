@@ -53,7 +53,9 @@ process.on("message", (msg) => {
                 writer.end();
             })
             .then(function () {
-                process.send({type: "success", fileName: csvName});
+                setTimeout(function () {
+                    process.send({type: "success", fileName: csvName});
+                }, 10000);
             })
             .catch(function (error) {
                 process.send({type: "error", message: error.message});

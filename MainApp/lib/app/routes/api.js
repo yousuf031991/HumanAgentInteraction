@@ -8,6 +8,7 @@ import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 import WorkerQueue from '../background-jobs/worker-queue';
 import AdminLog from '../models/adminLog';
+import BackgroundJob from '../models/background-job';
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -321,7 +322,7 @@ export default function (router) {
                             return WorkerQueue.executeJob(job);
                         })
                         .then(function () {
-                            res.send({success: true, message: "Your job has been queued."});
+                            res.send({success: true, message: "Your job has been queued. Please check the exports tab to view your CSV file."});
                         })
                         .catch(function (error) {
                             console.error(error);
@@ -336,6 +337,19 @@ export default function (router) {
                 res.send({success: false, message: error.message});
             });
 
+    });
+
+    router.get("/listAdminExports", function (req, res) {
+        BackgroundJob.find({type: "ADMIN_LOGS"})
+            .sort({createdAt: -1}).exec()
+            .then(function (exports) {
+                console.log(exports);
+                res.send({success: true, data: exports});
+            })
+            .catch(function (error) {
+                console.error(error);
+                res.send({success: false, message: error.message});
+            })
     });
 
     router.post('/game/updateUserStatistics',function(req,res){
