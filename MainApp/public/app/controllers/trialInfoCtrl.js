@@ -9,13 +9,14 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     app.successMsg = returnData.data.message;
                     // var username = app.trailData.username;
                     let username = returnData.data.userid;
-                    //$location.path('/gamepage/'+username);
-                    $rootScope.username=username;
-                    //$location.path('/gamepage/'+username);
-                    var trialSession=$cookies.getObject('Trial');
-                    trialSession.lastStage=$rootScope.TRIALINFO_PAGE;
-                    trialSession.username=username;
-                    $cookies.putObject('Trial',trialSession);
+                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                    gameSession.lastStageCompleted=$rootScope.TRIALINFO_PAGE;
+                    gameSession.username=username;
+                    var date=new Date();
+                    date.setFullYear(date.getFullYear()+10);
+                    var options={};
+                    options.expires=date;
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,options);
                     $location.path('/demographics');
                 } else {
                     $location.path('/thankyou');

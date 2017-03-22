@@ -4,6 +4,7 @@ angular.module('manageGameControllers', [])
         app.username=null;
         app.latestStage=-1;
 
+        $rootScope.COOKIE_NAME='HospitalManagementGame';
         $rootScope.TRIALINFO_PAGE=1;
         $rootScope.DEMOGRAPHICS_QUESTIONNAIRE=2;
         $rootScope.GAMEPAGE=3;
@@ -11,23 +12,18 @@ angular.module('manageGameControllers', [])
         $rootScope.THANKYOU_PAGE=5;
         
         this.getTrialData=function(){
-            var gameSession=$cookies.get('HospitalManagementGame');
-            var date=new Date();
-            var year=date.getFullYear();
-            date.setFullYear(year+10);
-            var gameSessionOptions={};
-            gameSessionOptions.expires=date;
-            $cookies.put('HospitalManagementGame','ON', gameSessionOptions); //The value 'ON' is simply a placeholder. It could be any valid string
-
+            var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
             if(gameSession){ //If the game has been started from this client in past.
                 
-                var trialSession=$cookies.getObject('Trial');
-                 
-                if(trialSession){    
-                    var username=trialSession.username;
-                    $rootScope.username=app.username=username;
-                    app.latestStage=trialSession.lastStage;
+                var trialExpiry=new Date(gameSession.trialEnds);
+                                   
+                var username=gameSession.username;
+                $rootScope.username=app.username=username;
+                app.latestStage=gameSession.lastStageCompleted;
 
+                var currentTime=new Date();
+
+                if(currentTime<=trialExpiry){
 
                     switch(app.latestStage){
 
@@ -45,6 +41,7 @@ angular.module('manageGameControllers', [])
 
                 }
 
+
                 else{
                         $location.path('/thankyou');                             
                 }
@@ -53,11 +50,15 @@ angular.module('manageGameControllers', [])
 
             else{
                 
-                    var trialExpiryDate=new Date();
-                    trialExpiryDate.setHours(trialExpiryDate.getHours()+2);
-                    var trialOptions={expires:trialExpiryDate};
-                    var trialData={};
-                    $cookies.putObject('Trial',trialData,trialOptions);
+                    var trialExpiry=new Date();
+                    trialExpiry.setHours(trialExpiry.getHours()+2);
+                    var date=new Date();
+                    date.setFullYear(date.getFullYear()+10);
+                    var options={};
+                    options.expires=date;
+                    var gameSession={};
+                    gameSession.trialEnds=trialExpiry.toUTCString(); 
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, options); 
                     $location.path('/trialInfo');
 
             }

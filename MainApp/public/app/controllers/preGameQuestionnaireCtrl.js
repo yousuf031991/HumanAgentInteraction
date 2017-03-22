@@ -136,9 +136,13 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
         	QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returndata){
         			
         		if(returndata.data.success){
-                    var trialSession=$cookies.getObject('Trial');
-                    trialSession.lastStage=$rootScope.DEMOGRAPHICS_QUESTIONNAIRE;
-                    $cookies.putObject('Trial',trialSession);
+                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                    gameSession.lastStageCompleted=$rootScope.DEMOGRAPHICS_QUESTIONNAIRE;
+                    var date=new Date();
+                    date.setFullYear(date.getFullYear()+10);
+                    var options={};
+                    options.expires=date;
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,options);
         			$location.path('/gamepage/'+app.username);
         		}
         		else{

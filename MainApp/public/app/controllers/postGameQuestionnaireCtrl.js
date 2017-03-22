@@ -128,16 +128,20 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
-                var trialSession=$cookies.getObject('Trial');
-                trialSession.lastStage=$rootScope.TRUST_TASK_QUESTIONNAIRE;
-                $cookies.putObject('Trial',trialSession);
+                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                gameSession.lastStageCompleted=$rootScope.TRUST_TASK_QUESTIONNAIRE;
+                var date=new Date();
+                date.setFullYear(date.getFullYear()+10);
+                var options={};
+                options.expires=date;
+                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,options);
                 $location.path('/thankyou');
              }
              else{
               console.log(returnData.data.message);
              }
           });
-        }
+        } 
 
         app.makeStickyHeader();
         
