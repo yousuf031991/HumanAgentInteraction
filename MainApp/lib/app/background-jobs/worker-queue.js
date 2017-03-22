@@ -21,22 +21,24 @@ function checkAvailability() {
         });
 }
 
-function queueJob(type, data) {
+function queueJob(type, username, data) {
     if(!type || Utils.isEmptyObject(data)) return Promise.reject({message: "Type or Data cannot be empty"});
 
     let job = new BackgroundJob();
     job.status = "IN_PROGRESS";
     job.type = type;
+    job.author = username;
     job.data = data;
     return job.save();
 }
 
-function dequeueJob(jobID) {
+function dequeueJob(jobID, fileName) {
     if(!jobID) return Promise.reject({message: "JobID cannot be empty"});
     return BackgroundJob.findByIdAndUpdate(jobID, {
         $set: {
             status: "SUCCESSFUL",
-            completedAt: Date.now()
+            completedAt: Date.now(),
+            outputFileName: fileName
         }
     }).exec();
 }
