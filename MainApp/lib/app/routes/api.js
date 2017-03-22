@@ -8,6 +8,8 @@ import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 import WorkerQueue from '../background-jobs/worker-queue';
 import AdminLog from '../models/adminLog';
+import MacAddressStatistics from '../models/macAddressStatistics'
+
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
@@ -57,6 +59,128 @@ export default function (router) {
             });
         });
     });
+
+    
+    router.post('/trialinfo2', function (req, res) {
+        maclib.getMac(function (err, macAddress){
+            if (err) {
+                console.log(err);
+                res.send({success: false, message: "Error getting mac address"});
+            }
+
+            let hashMac = hash.murmurHash(macAddress);
+
+            MacAddressStatistics.count({mac:hashMac},function(err,count){
+                if(err){
+
+                }
+
+                else{
+
+                    if(count>0){// If there is an entry for the current mac address
+                        MacAddressStatistics.find({mac:hashMac},function(err,record){
+                            if(err){
+
+                            }
+
+                            else{
+                                let allowMultipleTrials=record.allowMultipleTrials;
+                                if(!allowMultipleTrials){ //If we are not allowing multiple trials from the same mac address then we consider incoming request as returning user
+                                    response.send({success:true, trialid:record.latestId, returningUser: true});
+                                }
+                                else{//else If we are turned ON allowing another trial from the same mac address, then we consider an incoming request as a new trial
+                                    let count=record.count+1;
+                                    let str=macAddress+"_"+count;
+                                    let username=hash.murmurHash(str);
+                                    
+                                    let macAddressStatistics={}; 
+
+                                    macAddressStatistics.count=count;
+                                    macAddressStatistics.latestId=username;
+                                    macAddressStatistics.allowMultipleTrials=false; // the multiple trials option should always be OFF unless explicitly turned ON.
+
+                                    MacAddressStatistics.findOneAndUpdate({mac:hashMac},macAddressStatistics,{upsert:true}, function(err,doc){
+                                        if(err){
+
+                                        }
+                                        else{
+                                            response.send({success:true, username:username, returningUser:false});
+                                        }
+                                    });
+                            }
+
+                            }
+                        });
+                    }
+                    else{ //Else if there was no trial played from the MAC address before
+                          let count=1;
+                          let hashMac=hash.murmurHash(macAddress)
+                          let str=macAddress+"_"+count;
+                          let username=hash.murmurHash(str);
+
+
+                          let macAddressStatistics=new MacAddressStatistics(); 
+
+                          macAddressStatistics.mac=hashMac;
+                          macAddressStatistics.count=count;
+                          macAddressStatistics.latestId=username;
+                          macAddressStatistics.allowMultipleTrials=false;
+
+                          macAddressStatistics.save(function(err){
+                                    if(err){
+
+                                        }
+                                    else{
+                                            response.send({success:true, username:username, returningUser:false});
+                                        }
+                                });
+
+                    }
+                }
+            });
+
+    });
+    
+    //http://localhost:8080/api/checkConfig 
+
+     router.post('/checkConfig', function(req,res){
+                GameConfig.find({active : true}, function(err, record) {
+                if (record.length == 0) {
+                    res.send({success: false, message: "No active game config"});
+                    return;
+                }
+                
+                let trialinfo=new TrialInfo();
+                trialid.username=req.body.username;  
+                let gameConfigId = record[0]._id;
+                trialinfo.trialid = gameConfigId;
+                
+                // Dummy field. Could be used for something later or removed.
+                trialinfo.condition = 'A';
+
+                console.log(trialinfo.username);
+                console.log("GAME CONFIG ID" + gameConfigId);
+
+                if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
+                    res.send({
+                        success: false,
+                        message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
+                    });
+                } else {
+                    trialinfo.save(function (error) {
+                        if (error) {
+                            console.log(error);
+                            // TODO: Redirect to Thank you for already playing the game page.
+                            res.send({success: false, message: "Username already exists"});
+                        } else {
+                            res.send({success: true, userid: username, message: "Trial Information saved"});
+                        }
+                    });
+                }
+            });
+     });
+
+
 
     //http://localhost:8080/api/gameConfig
     router.post('/gameConfig', function (req, res) {
