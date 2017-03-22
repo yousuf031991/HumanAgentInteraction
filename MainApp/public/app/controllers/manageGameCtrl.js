@@ -9,10 +9,8 @@ angular.module('manageGameControllers', [])
         $rootScope.GAMEPAGE=3;
         $rootScope.TRUST_TASK_QUESTIONNAIRE=4; 
         $rootScope.THANKYOU_PAGE=5;
-        console.log('Manage App Control');
-
+        
         this.getTrialData=function(){
-            console.log("Getting trial data");
             var gameSession=$cookies.get('HospitalManagementGame');
             var date=new Date();
             var year=date.getFullYear();
@@ -23,10 +21,6 @@ angular.module('manageGameControllers', [])
 
             if(gameSession){ //If the game has been started from this client in past.
                 
-                console.log("gameSession");
-
-                console.log(JSON.stringify(gameSession));
-
                 var trialSession=$cookies.getObject('Trial');
                  
                 if(trialSession){    

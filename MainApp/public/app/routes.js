@@ -1,4 +1,4 @@
-angular.module('appRoutes', ['ngRoute','ngCookies']).config(function ($routeProvider, $locationProvider, $cookiesProvider) {
+angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when('/about', {
             templateUrl: 'app/views/pages/about.html', activeTab: 'about'
