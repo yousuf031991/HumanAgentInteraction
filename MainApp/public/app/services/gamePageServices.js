@@ -129,8 +129,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             let total = patientACount + patientBCount;
 
             // TODO: Instead of fully replacing the body. Leave labels
-            $("#P1 #patientA").html("");
-            $("#P1 #patientB").html("");
+            $("#P1").find("#patientA").html("");
+            $("#P1").find("#patientB").html("");
 
             if (total >= 0 && total <= 2) {
                 gamePageFactory.setColor('green');
