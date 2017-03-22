@@ -1,5 +1,5 @@
 angular.module('trialInfoControllers', ['trialInfoServices'])
-    .controller('trialInfoCtrl', function ($http, $location, $rootScope,TrialInfo) {
+    .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo) {
         var app = this;
         this.trialInfoData = function (trailData) {
             app.errorMsg = false;
@@ -12,6 +12,10 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     //$location.path('/gamepage/'+username);
                     $rootScope.username=username;
                     //$location.path('/gamepage/'+username);
+                    var trialSession=$cookies.getObject('Trial');
+                    trialSession.lastStage=$rootScope.TRIALINFO_PAGE;
+                    trialSession.username=username;
+                    $cookies.putObject('Trial',trialSession);
                     $location.path('/demographics');
                 } else {
                     $location.path('/thankyou');

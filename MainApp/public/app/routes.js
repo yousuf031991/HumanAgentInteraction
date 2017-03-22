@@ -1,4 +1,4 @@
-angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locationProvider) {
+angular.module('appRoutes', ['ngRoute','ngCookies']).config(function ($routeProvider, $locationProvider, $cookiesProvider) {
     $routeProvider
         .when('/about', {
             templateUrl: 'app/views/pages/about.html', activeTab: 'about'
@@ -13,6 +13,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/authentication/login.html', controller: 'authController', controllerAs: 'signIn', isLogin: true
         })
         .when('/', {
+            templateUrl: 'app/views/pages/start.html', controller: 'manageGameCtrl', controllerAs: 'manageGameCtrl'
+        })
+        .when('/trialinfo', {
             templateUrl: 'app/views/pages/trialinfo/trialInfoPage.html' , controller: 'trialInfoCtrl', controllerAs: 'trialData', activeTab: 'playGame'
         })
         .when('/gamepage/:username', {
@@ -33,7 +36,7 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/trustAndTaskQuestionnaire', {
             templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
         })
-        .otherwise({redirectTo: '/'});
+        .otherwise({redirectTo: '/trialinfo'});
 
     $locationProvider.html5Mode({
         enabled: true,

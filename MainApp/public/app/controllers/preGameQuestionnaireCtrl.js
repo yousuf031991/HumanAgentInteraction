@@ -1,5 +1,5 @@
 angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('preGameQuestionnaireCtrl', function($location,$rootScope,QuestionnaireService) {
+    .controller('preGameQuestionnaireCtrl', function($location,$rootScope,$cookies,QuestionnaireService) {
         let app = this;
         app.showTwoYearDegree=false;
         app.otherPurposes=false;
@@ -136,6 +136,9 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
         	QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returndata){
         			
         		if(returndata.data.success){
+                    var trialSession=$cookies.getObject('Trial');
+                    trialSession.lastStage=$rootScope.DEMOGRAPHICS_QUESTIONNAIRE;
+                    $cookies.putObject('Trial',trialSession);
         			$location.path('/gamepage/'+app.username);
         		}
         		else{

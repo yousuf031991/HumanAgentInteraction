@@ -1,5 +1,5 @@
 angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,QuestionnaireService) {
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService) {
         
         let app = this;
         app.questionnaireIncomplete=false;
@@ -128,6 +128,9 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
+                var trialSession=$cookies.getObject('Trial');
+                trialSession.lastStage=$rootScope.TRUST_TASK_QUESTIONNAIRE;
+                $cookies.putObject('Trial',trialSession);
                 $location.path('/thankyou');
              }
              else{
