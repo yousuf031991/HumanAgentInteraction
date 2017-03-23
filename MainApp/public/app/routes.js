@@ -30,6 +30,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/admin/reporting', {
             templateUrl: 'app/views/pages/admin/reporting.html' , controller: 'reportCtrl', controllerAs: 'report', activeTab: 'reporting'
         })
+        .when('/admin/exports', {
+            templateUrl: 'app/views/pages/admin/exports.html' , controller: 'exportCtrl', controllerAs: 'export', activeTab: 'exports'
+        })
         .when('/demographics', {
             templateUrl: 'app/views/pages/game/Demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
         })

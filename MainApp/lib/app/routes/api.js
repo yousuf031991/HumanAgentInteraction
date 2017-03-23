@@ -8,6 +8,8 @@ import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 import WorkerQueue from '../background-jobs/worker-queue';
 import AdminLog from '../models/adminLog';
+import BackgroundJob from '../models/background-job';
+import * as UUID from 'uuid-1345';
 
 
 export default function (router) {

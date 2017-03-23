@@ -51,8 +51,8 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="P1">
-                    <span id="patientA"> Patient A: </span> <br/>
-                    <span id="patientB"> Patient B: </span><br/>
+                    <strong><span id="patientA"> Patient A: </span> <br/> </strong>
+                    <strong><span id="patientB"> Patient B: </span><br/> </strong>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -62,9 +62,21 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="S1">
-                    <span id="totalDoctors"> # Doctors : {{gameData.gameState.numberOfDoctors}} </span> <br/>
-                    <span id="totalNurses"> # Nurses : {{gameData.gameState.numberOfNurses}} </span> <br/>
-                    <span id="totalSurgeons"> # Surgeons : {{gameData.gameState.numberOfSurgeons}} </span> <br/>
+                    <div class = "col-sm-6" >
+                        <strong>Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
+                    <strong>Nurses   : <span id="totalNurses" class="sidebar">{{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
+                    <strong>Surgeons : <span id="totalSurgeons" class="sidebar">{{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
+                    </div>
+                    <div class="col-sm-6" id = "scorePanel">
+                        <strong>
+                            score
+                            <div id = "scoreDiv">
+                                <div id ="scoreSpan">
+                                    <span id = "playerScore">{{gameData.gameState.score}}</span>
+                                </div>
+                           </div>
+                        </strong>
+                    </div>   
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -74,8 +86,8 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    <p> Patient A: </p>
-                    <p> Patient B: </p>
+                    <strong><p> Patient A: </p></strong>
+                    <strong><p> Patient B: </p></strong>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -85,19 +97,31 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="S2">
-                    <span id="nbrDoctors"> # Doctors: {{gameData.gameState.otherNumberOfDoctors}} </span> <br/>
-                    <span id="nbrNurses"> # Nurses: {{gameData.gameState.otherNumberOfNurses}} </span> <br/>
-                    <span id="nbrSurgeons"> # Surgeons: {{gameData.gameState.otherNumberOfSurgeons}} </span> <br/>
+                    <div class = "col-sm-6" >
+                        <strong>Doctors :<span id="nbrDoctors" class="sidebar">{{gameData.gameState.otherNumberOfDoctors}} </span> <br/> </strong>
+                        <strong>Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
+                        <strong>Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
+                    </div>
+
+                    <div class="col-sm-6" id = "scorePanel">
+                        <strong>
+                            score
+                            <div id = "scoreDiv">
+                                <div id ="scoreSpan">
+                                    <span id = "agentScore">{{gameData.gameState.otherScore}}</span>
+                                </div>
+                           </div>
+                        </strong>
+                    </div>    
                 </div>
             </div>
-
         </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-4">
                     <div id="div1" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title  ">
+                            <h3 class="panel-title">
                                 Room 1
                             </h3>
                         </div>
@@ -215,19 +239,20 @@
                     <div id="requestGroup" style="display: none;">
                         <br/>
                         <div class="btn-group btn-group-justified">
-                            <a href="#"" class="btn btn-primary" id="btnRequestDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary" id="btnRequestDoctor">Doctor</a>
                             <a href="#" class="btn btn-primary" id="btnRequestNurse">Nurse</a>
                             <a href="#" class="btn btn-primary" id="btnRequestSurgeon">Surgeon</a>
                         </div>
                     </div>
 
-                    <div class="row show-hide-message padded" ng-show="gameData.successMsg">
+                    <div id ="notify"> </div>
+                    <div id="successMsg" class="row show-hide-message padded" ng-show="gameData.successMsg">
                         <div class="alert alert-success">
                             {{gameData.successMsg}}
                         </div>
                     </div>
 
-                    <div class="row show-hide-message padded" ng-show="gameData.errorMsg">
+                    <div id="errorMsg" class="row show-hide-message padded" ng-show="gameData.errorMsg" >
                         <div class="alert alert-danger">
                             {{gameData.errorMsg}}
                         </div>

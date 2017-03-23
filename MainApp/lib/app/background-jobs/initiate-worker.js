@@ -12,12 +12,14 @@ export default function initiateWorker(job) {
     const worker = childProcess.fork(workerPath);
 
     worker.on("message", (msg) => {
-        console.log('PARENT got message ------- ');
-        console.log(msg);
+        console.log('PARENT got message ---- ' + msg.type);
 
         //always check msg type to filter out unnecessary signals
-        if(msg.type === "success") {
-            WorkerQueue.dequeueJob(job._id);
+        if(msg.type === "initiationComplete") {
+            worker.send({ type: 'start', job: job });
+            return;
+        } else if(msg.type === "success") {
+            WorkerQueue.dequeueJob(job._id, msg.fileName);
         } else if(msg.type === "error") {
             console.error("CHILD PROCESS RETURNED ERROR MESSAGE");
             console.error(msg);
@@ -29,15 +31,14 @@ export default function initiateWorker(job) {
     });
 
     worker.on("exit", (code) => {
-        console.log("EXIT event from child process");
-        console.log(code);
         if(code === 1) {
+            console.log("Fatal Error from child process");
             // fatal error. hit retry
             WorkerQueue.retryJob(job._id);
         }
     });
 
-    worker.send({ type: 'start', job: job });
+    worker.send({ type: 'initiate', job: job });
 
     return Promise.resolve();
 }

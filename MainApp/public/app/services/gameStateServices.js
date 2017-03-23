@@ -1,5 +1,5 @@
 angular.module('gameStateServices', [])
-    .factory('GameState', function ($http) {
+    .factory('GameState', function () {
     	function GameState(gameData) {
 			// Public properties, assigned to the instance ('this')
 			this.numberOfPatientAs 			= gameData.startNumPatientAs;
@@ -13,10 +13,11 @@ angular.module('gameStateServices', [])
 			this.otherNumberOfPatientAs 	= gameData.NHstartNumPatientAs;
 			this.otherNumberOfPatientBs 	= gameData.NHstartNumPatientAs;
 			this.startTime 					= gameData.totalTimeInSeconds;
-			this.patientTimeLeft			= gameData.patientHelpTimeInSeconds;
-			this.score = 0;
+            this.patientTimeLeft 			= gameData.patientHelpTimeInSeconds;
+            this.otherNumberOfRooms         = 6;
+            this.score = 0;
 			this.otherScore = 0;
-			console.log("Initializing game state");
+			//console.log("Initializing game state");
 		}
 	return GameState;
 });

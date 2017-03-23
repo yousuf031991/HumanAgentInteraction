@@ -43,6 +43,7 @@
     <script src="app/controllers/manageGameCtrl.js"></script>
     <script src="app/controllers/preGameQuestionnaireCtrl.js"></script>
     <script src="app/controllers/postGameQuestionnaireCtrl.js"></script>
+    <script src="app/controllers/exportCtrl.js"></script>
 
 
     
@@ -60,6 +61,7 @@
     <script src="app/services/gameStateServices.js"></script>
     <script src="app/services/userStatsServices.js"></script>
     <script src="app/services/questionnaireServices.js"></script>
+    <script src="app/services/exportServices.js"></script>
 
 
     <script src="assets/images/"></script>
@@ -93,6 +95,9 @@
                 </li>
                 <li ng-class="{active: $route.current.activeTab === 'reporting'}" ng-if="isAdmin()">
                     <a href="/admin/reporting">Report</a>
+                </li>
+                <li ng-class="{active: $route.current.activeTab === 'exports'}" ng-if="isSuperAdmin()">
+                    <a href="/admin/exports">CSV Exports</a>
                 </li>
 
             </ul>
