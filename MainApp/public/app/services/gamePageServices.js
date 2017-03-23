@@ -27,8 +27,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         let patientACount;
         let patientBCount;
-        let otherNumberOfPatientAsCount;
-        let otherNumberOfPatientBsCount;
+        let otherNumberOfPatientAsCount = 0;
+        let otherNumberOfPatientBsCount = 0;
 
         let totalMissedPatients = 0;
         let NHtotalMissedPatients = 0;
@@ -116,7 +116,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 circleAs[i].setVisibility('visible', 'A');
             }
 
-            // Update number of pateint B circles
+            // Update number of patient B circles
             for (let i = 0; i < patientBCount; i++) {
                 circleBs[i].setVisibility('visible');
             }
@@ -126,9 +126,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             console.log("totalMissedPatients: " + totalMissedPatients);
 */
 
+            // Updating the colors for player waiting queue
             let total = patientACount + patientBCount;
 
-            // TODO: Instead of fully replacing the body. Leave labels
             $("#P1").find("#patientA").html("");
             $("#P1").find("#patientB").html("");
 
@@ -141,6 +141,25 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             } else if (total > 4 && total <= 6) {
                 gamePageFactory.setColor('red');
                 color = 'red';
+            }
+            
+            // Updating the colors for agent waiting queue
+            let otherTotal = otherNumberOfPatientAsCount + otherNumberOfPatientBsCount;
+            $("#P2").find("#otherPatientA").html("");
+            $("#P2").find("#otherPatientB").html("");
+            console.log(otherTotal);
+            if (otherTotal >= 0 && otherTotal <= 2) {
+                // TODO: Set green square in agent's patient A and patient B waiting queue
+                $("#P2").find("#otherPatientA").append("<div class='square center bg-green'></div>");
+                $("#P2").find("#otherPatientB").append("<div class='square center bg-green'></div>");
+            } else if (otherTotal > 2 && otherTotal <= 4) {
+                // TODO: Set yellow
+                $("#P2").find("#otherPatientA").append("<div class='square center bg-yellow'></div>");
+                $("#P2").find("#otherPatientB").append("<div class='square center bg-yellow'></div>");
+                            } else if (otherTotal > 4 && otherTotal <= 6) {
+                // TODO: Set red
+                $("#P2").find("#otherPatientA").append("<div class='square center bg-red'></div>");
+                $("#P2").find("#otherPatientB").append("<div class='square center bg-red'></div>");
             }
         };
 

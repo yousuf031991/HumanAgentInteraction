@@ -87,16 +87,26 @@
                         <strong>Nurses   : <span id="totalNurses" class="sidebar"> {{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
                         <strong>Surgeons : <span id="totalSurgeons" class="sidebar"> {{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
                     </div>
-                    <div class="col-sm-6" id = "scorePanel">
-                        <strong>
-                            score
-                            <div id = "scoreDiv">
-                                <div id ="scoreSpan">
-                                    <span id = "playerScore">{{gameData.gameState.score}}</span>
+                    <div class="col-sm-6">
+                        <div class="text-center">
+                            <strong>
+                                <span class="text-center">Score</span>
+                                <div class="square center v-align">
+                                    <span id="score">{{gameData.gameState.score}}</span>
                                 </div>
-                           </div>
-                        </strong>
-                    </div>   
+                            </strong>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6" id = "scorePanel">-->
+                        <!--<strong>-->
+                            <!--Score-->
+                            <!--<div id = "scoreDiv">-->
+                                <!--<div id ="scoreSpan">-->
+                                    <!--<span id = "playerScore">{{gameData.gameState.score}}</span>-->
+                                <!--</div>-->
+                           <!--</div>-->
+                        <!--</strong>-->
+                    <!--</div>   -->
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -105,9 +115,19 @@
                         Neighbor's Waiting room
                     </h3>
                 </div>
-                <div class="panel-body">
-                    <strong><p> Patient A: </p></strong>
-                    <strong><p> Patient B: </p></strong>
+                <div class="panel-body" id="P2">
+                    <div class = "col-sm-6" >
+                        <strong>
+                            <p class="text-center"> Patient A </p>
+                        </strong>
+                        <span id="otherPatientA"><div class="square center bg-green"></div></span><br/>
+                    </div>
+                    <div class = "col-sm-6" >
+                        <strong>
+                            <p class="text-center"> Patient B </p>
+                        </strong>
+                        <span id="otherPatientB"><div class="square center bg-green"></div></span><br/>
+                    </div>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -122,17 +142,26 @@
                         <strong>Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
                         <strong>Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
                     </div>
-
-                    <div class="col-sm-6" id = "scorePanel">
-                        <strong>
-                            score
-                            <div id = "scoreDiv">
-                                <div id ="scoreSpan">
-                                    <span id = "agentScore">{{gameData.gameState.otherScore}}</span>
+                    <div class="col-sm-6">
+                        <div class="text-center">
+                            <strong>
+                                <span class="text-center">Score</span>
+                                <div class="square center v-align">
+                                    <span id="agentScore">{{gameData.gameState.otherScore}}</span>
                                 </div>
-                           </div>
-                        </strong>
-                    </div>    
+                            </strong>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6" id = "scorePanel">-->
+                        <!--<strong>-->
+                            <!--score-->
+                            <!--<div id = "scoreDiv">-->
+                                <!--<div id ="scoreSpan">-->
+                                    <!--<span id = "agentScore">{{gameData.gameState.otherScore}}</span>-->
+                                <!--</div>-->
+                           <!--</div>-->
+                        <!--</strong>-->
+                    <!--</div>    -->
                 </div>
             </div>
         </div>
