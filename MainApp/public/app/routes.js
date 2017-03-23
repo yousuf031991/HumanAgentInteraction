@@ -34,7 +34,7 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/admin/exports.html' , controller: 'exportCtrl', controllerAs: 'export', activeTab: 'exports'
         })
         .when('/demographics', {
-            templateUrl: 'app/views/pages/game/Demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
+            templateUrl: 'app/views/pages/game/demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
         })
         .when('/trustAndTaskQuestionnaire', {
             templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
