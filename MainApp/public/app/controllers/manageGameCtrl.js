@@ -11,6 +11,15 @@ angular.module('manageGameControllers', [])
         $rootScope.TRUST_TASK_QUESTIONNAIRE=4; 
         $rootScope.THANKYOU_PAGE=5;
         
+        $rootScope.getCookieOptions=function(){
+            var date=new Date();
+            date.setFullYear(date.getFullYear()+10);
+            var options={};
+            options.expires=date;
+            return options;
+        };
+
+
         this.getTrialData=function(){
             var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
             if(gameSession){ //If the game has been started from this client in past.
@@ -43,7 +52,7 @@ angular.module('manageGameControllers', [])
 
 
                 else{
-                        $location.path('/thankyou');                             
+                        $location.path('/timeout');                             
                 }
 
             }
@@ -51,7 +60,7 @@ angular.module('manageGameControllers', [])
             else{
                 
                     var trialExpiry=new Date();
-                    trialExpiry.setHours(trialExpiry.getHours()+2);
+                    trialExpiry.setHours(trialExpiry.getHours()+3);
                     var date=new Date();
                     date.setFullYear(date.getFullYear()+10);
                     var options={};

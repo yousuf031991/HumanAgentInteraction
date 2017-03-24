@@ -6,6 +6,11 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/thankyou', {
             templateUrl: 'app/views/pages/thankyou.html', activeTab: 'thankyou'
         })
+
+        .when('/timeout', {
+            templateUrl: 'app/views/pages/sessionTimeout.html', activeTab: 'thankyou'
+        })
+
         .when('/admin', {
             templateUrl: 'app/views/pages/admin/adminPage.html', controller: 'adminController', controllerAs: 'admin', activeTab: 'adminPanel'
         })

@@ -1,5 +1,5 @@
 angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, PatientService, Room, Agent, Circle, GameState, UserStats) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats) {
         let app = this;
         app.username = $routeParams.username;
         var blinkTimer;
@@ -139,6 +139,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             if (seconds == 0) {
                 $scope.counter = "00:00";
                 //console.log(seconds);
+
+                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
+                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
+                $location.path('/trustAndTaskQuestionnaire');
+
+
             } else {
                 seconds--;
             }

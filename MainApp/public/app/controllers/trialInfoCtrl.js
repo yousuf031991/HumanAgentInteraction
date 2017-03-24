@@ -12,11 +12,8 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
                     gameSession.lastStageCompleted=$rootScope.TRIALINFO_PAGE;
                     gameSession.username=username;
-                    var date=new Date();
-                    date.setFullYear(date.getFullYear()+10);
-                    var options={};
-                    options.expires=date;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,options);
+                    $rootScope.username=username;
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
                     $location.path('/demographics');
                 } else {
                     $location.path('/thankyou');

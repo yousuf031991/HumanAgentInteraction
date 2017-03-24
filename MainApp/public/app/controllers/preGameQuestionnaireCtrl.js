@@ -138,11 +138,7 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
         		if(returndata.data.success){
                     var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
                     gameSession.lastStageCompleted=$rootScope.DEMOGRAPHICS_QUESTIONNAIRE;
-                    var date=new Date();
-                    date.setFullYear(date.getFullYear()+10);
-                    var options={};
-                    options.expires=date;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,options);
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
         			$location.path('/gamepage/'+app.username);
         		}
         		else{
