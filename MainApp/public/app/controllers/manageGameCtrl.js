@@ -61,13 +61,9 @@ angular.module('manageGameControllers', [])
                 
                     var trialExpiry=new Date();
                     trialExpiry.setHours(trialExpiry.getHours()+3);
-                    var date=new Date();
-                    date.setFullYear(date.getFullYear()+10);
-                    var options={};
-                    options.expires=date;
                     var gameSession={};
                     gameSession.trialEnds=trialExpiry.toUTCString(); 
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, options); 
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, $rootScope.getCookieOptions()); 
                     $location.path('/trialInfo');
 
             }
