@@ -62,6 +62,83 @@ angular.module('agentServices', [])
 			// TODO: Add interrupt request implementation
 		};
 
+        // Resource sharing algorithm for agent. Used instead of request resource algorithm
+        agentFactory.NHShareResource = function(patientService, gameState) {
+        	let totalAvailableResources = gameState.otherNumberOfDoctors + gameState.otherNumberOfNurses + gameState.otherNumberOfSurgeons;
+        	if (totalAvailableResources > 0) {
+                let shareWaitTime = 0;
+                let quintupletTimeLeft = (gameState.startTime*1000) / 5;
+
+                // Choosing wait time to share resources based on quintuple.
+                // Shares at faster rate, when patients are coming faster and vice versa
+				let quintupletNum = patientService.whichQuintupletTimeLeft();
+                switch (quintupletNum) {
+                    case 2:
+                        shareWaitTime = quintupletTimeLeft / gameState.numPatientsForLowQuintuplet;
+                        break;
+                    case 4:
+                        shareWaitTime = quintupletTimeLeft / gameState.numPatientsForHighQuintuplet;
+                        break;
+                    default:
+                        shareWaitTime = quintupletTimeLeft / gameState.numPatientsForMediumQuintuplet;
+                        break;
+                }
+                console.log("QuintupleNum: " + quintupletNum);
+                console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
+                agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime);
+			}
+
+		};
+
+        // Timer function to share resources
+    	agentFactory.NHShareResourceTimer = function(patientService, gameState, milliseconds) {
+			setTimeout(function() {
+				// Wait time before sharing is determined based on cooperation mode set
+				// Step 1: Form an array of non-zero resources
+				// Step 2: Select an available resource at random to share
+				// Step 3: Share one resource of the randomly selected resource type to player
+
+				let resources = [gameState.otherNumberOfDoctors, gameState.otherNumberOfNurses, gameState.otherNumberOfSurgeons];
+				let resourceTag = ['D', 'N', 'S'];
+				let availableResources = [];
+
+				// Step 1
+				for (let i = 0; i < 3; i++) {
+					if (resources[i] > 0) {
+						availableResources.push(resourceTag[i]);
+					}
+				}
+
+				// Step 2
+				let randomIdx = agentFactory.generateRandomNum(0, availableResources.length - 1);
+				console.log("Available Resources: "+availableResources);
+				console.log("Random Idx : "+ randomIdx);
+
+				// Step 3
+                // Update agent's available resource in game state
+				// Update player's available resource in game state
+                // Notify player that agent shared a resource
+                $('#notifyModalTitle').text("Notification");
+                if (availableResources[randomIdx] == 'D') {
+                	gameState.otherNumberOfDoctors -= 1;
+					gameState.numberOfDoctors  += 1;
+                    $('#notifyModalbody').text("Agent has shared a doctor");
+                } else if (availableResources[randomIdx] == 'N') {
+                    gameState.otherNumberOfNurses -= 1;
+                    gameState.numberOfNurses   += 1;
+                    $('#notifyModalbody').text("Agent has shared a nurse");
+                } else if (availableResources[randomIdx] == 'S') {
+                    gameState.otherNumberOfSurgeons -= 1;
+                    gameState.numberOfSurgeons += 1;
+                    $('#notifyModalbody').text("Agent has shared a surgeon")
+                }
+
+                $('#notifyModal').modal("show");
+                agentFactory.NHShareResource(patientService, gameState);
+			}, milliseconds);
+		};
+
+    	// Resource request algorithm for agent. Currently, not used. Added for the future.
     	agentFactory.NHHelpPatient = function(milliseconds, gameState, currentTime) {
     		// Codes Used:
 			// Nurses  :  1

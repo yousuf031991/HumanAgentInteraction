@@ -1,7 +1,7 @@
 angular.module('gamePageServices', ['roomServices', 'circleServices'])
     .factory('PatientService', function ($http, $timeout, Room, Circle) {
 
-        gamePageFactory = {};
+        let gamePageFactory = {};
         let roomSelector = "div[class='panel-body fixed-panel center']";
         let map = new Map();
         let patientMap = new Map();
@@ -19,7 +19,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         let startTimeMilliseconds = 480000;
         let practiceRound = false;
-        let interruptOn = false;
+        // let interruptOn = false;
         let numPatientsForHighQuintuplet = 8;
         let numPatientsForMediumQuintuplet = 5;
         let numPatientsForLowQuintuplet = 2;
@@ -33,11 +33,11 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let totalMissedPatients = 0;
         let NHtotalMissedPatients = 0;
 
-        let highCooperation = true;
+        // let highCooperation = true;
         let earlySlowPattern = true;
         let totalMs = 0;
         let color;
-        let score = 0;
+        // let score = 0;
 
         // Create room instances
         let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
@@ -69,7 +69,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.disableClick = function () {
-            //alert('disbaled')
             $(roomSelector).off('click');
             $(roomSelector).css("background", "");
         };
@@ -145,21 +144,25 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             
             // Updating the colors for agent waiting queue
             let otherTotal = otherNumberOfPatientAsCount + otherNumberOfPatientBsCount;
-            $("#P2").find("#otherPatientA").html("");
-            $("#P2").find("#otherPatientB").html("");
-            console.log(otherTotal);
+            let otherPatientADiv = $("#P2").find("#otherPatientA");
+            let otherPatientBDiv = $("#P2").find("#otherPatientB");
+
+            let greenSquare = "<div class='square center bg-green'></div>";
+            let yellowSquare = "<div class='square center bg-yellow'></div>";
+            let redSquare = "<div class='square center bg-red'></div>";
+
+            otherPatientADiv.html("");
+            otherPatientBDiv.html("");
+            // console.log(otherTotal);
             if (otherTotal >= 0 && otherTotal <= 2) {
-                // TODO: Set green square in agent's patient A and patient B waiting queue
-                $("#P2").find("#otherPatientA").append("<div class='square center bg-green'></div>");
-                $("#P2").find("#otherPatientB").append("<div class='square center bg-green'></div>");
+                otherPatientADiv.append(greenSquare);
+                otherPatientBDiv.append(greenSquare);
             } else if (otherTotal > 2 && otherTotal <= 4) {
-                // TODO: Set yellow
-                $("#P2").find("#otherPatientA").append("<div class='square center bg-yellow'></div>");
-                $("#P2").find("#otherPatientB").append("<div class='square center bg-yellow'></div>");
-                            } else if (otherTotal > 4 && otherTotal <= 6) {
-                // TODO: Set red
-                $("#P2").find("#otherPatientA").append("<div class='square center bg-red'></div>");
-                $("#P2").find("#otherPatientB").append("<div class='square center bg-red'></div>");
+                otherPatientADiv.append(yellowSquare);
+                otherPatientBDiv.append(yellowSquare);
+            } else if (otherTotal > 4 && otherTotal <= 6) {
+                otherPatientADiv.append(redSquare);
+                otherPatientBDiv.append(redSquare);
             }
         };
 
@@ -227,14 +230,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             /*console.log("Printing patientA's and patientB's" + patientACount + patientBCount)*/
             let milliseconds;
             let quintupletTimeLeft = startTimeMilliseconds / 5;
-           /* console.log("startTimeMilliseconds " + startTimeMilliseconds);
+
+            /* console.log("startTimeMilliseconds " + startTimeMilliseconds);
             console.log("quintupletTimeLeft " + quintupletTimeLeft);
 */
             //totalTimeLeftInMilliseconds = x;
             // i++;
 
             if (practiceRound) {
-                quintupletTimeLeft = 480000 / 5;
                 milliseconds = quintupletTimeLeft / numPatientsForMediumQuintuplet;
             } else {
                 if (earlySlowPattern) {
@@ -286,8 +289,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                     // alert("Updating patients");
                    // console.log("\n In countdown timer function");
-                    let patient = 1 + parseInt(Math.random() * ((1 - 0) + 1));
-                    // console.log("In totla")
+                    let patient = 1 + parseInt(Math.random() * ((1) + 1));
                     // console.log(patient)
 
                    // console.log("patientACount and patientBCount in countdowntimer: " + patientACount + patientBCount)
@@ -379,7 +381,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             //start a countdowntimer which takes countdown value and timeinterval as milliseconds
             gamePageFactory.countdownTimerforNH(milliseconds);
 
-        }
+        };
 
         gamePageFactory.countdownTimerforNH = function(milliseconds) {
 
@@ -388,8 +390,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                     // alert("Updating patients");
                    //FF console.log("\n In countdown timer function");
-                    let patient = 1 + parseInt(Math.random() * ((1 - 0) + 1));
-                    // console.log("In totla")
+                    let patient = 1 + parseInt(Math.random() * ((1) + 1));
                     // console.log(patient)
 
                     if (patient % 2 == 0) {
@@ -419,11 +420,11 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 }
 
             }, milliseconds);
-        }
-
+        };
 
         gamePageFactory.whichQuintupletTimeLeft = function () {
             let quintupletTimeLeft = startTimeMilliseconds / 5;
+            console.log(totalTimeLeftInMilliseconds);
             if (totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft) //First Quintuplet
                 return 1;
 
@@ -451,14 +452,16 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 let __roomId = myroomid.replace("R", "div");
 
                 if (resourceId === 'btnDoctor') {
-                    // // Checking if enough doctors are present
+                    // Checking if enough doctors are present
                     if (gameState.numberOfDoctors > 0) {
                         gameState.numberOfDoctors -= 1;
                         roomMap.get(myroomid).nDoctors = 1;
                         $("#" + myroomid + " span[id='nDoctors']").text(roomMap.get(myroomid).nDoctors);
                     } else {
-                        $("#errorModalbody").text("Insufficient Number of Doctors");
-                        $("#errorModal").modal("show");
+                        $('#notifyModalTitle').text("Error");
+                        $("#notifyModalbody").text("Insufficient Number of Doctors");
+                        //noinspection JSUnresolvedFunction
+                        $("#notifyModal").modal("show");
                         userStats.addMove("FailAssign, Doctor", currentTime, gameState);
                     }
                 } else if (resourceId === 'btnSurgeon') {
@@ -469,8 +472,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         roomMap.get(myroomid).nSurgeons = 1;
                         $("#" + myroomid + " span[id='nSurgeons']").text(roomMap.get(myroomid).nSurgeons);
                     } else {
-                        $("#errorModalbody").text("Insufficient Number of Surgeons");
-                        $("#errorModal").modal("show");
+                        $('#notifyModalTitle').text("Error");
+                        $("#notifyModalbody").text("Insufficient Number of Surgeons");
+                        //noinspection JSUnresolvedFunction
+                        $("#notifyModal").modal("show");
                         userStats.addMove("FailAssign, Surgeon", currentTime, gameState);
                     }
                 } else if (resourceId === 'btnNurse') {
@@ -481,8 +486,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         roomMap.get(myroomid).nNurses = 1;
                         $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
                     } else {
-                        $("#errorModalbody").text("Insufficient Number of Nurses");
-                        $("#errorModal").modal("show");
+                        $('#notifyModalTitle').text("Error");
+                        $("#notifyModalbody").text("Insufficient Number of Nurses");
+                        //noinspection JSUnresolvedFunction
+                        $("#notifyModal").modal("show");
                         userStats.addMove("FailAssign, Nurse", currentTime, gameState);
                     }
                 }
@@ -498,8 +505,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         patientACount -= 1;
                         gamePageFactory.update2();
                     } else {
-                        $("#errorModalbody").text("Insufficient Number of Patient As");
-                        $("#errorModal").modal("show");
+                        $('#notifyModalTitle').text("Error");
+                        $("#notifyModalbody").text("Insufficient Number of Patient As");
+                        //noinspection JSUnresolvedFunction
+                        $("#notifyModal").modal("show");
                         //console.log("No patient As are available currently");
                         return;
                     }
@@ -517,8 +526,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         patientBCount -= 1;
                         gamePageFactory.update2();
                     } else {
-                        $("#errorModalbody").text("Insufficient Number of Patient Bs");
-                        $("#errorModal").modal("show");
+                        $('#notifyModalTitle').text("Error");
+                        $("#notifyModalbody").text("Insufficient Number of Patient Bs");
+                        //noinspection JSUnresolvedFunction
+                        $("#notifyModal").modal("show");
                         // console.log("No patient Bs are available currently");
                         return;
                     }
@@ -539,14 +550,19 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.update2 = function () {
 
+            let patientADiv;
+            let patientBDiv;
             let total = patientACount + patientBCount;
             let x = patientACount;
             let y = patientBCount;
 
             //console.log("X value: " + x + "Y value: " + y);
 
-            $("#P1 #patientA").html("");
-            $("#P1 #patientB").html("");
+            patientADiv = $("#P1").find("#patientA");
+            patientBDiv = $("#P1").find("#patientB");
+
+            patientADiv.html("");
+            patientBDiv.html("");
 
             if (total >= 0 && total <= 2) {
                 color = 'green';
@@ -558,14 +574,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             if (x > 0) {
                 while (x != 0) {
-                    $("#P1 #patientA").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
+                    patientADiv.append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
                     x -= 1;
                 }
             }
 
             if (y > 0) {
                 while (y != 0) {
-                    $("#P1 #patientB").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
+                    patientBDiv.append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
                     y -= 1;
                 }
 
@@ -576,19 +592,22 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.timeProgress = function (timeleft) {
             totalMs = timeleft;
+            totalTimeLeftInMilliseconds = timeleft;
         };
 
         gamePageFactory.collectResource = function (roomId, gameState, finishedTime, userStats) {
 
            //alert("Time over. Collect resources")
             
-            var divi2 = roomId.replace("R", "div");
+            let divi2 = roomId.replace("R", "div");
+            let roomDiv = $(`#${roomId}`);
 
-            $(`#${roomId}`).text('');
+            // Reset room
+            roomDiv.text('');
 
-            // introduce a collect resources button and bind it to reset room to vacant state
-            $(`#${roomId}`).append('<button id = "collectButton">Collect Resources</button>');
-            $(`#${roomId}`).find('#collectButton').bind('click', function() {
+            // Introduce a collect resources button and bind it to reset room to vacant state
+            roomDiv.append('<button id = "collectButton">Collect Resources</button>');
+            roomDiv.find('#collectButton').bind('click', function() {
                 gamePageFactory.resetToVacantState(roomId, gameState);
             });
 
@@ -648,6 +667,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             $("#" + roomId).replaceWith(vacantDiv);
             gamePageFactory.resetToDefault(roomId);
+
+            //noinspection JSUnresolvedFunction
             $("#rTimeoutmodal").modal("hide");
 
 
@@ -655,9 +676,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.resetToDefault = function (roomId) {
 
-            divId = roomId.replace("R", "div");
+            let divId = roomId.replace("R", "div");
             // alert("in reset function");
-            roomObject = roomMap.get(roomId);
+            let roomObject = roomMap.get(roomId);
             roomObject.nDoctors = 0;
             roomObject.nSurgeons = 0;
             roomObject.nNurses = 0;
@@ -720,7 +741,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 }
 
                 if (seconds == 0) {
-                    let rt = "00:00";
+                    // rt = "00:00";
                     clearInterval(roomTimer);
                     let initialTime = currentTime.split(":");
 
@@ -751,7 +772,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     //change div panel to success
                     $('#' + key).removeClass().addClass('panel panel-success');
 
-                    let rId = key.replace("div", "R");
+                    // let rId = key.replace("div", "R");
                     //make that room hoverable
                     $('#' + key).hover(function () {
                             $(this).css("background", "#D3D3D3");

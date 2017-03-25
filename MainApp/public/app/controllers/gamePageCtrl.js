@@ -35,6 +35,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     otherNumberOfPatientAsCount = activeGameConfig.NHstartNumPatientAs;
                     otherNumberOfPatientBsCount = activeGameConfig.NHstartNumPatientBs; 
 
+                    // Start clock
+                    timerClock();
+
                     // Initialize Side Bar with start number of patients specified in config file
                     initializeSideBarQueue(patientACount, patientBCount);
 
@@ -45,8 +48,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     // Initialize User Statistics Service, to record user moves.
                     UserStats.create(app.username, activeGameConfig._id);
 
-                    // TODO: Start patient queueing algorithm for agent.
-                    Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
+                    // Start Agent resource sharing algorithm
+                    Agent.NHShareResource(PatientService, app.gameState);
+
+                    // Request resource algorithm. Not used.
+                    // Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
                 } else {
                     //console.log("Failed");
                    // console.log(returnData.data);
@@ -123,55 +129,44 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             $('#patientsgroup').hide();
         });
 
+        function timerClock() {
+            // Building the timer from game config
+            let seconds = app.gameState.startTime;
+            let minutes = seconds / 60;
+            let remainingSeconds = seconds % 60;
+            $scope.counter = "" + minutes + ":" + remainingSeconds;
 
-        $scope.counter = "10:00";
-        let seconds = 600;
-
-        // Timer logic
-        $scope.onTimeout = function () {
-            let minutes = Math.round((seconds - 30) / 60),
+            // Timer logic
+            $scope.onTimeout = function () {
+                minutes = Math.round((seconds - 30) / 60);
                 remainingSeconds = seconds % 60;
 
-            if (remainingSeconds < 10) {
-                remainingSeconds = "0" + remainingSeconds;
-            }
+                if (remainingSeconds < 10) {
+                    remainingSeconds = "0" + remainingSeconds;
+                }
 
-            if (seconds == 0) {
-                $scope.counter = "00:00";
-                //console.log(seconds);
-            } else {
-                seconds--;
-            }
+                if (seconds == 0) {
+                    $scope.counter = "00:00";
+                    //console.log(seconds);
+                } else {
+                    seconds--;
+                }
 
-            let x = minutes * 60 * 1000;
-            let y = remainingSeconds * 1000;
-            let totalMs = x + y;
-            /*
-             if(totalMs==0) {
-             if(patient)
-             }
-             */
+                let x = minutes * 60 * 1000;
+                let y = remainingSeconds * 1000;
+                let totalMs = x + y;
 
-            PatientService.timeProgress(totalMs);
-            /*
-             setTimeout(function() {
-             milliseconds = PatientService.newPatient(totalxy);
+                PatientService.timeProgress(totalMs);
 
-             //pass totalxy to cou
-             }, 0);*/
+                $scope.counter = minutes + ":" + remainingSeconds;
 
 
-            //  console.log(totalxy)
+                // $scope.counter++;
+                mytimeout = $timeout($scope.onTimeout, 1000);
+            };
 
-            $scope.counter = minutes + ":" + remainingSeconds;
-
-
-            // $scope.counter++;
-            mytimeout = $timeout($scope.onTimeout, 1000);
-        };
-
-        let mytimeout = $timeout($scope.onTimeout, 1000);
-
+            let mytimeout = $timeout($scope.onTimeout, 1000);
+        }
 
         function resetMsg() {
             app.errorMsg = false;
