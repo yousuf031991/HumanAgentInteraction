@@ -51,8 +51,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     // Start Agent resource sharing algorithm
                     Agent.NHShareResource(PatientService, app.gameState);
 
-                    // Request resource algorithm. Not used.
-                    // Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
+                    // Agent playing algorithm.
+                    Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
                 } else {
                     //console.log("Failed");
                    // console.log(returnData.data);
@@ -92,19 +92,34 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $("#playerScore").on('change', function() {
 
-            var count = 0;
+            let count = 0;
             blinkTimer = setInterval(function() {
 
                  if(count == 5) {
-                    $('#scoreDiv').css({'background':''});
+                    $('#playerScoreDiv').css({'background':''});
                     clearInterval(blinkTimer);
                 }
                // console.log ("in set interval")
-                $('#scoreDiv').toggleClass('backgroundRed');
+                $('#playerScoreDiv').toggleClass('backgroundRed');
                 count++;
             }, 500);
         });
 
+        $("#agentScore").on('change', function() {
+
+            let count = 0;
+            blinkTimer = setInterval(function() {
+
+                if(count == 5) {
+                    $('#agentScoreDiv').css({'background':''});
+                    clearInterval(blinkTimer);
+                }
+                // console.log ("in set interval")
+                $('#agentScoreDiv').toggleClass('backgroundRed');
+                count++;
+            }, 500);
+        });
+        
         $('#resources').click(function () {
             resetMsg();
             $('#resourcesGroup').show();

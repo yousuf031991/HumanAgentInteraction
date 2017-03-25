@@ -27,7 +27,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         let patientACount;
         let patientBCount;
-        let otherNumberOfPatientAsCount = 0;
+        let otherNumberOfPatientAsCount = 1;
         let otherNumberOfPatientBsCount = 0;
 
         let totalMissedPatients = 0;
@@ -423,7 +423,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.whichQuintupletTimeLeft = function () {
             let quintupletTimeLeft = startTimeMilliseconds / 5;
-            console.log(totalTimeLeftInMilliseconds);
+            // console.log(totalTimeLeftInMilliseconds);
             if (totalTimeLeftInMilliseconds > startTimeMilliseconds - quintupletTimeLeft) //First Quintuplet
                 return 1;
 

@@ -54,14 +54,6 @@ angular.module('agentServices', [])
 			return Math.floor(Math.random()*(max-min+1)+min);
 		};
 
-    	agentFactory.NHCollectPatient = function(patientChoice) {
-			// TODO: Add NH Collect Patient implementation
-		};
-
-    	agentFactory.interruptionRequest = function(resourceType) {
-			// TODO: Add interrupt request implementation
-		};
-
         // Resource sharing algorithm for agent. Used instead of request resource algorithm
         agentFactory.NHShareResource = function(patientService, gameState) {
         	let totalAvailableResources = gameState.otherNumberOfDoctors + gameState.otherNumberOfNurses + gameState.otherNumberOfSurgeons;
@@ -83,8 +75,8 @@ angular.module('agentServices', [])
                         shareWaitTime = quintupletTimeLeft / gameState.numPatientsForMediumQuintuplet;
                         break;
                 }
-                console.log("QuintupleNum: " + quintupletNum);
-                console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
+                // console.log("QuintupleNum: " + quintupletNum);
+                // console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
                 agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime);
 			}
 
@@ -111,8 +103,8 @@ angular.module('agentServices', [])
 
 				// Step 2
 				let randomIdx = agentFactory.generateRandomNum(0, availableResources.length - 1);
-				console.log("Available Resources: "+availableResources);
-				console.log("Random Idx : "+ randomIdx);
+				// console.log("Available Resources: "+availableResources);
+				// console.log("Random Idx : "+ randomIdx);
 
 				// Step 3
                 // Update agent's available resource in game state
@@ -133,16 +125,44 @@ angular.module('agentServices', [])
                     $('#notifyModalbody').text("Agent has shared a surgeon")
                 }
 
-                $('#notifyModal').modal("show");
+                // TODO: Enable modal
+                // $('#notifyModal').modal("show");
                 agentFactory.NHShareResource(patientService, gameState);
 			}, milliseconds);
 		};
 
-    	// Resource request algorithm for agent. Currently, not used. Added for the future.
+    	// Assign to room and collect after x time
+        agentFactory.NHCollectPatient = function(patientChoice, gameState, patientTimeLeftMilliseconds) {
+            // TODO: Add NH Collect Patient implementation
+            setTimeout(function() {
+                // Patient A
+                if (patientChoice == "A") {
+                    gameState.otherNumberOfDoctors  += 1;
+                } else {
+                    gameState.otherNumberOfSurgeons += 1;
+                }
+
+                gameState.otherNumberOfNurses += 1;
+                gameState.otherScore          += 1;
+                gameState.otherNumberOfRooms  -= 1;
+                
+				$("#agentScore").trigger('change');
+				console.log("Updated agent score");
+            }, patientTimeLeftMilliseconds + 2000);
+
+            gameState.otherNumberOfRooms += 1;
+        };
+
+        agentFactory.interruptionRequest = function(resourceType) {
+            // TODO: Add interrupt request implementation
+        };
+
+    	// Agent playing algorithm
     	agentFactory.NHHelpPatient = function(milliseconds, gameState, currentTime) {
     		// Codes Used:
 			// Nurses  :  1
 			// Surgeon :  2
+
             setTimeout(function () {
 				if (currentTime != "00:00") {
 					let patientChoice;
@@ -167,14 +187,14 @@ angular.module('agentServices', [])
 							gameState.otherNumberOfDoctors  -= 1;
 							gameState.otherNumberOfNurses   -= 1;
 							gameState.otherNumberOfPatientAs-= 1;
-                            agentFactory.NHCollectPatient("A");
+                            agentFactory.NHCollectPatient("A", gameState, 60000);
 						}
 						// Else, check if enough resources available to treat other patient type
 						else if (gameState.otherNumberOfSurgeons > 0 && gameState.otherNumberOfNurses > 0 && gameState.otherNumberOfPatientBs > 0) {
                             gameState.otherNumberOfNurses   -= 1;
 							gameState.otherNumberOfSurgeons -= 1;
                             gameState.otherNumberOfPatientBs-= 1;
-                            agentFactory.NHCollectPatient("B");
+                            agentFactory.NHCollectPatient("B", gameState, 60000);
                         } 
                         // If no patient type could be treated, make request to player
                         else {
@@ -216,7 +236,7 @@ angular.module('agentServices', [])
 							}
 						}
 					}
-
+					console.log(patientChoice);
 				}
             }, milliseconds);
 		};

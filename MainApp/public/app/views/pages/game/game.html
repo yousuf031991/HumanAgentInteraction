@@ -91,8 +91,8 @@
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
-                                <div class="square center v-align">
-                                    <span id="score">{{gameData.gameState.score}}</span>
+                                <div class="square center v-align" id="playerScoreDiv">
+                                    <span id="playerScore">{{gameData.gameState.score}}</span>
                                 </div>
                             </strong>
                         </div>
@@ -146,7 +146,7 @@
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
-                                <div class="square center v-align">
+                                <div class="square center v-align" class="agentScoreDiv">
                                     <span id="agentScore">{{gameData.gameState.otherScore}}</span>
                                 </div>
                             </strong>

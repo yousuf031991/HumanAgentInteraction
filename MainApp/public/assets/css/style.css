@@ -85,12 +85,12 @@ time {
 }
 
 
-#scoreDiv {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #000;
-  /*background-color: red;*/
-}
+/*#scoreDiv {*/
+  /*width: 40px;*/
+  /*height: 40px;*/
+  /*border: 2px solid #000;*/
+  /*!*background-color: red;*!*/
+/*}*/
 
 #scoreSpan {
   position: relative;
