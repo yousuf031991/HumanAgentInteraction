@@ -23,7 +23,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let numPatientsForHighQuintuplet = 8;
         let numPatientsForMediumQuintuplet = 5;
         let numPatientsForLowQuintuplet = 2;
-        let totalTimeLeftInMilliseconds;
+        let totalTimeLeftInMilliseconds = 0;
 
         let patientACount;
         let patientBCount;
@@ -35,7 +35,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         // let highCooperation = true;
         let earlySlowPattern = true;
-        let totalMs = 0;
         let color;
         // let score = 0;
 
@@ -285,7 +284,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
           //  console.log("In countdown printing milliseconds value: " + milliseconds)
             setTimeout(function () {
-                if (totalMs !== 0) {
+                if (totalTimeLeftInMilliseconds !== 0) {
 
                     // alert("Updating patients");
                    // console.log("\n In countdown timer function");
@@ -386,7 +385,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         gamePageFactory.countdownTimerforNH = function(milliseconds) {
 
             setTimeout(function () {
-                if (totalMs !== 0) {
+                if (totalTimeLeftInMilliseconds !== 0) {
 
                     // alert("Updating patients");
                    //FF console.log("\n In countdown timer function");
@@ -448,6 +447,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             $("div[class='panel panel-success'] " + roomSelector).bind('click', function (e) {
                 e.preventDefault();
 
+                let success = true;
                 let myroomid = event.target.id;
                 let __roomId = myroomid.replace("R", "div");
 
@@ -509,8 +509,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         $("#notifyModalbody").text("Insufficient Number of Patient As");
                         //noinspection JSUnresolvedFunction
                         $("#notifyModal").modal("show");
+                        success = false;
                         //console.log("No patient As are available currently");
-                        return;
+                        // return;
                     }
                 } else if (resourceId == 'btnB') {
 
@@ -530,16 +531,24 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         $("#notifyModalbody").text("Insufficient Number of Patient Bs");
                         //noinspection JSUnresolvedFunction
                         $("#notifyModal").modal("show");
+                        success = false;
                         // console.log("No patient Bs are available currently");
-                        return;
+                        // return;
                     }
 
                 }
 
-                let divid = $(this).parent("div[class='panel panel-success']").attr("id");
-                $('#' + divid).removeClass().addClass('panel panel-danger');
+                // Success indicates if patient assigned is successful
+                if (success) {
+                    // Update room color
+                    let divid = $(this).parent("div[class='panel panel-success']").attr("id");
+                    $('#' + divid).removeClass().addClass('panel panel-danger');
+                    
+                    // Save room color in map
+                    map.set(divid, 'red');
+                }
 
-                map.set(divid, 'red');
+                // Disables mulitple assignments
                 gamePageFactory.disableClick();
 
                 //Collecting resources
@@ -591,7 +600,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.timeProgress = function (timeleft) {
-            totalMs = timeleft;
             totalTimeLeftInMilliseconds = timeleft;
         };
 

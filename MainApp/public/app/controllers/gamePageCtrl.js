@@ -2,7 +2,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
     .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, PatientService, Room, Agent, Circle, GameState, UserStats) {
         let app = this;
         app.username = $routeParams.username;
-        var blinkTimer;
+        let blinkTimer;
 
         // let statsObject = {};
         // statsObject.finalScore = 10;
@@ -227,8 +227,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $anchorScroll();
 
             } else {
-                $("#errorModalbody").text("There are no doctors to share.");
-                $("#errorModal").modal("show");
+                $("#notifyModalTitle").text("Error");
+                $("#notifyModalbody").text("There are no doctors to share.");
+                $("#notifyModal").modal("show");
                 UserStats.addMove("DoctorShared, failure", $scope.counter, app.gameState);
             }
            
@@ -262,9 +263,10 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $anchorScroll();
             } else {
                 //show a modal
-                 $("#errorModalbody").text("There are no surgeons to share.");
-                 $("#errorModal").modal("show");
-                 UserStats.addMove("SurgeonShared, failure", $scope.counter, app.gameState);
+                $("#notifyModalTitle").text("Error");
+                $("#notifyModalbody").text("There are no surgeons to share.");
+                $("#notifyModal").modal("show");
+                UserStats.addMove("SurgeonShared, failure", $scope.counter, app.gameState);
             }
 
             
@@ -286,11 +288,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 app.errorMsg = "NurseRequest is denied by neighbouring hospital";
                 UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
             }
-
-
-*/  
+            */
             
-             UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+            UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
             if(app.gameState.numberOfNurses>0) {
                 app.gameState.numberOfNurses -= 1;
                 app.gameState.otherNumberOfNurses += 1;
@@ -300,13 +300,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $anchorScroll();
             } else {
                 //show modal popup
-                $("#errorModalbody").text("There are no nurses to share.");
-                $("#errorModal").modal("show");
+                $("#notifyModalTitle").text("Error");
+                $("#notifyModalbody").text("There are no nurses to share.");
+                $("#notifyModal").modal("show");
                 UserStats.addMove("NurseShared, failure", $scope.counter, app.gameState);
             }     
-
-           
-            
 
         });
 
