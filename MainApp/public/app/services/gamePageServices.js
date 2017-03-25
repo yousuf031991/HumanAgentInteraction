@@ -253,6 +253,22 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                             break;
                     }
                 }
+                else {
+                    switch(whichQuintupletTimeLeft()){
+                        case 1:
+                        case 3:
+                        case 5:
+                        default:
+                            milliseconds = quintupletTimeLeft/numPatientsForMediumQuintuplet;
+                            break;
+                        case 2:
+                            milliseconds = quintupletTimeLeft/numPatientsForLowQuintuplet;
+                            break;
+                        case 4:
+                            milliseconds = quintupletTimeLeft/numPatientsForHighQuintuplet;
+                            break;
+                    }
+                }
               //  console.log("Printing milliseconds " + milliseconds)
             }
 
@@ -338,6 +354,23 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         case 4:
                             milliseconds = quintupletTimeLeft / numPatientsForHighQuintuplet;
                             break;
+                    }
+                }
+                else {
+                    switch(whichQuintupletTimeLeft()){
+                        case 1:
+                        case 3:
+                        case 5:
+                        default:
+                            milliseconds = quintupletTimeLeft/numPatientsForMediumQuintuplet;
+                            break;
+                        case 2:
+                            milliseconds = quintupletTimeLeft/numPatientsForLowQuintuplet;
+                            break;
+                        case 4:
+                            milliseconds = quintupletTimeLeft/numPatientsForHighQuintuplet;
+                            break;
+
                     }
                 }
                 //console.log("Printing milliseconds " + milliseconds)
