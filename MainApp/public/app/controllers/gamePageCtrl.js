@@ -76,7 +76,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             resetMsg();
             $('#patientsgroup').show();
             $('#resources').show();
-            $('#requestResources').show();
+            $('#shareResources').show();
 
             $('#patients').hide();
             $('#resourcesGroup').hide();
@@ -103,7 +103,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             resetMsg();
             $('#resourcesGroup').show();
             $('#patients').show();
-            $('#requestResources').show();
+            $('#shareResources').show();
 
             $('#resources').hide();
             $('#requestGroup').hide();
@@ -111,14 +111,14 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         });
 
-        $('#requestResources').click(function () {
+        $('#shareResources').click(function () {
             resetMsg();
             $('#requestGroup').show();
             $('#resources').show();
             $('#patients').show();
 
 
-            $('#requestResources').hide();
+            $('#shareResources').hide();
             $('#resourcesGroup').hide();
             $('#patientsgroup').hide();
         });
@@ -205,12 +205,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         });
 
         // Listener for the request resource buttons  
-        $('#btnRequestDoctor').click(function () {
+        $('#btnShareDoctor').click(function () {
             // TODO: Get Cooperation Mode from active game config
             // TODO: Get player and agent resources
-            resetMsg();
-            UserStats.addMove("PlayerRequest, Doctor", $scope.counter, app.gameState);
-            let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+
+           // resetMsg();
+           
+            /*let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
             //console.log(decision);
             if (decision) {
                 app.successMsg = "Doctor Request is accepted by neighbouring hospital";
@@ -218,14 +219,31 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             } else {
                 app.errorMsg = "Doctor Request is denied by neighbouring hospital";
                 UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+            }*/
+
+             UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
+
+            if(app.gameState.numberOfDoctors>0) {
+                app.gameState.numberOfDoctors -= 1;
+                app.gameState.otherNumberOfDoctors += 1;
+                UserStats.addMove("DoctorShared, success", $scope.counter, app.gameState);
+                app.successMsg = "Doctor is shared with neighbouring hospital";
+                $location.hash('notify');
+                $anchorScroll();
+
+            } else {
+                $("#errorModalbody").text("There are no doctors to share.");
+                $("#errorModal").modal("show");
+                UserStats.addMove("DoctorShared, failure", $scope.counter, app.gameState);
             }
-            $location.hash('notify');
-            $anchorScroll();
+           
+
+           
         });
 
 
-        $('#btnRequestSurgeon').click(function () {
-            resetMsg();
+        $('#btnShareSurgeon').click(function () {
+           /* resetMsg();
             UserStats.addMove("PlayerRequest, Surgeon", $scope.counter, app.gameState);
             let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
             if (decision) {
@@ -236,12 +254,32 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
             }
             $location.hash('notify');
-            $anchorScroll();
+            $anchorScroll();*/
+
+            UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
+
+            if(app.gameState.numberOfSurgeons>0) {
+                app.gameState.numberOfSurgeons -= 1;
+                app.gameState.otherNumberOfSurgeons += 1;
+                app.successMsg = "Surgeon is shared with neighbouring hospital";
+                UserStats.addMove("SurgeonShared, success", $scope.counter, app.gameState);
+                $location.hash('notify');
+                $anchorScroll();
+            } else {
+                //show a modal
+                 $("#errorModalbody").text("There are no surgeons to share.");
+                 $("#errorModal").modal("show");
+                 UserStats.addMove("SurgeonShared, failure", $scope.counter, app.gameState);
+            }
+
+            
+
+
         });
 
 
-        $('#btnRequestNurse').click(function () {
-            resetMsg();
+        $('#btnShareNurse').click(function () {
+           /* resetMsg();
             UserStats.addMove("PlayerRequest, Nurse", $scope.counter, app.gameState);
             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
             $location.hash('notify');
@@ -253,6 +291,27 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 app.errorMsg = "NurseRequest is denied by neighbouring hospital";
                 UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
             }
+
+
+*/  
+            
+             UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+            if(app.gameState.numberOfNurses>0) {
+                app.gameState.numberOfNurses -= 1;
+                app.gameState.otherNumberOfNurses += 1;
+                app.successMsg = "Nurse is shared with neighbouring hospital";
+                UserStats.addMove("NurseShared, success", $scope.counter, app.gameState);
+                $location.hash('notify');
+                $anchorScroll();
+            } else {
+                //show modal popup
+                $("#errorModalbody").text("There are no nurses to share.");
+                $("#errorModal").modal("show");
+                UserStats.addMove("NurseShared, failure", $scope.counter, app.gameState);
+            }     
+
+           
+            
 
         });
 

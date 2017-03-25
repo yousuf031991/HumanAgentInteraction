@@ -606,6 +606,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             patientMap.set(divi2, null);
 
+             $("#rTimeoutmodal").modal("show")
+
             //let modal = document.getElementById('mymodal');
             /* $("#rTimeoutmodal").modal("show")
              $("#modalbody").append('<a id = "collect"></a>')
