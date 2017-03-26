@@ -25,9 +25,6 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let numPatientsForLowQuintuplet = 2;
         let totalTimeLeftInMilliseconds = 0;
 
-        let patientACount;
-        let patientBCount;
-
         let totalMissedPatients = 0;
         let NHtotalMissedPatients = 0;
 
@@ -669,16 +666,11 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 '<span id="nSurgeons">0</span> Surgeons <br/>' +
                 '</div>');
 
-            console.log(vacantDiv);
             $("#" + roomId).replaceWith(vacantDiv);
             gamePageFactory.resetToDefault(roomId);
 
             //noinspection JSUnresolvedFunction
             $("#rTimeoutmodal").modal("hide");
-
-            // Reset map
-
-
 
         };
 

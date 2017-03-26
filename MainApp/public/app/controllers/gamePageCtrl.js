@@ -3,6 +3,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         let app = this;
         app.username = $routeParams.username;
         let blinkTimer;
+        let blinkTimer2;
 
         // let statsObject = {};
         // statsObject.finalScore = 10;
@@ -88,12 +89,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         });
 
         $("#playerScore").on('change', function() {
-
             let count = 0;
             blinkTimer = setInterval(function() {
 
-                 if(count == 5) {
-                    $('#playerScoreDiv').css({'background':''});
+                 if(count >= 5) {
+                     console.log("Count: "+ count);
+                     $('#playerScoreDiv').css({'background':''});
                     clearInterval(blinkTimer);
                 }
                // console.log ("in set interval")
@@ -105,11 +106,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         $("#agentScore").on('change', function() {
 
             let count = 0;
-            blinkTimer = setInterval(function() {
+            blinkTimer2 = setInterval(function() {
 
-                if(count == 5) {
+                if(count >= 5) {
                     $('#agentScoreDiv').css({'background':''});
-                    clearInterval(blinkTimer);
+                    clearInterval(blinkTimer2);
                 }
                 // console.log ("in set interval")
                 $('#agentScoreDiv').toggleClass('backgroundRed');
