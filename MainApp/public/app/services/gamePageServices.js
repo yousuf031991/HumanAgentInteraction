@@ -662,13 +662,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             gameState.numberOfNurses += roomMap.get(roomId).nNurses;
             gameState.numberOfSurgeons += roomMap.get(roomId).nSurgeons;
 
-            let vacantDiv = $('<div class="panel-body fixed-panel center" id="R1">' +
+            let vacantDiv = $('<div class="panel-body fixed-panel center" id=' + roomId + ' >' +
                 '<span id="assignedPatient">VACANT</span> <br/>' +
                 '<span id="nDoctors">0</span> Doctors <br/>' +
                 '<span id="nNurses">0</span> Nurses <br/>' +
                 '<span id="nSurgeons">0</span> Surgeons <br/>' +
                 '</div>');
 
+            console.log(vacantDiv);
             $("#" + roomId).replaceWith(vacantDiv);
             gamePageFactory.resetToDefault(roomId);
 
