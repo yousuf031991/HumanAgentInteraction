@@ -11,10 +11,10 @@ angular.module('gameStateServices', [])
 			this.otherNumberOfNurses 				= gameData.NHnumOfNurses;
 			this.otherNumberOfSurgeons				= gameData.NHnumOfSurgeons;
 			this.otherNumberOfPatientAs 			= gameData.NHstartNumPatientAs;
-			this.otherNumberOfPatientBs 			= gameData.NHstartNumPatientAs;
+			this.otherNumberOfPatientBs 			= gameData.NHstartNumPatientBs;
 			this.startTime 							= gameData.totalTimeInSeconds;
             this.patientTimeLeft 					= gameData.patientHelpTimeInSeconds;
-            this.otherNumberOfRooms         		= 6;
+            this.otherNumberOfRooms         		= 0;
             this.score 								= 0;
 			this.otherScore 						= 0;
             this.numPatientsForHighQuintuplet 		= 8;

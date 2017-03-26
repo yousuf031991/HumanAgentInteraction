@@ -134,6 +134,8 @@ angular.module('agentServices', [])
     	// Assign to room and collect after x time
         agentFactory.NHCollectPatient = function(patientChoice, gameState, patientTimeLeftMilliseconds) {
             // TODO: Add NH Collect Patient implementation
+			console.log("Inside collect patient");
+			let treatmentTime = patientTimeLeftMilliseconds  + 2000;
             setTimeout(function() {
                 // Patient A
                 if (patientChoice == "A") {
@@ -147,10 +149,12 @@ angular.module('agentServices', [])
                 gameState.otherNumberOfRooms  -= 1;
                 
 				$("#agentScore").trigger('change');
+
 				console.log("Updated agent score");
-            }, patientTimeLeftMilliseconds + 2000);
+            }, treatmentTime);
 
             gameState.otherNumberOfRooms += 1;
+            // console.log(gameState);
         };
 
         agentFactory.interruptionRequest = function(resourceType) {
@@ -162,14 +166,15 @@ angular.module('agentServices', [])
     		// Codes Used:
 			// Nurses  :  1
 			// Surgeon :  2
-
+			let treatmentSuccess = false;
             setTimeout(function () {
 				if (currentTime != "00:00") {
 					let patientChoice;
 					//console.log('Inside NHHelpPatient');
 					// If agent has both patient types in queue, pick at random
 					// Else pick non zero patient type
-					if (gameState.otherNumberOfPatientAs > 0 && gameState.otherNumberOfPatientBs > 0 && gameState.otherNumberOfRooms != 6) {
+					// console.log(gameState);
+					if (gameState.otherNumberOfPatientAs > 0 && gameState.otherNumberOfPatientBs > 0 && gameState.otherNumberOfRooms != 0) {
 						patientChoice = agentFactory.generateRandomNum(0, 1);
 					} else if (gameState.otherNumberOfPatientAs > 0) {
 						patientChoice = 0;
@@ -178,7 +183,7 @@ angular.module('agentServices', [])
 					} else {
 						patientChoice = 2;
 					}
-					//console.log(gameState);
+					console.log(gameState);
 					//console.log('Patient Choice' + patientChoice);
 					// Patient Choice = A
 					if (patientChoice == 0) {
@@ -187,16 +192,19 @@ angular.module('agentServices', [])
 							gameState.otherNumberOfDoctors  -= 1;
 							gameState.otherNumberOfNurses   -= 1;
 							gameState.otherNumberOfPatientAs-= 1;
-                            agentFactory.NHCollectPatient("A", gameState, 60000);
+                            console.log("Calling collect. Patient Choice: "+ patientChoice);
+                            agentFactory.NHCollectPatient("A", gameState, 6000);
 						}
 						// Else, check if enough resources available to treat other patient type
 						else if (gameState.otherNumberOfSurgeons > 0 && gameState.otherNumberOfNurses > 0 && gameState.otherNumberOfPatientBs > 0) {
                             gameState.otherNumberOfNurses   -= 1;
 							gameState.otherNumberOfSurgeons -= 1;
                             gameState.otherNumberOfPatientBs-= 1;
-                            agentFactory.NHCollectPatient("B", gameState, 60000);
+                            console.log("Calling collect. Patient Choice: "+ patientChoice);
+                            agentFactory.NHCollectPatient("B", gameState, 6000);
                         } 
                         // If no patient type could be treated, make request to player
+						/* Added for future use.
                         else {
 							if (gameState.otherNumberOfDoctors == 0) {
 								// Request couldn't be completed because of lack of doctors. So request doctors
@@ -207,7 +215,9 @@ angular.module('agentServices', [])
 								// Nurse Code   :  1
 								agentFactory.interruptionRequest(1);
 							}
-						}
+                            treatmentSuccess = true;
+                        }
+                        */
 					}
 					// Patient Choice = B
 					else if (patientChoice == 1) {
@@ -216,14 +226,22 @@ angular.module('agentServices', [])
 							gameState.otherNumberOfSurgeons -= 1;
 							gameState.otherNumberOfNurses   -= 1;
 							gameState.otherNumberOfPatientBs-= 1;
-						}
+                            console.log("Calling collect. Patient Choice: "+ patientChoice);
+                            // TODO: Replace 6000 with patient help time in gamestate.
+                            agentFactory.NHCollectPatient("B", gameState, 6000);
+
+                        }
                         // Else, check if enough resources available to treat other patient type
                         else if (gameState.otherNumberOfDoctors > 0 && gameState.otherNumberOfNurses > 0 && gameState.otherNumberOfPatientAs > 0) {
 							gameState.otherNumberOfDoctors  -= 1;
 							gameState.otherNumberOfNurses	-= 1;
 							gameState.otherNumberOfPatientAs-= 1;
-						}
+                            console.log("Calling collect. Patient Choice: "+ patientChoice);
+                            agentFactory.NHCollectPatient("B", gameState, 6000);
+
+                        }
                         // If no patient type could be treated, make request to player
+						/* Added for future use
                         else {
 							if (gameState.otherNumberOfSurgeons == 0) {
                                 // Request couldn't be completed because of lack of surgeons. So request doctors
@@ -234,8 +252,14 @@ angular.module('agentServices', [])
                                 // Nurse Code   :   1
                                 agentFactory.interruptionRequest(1);
 							}
-						}
+                            treatmentSuccess = true;
+                        }
+                        */
+
 					}
+					
+					// if (treatmentSuccess)
+					agentFactory.NHHelpPatient(milliseconds, gameState, currentTime);
 					console.log(patientChoice);
 				}
             }, milliseconds);

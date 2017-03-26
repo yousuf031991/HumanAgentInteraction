@@ -16,14 +16,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         (function startButton() {
             alert("The goal is to save as many patients as possible");
-            // include tharun's timer here 
 
             // Get active game config and initialize game state object
             let activeGameConfig = {};
             let patientACount;
             let patientBCount;
-            let otherNumberOfPatientAsCount;
-            let otherNumberOfPatientBsCount;
+
             PatientService.getGameConfig().then(function (returnData) {
                 if (returnData.data.success) {
                    // console.log(returnData.data.config);
@@ -32,9 +30,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
                     patientACount = activeGameConfig.startNumPatientAs;
                     patientBCount = activeGameConfig.startNumPatientBs;
-                    otherNumberOfPatientAsCount = activeGameConfig.NHstartNumPatientAs;
-                    otherNumberOfPatientBsCount = activeGameConfig.NHstartNumPatientBs; 
 
+                    console.log(app.gameState);
                     // Start clock
                     timerClock();
 
@@ -42,8 +39,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     initializeSideBarQueue(patientACount, patientBCount);
 
                     // Start patient queueing algorithm for player.
-                    PatientService.newPatient(patientACount, patientBCount);
-                    PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
+                    PatientService.newPatient(app.gameState);
+                    PatientService.newPatientforNH(app.gameState);
 
                     // Initialize User Statistics Service, to record user moves.
                     UserStats.create(app.username, activeGameConfig._id);
@@ -54,8 +51,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
                 } else {
-                    //console.log("Failed");
-                   // console.log(returnData.data);
+                    console.log("Failed to get configuration");
+                    console.log(returnData.data);
                 }
             });
 
@@ -68,11 +65,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         function initializeSideBarQueue(patientACount, patientBCount) {
              //alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
 
-            for (let i = 0; i<patientACount; i++) {
+            for (let i = 0; i < patientACount; i++) {
                 $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
 
-            for(let j=0;j<patientBCount;j++) {
+            for (let j = 0; j < patientBCount; j++) {
                 $("#P1").find("#patientB").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
 
@@ -190,12 +187,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         $('#btnA').click(function () {
             //check if patientA is available in waiting room
-            PatientService.assignRoom(event.target.id)
+            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
 
         });
 
         $('#btnB').click(function () {
-            PatientService.assignRoom(event.target.id)
+            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
         });
 
 
@@ -216,9 +213,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         // Listener for the request resource buttons  
         $('#btnShareDoctor').click(function () {
-            // TODO: Get Cooperation Mode from active game config
-            // TODO: Get player and agent resources
-
            // resetMsg();
            
             /*let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
