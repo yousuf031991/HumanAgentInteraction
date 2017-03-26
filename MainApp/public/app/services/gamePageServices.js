@@ -281,9 +281,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 if (totalTimeLeftInMilliseconds !== 0) {
 
                     // alert("Updating patients");
-                   // console.log("\n In countdown timer function");
-                    let patient = 1 + parseInt(Math.random() * ((1) + 1));
-                    // console.log(patient)
+                    // console.log("\n In countdown timer function");
+                    //let patient = 1 + parseInt(Math.random() * ((1 - 0) + 1));
+                    let patient = parseInt(Math.random() * ((1) + 1));
+                    console.log(patient);
 
                    // console.log("patientACount and patientBCount in countdowntimer: " + patientACount + patientBCount)
                     
@@ -302,7 +303,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                     } else if (patient % 2 == 1) {
                         if (totalPatients < 6) {
-                            gameState.numberOfPatientAs += 1;
+                            gameState.numberOfPatientBs += 1;
                             //writeStringAsFile
                         } else {
                             totalMissedPatients++;
@@ -381,7 +382,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                     // alert("Updating patients");
                    //FF console.log("\n In countdown timer function");
-                    let patient = 1 + parseInt(Math.random() * ((1) + 1));
+                    let patient = parseInt(Math.random() * ((1) + 1));
                     let totalPatientCount = gameState.otherNumberOfPatientAs + gameState.otherNumberOfPatientBs;
                     // console.log(patient)
 
@@ -731,8 +732,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.showTimer = function (key, gameState, currentTime, userStats) {
 
-            let seconds = 6;
-            let rt = "00:06";
+            let seconds = 60;
+            let rt = "01:00";
 
             // let seconds = 60;
             // let rt = "01:00";
