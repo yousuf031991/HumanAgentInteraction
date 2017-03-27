@@ -1,5 +1,5 @@
 angular.module('trialInfoControllers', ['trialInfoServices'])
-    .controller('trialInfoCtrl', function ($http, $location, $rootScope,TrialInfo) {
+    .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo) {
         var app = this;
         this.trialInfoData = function (trailData) {
             app.errorMsg = false;
@@ -9,9 +9,11 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     app.successMsg = returnData.data.message;
                     // var username = app.trailData.username;
                     let username = returnData.data.userid;
-                    //$location.path('/gamepage/'+username);
+                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                    gameSession.lastStageCompleted=$rootScope.TRIALINFO_PAGE;
+                    gameSession.username=username;
                     $rootScope.username=username;
-                    //$location.path('/gamepage/'+username);
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
                     $location.path('/demographics');
                 } else {
                     $location.path('/thankyou');
