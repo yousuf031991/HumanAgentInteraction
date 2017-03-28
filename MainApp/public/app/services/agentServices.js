@@ -56,6 +56,12 @@ angular.module('agentServices', [])
 
         // Resource sharing algorithm for agent. Used instead of request resource algorithm
         agentFactory.NHShareResource = function(patientService, gameState) {
+        	let factor = 1;
+        	if (gameState.cooperationMode == "LOW COOPERATION") {
+				factor = 4;
+			} else {
+        		factor = 2;
+			}
         	let totalAvailableResources = gameState.otherNumberOfDoctors + gameState.otherNumberOfNurses + gameState.otherNumberOfSurgeons;
         	if (totalAvailableResources > 0) {
                 let shareWaitTime = 0;
@@ -66,13 +72,13 @@ angular.module('agentServices', [])
 				let quintupletNum = patientService.whichQuintupletTimeLeft();
                 switch (quintupletNum) {
                     case 2:
-                        shareWaitTime = quintupletTimeLeft / gameState.numPatientsForLowQuintuplet;
+                        shareWaitTime = factor * quintupletTimeLeft / gameState.numPatientsForLowQuintuplet;
                         break;
                     case 4:
-                        shareWaitTime = quintupletTimeLeft / gameState.numPatientsForHighQuintuplet;
+                        shareWaitTime = factor * quintupletTimeLeft / gameState.numPatientsForHighQuintuplet;
                         break;
                     default:
-                        shareWaitTime = quintupletTimeLeft / gameState.numPatientsForMediumQuintuplet;
+                        shareWaitTime = factor * quintupletTimeLeft / gameState.numPatientsForMediumQuintuplet;
                         break;
                 }
                 // console.log("QuintupleNum: " + quintupletNum);

@@ -14,6 +14,7 @@ angular.module('gameStateServices', [])
 			this.otherNumberOfPatientBs 			= gameData.NHstartNumPatientBs;
 			this.startTime 							= gameData.totalTimeInSeconds;
             this.patientTimeLeft 					= gameData.patientHelpTimeInSeconds;
+            this.cooperationMode					= gameData.coop;
             this.otherNumberOfRooms         		= 0;
             this.score 								= 0;
 			this.otherScore 						= 0;
