@@ -19,7 +19,6 @@
     "csv-write-stream": "^2.0.0",
     "ejs": "^2.5.5",
     "express": "^4.14.0",
-    "getmac": "^1.2.1",
     "mongoose": "^4.7.8",
     "mongoose-validator": "^1.2.5",
     "morgan": "^1.7.0",

@@ -34,7 +34,7 @@
                      ng-repeat="conf in confList | orderBy: '-createdAt'">
                     <uib-accordion-heading>
                         <span>Author: {{conf.author}}</span> - <span> created at: {{conf.createdAt}}</span>
-                        <i class="pull-right glyphicon"
+                        <i class="pull-right glyphicon hidden-sm hidden-xs"
                            ng-class="{'glyphicon-chevron-down': state.selected==$index,
                             'glyphicon-chevron-right': state.selected!=$index}"></i>
                     </uib-accordion-heading>
@@ -75,7 +75,7 @@
                             </button>
                         </div>
                         <div class="col-xs-6">
-                            <button type="button" class="btn btn-danger" ng-click="deleteConf(conf._id)">Delete Config
+                            <button type="button" class="btn btn-danger" ng-click="deleteConf(conf._id)">Delete
                             </button>
                         </div>
                     </div>

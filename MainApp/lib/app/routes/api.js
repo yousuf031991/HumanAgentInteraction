@@ -2,7 +2,6 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
