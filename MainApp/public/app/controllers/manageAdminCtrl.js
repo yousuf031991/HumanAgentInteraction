@@ -1,7 +1,8 @@
-angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices'])
-    .controller('manageAdminCtrl', function (ManageAdmin, $scope, Report) {
+angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices', 'scrollingServices'])
+    .controller('manageAdminCtrl', function (ManageAdmin, $scope, Report, Scrolling) {
         $scope.createNewAdmin = function () {
             $scope.loading = true;
+            Scrolling('loader');
             $scope.user = JSON.stringify({username: $scope.username});
             ManageAdmin.create($scope.user).then(function (returnData) {
                 $scope.failureDeleteMsg = false;
@@ -10,6 +11,7 @@ angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices
                     $scope.successAddMsg = returnData.data.message;
                     $scope.errorAddMsg = false;
                     $scope.addAdminToUI($scope.user);
+                    Scrolling('addSuccess');
 
                     // Log in adminLog
                     const reportData = {action: "Created Admin: " + $scope.username};
@@ -17,6 +19,7 @@ angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices
                 } else {
                     $scope.successAddMsg = false;
                     $scope.errorAddMsg = returnData.data.message;
+                    Scrolling('addFailure');
                 }
                 $scope.loading = false;
             });
@@ -34,14 +37,14 @@ angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices
                     $scope.failureDeleteMsg = false;
                     $scope.successDeleteMsg = returnData.data.message;
                     $scope.removeAdminFromUI(adminUserName);
-
+                    Scrolling('deleteSuccess');
                     // Log in adminLog
                     const reportData = {action: "Deleted Admin: " + adminName};
                     Report.putLog(reportData);
                 } else {
                     $scope.failureDeleteMsg = returnData.data.message;
                     $scope.successDeleteMsg = false;
-
+                    Scrolling('deleteFailure');
                 }
             });
         };

@@ -33,18 +33,18 @@
 
                 <button class="btn btn-success" type="submit">Generate Report</button>
 
-                <div class="jumbotron text-center" ng-show="loading1">
+                <div class="jumbotron text-center" ng-show="loading1" id="loadingReport">
                     <span class="glyphicon glyphicon-repeat spinner"></span>
 
                     <p>Loading...</p>
                 </div>
 
-                <div class="row show-hide-message" ng-show="successMsg1">
+                <div class="row show-hide-message" ng-show="successMsg1" id="successReport">
                     <div class="alert alert-success">
                         {{successMsg1}}
                     </div>
                 </div>
-                <div class="row show-hide-message" ng-show="errorMsg1">
+                <div class="row show-hide-message" ng-show="errorMsg1" id="failureReport">
                     <div class="alert alert-danger">
                         {{errorMsg1}}
                     </div>
@@ -82,18 +82,18 @@
                 </p>
 
                 <button class="btn btn-success" type="submit">Generate Log</button>
-                <div class="jumbotron text-center" ng-show="loading2">
+                <div class="jumbotron text-center" ng-show="loading2" id="loadingLog">
                     <span class="glyphicon glyphicon-repeat spinner"></span>
 
                     <p>Loading...</p>
                 </div>
 
-                <div class="row show-hide-message" ng-show="successMsg2">
+                <div class="row show-hide-message" ng-show="successMsg2" id="successLog">
                     <div class="alert alert-success">
                         {{successMsg2}}
                     </div>
                 </div>
-                <div class="row show-hide-message" ng-show="errorMsg2">
+                <div class="row show-hide-message" ng-show="errorMsg2" id="failureLog">
                     <div class="alert alert-danger">
                         {{errorMsg2}}
                     </div>
