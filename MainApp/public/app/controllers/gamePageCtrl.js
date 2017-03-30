@@ -24,6 +24,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             let patientBCount;
 
             PatientService.getGameConfig().then(function (returnData) {
+                console.log("In start button")
                 if (returnData.data.success) {
                    // console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
@@ -51,6 +52,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
+                    console.log("In start button- success")
                 } else {
                     console.log("Failed to get configuration");
                     console.log(returnData.data);
@@ -157,14 +159,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 if (remainingSeconds < 10) {
                     remainingSeconds = "0" + remainingSeconds;
                 }
-
-                if (seconds == 0) {
-                    $scope.counter = "00:00";
-                    //console.log(seconds);
-                } else {
-                    seconds--;
-                }
-
+                seconds--;
                 let x = minutes * 60 * 1000;
                 let y = remainingSeconds * 1000;
                 let totalMs = x + y;
@@ -176,9 +171,19 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
                 // $scope.counter++;
                 mytimeout = $timeout($scope.onTimeout, 1000);
+                if(seconds == 0) {
+                    $scope.counter = "00:00";
+                    console.log(seconds);
+                    stopTimer(mytimeout);
+                }
             };
 
             let mytimeout = $timeout($scope.onTimeout, 1000);
+        }
+
+
+        function stopTimer(mytimeout) {
+            $timeout.cancel(mytimeout);
         }
 
         function resetMsg() {

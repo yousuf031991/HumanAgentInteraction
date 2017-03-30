@@ -284,7 +284,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     // console.log("\n In countdown timer function");
                     //let patient = 1 + parseInt(Math.random() * ((1 - 0) + 1));
                     let patient = parseInt(Math.random() * ((1) + 1));
-                    console.log(patient);
+                    //console.log(patient);
 
                    // console.log("patientACount and patientBCount in countdowntimer: " + patientACount + patientBCount)
                     
