@@ -8,16 +8,16 @@
 </div>
 <div class="container" ng-controller="AccordionDemoCtrl">
     <div class="jumbotron text-center" ng-show="loading">
-        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <span class="glyphicon glyphicon-repeat spinner" id="adminLoader"></span>
 
         <p>Loading...</p>
     </div>
-    <div class="row show-hide-message" ng-show="successMsg">
+    <div class="row show-hide-message" ng-show="successMsg" id="adminSuccess">
         <div class="alert alert-success">
             {{successMsg}}
         </div>
     </div>
-    <div class="row show-hide-message" ng-show="errorMsg">
+    <div class="row show-hide-message" ng-show="errorMsg" id="adminFailure">
         <div class="alert alert-danger">
             {{errorMsg}}
         </div>

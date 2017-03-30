@@ -16,18 +16,18 @@
                     <button class="btn btn-success" type="submit">Add Admin</button>
                 </form>
 
-                <div class="jumbotron text-center" ng-show="loading">
+                <div class="jumbotron text-center" ng-show="loading" id="loader">
                     <span class="glyphicon glyphicon-repeat spinner"></span>
 
                     <p>Loading...</p>
                 </div>
 
-                <div class="row show-hide-message" ng-show="successAddMsg">
+                <div class="row show-hide-message" ng-show="successAddMsg" id="addSuccess">
                     <div class="alert alert-success" >
                         {{successAddMsg}}
                     </div>
                 </div>
-                <div class="row show-hide-message" ng-show="errorAddMsg">
+                <div class="row show-hide-message" ng-show="errorAddMsg" id="addFailure">
                     <div class="alert alert-danger">
                         {{errorAddMsg}}
                     </div>
@@ -57,12 +57,12 @@
                     </tbody>
                 </table>
 
-                <div class="row show-hide-message" ng-show="successDeleteMsg">
+                <div class="row show-hide-message" ng-show="successDeleteMsg" id="deleteSuccess">
                     <div class="alert alert-success">
                         {{successDeleteMsg}}
                     </div>
                 </div>
-                <div class="row show-hide-message" ng-show="failureDeleteMsg">
+                <div class="row show-hide-message" ng-show="failureDeleteMsg" id="deleteFailure">
                     <div class="alert alert-danger">
                         {{failureDeleteMsg}}
                     </div>

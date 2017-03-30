@@ -1,4 +1,4 @@
-angular.module('adminControllers', ['manageAdminServices', 'reportServices'])
+angular.module('adminControllers', ['manageAdminServices', 'reportServices', 'scrollingServices'])
     .controller('adminController', function ($routeParams) {
         let app = this;
 
@@ -6,10 +6,11 @@ angular.module('adminControllers', ['manageAdminServices', 'reportServices'])
             app.warningMsg = "Sorry, the route you tried to access is for Super Admin only.";
         }
 
-    }).controller('AccordionDemoCtrl', function ($scope, Admin, Report) {
+    }).controller('AccordionDemoCtrl', function ($scope, Admin, Report, Scrolling) {
         $scope.loading = false;
         $scope.errorMsg = false;
         $scope.successMsg = false;
+        Scrolling('adminLoader');
 
         $scope.deleteConf = function (id) {
             $scope.loading = true;
@@ -22,11 +23,13 @@ angular.module('adminControllers', ['manageAdminServices', 'reportServices'])
                             $scope.confList.splice(key, 1);
                         }
                     }
+                    Scrolling('adminSuccess');
                     // Log in adminLog
                     const reportData = {action: "Deleted Configuration: " + id};
                     Report.putLog(reportData);
                 } else {
                     $scope.errorMsg = returnData.data.message;
+                    Scrolling('adminFailure');
                 }
             });
             $scope.loading = false;
@@ -34,6 +37,7 @@ angular.module('adminControllers', ['manageAdminServices', 'reportServices'])
 
         $scope.updateConf = function (id, active) {
             $scope.loading = true;
+            Scrolling('adminLoader');
             let updateData = JSON.stringify({_id: id});
             if (!active) {
                 Admin.update(updateData).then(function (returnData) {
@@ -46,11 +50,13 @@ angular.module('adminControllers', ['manageAdminServices', 'reportServices'])
                                 $scope.confList[key].active = false;
                             }
                         }
+                        Scrolling('adminSuccess');
                         // Log in adminLog
                         const reportData = {action: "Activated Configuration: " + id};
                         Report.putLog(reportData);
                     } else {
                         $scope.errorMsg = returnData.data.message;
+                        Scrolling('adminFailure');
                     }
                 });
             } else {
@@ -62,11 +68,13 @@ angular.module('adminControllers', ['manageAdminServices', 'reportServices'])
                                 $scope.confList[key].active = false;
                             }
                         }
+                        Scrolling('adminSuccess');
                         // Log in adminLog
                         const reportData = {action: "Deactivated Configuration: " + id};
                         Report.putLog(reportData);
                     } else {
                         $scope.errorMsg = returnData.data.message;
+                        Scrolling('adminFailure');
                     }
                 });
             }

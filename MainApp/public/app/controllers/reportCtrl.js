@@ -1,5 +1,5 @@
-angular.module('reportControllers', ['reportServices'])
-    .controller('reportCtrl', function (Report, $scope) {
+angular.module('reportControllers', ['reportServices', 'scrollingServices'])
+    .controller('reportCtrl', function (Report, $scope, Scrolling) {
         $scope.today = function () {
             $scope.dt1 = new Date();
             $scope.dt2 = new Date();
@@ -64,6 +64,7 @@ angular.module('reportControllers', ['reportServices'])
 
         $scope.getReport = function () {
             $scope.loading1 = true;
+            Scrolling('loadingReport');
             console.log($scope.dt1);
             console.log($scope.dt2);
             $scope.loading1 = false;
@@ -71,6 +72,7 @@ angular.module('reportControllers', ['reportServices'])
 
         $scope.getLog = function () {
             $scope.loading2 = true;
+            Scrolling('loadingLog');
             $scope.errorMsg2 = false;
             $scope.successMsg2 = false;
             let dateData = {
@@ -80,12 +82,13 @@ angular.module('reportControllers', ['reportServices'])
             Report.getLog(dateData).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg2 = returnData.data.message;
-
+                    Scrolling('successLog');
                     // Log in adminLog
                     const reportData = {action: "Generated Log: " + $scope.dt3 + " to " + $scope.dt4};
                     Report.putLog(reportData);
                 } else {
                     $scope.errorMsg2 = returnData.data.message;
+                    Scrolling('failureLog');
                 }
             });
             $scope.loading2 = false;
