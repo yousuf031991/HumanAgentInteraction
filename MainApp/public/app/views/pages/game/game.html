@@ -33,17 +33,17 @@
         </div>
     </div>
 
-    <!-- Error Modal -->
-    <div class="modal fade" id="errorModal" role="dialog">
+    <!-- Notification Modal -->
+    <div class="modal fade" id="notifyModal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Error</h4>
+                    <h4 id="notifyModalTitle" class="modal-title">Title</h4>
                 </div>
-                <div id="errorModalbody" class="modal-body">
-                    <p>Insufficent Resources</p>
+                <div id="notifyModalbody" class="modal-body">
+                    <p>Message</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -91,8 +91,8 @@
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
-                                <div class="square center v-align">
-                                    <span id="score">{{gameData.gameState.score}}</span>
+                                <div class="square center v-align" id="playerScoreDiv">
+                                    <span id="playerScore">{{gameData.gameState.score}}</span>
                                 </div>
                             </strong>
                         </div>
@@ -146,7 +146,7 @@
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
-                                <div class="square center v-align">
+                                <div class="square center v-align" class="agentScoreDiv">
                                     <span id="agentScore">{{gameData.gameState.otherScore}}</span>
                                 </div>
                             </strong>
@@ -259,7 +259,7 @@
                     <div class="btn-group btn-group-justified" id="prdiv">
                         <a href="#" class="btn btn-primary" id="patients">Assign Patients</a>
                         <a href="#" class="btn btn-primary" id="resources">Assign Resources</a>
-                        <a href="#" class="btn btn-primary" id="requestResources">Request Resources</a>
+                        <a href="#" class="btn btn-primary" id="shareResources">Share Resources</a>
                     </div>
                     <div id="patientsgroup" style="display: none;">
                         <br/>
@@ -288,9 +288,9 @@
                     <div id="requestGroup" style="display: none;">
                         <br/>
                         <div class="btn-group btn-group-justified">
-                            <a href="#" class="btn btn-primary" id="btnRequestDoctor">Doctor</a>
-                            <a href="#" class="btn btn-primary" id="btnRequestNurse">Nurse</a>
-                            <a href="#" class="btn btn-primary" id="btnRequestSurgeon">Surgeon</a>
+                            <a href="#" class="btn btn-primary" id="btnShareDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary" id="btnShareNurse">Nurse</a>
+                            <a href="#" class="btn btn-primary" id="btnShareSurgeon">Surgeon</a>
                         </div>
                     </div>
 
