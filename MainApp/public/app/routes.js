@@ -6,6 +6,11 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/thankyou', {
             templateUrl: 'app/views/pages/thankyou.html', activeTab: 'thankyou'
         })
+
+        .when('/timeout', {
+            templateUrl: 'app/views/pages/sessionTimeout.html', activeTab: 'thankyou'
+        })
+
         .when('/admin', {
             templateUrl: 'app/views/pages/admin/adminPage.html', controller: 'adminController', controllerAs: 'admin', activeTab: 'adminPanel'
         })
@@ -13,6 +18,9 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/authentication/login.html', controller: 'authController', controllerAs: 'signIn', isLogin: true
         })
         .when('/', {
+            templateUrl: 'app/views/pages/start.html', controller: 'manageGameCtrl', controllerAs: 'manageGameCtrl'
+        })
+        .when('/trialinfo', {
             templateUrl: 'app/views/pages/trialinfo/trialInfoPage.html' , controller: 'trialInfoCtrl', controllerAs: 'trialData', activeTab: 'playGame'
         })
         .when('/gamepage/:username', {
@@ -31,12 +39,12 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/admin/exports.html' , controller: 'exportCtrl', controllerAs: 'export', activeTab: 'exports'
         })
         .when('/demographics', {
-            templateUrl: 'app/views/pages/game/Demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
+            templateUrl: 'app/views/pages/game/demographics.html' , controller: 'preGameQuestionnaireCtrl', controllerAs: 'preGameQuestionnaire', activeTab: 'playGame'
         })
         .when('/trustAndTaskQuestionnaire', {
             templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
         })
-        .otherwise({redirectTo: '/'});
+        .otherwise({redirectTo: '/trialinfo'});
 
     $locationProvider.html5Mode({
         enabled: true,

@@ -1,5 +1,5 @@
 angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, PatientService, Room, Agent, Circle, GameState, UserStats) {
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats) {
         let app = this;
         app.username = $routeParams.username;
         let blinkTimer;
@@ -156,9 +156,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 minutes = Math.round((seconds - 30) / 60);
                 remainingSeconds = seconds % 60;
 
-                if (remainingSeconds < 10) {
-                    remainingSeconds = "0" + remainingSeconds;
-                }
+            if (remainingSeconds < 10) {
+                remainingSeconds = "0" + remainingSeconds;
+            }
+
+           
                 seconds--;
                 let x = minutes * 60 * 1000;
                 let y = remainingSeconds * 1000;
@@ -183,7 +185,35 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         function stopTimer(mytimeout) {
-            $timeout.cancel(mytimeout);
+            console.log("Time stopped")
+             $timeout.cancel(mytimeout);
+             showFinishedModal();
+            
+
+           
+        }
+
+
+        function showFinishedModal() {
+
+            $("#gameFinishedModal").modal("show")
+            console.log("Shown")
+             gameFinished();
+        }
+        function gameFinished() {
+
+                $("#gFMclose").bind("click", function() {
+                $("#gameFinishedModal").modal("hide")
+
+                 $timeout(function(){
+                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                    gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
+                    $location.path('/trustAndTaskQuestionnaire');
+                    console.log("in timeout")
+                 });
+                 console.log("hidden")
+             });
         }
 
         function resetMsg() {

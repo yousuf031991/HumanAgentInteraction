@@ -2,28 +2,24 @@ import Admin from '../models/user';
 import TrialInfo from '../models/trialinfo';
 import GameConfig from '../models/gameConfig';
 import Game from '../models/game';
-import maclib from 'getMac';
 import hash from 'murmurhash-native';
 import UserStatistics from '../models/userStatistics';
 import Authenticator from '../helpers/authentication';
 import WorkerQueue from '../background-jobs/worker-queue';
 import AdminLog from '../models/adminLog';
 import BackgroundJob from '../models/background-job';
+import * as UUID from 'uuid-1345';
+
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
-
-        maclib.getMac(function (err, macAddress){
-            if (err) {
-                console.log(err);
-                res.send({success: false, message: "Error getting mac address"});
-            }
-
-            let username = hash.murmurHash(macAddress);
-            trialinfo.username = username;
-
+            
+            let userIdV1=UUID.v1();// Version 1 UUID- Created using MAC address of the server and timestamp 
+            let userIdV4=UUID.v4();// Version 4 UUID- Created Using random number generator. 
+            trialinfo.username = userIdV1+"-"+userIdV4;// The combination to prevent any collision between uuids created on different servers. 
+            
             GameConfig.find({active : true}, function(err, record) {
                 if (record.length == 0) {
                     res.send({success: false, message: "No active game config"});
@@ -51,12 +47,12 @@ export default function (router) {
                             // TODO: Redirect to Thank you for already playing the game page.
                             res.send({success: false, message: "Username already exists"});
                         } else {
-                            res.send({success: true, userid: username, message: "Trial Information saved"});
+                            res.send({success: true, userid: trialinfo.username, message: "Trial Information saved"});
                         }
                     });
                 }
             });
-        });
+    
     });
 
     //http://localhost:8080/api/gameConfig

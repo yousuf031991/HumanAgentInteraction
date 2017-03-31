@@ -1,9 +1,8 @@
 angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,QuestionnaireService) {
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService) {
         
         let app = this;
         app.questionnaireIncomplete=false;
-        app.headerPosition;
         app.questions=[];
         app.responses=[];
         app.tableRows=[];
@@ -125,16 +124,20 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
         app.saveGameResponses=function(questions,responses){
           var questionResponsePairs=app.makeQuestionResponsePairs(questions,responses);
           var obj={};
+          obj.username=$rootScope.username;
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
+                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                gameSession.lastStageCompleted=$rootScope.TRUST_TASK_QUESTIONNAIRE;
+                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
                 $location.path('/thankyou');
              }
              else{
               console.log(returnData.data.message);
              }
           });
-        }
+        } 
 
         app.makeStickyHeader();
         
