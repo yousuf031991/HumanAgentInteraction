@@ -33,7 +33,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     patientACount = activeGameConfig.startNumPatientAs;
                     patientBCount = activeGameConfig.startNumPatientBs;
 
-                    console.log(app.gameState);
+                    //console.log(app.gameState);
                     // Start clock
                     timerClock();
 
