@@ -24,7 +24,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             let patientBCount;
 
             PatientService.getGameConfig().then(function (returnData) {
-                console.log("In start button")
+                //console.log("In start button")
                 if (returnData.data.success) {
                    // console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
@@ -52,7 +52,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
-                    console.log("In start button- success")
+                    //console.log("In start button- success")
                 } else {
                     console.log("Failed to get configuration");
                     console.log(returnData.data);
@@ -175,7 +175,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 mytimeout = $timeout($scope.onTimeout, 1000);
                 if(seconds == 0) {
                     $scope.counter = "00:00";
-                    console.log(seconds);
+                    //console.log(seconds);
                     stopTimer(mytimeout);
                 }
             };
@@ -185,7 +185,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         function stopTimer(mytimeout) {
-            console.log("Time stopped")
+            // console.log("Time stopped")
              $timeout.cancel(mytimeout);
              showFinishedModal();
             
@@ -197,7 +197,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         function showFinishedModal() {
 
             $("#gameFinishedModal").modal("show")
-            console.log("Shown")
+            //console.log("Shown")
              gameFinished();
         }
         function gameFinished() {
@@ -210,9 +210,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
                     $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
                     $location.path('/trustAndTaskQuestionnaire');
-                    console.log("in timeout")
+                    //console.log("in timeout")
                  });
-                 console.log("hidden")
+                // console.log("hidden")
              });
         }
 
