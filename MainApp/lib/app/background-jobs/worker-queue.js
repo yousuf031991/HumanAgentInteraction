@@ -2,6 +2,8 @@ import BackgroundJob from '../models/background-job';
 import Promise from 'bluebird';
 import Utils from '../helpers/utils';
 import initiateWorker from './initiate-worker'
+import fs from 'fs';
+import path from 'path';
 const configs = JSON.parse(process.env.CONFIGS);
 
 function checkAvailability() {
@@ -80,11 +82,37 @@ function runInProgressJobs() {
         });
 }
 
+function deleteOldFiles() {
+    const diffDate = new Date();
+    diffDate.setDate(diffDate.getDate() - configs.csvExpiryDays);
+    BackgroundJob.find({status: "SUCCESSFUL"}).exec()
+        .then(function (jobs) {
+            jobs.forEach(function (job) {
+                let jobDate = new Date(job.createdAt);
+                if(diffDate > jobDate) {
+                    const fileName = path.join(__dirname, '..', '..', '..', configs.csvPath, job.outputFileName);
+                    fs.unlink(fileName, function (err) {
+                       if(err) {
+                           console.log("Error while delete file",  err);
+                       } else {
+                           console.log("Deleted file", job.outputFileName);
+                           job.remove();
+                       }
+                    });
+                }
+            });
+        })
+        .catch(function (err) {
+           console.log("ERROR IN deleteOldFiles" + err);
+        });
+}
+
 export default {
     checkAvailability: checkAvailability,
     queueJob: queueJob,
     dequeueJob: dequeueJob,
     retryJob: retryJob,
     executeJob: executeJob,
-    runInProgressJobs: runInProgressJobs
+    runInProgressJobs: runInProgressJobs,
+    deleteOldFiles: deleteOldFiles
 }
