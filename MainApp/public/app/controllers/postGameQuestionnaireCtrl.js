@@ -1,5 +1,5 @@
-angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService) {
+angular.module('postGameQuestionnaireControllers', ['questionnaireServices','refreshServices'])
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService, Refresh) {
         
         let app = this;
         app.questionnaireIncomplete=false;
@@ -8,6 +8,8 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
         app.responses=[];
         app.tableRows=[];
         app.unansweredQuestions=[];
+
+        Refresh.checkRefresh();
 
         app.username=$rootScope.username;
 
@@ -30,8 +32,13 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
               
               if(app.username==undefined)
                 return;
-              
 
+
+              if($rootScope.checkTimeout()){
+                  $location.path('/timeout');
+                  return;
+              }
+              
               app.reset();
 
               var responses=app.responses;
@@ -128,9 +135,12 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
-                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                gameSession.lastStageCompleted=$rootScope.TRUST_TASK_QUESTIONNAIRE;
-                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
+                var data={
+                                lastStageCompleted:$rootScope.TRUST_TASK_QUESTIONNAIRE
+                         };
+
+                $rootScope.updateGameSession(data);
+
                 $location.path('/thankyou');
              }
              else{

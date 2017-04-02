@@ -1,6 +1,12 @@
-angular.module('trialInfoControllers', ['trialInfoServices'])
-    .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo) {
+angular.module('trialInfoControllers', ['trialInfoServices','refreshServices'])
+    .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo,Refresh) {
         var app = this;
+        var gameSession=$cookies.getObject($rootScope.COOKIE_NAME)
+        if(gameSession){
+            if(gameSession.lastStageCompleted){
+                Refresh.checkRefresh();
+            }
+        }
         this.trialInfoData = function (trailData) {
             app.errorMsg = false;
             app.loading = true;
@@ -9,11 +15,13 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     app.successMsg = returnData.data.message;
                     // var username = app.trailData.username;
                     let username = returnData.data.userid;
-                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                    gameSession.lastStageCompleted=$rootScope.TRIALINFO_PAGE;
-                    gameSession.username=username;
                     $rootScope.username=username;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
+                    var data={
+                                username:username,
+                                lastStageCompleted:$rootScope.TRIALINFO_PAGE
+                             };
+                    $rootScope.updateGameSession(data);
+
                     $location.path('/demographics');
                 } else {
                     $location.path('/thankyou');

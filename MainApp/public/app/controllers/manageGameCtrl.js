@@ -3,36 +3,20 @@ angular.module('manageGameControllers', [])
         var app = this;
         app.username=null;
         app.latestStage=-1;
-
-        $rootScope.COOKIE_NAME='HospitalManagementGame';
-        $rootScope.TRIALINFO_PAGE=1;
-        $rootScope.DEMOGRAPHICS_QUESTIONNAIRE=2;
-        $rootScope.GAMEPAGE=3;
-        $rootScope.TRUST_TASK_QUESTIONNAIRE=4; 
-        $rootScope.THANKYOU_PAGE=5;
-        
-        $rootScope.getCookieOptions=function(){
-            var date=new Date();
-            date.setFullYear(date.getFullYear()+10);
-            var options={};
-            options.expires=date;
-            return options;
-        };
-
+       
 
         this.getTrialData=function(){
             var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
             if(gameSession){ //If the game has been started from this client in past.
                 
-                var trialExpiry=new Date(gameSession.trialEnds);
                                    
                 var username=gameSession.username;
                 $rootScope.username=app.username=username;
                 app.latestStage=gameSession.lastStageCompleted;
+                
+                var timeout=$rootScope.checkTimeout(gameSession);
 
-                var currentTime=new Date();
-
-                if(currentTime<=trialExpiry){
+                if(!timeout){
 
                     switch(app.latestStage){
 
@@ -58,12 +42,7 @@ angular.module('manageGameControllers', [])
             }
 
             else{
-                
-                    var trialExpiry=new Date();
-                    trialExpiry.setHours(trialExpiry.getHours()+3);
-                    var gameSession={};
-                    gameSession.trialEnds=trialExpiry.toUTCString(); 
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, $rootScope.getCookieOptions()); 
+                    $rootScope.createGameSession();
                     $location.path('/trialInfo');
 
             }
