@@ -62,6 +62,8 @@
     <script src="app/services/userStatsServices.js"></script>
     <script src="app/services/questionnaireServices.js"></script>
     <script src="app/services/exportServices.js"></script>
+    <script src="app/services/scrollingServices.js"></script>
+
 
 
     <script src="assets/images/"></script>
@@ -83,7 +85,6 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ng-class="{active: $route.current.activeTab === 'playGame'}"><a href="/">Play</a></li>
-                <li ng-class="{active: $route.current.activeTab === 'about'}"><a href="/about">About</a></li>
                 <li ng-class="{active: $route.current.activeTab === 'adminPanel'}" ng-if="isAdmin()">
                     <a href="/admin">Admin Panel</a>
                 </li>

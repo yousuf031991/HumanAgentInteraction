@@ -1,8 +1,5 @@
 angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locationProvider) {
     $routeProvider
-        .when('/about', {
-            templateUrl: 'app/views/pages/about.html', activeTab: 'about'
-        })        
         .when('/thankyou', {
             templateUrl: 'app/views/pages/thankyou.html', activeTab: 'thankyou'
         })
