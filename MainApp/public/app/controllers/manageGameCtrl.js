@@ -6,9 +6,15 @@ angular.module('manageGameControllers', [])
        
 
         this.getTrialData=function(){
-            var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-            if(gameSession){ //If the game has been started from this client in past.
-                
+            console.log("Manage Game controller");
+            $rootScope.checkActiveTabs();
+
+            var gameSession=$rootScope.getSession();
+            if(gameSession.lastStageCompleted==0){
+                $location.path('/trialInfo');
+
+            }
+            else{ //If the game has been started from this client in past.
                                    
                 var username=gameSession.username;
                 $rootScope.username=app.username=username;
@@ -41,11 +47,6 @@ angular.module('manageGameControllers', [])
 
             }
 
-            else{
-                    $rootScope.createGameSession();
-                    $location.path('/trialInfo');
-
-            }
 
         }
         this.getTrialData();

@@ -8,6 +8,10 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
             templateUrl: 'app/views/pages/sessionTimeout.html', activeTab: 'thankyou'
         })
 
+        .when('/duplicateSession', {
+            templateUrl: 'app/views/pages/duplicateSession.html', activeTab: 'thankyou'
+        })
+
         .when('/admin', {
             templateUrl: 'app/views/pages/admin/adminPage.html', controller: 'adminController', controllerAs: 'admin', activeTab: 'adminPanel'
         })
