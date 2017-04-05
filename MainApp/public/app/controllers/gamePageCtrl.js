@@ -131,22 +131,16 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             $scope.onTimeout = function () {
                 minutes = Math.round((seconds - 30) / 60);
                 remainingSeconds = seconds % 60;
-
-            if (remainingSeconds < 10) {
+		    
+            	if (remainingSeconds < 10) {
                 remainingSeconds = "0" + remainingSeconds;
-            }
-
-           
+            	}
                 seconds--;
                 let x = minutes * 60 * 1000;
                 let y = remainingSeconds * 1000;
                 let totalMs = x + y;
-
                 PatientService.timeProgress(totalMs);
-
                 $scope.counter = minutes + ":" + remainingSeconds;
-
-
                 // $scope.counter++;
                 mytimeout = $timeout($scope.onTimeout, 1000);
                 if(seconds == 0) {
@@ -164,34 +158,31 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             console.log("Time stopped")
              $timeout.cancel(mytimeout);
              showFinishedModal();
-    
         }
 
 
         function showFinishedModal() {
-
             $("#gameFinishedModal").modal("show")
             console.log("Shown")
              gameFinished();
         }
+
+
         function gameFinished() {
-
-                $("#gFMclose").bind("click", function() {
-                $("#gameFinishedModal").modal("hide")
-
-                 $timeout(function(){
-                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                    gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
-                    $location.path('/trustAndTaskQuestionnaire');
-                    console.log("in timeout")
-                 });
-                 console.log("hidden")
+             $("#gFMclose").bind("click", function() {
+             $("#gameFinishedModal").modal("hide")
+             $timeout(function(){
+             	var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+                gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
+                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
+                $location.path('/trustAndTaskQuestionnaire');
+                console.log("in timeout")
              });
-        }
+             console.log("hidden")
+        });
+    }
 		    
-    
-    
+
         function resetMsg() {
             app.errorMsg = false;
             app.successMsg = false;
