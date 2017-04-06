@@ -46,33 +46,60 @@ mandatory.</p>
 <br>
 
 
-<label for="college" >College:</b></label> <br> <br>
-<input type="text" class="form-control" id="college" ng-model="preGameQuestionnaire.college">
+<label for="college" ><b><I>College:</I></b></label> <br> <br>
+<input type="radio" value="A.S.U." ng-model="preGameQuestionnaire.college"> A.S.U.
 <br>
 <br>
-
-<label for="major">Major:</b></label> <br> <br>
-<input type="text" class="form-control" id="major" ng-model="preGameQuestionnaire.major">
-<br>
-<br>
-
-
-<label for="degree">Degree in pursuit of:</b></label> <br> <br>
-<input type="text" class="form-control" id="degree" ng-model="preGameQuestionnaire.degree">
-<br>
-<br>
-
-
-<label for="noOfYears">Number of years pursuing this degree:</b></label> <br> <br>
-<input type="text" class="form-control" id="noOfYears" ng-model="preGameQuestionnaire.noOfYears">
+<input type="radio" value="Non A.S.U." ng-model="preGameQuestionnaire.college">Non A.S.U.
 
 <br>
 <br>
+<label for="major"><b><I>Major:</I></b></label> <br> <br>
+<input type="radio"  value="Computer Related" ng-model="preGameQuestionnaire.major"> Computer Related
+<br>
+<br>
+<input type="radio"  value="Non Computer Related" ng-model="preGameQuestionnaire.major"> Non-Computer Related
+<br>
+
+
+<br>
+
+
+<label for="degree"><b><I>Degree in pursuit of:</I></b></label> <br> <br>
+<input type="radio" value="Batchlers" ng-model="preGameQuestionnaire.degree"> Batchlers
+<br>
+<br>
+<input type="radio" value="Masters" ng-model="preGameQuestionnaire.degree"> Masters
+<br>
+<br>
+<input type="radio" value="Doctorate" ng-model="preGameQuestionnaire.degree"> Doctorate
+<br>
+
+<br>
+
+
+<label for="noOfYears"><b><I>Number of years pursuing this degree:</I></b></label> <br> <br>
+<input type="radio" value="1" ng-model="preGameQuestionnaire.noOfYears">1
+<br>
+<br>
+<input type="radio" value="2" ng-model="preGameQuestionnaire.noOfYears">2
+<br>
+<br>
+<input type="radio" value="3" ng-model="preGameQuestionnaire.noOfYears">3
+<br>
+<br>
+<input type="radio" value="4" ng-model="preGameQuestionnaire.noOfYears">4
+<br>
+<br>
+<input type="radio" value="5 and above" ng-model="preGameQuestionnaire.noOfYears">5 and above
+<br>
+
 <br>
 <br>
 
 
-<label for="occupation">If employed, please write in your occupation</b></label> <br> <br>
+
+<label for="occupation"><b>If employed, please write in your occupation</b></label> <br> <br>
 
 
 
@@ -87,9 +114,6 @@ mandatory.</p>
 
 
 <label id="questionHighestDegree" class="question"><b>Highest Level of Education Earned:</b></label> <br> <br>
-
-<br>
-
 
 <input type="radio" value="Some high school or less"  name="education" ng-model="preGameQuestionnaire.highestDegree" ng-change="preGameQuestionnaire.setDegreeSelected('highschool');"> Some high school or less
 <br>
@@ -125,12 +149,9 @@ mandatory.</p>
 <br>
 </div>
 
-<br>
-<br>
 
 <div class="required">
 <label id="questionComputerUsageFrequency" class="question"><b>I use computer</b></label> <br> <br>
-<br>
 <input type="radio" value="Daily" name="computerUsage" ng-model='preGameQuestionnaire.computerUsage' > Daily
 <br>
 <br>
@@ -156,33 +177,33 @@ mandatory.</p>
    
    
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.lookingForInfo" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Looking up information',preGameQuestionnaire.lookingForInfo)">Looking up information
+   <input type="checkbox"  ng-model="preGameQuestionnaire.lookingForInfo" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Looking up information',preGameQuestionnaire.lookingForInfo)"> Looking up information
    
    <br>
    <br>
    
-   <input type="checkbox"  ng-model="preGameQuestionnaire.checkingEmail" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Checking Email',preGameQuestionnaire.checkingEmail)">Checking email
+   <input type="checkbox"   ng-model="preGameQuestionnaire.checkingEmail" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Checking Email',preGameQuestionnaire.checkingEmail)"> Checking email
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.wordProcessing" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Word Processing',preGameQuestionnaire.wordProcessing)">Word processing
+   <input type="checkbox"  ng-model="preGameQuestionnaire.wordProcessing" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Word Processing',preGameQuestionnaire.wordProcessing)"> Word processing
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.spreadsheets" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Spreadsheets',preGameQuestionnaire.spreadsheets)">Spreadsheets
+   <input type="checkbox"  ng-model="preGameQuestionnaire.spreadsheets" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Spreadsheets',preGameQuestionnaire.spreadsheets)"> Spreadsheets
    
    <br>
    <br>
    
-  <input type="checkbox" ng-model="preGameQuestionnaire.playingGames" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Playing Games',preGameQuestionnaire.playingGames)">Playing games
+  <input type="checkbox"  ng-model="preGameQuestionnaire.playingGames" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.computerUsageTypes,'Playing Games',preGameQuestionnaire.playingGames)"> Playing games
    
    <br>
    <br>
    
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.otherPurposes" >Others (Please Specify)
+   <input type="checkbox"  ng-model="preGameQuestionnaire.otherPurposes" > Others (Please Specify)
    
    <br>
    <br>
@@ -200,17 +221,17 @@ mandatory.</p>
    
    
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.television" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Console connected to a television',preGameQuestionnaire.television)" >Console connected to a television
+   <input type="checkbox"  ng-model="preGameQuestionnaire.television" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Console connected to a television',preGameQuestionnaire.television)" > Console connected to a television
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.tabletOrMobile" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Hand-held, tablet, or mobile phone',preGameQuestionnaire.tabletOrMobile)">Hand-held, tablet, or mobile phone
+   <input type="checkbox"  ng-model="preGameQuestionnaire.tabletOrMobile" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Hand-held, tablet, or mobile phone',preGameQuestionnaire.tabletOrMobile)"> Hand-held, tablet, or mobile phone
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.personalComputer" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Personal computer',preGameQuestionnaire.personalComputer)">Personal computer
+   <input type="checkbox"  ng-model="preGameQuestionnaire.personalComputer" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameDevices,'Personal computer',preGameQuestionnaire.personalComputer)"> Personal computer
    
    <br>
    <br>
@@ -223,37 +244,37 @@ mandatory.</p>
   <label id="questionVideoGameTypes" class="question"><b>I play following types of video games (check all that apply):</b></label> <br> <br> 
    
      
-   <input type="checkbox" ng-model="preGameQuestionnaire.sportsOrRacing" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Sports or Racing',preGameQuestionnaire.sportsOrRacing)" >Sports or Racing
+   <input type="checkbox"  ng-model="preGameQuestionnaire.sportsOrRacing" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Sports or Racing',preGameQuestionnaire.sportsOrRacing)" > Sports or Racing
    
    <br>
    <br>
    
-   <input type="checkbox"  ng-model="preGameQuestionnaire.realTimeStrategy" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Real-time strategy',preGameQuestionnaire.realTimeStrategy)">Real-time strategy
+   <input type="checkbox"   ng-model="preGameQuestionnaire.realTimeStrategy" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Real-time strategy',preGameQuestionnaire.realTimeStrategy)"> Real-time strategy
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.firstPersonShooter" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'First person shooter',preGameQuestionnaire.firstPersonShooter)">First person shooter
+   <input type="checkbox"  ng-model="preGameQuestionnaire.firstPersonShooter" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'First person shooter',preGameQuestionnaire.firstPersonShooter)"> First person shooter
    
    <br>
    <br>
 
-   <input type="checkbox" ng-model="preGameQuestionnaire.rolePlaying" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Role-playing (RPG)',preGameQuestionnaire.rolePlaying)">Role-playing (RPG)
+   <input type="checkbox"  ng-model="preGameQuestionnaire.rolePlaying" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Role-playing (RPG)',preGameQuestionnaire.rolePlaying)"> Role-playing (RPG)
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.adventure" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Adventure',preGameQuestionnaire.adventure)">Adventure
+   <input type="checkbox"  ng-model="preGameQuestionnaire.adventure" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Adventure',preGameQuestionnaire.adventure)"> Adventure
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.puzzle" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Puzzle',preGameQuestionnaire.puzzle)">Puzzle
+   <input type="checkbox"  ng-model="preGameQuestionnaire.puzzle" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.videoGameTypes,'Puzzle',preGameQuestionnaire.puzzle)"> Puzzle
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.otherGameTypes">Other (please specify):
+   <input type="checkbox"  ng-model="preGameQuestionnaire.otherGameTypes"> Other (please specify):
    
    <br>
    <br>
@@ -266,24 +287,23 @@ mandatory.</p>
 <div class="required">
   <label id="questionDevicesUsed" class="question"><b>I use the following (check all that apply):</b></label> <br> <br> 
    
-   
-   
-   <input type="checkbox" ng-model="preGameQuestionnaire.useBasicMobilePhone" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Basic mobile phone',preGameQuestionnaire.useBasicMobilePhone)">Basic mobile phone
-   
-   <br>
-   <br>
-   
-   <input type="checkbox" ng-model="preGameQuestionnaire.useSmartPhonePDAIpad" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Mobile smart phone / PDA / iPod touch',preGameQuestionnaire.useSmartPhonePDAIpad)">Mobile smart phone / PDA / iPod touch
+    
+   <input type="checkbox"  ng-model="preGameQuestionnaire.useBasicMobilePhone" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Basic mobile phone',preGameQuestionnaire.useBasicMobilePhone)"> Basic mobile phone
    
    <br>
    <br>
    
-   <input type="checkbox" ng-model="preGameQuestionnaire.useGPS" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'GPS navigation device with touch screen',preGameQuestionnaire.useGPS)">GPS navigation device with touch screen
+   <input type="checkbox"  ng-model="preGameQuestionnaire.useSmartPhonePDAIpad" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Mobile smart phone / PDA / iPod touch',preGameQuestionnaire.useSmartPhonePDAIpad)"> Mobile smart phone / PDA / iPod touch
+   
+   <br>
+   <br>
+   
+   <input type="checkbox"  ng-model="preGameQuestionnaire.useGPS" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'GPS navigation device with touch screen',preGameQuestionnaire.useGPS)"> GPS navigation device with touch screen
    
    <br>
    <br>
 
-   <input type="checkbox" ng-model="preGameQuestionnaire.noDevice" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'None of the above',preGameQuestionnaire.noDevice)">None of the above
+   <input type="checkbox"  ng-model="preGameQuestionnaire.noDevice" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'None of the above',preGameQuestionnaire.noDevice)"> None of the above
    
    </div>
    
