@@ -5,7 +5,7 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Download Report</h3>
+                <h3 class="panel-title">Download Game Log</h3>
             </div>
             <form class="panel-body" ng-submit="getReport()">
                 <p>From:</p>
@@ -52,7 +52,7 @@
             </form>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6" ng-if="isSuperAdmin()">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Download Admin Log</h3>

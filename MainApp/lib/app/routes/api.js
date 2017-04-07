@@ -336,7 +336,7 @@ export default function (router) {
     });
 
     router.get("/listAdminExports", function (req, res) {
-        BackgroundJob.find({type: "ADMIN_LOGS"})
+        BackgroundJob.find({ type: "ADMIN_LOGS", author: req.user.username })
             .sort({createdAt: -1}).exec()
             .then(function (exports) {
                 console.log(exports);
