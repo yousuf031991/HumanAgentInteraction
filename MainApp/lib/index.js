@@ -35,6 +35,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, configs.views));
 connectDB();
 WorkerQueue.runInProgressJobs();
+WorkerQueue.deleteOldFiles();
 
 app.use(Authenticator.authenticate);
 app.use('/api', appRoutes);
