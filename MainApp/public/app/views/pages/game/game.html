@@ -12,7 +12,7 @@
 <div class="container-fluid">
 
 
-    <!-- Modal -->
+    <!-- Collect Resources Modal -->
     <div class="modal fade" id="rTimeoutmodal" role="dialog">
         <div class="modal-dialog">
 
@@ -24,6 +24,48 @@
                 </div>
                 <div id="modalbody" class="modal-body">
                     <p>Timeup. Collect Resources from Room</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Game Over modal -->
+    <div class="modal fade" id="gameFinishedModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Done</h4>
+                </div>
+                <div id="modalbody" class="modal-body">
+                    <p>Congratulations. You have successfully finsihed the game. You saved {{gameData.gameState.score}} patients </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="gFMclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal fade" id="notifyModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="notifyModalTitle" class="modal-title">Title</h4>
+                </div>
+                <div id="notifyModalbody" class="modal-body">
+                    <p>Message</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -51,8 +93,8 @@
                     </h3>
                 </div>
                 <div class="panel-body" id="P1">
-                    <strong><span id="patientA"> Patient A: </span> <br/> </strong>
-                    <strong><span id="patientB"> Patient B: </span><br/> </strong>
+                    <strong> Patient A: <span id="patientA"></span><br/> </strong>
+                    <strong> Patient B: <span id="patientB"></span><br/> </strong>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -64,19 +106,29 @@
                 <div class="panel-body" id="S1">
                     <div class = "col-sm-6" >
                         <strong>Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
-                    <strong>Nurses   : <span id="totalNurses" class="sidebar">{{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
-                    <strong>Surgeons : <span id="totalSurgeons" class="sidebar">{{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
+                        <strong>Nurses   : <span id="totalNurses" class="sidebar"> {{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
+                        <strong>Surgeons : <span id="totalSurgeons" class="sidebar"> {{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
                     </div>
-                    <div class="col-sm-6" id = "scorePanel">
-                        <strong>
-                            score
-                            <div id = "scoreDiv">
-                                <div id ="scoreSpan">
-                                    <span id = "playerScore">{{gameData.gameState.score}}</span>
+                    <div class="col-sm-6">
+                        <div class="text-center">
+                            <strong>
+                                <span class="text-center">Score</span>
+                                <div class="square center v-align" id="playerScoreDiv">
+                                    <span id="playerScore">{{gameData.gameState.score}}</span>
                                 </div>
-                           </div>
-                        </strong>
-                    </div>   
+                            </strong>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6" id = "scorePanel">-->
+                        <!--<strong>-->
+                            <!--Score-->
+                            <!--<div id = "scoreDiv">-->
+                                <!--<div id ="scoreSpan">-->
+                                    <!--<span id = "playerScore">{{gameData.gameState.score}}</span>-->
+                                <!--</div>-->
+                           <!--</div>-->
+                        <!--</strong>-->
+                    <!--</div>   -->
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -85,9 +137,19 @@
                         Neighbor's Waiting room
                     </h3>
                 </div>
-                <div class="panel-body">
-                    <strong><p> Patient A: </p></strong>
-                    <strong><p> Patient B: </p></strong>
+                <div class="panel-body" id="P2">
+                    <div class = "col-sm-6" >
+                        <strong>
+                            <p class="text-center"> Patient A </p>
+                        </strong>
+                        <span id="otherPatientA"><div class="square center bg-green"></div></span><br/>
+                    </div>
+                    <div class = "col-sm-6" >
+                        <strong>
+                            <p class="text-center"> Patient B </p>
+                        </strong>
+                        <span id="otherPatientB"><div class="square center bg-green"></div></span><br/>
+                    </div>
                 </div>
             </div>
             <div class="panel panel-primary">
@@ -102,17 +164,26 @@
                         <strong>Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
                         <strong>Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
                     </div>
-
-                    <div class="col-sm-6" id = "scorePanel">
-                        <strong>
-                            score
-                            <div id = "scoreDiv">
-                                <div id ="scoreSpan">
-                                    <span id = "agentScore">{{gameData.gameState.otherScore}}</span>
+                    <div class="col-sm-6">
+                        <div class="text-center">
+                            <strong>
+                                <span class="text-center">Score</span>
+                                <div class="square center v-align" class="agentScoreDiv">
+                                    <span id="agentScore">{{gameData.gameState.otherScore}}</span>
                                 </div>
-                           </div>
-                        </strong>
-                    </div>    
+                            </strong>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-6" id = "scorePanel">-->
+                        <!--<strong>-->
+                            <!--score-->
+                            <!--<div id = "scoreDiv">-->
+                                <!--<div id ="scoreSpan">-->
+                                    <!--<span id = "agentScore">{{gameData.gameState.otherScore}}</span>-->
+                                <!--</div>-->
+                           <!--</div>-->
+                        <!--</strong>-->
+                    <!--</div>    -->
                 </div>
             </div>
         </div>
@@ -210,7 +281,7 @@
                     <div class="btn-group btn-group-justified" id="prdiv">
                         <a href="#" class="btn btn-primary" id="patients">Assign Patients</a>
                         <a href="#" class="btn btn-primary" id="resources">Assign Resources</a>
-                        <a href="#" class="btn btn-primary" id="requestResources">Request Resources</a>
+                        <a href="#" class="btn btn-primary" id="shareResources">Share Resources</a>
                     </div>
                     <div id="patientsgroup" style="display: none;">
                         <br/>
@@ -239,9 +310,9 @@
                     <div id="requestGroup" style="display: none;">
                         <br/>
                         <div class="btn-group btn-group-justified">
-                            <a href="#" class="btn btn-primary" id="btnRequestDoctor">Doctor</a>
-                            <a href="#" class="btn btn-primary" id="btnRequestNurse">Nurse</a>
-                            <a href="#" class="btn btn-primary" id="btnRequestSurgeon">Surgeon</a>
+                            <a href="#" class="btn btn-primary" id="btnShareDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary" id="btnShareNurse">Nurse</a>
+                            <a href="#" class="btn btn-primary" id="btnShareSurgeon">Surgeon</a>
                         </div>
                     </div>
 
