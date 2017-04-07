@@ -3,7 +3,6 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
         
         let app = this;
         app.questionnaireIncomplete=false;
-        app.headerPosition;
         app.questions=[];
         app.responses=[];
         app.tableRows=[];
@@ -125,6 +124,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
         app.saveGameResponses=function(questions,responses){
           var questionResponsePairs=app.makeQuestionResponsePairs(questions,responses);
           var obj={};
+          obj.username=$rootScope.username;
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
