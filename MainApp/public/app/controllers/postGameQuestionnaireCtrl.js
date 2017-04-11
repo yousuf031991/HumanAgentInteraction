@@ -1,9 +1,8 @@
-angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService) {
+angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scrollingServices'])
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService,Scrolling) {
         
         let app = this;
         app.questionnaireIncomplete=false;
-        app.headerPosition;
         app.questions=[];
         app.responses=[];
         app.tableRows=[];
@@ -60,6 +59,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
                 
                 app.highlightUnansweredRows();
                 app.questionnaireIncomplete=incompleteQuestionnaireMessage;
+                Scrolling("errorMsg");
               }
               else{
 
@@ -125,6 +125,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
         app.saveGameResponses=function(questions,responses){
           var questionResponsePairs=app.makeQuestionResponsePairs(questions,responses);
           var obj={};
+          obj.username=$rootScope.username;
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
