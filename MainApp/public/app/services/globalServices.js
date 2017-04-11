@@ -1,5 +1,5 @@
 angular.module('globalServices', [])
-    .factory('Global', function ($rootScope,$cookies,$location) {
+    .factory('Global', function ($rootScope,$cookies,$location,Refresh) {
         let globalFactory={};
         globalFactory.setGlobals=function(){
         		    $rootScope.COOKIE_NAME='HospitalManagementGame'; 
@@ -36,7 +36,7 @@ angular.module('globalServices', [])
 			        $rootScope.createGameSession=function(){
 				        var trialExpiry=new Date();
 	                    trialExpiry.setHours(trialExpiry.getHours()+$rootScope.TRIAL_DURATION_HOURS);
-	                    var gameSession={activeTabs:0,lastStageCompleted:0};
+	                    var gameSession={lastStageCompleted:0};
 	                    gameSession.trialEnds=trialExpiry.toUTCString(); 
 	                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, $rootScope.getCookieOptions());
 	                    return gameSession; 
@@ -56,28 +56,6 @@ angular.module('globalServices', [])
 	                    	 gameSession=$rootScope.createGameSession();
 	                    }
 	                    return gameSession;
-			        }
-
-			        $rootScope.checkActiveTabs=function(){
-			        	var gameSession=$rootScope.getSession();
-			        	console.log("activeTabs:"+gameSession.activeTabs);
-	                    var activeTabs=gameSession.activeTabs+1
-	                    $rootScope.updateGameSession({activeTabs:activeTabs});
-			        	if(activeTabs>1){
-			        		console.log('Duplicate Session');
-			        		$location.path('/duplicateSession');
-			        	}
-			        }
-
-			        window.onbeforeunload=function(){
-			        	var gameSession=$rootScope.getSession();
-			        	console.log("activeTabs:"+gameSession.activeTabs);
-			        	var activeTabs=gameSession.activeTabs-1;
-			        	$rootScope.updateGameSession({activeTabs:activeTabs});	
-			        }    
-
-			        window.onload=function(){
-			        	$rootScope.checkActiveTabs();
 			        }
 			        	
         }

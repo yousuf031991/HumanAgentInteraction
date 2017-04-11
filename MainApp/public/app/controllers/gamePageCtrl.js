@@ -1,7 +1,6 @@
-angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices','refreshServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats,Refresh) {
         let app = this;
-        app.username = $routeParams.username;
         var blinkTimer;
 
         // let statsObject = {};
@@ -12,6 +11,10 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         // moves.push("Surgeon to Room2");
         // moves.push("Nurse to Room3");
         // statsObject.moves = moves;
+
+        Refresh.checkRefresh();
+
+        app.username=$rootScope.username;
 
 
         (function startButton() {
@@ -172,11 +175,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
              $("#gFMclose").bind("click", function() {
              $("#gameFinishedModal").modal("hide")
              $timeout(function(){
-                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
-                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
+                var data={
+                    lastStageCompleted:$rootScope.GAMEPAGE;
+                }
                 $location.path('/trustAndTaskQuestionnaire');
-                console.log("in timeout")
+                
              });
              console.log("hidden")
         });

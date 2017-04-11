@@ -196,8 +196,13 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
              }
           });
         } 
-        app.getRows();
-
-        app.makeStickyHeader();
         
+        app.init=function(){
+          app.getRows();
+
+          app.makeStickyHeader();  
+        }
+
+        app.init();
+    
     });
