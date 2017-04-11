@@ -1,9 +1,8 @@
-angular.module('postGameQuestionnaireControllers', ['questionnaireServices','refreshServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService, Refresh) {
+angular.module('postGameQuestionnaireControllers', ['questionnaireServices','refreshServices','scrollingServices'])
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService,Refresh,Scrolling) {
         
         let app = this;
         app.questionnaireIncomplete=false;
-        app.headerPosition;
         app.questions=[];
         app.responses=[];
         app.tableRows=[];
@@ -78,6 +77,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
                 
                 app.highlightUnansweredRows();
                 app.questionnaireIncomplete=incompleteQuestionnaireMessage;
+                Scrolling("errorMsg");
               }
               else{
 
@@ -160,17 +160,6 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
            // app.checkOverlap(false,this.scrollTop);
           }); 
 
-           var elements=document.getElementsByClassName("questionnaireRowClass");
-           var len=elements.length;
-           for(var i=0;i<len;i++){
-            var element=elements[i];
-            element.addEventListener('scroll',function(event){   
-              console.log("Scrolled Row");     
-          });
-
-          }
-
-
         }
        
         app.makeQuestionResponsePairs=function(){
@@ -190,6 +179,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
         app.saveGameResponses=function(questions,responses){
           var questionResponsePairs=app.makeQuestionResponsePairs(questions,responses);
           var obj={};
+          obj.username=$rootScope.username;
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
