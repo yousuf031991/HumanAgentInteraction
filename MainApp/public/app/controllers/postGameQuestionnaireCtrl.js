@@ -1,5 +1,5 @@
-angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService) {
+angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scrollingServices'])
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService,Scrolling) {
         
         let app = this;
         app.questionnaireIncomplete=false;
@@ -59,6 +59,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices'])
                 
                 app.highlightUnansweredRows();
                 app.questionnaireIncomplete=incompleteQuestionnaireMessage;
+                Scrolling("errorMsg");
               }
               else{
 

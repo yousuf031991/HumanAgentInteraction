@@ -151,7 +151,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             };
 
             let mytimeout = $timeout($scope.onTimeout, 1000);
-        }
+        
 
 
         function stopTimer(mytimeout) {
