@@ -1,5 +1,5 @@
-angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
-    .controller('preGameQuestionnaireCtrl', function($location,$rootScope,$cookies,QuestionnaireService) {
+angular.module('preGameQuestionnaireControllers', ['questionnaireServices','scrollingServices'])
+    .controller('preGameQuestionnaireCtrl', function($location,$rootScope,$cookies,QuestionnaireService,Scrolling) {
         let app = this;
         app.showTwoYearDegree=false;
         app.otherPurposes=false;
@@ -126,6 +126,7 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices'])
         		question.className='incomplete';
         		}
         	app.questionnaireIncomplete="Please answer all the questions marked required(*). The questions in red are the required questions not answered by you."
+            Scrolling('errorMsg');
         }
 
         app.saveQuestionnaire=function(){
