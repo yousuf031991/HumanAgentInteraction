@@ -127,8 +127,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices','refresh
         });
 
 
-        $scope.counter = "10:00";
-        let seconds = 600;
+        $scope.counter = "00:10";
+        let seconds = 10;
 
     // Timer logic
             $scope.onTimeout = function () {
@@ -175,9 +175,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices','refresh
              $("#gFMclose").bind("click", function() {
              $("#gameFinishedModal").modal("hide")
              $timeout(function(){
+                
                 var data={
-                    lastStageCompleted:$rootScope.GAMEPAGE;
+                    lastStageCompleted:$rootScope.GAMEPAGE
                 }
+                $rootScope.updateGameSession(data);
                 $location.path('/trustAndTaskQuestionnaire');
                 
              });

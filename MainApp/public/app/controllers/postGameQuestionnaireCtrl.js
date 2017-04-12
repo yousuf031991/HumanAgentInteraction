@@ -98,26 +98,16 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
 
         }
 
-        app.checkOverlap=function(isTrustQuestionnaire,top,bottom){
-          //console.log("Check Overlap");
-          var rows;
-          if(isTrustQuestionnaire)
-            rows=app.trustQuestionnaireRows;
-          else
-            rows=app.taskQuestionnaireRows;
-
+        app.checkOverlap=function(rows,top,bottom){// Function to check whether stickyheader is overlapping with any rows in the questionnaire table
+          
           
           var len=rows.length;
 
-          //console.log("top:"+top);
-          //console.log("Bottom:"+bottom);
-
+          
           for(var i=0;i<len;i++){
             var row=rows[i];
             var radioButtons=row.getElementsByClassName('questionnaireRadioButton');
             var radioButtonRect=radioButtons[0].getBoundingClientRect();
-            //console.log("Radio Button Top:"+radioButtonRect.top);
-            //console.log("RadioButton bottom:"+radioButtonRect.bottom);
             if(radioButtonRect.top>=top && radioButtonRect.bottom<=bottom || radioButtonRect.top<=top && radioButtonRect.bottom>=top || radioButtonRect.top<=bottom && radioButtonRect.bottom>=bottom){
               row.style.opacity=0.0;
               row.disabled=true;
@@ -149,15 +139,15 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
             var stickyHeader='translate(0,'+this.scrollTop+'px)';
             document.getElementById('trustQuestionnaireHeader').style.transform=stickyHeader;
             //console.log("Scroll Top:"+this.scrollTop);
-            var top=document.getElementById('trustQuestionnaireHeader').getBoundingClientRect().top;
-            var bottom=document.getElementById('trustQuestionnaireHeader').getBoundingClientRect().bottom;
-            app.checkOverlap(true,top,bottom);     
+            var rect=document.getElementById('trustQuestionnaireHeader').getBoundingClientRect();
+            app.checkOverlap(app.trustQuestionnaireRows,rect.top,rect.bottom);     
           });
 
            document.getElementById('taskQuestionnaireTable').addEventListener('scroll',function(event){   
            var stickyHeader='translate(0,'+this.scrollTop+'px)';
            document.getElementById('taskQuestionnaireHeader').style.transform=stickyHeader;     
-           // app.checkOverlap(false,this.scrollTop);
+           var rect=document.getElementById('taskQuestionnaireHeader').getBoundingClientRect();
+           app.checkOverlap(app.taskQuestionnaireRows,rect.top,rect.bottom);  
           }); 
 
         }

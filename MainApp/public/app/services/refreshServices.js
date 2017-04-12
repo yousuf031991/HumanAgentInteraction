@@ -6,8 +6,6 @@ angular.module('refreshServices', [])
         refreshFactory.checkRefresh=function() {
             
             var refreshed=(window.performance.navigation.type==1);
-            console.log("Refreshed:"+refreshed);
-
 
             if(refreshed){
                     var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
