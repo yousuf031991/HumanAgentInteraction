@@ -46,6 +46,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         let circleAs = [];
         let circleBs = [];
+
         // Assume circleA and circleB lengths are equal
         for (let i = 0; i < circleAIds.length; i++) {
             circleAs.push(new Circle(circleAIds[i]));

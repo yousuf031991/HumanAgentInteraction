@@ -3,11 +3,11 @@ angular.module('agentServices', [])
     	let agentFactory = {};
 
     	agentFactory.fulfillRequestAlgorithm = function(currentResources, otherHospitalResources, cooperationType) {
-    		/*
-    		REFERENCE:
-    		File	 : com.kle.hospitalmanagementgame/src/MainActivity.java
-    		Function : fulfillRequestAlgorithm
-    		*/
+			/**
+			* REFERENCE:
+			* File	 : com.kle.hospitalmanagementgame/src/MainActivity.java
+			* Function : fulfillRequestAlgorithm
+			*/
 
     		// If agent has no resources available, reject request
     		if (otherHospitalResources == 0) {
@@ -109,8 +109,6 @@ angular.module('agentServices', [])
 
 				// Step 2
 				let randomIdx = agentFactory.generateRandomNum(0, availableResources.length - 1);
-				// console.log("Available Resources: "+availableResources);
-				// console.log("Random Idx : "+ randomIdx);
 
 				// Step 3
                 // Update agent's available resource in game state
@@ -152,8 +150,6 @@ angular.module('agentServices', [])
                 gameState.otherNumberOfRooms  -= 1;
                 
 				$("#agentScore").trigger('change');
-
-				// console.log("Updated agent score");
             }, treatmentTimeInMs);
 
             gameState.otherNumberOfRooms += 1;
