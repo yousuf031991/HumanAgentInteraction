@@ -65,8 +65,25 @@ angular.module('reportControllers', ['reportServices', 'scrollingServices'])
         $scope.getReport = function () {
             $scope.loading1 = true;
             Scrolling('loadingReport');
-            console.log($scope.dt1);
-            console.log($scope.dt2);
+            $scope.errorMsg1 = false;
+            $scope.successMsg1 = false;
+            let dateData = {
+                type: "GAME_LOGS",
+                fromDate: $scope.dt1,
+                toDate: $scope.dt2
+            };
+            Report.getLogs(dateData).then(function (returnData) {
+                if (returnData.data.success) {
+                    $scope.successMsg1 = returnData.data.message;
+                    Scrolling('successReport');
+                    // Log in gameLog
+                    const reportData = {action: "Generated Game Log: " + $scope.dt1 + " to " + $scope.dt1};
+                    Report.putLog(reportData);
+                } else {
+                    $scope.errorMsg1 = returnData.data.message;
+                    Scrolling('failureReport');
+                }
+            });
             $scope.loading1 = false;
         };
 
@@ -76,15 +93,16 @@ angular.module('reportControllers', ['reportServices', 'scrollingServices'])
             $scope.errorMsg2 = false;
             $scope.successMsg2 = false;
             let dateData = {
+                type: "ADMIN_LOGS",
                 fromDate: $scope.dt3,
                 toDate: $scope.dt4
             };
-            Report.getLog(dateData).then(function (returnData) {
+            Report.getLogs(dateData).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg2 = returnData.data.message;
                     Scrolling('successLog');
                     // Log in adminLog
-                    const reportData = {action: "Generated Log: " + $scope.dt3 + " to " + $scope.dt4};
+                    const reportData = {action: "Generated Admin Log: " + $scope.dt3 + " to " + $scope.dt4};
                     Report.putLog(reportData);
                 } else {
                     $scope.errorMsg2 = returnData.data.message;

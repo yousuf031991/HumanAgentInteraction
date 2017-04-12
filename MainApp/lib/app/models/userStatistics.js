@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 import validate from 'mongoose-validator';
 const Schema = mongoose.Schema;
 
-var numberValidator =[
+let numberValidator =[
     validate({
         validator: 'isNumeric',
         message: 'Should contain numeric characters only'
         })
 ];
 
-var userStatisticsSchema = new Schema({
+let userStatisticsSchema = new Schema({
     username: {
         type: String,
     },
@@ -21,19 +21,18 @@ var userStatisticsSchema = new Schema({
         validate: numberValidator,
     },
     moves:[String],
-    demographics:[
-    {
+    demographics:[{
         question: String,
         response: Schema.Types.Mixed
-    }
-    ],
-    trustAndTaskQuestionnaire:[
-    {
+    }],
+    trustAndTaskQuestionnaire:[{
         question: String,
         response: String
+    }],
+    timeOf: {
+        type: Date,
+        default: Date.now
     }
-    ]
-   
 });
 
 export default mongoose.model('UserStatistics', userStatisticsSchema, 'userStatistics');

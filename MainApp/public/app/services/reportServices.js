@@ -1,11 +1,8 @@
 angular.module('reportServices', [])
     .factory('Report', function ($http) {
-        reportFactory = {};
-        reportFactory.report = function(dateData){
-            return $http.get('/api/exportAdminReports', dateData);
-        };
-        reportFactory.getLog = function(dateData){
-            return $http.post('/api/exportAdminLogs', dateData);
+        let reportFactory = {};
+        reportFactory.getLogs = function(data){
+            return $http.post('/api/exportLogs', data);
         };
         reportFactory.putLog = function(logData){
             return $http.post('/api/addToAdminLog', logData);
