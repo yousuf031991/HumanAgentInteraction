@@ -1,4 +1,4 @@
-angular.module('globalServices', [])
+angular.module('globalServices', []) //This is a service that sets the global parameters and functions in the rootscope that are used by all the controllers
     .factory('Global', function ($rootScope,$cookies,$location,Refresh) {
         let globalFactory={};
         globalFactory.setGlobals=function(){

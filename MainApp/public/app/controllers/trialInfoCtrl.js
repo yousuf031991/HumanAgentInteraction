@@ -42,13 +42,7 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
             }
 
             else{
-                
-                    var trialExpiry=new Date();
-                    trialExpiry.setHours(trialExpiry.getHours()+3);
-                    var gameSession={};
-                    gameSession.trialEnds=trialExpiry.toUTCString(); 
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, $rootScope.getCookieOptions()); 
-                    
+                    $rootScope.createGameSession();                    
             }
 
         }

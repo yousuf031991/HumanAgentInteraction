@@ -8,8 +8,8 @@ angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices
 
 
 let userApp=angular.module('userApp', ['appRoutes','refreshServices', 'adminControllers', 'adminServices', 'homeControllers', 'authControllers',
-    'authServices', 'ui.bootstrap', 'ngAnimate', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp',
-    'questionnaireApp', 'reportingApp', 'exportApp', 'manageGameApp', 'scrollingServices','globalServices']).config(function () {
+    'authServices', 'ui.bootstrap', 'ngAnimate','ngCookies', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp',
+    'questionnaireApp', 'reportingApp', 'exportApp', 'scrollingServices','globalServices','refreshServices']).config(function () {
 //console.log("Testing User app");
 });
 
@@ -30,13 +30,10 @@ angular.module('reportingApp', ['appRoutes', 'reportControllers', 'reportService
     /*console.log('testing reporting app');*/
 });
 
-angular.module('questionnaireApp', ['appRoutes', 'questionnaireServices','refreshServices', 'ngAnimate', 'preGameQuestionnaireControllers','postGameQuestionnaireControllers']).config(function () {
+angular.module('questionnaireApp', ['appRoutes', 'questionnaireServices','ngAnimate', 'preGameQuestionnaireControllers','postGameQuestionnaireControllers']).config(function () {
     /*console.log('testing manageAdmin app');*/
 });
 
 angular.module('exportApp', ['appRoutes', 'exportControllers', 'exportServices', 'ngAnimate']).config(function () {
     /*console.log('testing export app');*/
-});
-angular.module('manageGameApp', ['appRoutes', 'manageGameControllers', 'ngCookies', 'ngAnimate']).config(function () {
-    /*console.log('testing manage game app');*/
 });

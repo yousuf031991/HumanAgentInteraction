@@ -31,7 +31,6 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
 
         app.getRows=function(){
           var trustQuestionnaireTable=document.getElementById('trustQuestionnaireTable');
-          console.log("No of trust Rows:"+trustQuestionnaireTable.getElementsByClassName("questionnaireRowClass").length);
           app.trustQuestionnaireRows=trustQuestionnaireTable.getElementsByClassName("questionnaireRowClass");
           var taskQuestionnaireTable=document.getElementById('taskQuestionnaireTable');
           app.taskQuestionnaireRows=taskQuestionnaireTable.getElementsByClassName('questionnaireRowClass');

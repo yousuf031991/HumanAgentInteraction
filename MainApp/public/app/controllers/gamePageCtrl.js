@@ -127,8 +127,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices','refresh
         });
 
 
-        $scope.counter = "00:10";
-        let seconds = 10;
+        $scope.counter = "10:00";
+        let seconds = 600;
 
     // Timer logic
             $scope.onTimeout = function () {
