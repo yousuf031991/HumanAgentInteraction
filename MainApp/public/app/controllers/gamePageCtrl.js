@@ -5,16 +5,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         let blinkTimer;
         let blinkTimer2;
 
-        // let statsObject = {};
-        // statsObject.finalScore = 10;
-        // statsObject.username = "Syed";
-        // let moves = [];
-        // moves.push("Doctor to Room1");
-        // moves.push("Surgeon to Room2");
-        // moves.push("Nurse to Room3");
-        // statsObject.moves = moves;
-
-
         (function startButton() {
             alert("The goal is to save as many patients as possible");
 
