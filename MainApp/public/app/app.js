@@ -9,7 +9,7 @@ angular.module('gameApp', ['appRoutes', 'gamePageControllers', 'gamePageServices
 
 let userApp=angular.module('userApp', ['appRoutes','refreshServices', 'adminControllers', 'adminServices', 'homeControllers', 'authControllers',
     'authServices', 'ui.bootstrap', 'ngAnimate','ngCookies', 'trialInfoApp', 'gameConfigApp', 'gameApp', 'manageAdminApp',
-    'questionnaireApp', 'reportingApp', 'exportApp', 'scrollingServices','globalServices','refreshServices']).config(function () {
+    'questionnaireApp', 'reportingApp', 'exportApp', 'scrollingServices','globalServices']).config(function () {
 //console.log("Testing User app");
 });
 
