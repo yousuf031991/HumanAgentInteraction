@@ -1,7 +1,6 @@
-angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices','refreshServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats,Refresh) {
         let app = this;
-        app.username = $routeParams.username;
         var blinkTimer;
 
         // let statsObject = {};
@@ -12,6 +11,10 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         // moves.push("Surgeon to Room2");
         // moves.push("Nurse to Room3");
         // statsObject.moves = moves;
+
+        Refresh.checkRefresh();
+
+        app.username=$rootScope.username;
 
 
         (function startButton() {
@@ -127,58 +130,63 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         $scope.counter = "10:00";
         let seconds = 600;
 
-        // Timer logic
-        $scope.onTimeout = function () {
-            let minutes = Math.round((seconds - 30) / 60),
+    // Timer logic
+            $scope.onTimeout = function () {
+                minutes = Math.round((seconds - 30) / 60);
                 remainingSeconds = seconds % 60;
-
-            if (remainingSeconds < 10) {
+            
+                if (remainingSeconds < 10) {
                 remainingSeconds = "0" + remainingSeconds;
-            }
-
-            if (seconds == 0) {
-                $scope.counter = "00:00";
-                //console.log(seconds);
-
-                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
-                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
-                $location.path('/trustAndTaskQuestionnaire');
-
-
-            } else {
+                }
                 seconds--;
-            }
+                let x = minutes * 60 * 1000;
+                let y = remainingSeconds * 1000;
+                let totalMs = x + y;
+                PatientService.timeProgress(totalMs);
+                $scope.counter = minutes + ":" + remainingSeconds;
+                // $scope.counter++;
+                mytimeout = $timeout($scope.onTimeout, 1000);
+                if(seconds == 0) {
+                    $scope.counter = "00:00";
+                    console.log(seconds);
+                    stopTimer(mytimeout);
+                }
+            };
 
-            let x = minutes * 60 * 1000;
-            let y = remainingSeconds * 1000;
-            let totalMs = x + y;
-            /*
-             if(totalMs==0) {
-             if(patient)
-             }
-             */
-
-            PatientService.timeProgress(totalMs);
-            /*
-             setTimeout(function() {
-             milliseconds = PatientService.newPatient(totalxy);
-
-             //pass totalxy to cou
-             }, 0);*/
+            let mytimeout = $timeout($scope.onTimeout, 1000);
+        
 
 
-            //  console.log(totalxy)
+        function stopTimer(mytimeout) {
+            console.log("Time stopped")
+             $timeout.cancel(mytimeout);
+             showFinishedModal();
+        }
 
-            $scope.counter = minutes + ":" + remainingSeconds;
+
+        function showFinishedModal() {
+            $("#gameFinishedModal").modal("show")
+            console.log("Shown")
+             gameFinished();
+        }
 
 
-            // $scope.counter++;
-            mytimeout = $timeout($scope.onTimeout, 1000);
-        };
-
-        let mytimeout = $timeout($scope.onTimeout, 1000);
-
+        function gameFinished() {
+             $("#gFMclose").bind("click", function() {
+             $("#gameFinishedModal").modal("hide")
+             $timeout(function(){
+                
+                var data={
+                    lastStageCompleted:$rootScope.GAMEPAGE
+                }
+                $rootScope.updateGameSession(data);
+                $location.path('/trustAndTaskQuestionnaire');
+                
+             });
+             console.log("hidden")
+        });
+    }
+            
 
         function resetMsg() {
             app.errorMsg = false;

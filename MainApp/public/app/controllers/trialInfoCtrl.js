@@ -1,6 +1,54 @@
 angular.module('trialInfoControllers', ['trialInfoServices'])
     .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo) {
         var app = this;
+        app.username=null;
+        app.latestStage=-1;
+
+
+        this.getAppState=function(){
+            var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+            if(gameSession){ //If the game has been started from this client in past.
+                
+                var trialExpiry=new Date(gameSession.trialEnds);
+                                   
+                var username=gameSession.username;
+                $rootScope.username=app.username=username;
+                app.latestStage=gameSession.lastStageCompleted;
+
+                var currentTime=new Date();
+
+                if(currentTime<=trialExpiry){
+
+                    switch(app.latestStage){
+
+                        case $rootScope.TRIALINFO_PAGE: {$location.path('/demographics'); break;}
+
+                        case $rootScope.DEMOGRAPHICS_QUESTIONNAIRE: {$location.path('/gamepage/'+app.username); break;}
+
+                        case $rootScope.GAMEPAGE: {$location.path('/trustAndTaskQuestionnaire'); break;}
+
+                        case $rootScope.TRUST_TASK_QUESTIONNAIRE: {$location.path('/thankyou'); break;}
+
+                        
+                    }
+
+                }
+
+
+                else{
+                        $location.path('/timeout');                             
+                }
+
+            }
+
+            else{
+                    $rootScope.createGameSession();                    
+            }
+
+        }
+
+
+
         this.trialInfoData = function (trailData) {
             app.errorMsg = false;
             app.loading = true;
@@ -22,4 +70,6 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                 app.loading = false;
             });
         };
+
+        this.getAppState();
     });

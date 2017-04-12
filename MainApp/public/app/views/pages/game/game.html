@@ -32,6 +32,29 @@
 
         </div>
     </div>
+  
+   <!-- Game Over modal -->
+    <div class="modal fade" id="gameFinishedModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Done</h4>
+                </div>
+                <div id="modalbody" class="modal-body">
+                    <p>Congratulations. You have successfully finsihed the game. You saved {{gameData.gameState.score}} patients </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="gFMclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 
     <div class="row well">
         <div class="col-md-4">
