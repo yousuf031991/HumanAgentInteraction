@@ -1,4 +1,4 @@
-<div class="container questionnaireContainer" ng-controller="postGameQuestionnaireCtrl">
+<div class="container questionnaireContainer">
   <h2>Trust Questionnaire</h2>
   <p>Please fill the following survey to let us know you better. Please be assured your responses will be saved anonymously and will be used only for research purposes</p>                                        
   <div class="table table-responsive" id="trustQuestionnaireTable">
@@ -320,7 +320,7 @@
       <button class="btn btn-primary" ng-click="postGameQuestionnaireCtrl.validateResponse();">Submit</button>
       <br>
       <br>
-      <div class="row show-hide-message" ng-show="postGameQuestionnaireCtrl.questionnaireIncomplete">
+      <div class="row show-hide-message" ng-show="postGameQuestionnaireCtrl.questionnaireIncomplete" id="errorMsg">
                           <div class="alert alert-danger">
                               {{postGameQuestionnaireCtrl.questionnaireIncomplete}}
             

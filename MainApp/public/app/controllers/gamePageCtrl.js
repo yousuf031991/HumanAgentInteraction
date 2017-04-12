@@ -1,10 +1,10 @@
-angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope, $cookies, PatientService, Room, Agent, Circle, GameState, UserStats) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope, $cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh) {
         let app = this;
-        app.username = $routeParams.username;
         let blinkTimer;
         let blinkTimer2;
-
+        Refresh.checkRefresh();
+        app.username=$rootScope.username;
         (function startButton() {
             alert("The goal is to save as many patients as possible");
 
@@ -23,7 +23,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                     patientACount = activeGameConfig.startNumPatientAs;
                     patientBCount = activeGameConfig.startNumPatientBs;
 
-                    console.log(app.gameState);
                     // Start clock
                     timerClock();
 
@@ -151,19 +150,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 if (remainingSeconds < 10) {
                     remainingSeconds = "0" + remainingSeconds;
                 }
-
-
                 seconds--;
                 let x = minutes * 60 * 1000;
                 let y = remainingSeconds * 1000;
                 let totalMs = x + y;
-
                 PatientService.timeProgress(totalMs);
-
                 $scope.counter = minutes + ":" + remainingSeconds;
-
-
-                // $scope.counter++;
                 mytimeout = $timeout($scope.onTimeout, 1000);
                 if (seconds == 0) {
                     $scope.counter = "00:00";
@@ -192,20 +184,20 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
         }
 
         function gameFinished() {
-            $("#gFMclose").bind("click", function () {
-                $("#gameFinishedModal").modal("hide");
-
-                $timeout(function () {
-                    let gameSession = $cookies.getObject($rootScope.COOKIE_NAME);
-                    gameSession.lastStageCompleted = $rootScope.GAMEPAGE;
-                    $cookies.putObject($rootScope.COOKIE_NAME, gameSession, $rootScope.getCookieOptions());
-                    $location.path('/trustAndTaskQuestionnaire');
-                    console.log("in timeout")
-                });
-                console.log("hidden")
-            });
+             $("#gFMclose").bind("click", function() {
+             $("#gameFinishedModal").modal("hide")
+             $timeout(function(){
+                
+                var data={
+                    lastStageCompleted:$rootScope.GAMEPAGE
+                }
+                $rootScope.updateGameSession(data);
+                $location.path('/trustAndTaskQuestionnaire');
+                
+             });
+             console.log("hidden")
+        });
         }
-
         function resetMsg() {
             app.errorMsg = false;
             app.successMsg = false;
