@@ -131,8 +131,7 @@ angular.module('agentServices', [])
                     $('#notifyModalbody').text("Agent has shared a surgeon")
                 }
 
-                // TODO: Enable modal
-                // $('#notifyModal').modal("show");
+                $('#notifyModal').modal("show");
                 agentFactory.NHShareResource(patientService, gameState);
 			}, milliseconds);
 		};

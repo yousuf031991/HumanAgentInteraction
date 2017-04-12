@@ -24,7 +24,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             let patientBCount;
 
             PatientService.getGameConfig().then(function (returnData) {
-                console.log("In start button")
+                console.log("In start button");
                 if (returnData.data.success) {
                    // console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
@@ -146,7 +146,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         function timerClock() {
             // Building the timer from game config
-            let seconds = app.gameState.startTime;
+            // Disabling for debugging purpose only
+            // let seconds = app.gameState.startTime;
+            let seconds = 60;
             let minutes = seconds / 60;
             let remainingSeconds = seconds % 60;
             $scope.counter = "" + minutes + ":" + remainingSeconds;
@@ -176,6 +178,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 if(seconds == 0) {
                     $scope.counter = "00:00";
                     console.log(seconds);
+
                     stopTimer(mytimeout);
                 }
             };
@@ -185,30 +188,28 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         function stopTimer(mytimeout) {
-            console.log("Time stopped")
+            console.log("Time stopped");
              $timeout.cancel(mytimeout);
+             UserStats.addRecord();
              showFinishedModal();
-            
-
-           
         }
 
 
         function showFinishedModal() {
-
-            $("#gameFinishedModal").modal("show")
-            console.log("Shown")
+            $("#gameFinishedModal").modal("show");
+            console.log("Shown");
              gameFinished();
         }
+
         function gameFinished() {
 
                 $("#gFMclose").bind("click", function() {
-                $("#gameFinishedModal").modal("hide")
+                $("#gameFinishedModal").modal("hide");
 
                  $timeout(function(){
                     var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
                     gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
+                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
                     $location.path('/trustAndTaskQuestionnaire');
                     console.log("in timeout")
                  });
@@ -221,28 +222,28 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             app.successMsg = false;
         }
 
-        $('#btnA').click(function () {
+        $('#btnA').click(function (event) {
             //check if patientA is available in waiting room
             PatientService.assignRoom(event.target.id, app.gameState, UserStats)
 
         });
 
-        $('#btnB').click(function () {
+        $('#btnB').click(function (event) {
             PatientService.assignRoom(event.target.id, app.gameState, UserStats)
         });
 
 
-        $('#btnDoctor').click(function () {
+        $('#btnDoctor').click(function (event) {
             PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
         });
 
 
-        $('#btnSurgeon').click(function () {
+        $('#btnSurgeon').click(function (event) {
             PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
         });
 
 
-        $('#btnNurse').click(function () {
+        $('#btnNurse').click(function (event) {
             PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             //console.log(UserStats.getStats());
         });
@@ -266,7 +267,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             if(app.gameState.numberOfDoctors>0) {
                 app.gameState.numberOfDoctors -= 1;
                 app.gameState.otherNumberOfDoctors += 1;
-                UserStats.addMove("DoctorShared, success", $scope.counter, app.gameState);
+                UserStats.addMove("DoctorShared, Success", $scope.counter, app.gameState);
                 app.successMsg = "Doctor is shared with neighbouring hospital";
                 $location.hash('notify');
                 $anchorScroll();
@@ -275,7 +276,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $("#notifyModalTitle").text("Error");
                 $("#notifyModalbody").text("There are no doctors to share.");
                 $("#notifyModal").modal("show");
-                UserStats.addMove("DoctorShared, failure", $scope.counter, app.gameState);
+                UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
             }
            
 
@@ -303,7 +304,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 app.gameState.numberOfSurgeons -= 1;
                 app.gameState.otherNumberOfSurgeons += 1;
                 app.successMsg = "Surgeon is shared with neighbouring hospital";
-                UserStats.addMove("SurgeonShared, success", $scope.counter, app.gameState);
+                UserStats.addMove("SurgeonShared, Success", $scope.counter, app.gameState);
                 $location.hash('notify');
                 $anchorScroll();
             } else {
@@ -311,7 +312,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $("#notifyModalTitle").text("Error");
                 $("#notifyModalbody").text("There are no surgeons to share.");
                 $("#notifyModal").modal("show");
-                UserStats.addMove("SurgeonShared, failure", $scope.counter, app.gameState);
+                UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
             }
 
             
@@ -340,7 +341,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 app.gameState.numberOfNurses -= 1;
                 app.gameState.otherNumberOfNurses += 1;
                 app.successMsg = "Nurse is shared with neighbouring hospital";
-                UserStats.addMove("NurseShared, success", $scope.counter, app.gameState);
+                UserStats.addMove("NurseShared, Success", $scope.counter, app.gameState);
                 $location.hash('notify');
                 $anchorScroll();
             } else {
@@ -348,7 +349,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 $("#notifyModalTitle").text("Error");
                 $("#notifyModalbody").text("There are no nurses to share.");
                 $("#notifyModal").modal("show");
-                UserStats.addMove("NurseShared, failure", $scope.counter, app.gameState);
+                UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
             }     
 
         });
