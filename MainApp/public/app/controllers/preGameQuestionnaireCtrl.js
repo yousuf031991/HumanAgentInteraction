@@ -1,5 +1,6 @@
-angular.module('preGameQuestionnaireControllers', ['questionnaireServices','scrollingServices'])
-    .controller('preGameQuestionnaireCtrl', function($location,$rootScope,$cookies,QuestionnaireService,Scrolling) {
+angular.module('preGameQuestionnaireControllers', ['questionnaireServices','refreshServices','scrollingServices'])
+    .controller('preGameQuestionnaireCtrl', function($location,$rootScope,$cookies,QuestionnaireService,Refresh,Scrolling) {
+
         let app = this;
         app.showTwoYearDegree=false;
         app.otherPurposes=false;
@@ -10,8 +11,10 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices','scro
         app.allDevicesUsed=[];
         app.questions=[];
         app.incompleteQuestions=[];
-        app.username=$rootScope.username;
+        
+        Refresh.checkRefresh();
 
+        app.username=$rootScope.username;
 
         app.showDegreeText=function(degreeId){
            return degreeId==app.currentDegreeSelected ;
@@ -39,10 +42,14 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices','scro
         	if(app.username==undefined)
         		return;
 
+            if($rootScope.checkTimeout()){
+                $location.path('/timeout');
+                return;
+            }
+
         	app.reset();
 
         	app.preProcess();
-
 
         	if(app.age==undefined){
         		app.incompleteQuestions.push(document.getElementById('questionAge'));
@@ -137,9 +144,10 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices','scro
         	QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returndata){
         			
         		if(returndata.data.success){
-                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                    gameSession.lastStageCompleted=$rootScope.DEMOGRAPHICS_QUESTIONNAIRE;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
+                    var data={
+                                lastStageCompleted:$rootScope.DEMOGRAPHICS_QUESTIONNAIRE
+                             };
+                    $rootScope.updateGameSession(data);
         			$location.path('/gamepage/'+app.username);
         		}
         		else{

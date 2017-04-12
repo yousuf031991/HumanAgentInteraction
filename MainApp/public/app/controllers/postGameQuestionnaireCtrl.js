@@ -1,5 +1,5 @@
-angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scrollingServices'])
-    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService,Scrolling) {
+angular.module('postGameQuestionnaireControllers', ['questionnaireServices','refreshServices','scrollingServices'])
+    .controller('postGameQuestionnaireCtrl', function($rootScope,$location,$cookies,QuestionnaireService,Refresh,Scrolling) {
         
         let app = this;
         app.questionnaireIncomplete=false;
@@ -7,6 +7,11 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scr
         app.responses=[];
         app.tableRows=[];
         app.unansweredQuestions=[];
+
+        app.trustQuestionnaireRows=[];
+        app.taskQuestionnaireRows=[];
+
+        Refresh.checkRefresh();
 
         app.username=$rootScope.username;
 
@@ -24,13 +29,25 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scr
 
         }
 
+        app.getRows=function(){
+          var trustQuestionnaireTable=document.getElementById('trustQuestionnaireTable');
+          app.trustQuestionnaireRows=trustQuestionnaireTable.getElementsByClassName("questionnaireRowClass");
+          var taskQuestionnaireTable=document.getElementById('taskQuestionnaireTable');
+          app.taskQuestionnaireRows=taskQuestionnaireTable.getElementsByClassName('questionnaireRowClass');
+        }
+
 
         app.validateResponse=function(){
               
               if(app.username==undefined)
                 return;
-              
 
+
+              if($rootScope.checkTimeout()){
+                  $location.path('/timeout');
+                  return;
+              }
+              
               app.reset();
 
               var responses=app.responses;
@@ -80,6 +97,28 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scr
 
         }
 
+        app.checkOverlap=function(rows,top,bottom){// Function to check whether stickyheader is overlapping with any rows in the questionnaire table
+          
+          
+          var len=rows.length;
+
+          
+          for(var i=0;i<len;i++){
+            var row=rows[i];
+            var radioButtons=row.getElementsByClassName('questionnaireRadioButton');
+            var radioButtonRect=radioButtons[0].getBoundingClientRect();
+            if(radioButtonRect.top>=top && radioButtonRect.bottom<=bottom || radioButtonRect.top<=top && radioButtonRect.bottom>=top || radioButtonRect.top<=bottom && radioButtonRect.bottom>=bottom){
+              row.style.opacity=0.0;
+              row.disabled=true;
+            }
+            else{
+              row.style.opacity=1.0;
+              row.disabled=false;
+            }
+          }  
+
+        }
+
 
         app.reset=function(){
           app.unansweredQuestions=[];
@@ -97,14 +136,18 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scr
         app.makeStickyHeader=function(){
             document.getElementById('trustQuestionnaireTable').addEventListener('scroll',function(event){   
             var stickyHeader='translate(0,'+this.scrollTop+'px)';
-            document.getElementById('trustQuestionnaireHeader').style.transform=stickyHeader;     
+            document.getElementById('trustQuestionnaireHeader').style.transform=stickyHeader;
+            //console.log("Scroll Top:"+this.scrollTop);
+            var rect=document.getElementById('trustQuestionnaireHeader').getBoundingClientRect();
+            app.checkOverlap(app.trustQuestionnaireRows,rect.top,rect.bottom);     
           });
 
            document.getElementById('taskQuestionnaireTable').addEventListener('scroll',function(event){   
            var stickyHeader='translate(0,'+this.scrollTop+'px)';
            document.getElementById('taskQuestionnaireHeader').style.transform=stickyHeader;     
+           var rect=document.getElementById('taskQuestionnaireHeader').getBoundingClientRect();
+           app.checkOverlap(app.taskQuestionnaireRows,rect.top,rect.bottom);  
           }); 
-
 
         }
        
@@ -129,9 +172,12 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scr
           obj.trustAndTaskQuestionnaire=questionResponsePairs;
           QuestionnaireService.insertQuestionnaireResponse(obj).then(function(returnData){
              if(returnData.data.success){
-                var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                gameSession.lastStageCompleted=$rootScope.TRUST_TASK_QUESTIONNAIRE;
-                $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
+                var data={
+                                lastStageCompleted:$rootScope.TRUST_TASK_QUESTIONNAIRE
+                         };
+
+                $rootScope.updateGameSession(data);
+
                 $location.path('/thankyou');
              }
              else{
@@ -139,7 +185,13 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','scr
              }
           });
         } 
-
-        app.makeStickyHeader();
         
+        app.init=function(){
+          app.getRows();
+
+          app.makeStickyHeader();  
+        }
+
+        app.init();
+    
     });
