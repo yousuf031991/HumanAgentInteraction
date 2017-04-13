@@ -1,15 +1,15 @@
-import mongoose from 'mongoose';
-import validate from 'mongoose-validator';
+import mongoose from "mongoose";
+import validate from "mongoose-validator";
 const Schema = mongoose.Schema;
 
-var numberValidator =[
+let numberValidator = [
     validate({
         validator: 'isNumeric',
         message: 'Should contain numeric characters only'
-        })
+    })
 ];
 
-var userStatisticsSchema = new Schema({
+let userStatisticsSchema = new Schema({
     username: {
         type: String,
     },
@@ -20,20 +20,20 @@ var userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
-    moves:[String],
-    demographics:[
-    {
-        question: String,
-        response: Schema.Types.Mixed
-    }
+    moves: [String],
+    demographics: [
+        {
+            question: String,
+            response: Schema.Types.Mixed
+        }
     ],
-    trustAndTaskQuestionnaire:[
-    {
-        question: String,
-        response: String
-    }
+    trustAndTaskQuestionnaire: [
+        {
+            question: String,
+            response: String
+        }
     ]
-   
+
 });
 
 export default mongoose.model('UserStatistics', userStatisticsSchema, 'userStatistics');
