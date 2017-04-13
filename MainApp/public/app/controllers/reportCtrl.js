@@ -1,18 +1,24 @@
 angular.module('reportControllers', ['reportServices', 'scrollingServices'])
     .controller('reportCtrl', function (Report, $scope, Scrolling) {
+        $scope.allDates = {};
         $scope.today = function () {
-            $scope.dt1 = new Date();
-            $scope.dt2 = new Date();
-            $scope.dt3 = new Date();
-            $scope.dt4 = new Date();
+            var dt = new Date();
+            $scope.allDates = {
+                dt1: dt,
+                dt2: dt,
+                dt3: dt,
+                dt4: dt
+            };
         };
         $scope.today();
 
         $scope.clear = function () {
-            $scope.dt1 = null;
-            $scope.dt2 = null;
-            $scope.dt3 = null;
-            $scope.dt4 = null;
+            $scope.allDates = {
+                dt1: null,
+                dt2: null,
+                dt3: null,
+                dt4: null
+            };
         };
 
         $scope.dateOptions = {
@@ -69,15 +75,15 @@ angular.module('reportControllers', ['reportServices', 'scrollingServices'])
             $scope.successMsg1 = false;
             let dateData = {
                 type: "GAME_LOGS",
-                fromDate: $scope.dt1,
-                toDate: $scope.dt2
+                fromDate: $scope.allDates.dt1,
+                toDate: $scope.allDates.dt2
             };
             Report.getLogs(dateData).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg1 = returnData.data.message;
                     Scrolling('successReport');
                     // Log in gameLog
-                    const reportData = {action: "Generated Game Log: " + $scope.dt1 + " to " + $scope.dt1};
+                    const reportData = {action: "Generated Game Log: " + $scope.allDates.dt1 + " to " + $scope.allDates.dt2};
                     Report.putLog(reportData);
                 } else {
                     $scope.errorMsg1 = returnData.data.message;
@@ -94,15 +100,16 @@ angular.module('reportControllers', ['reportServices', 'scrollingServices'])
             $scope.successMsg2 = false;
             let dateData = {
                 type: "ADMIN_LOGS",
-                fromDate: $scope.dt3,
-                toDate: $scope.dt4
+                fromDate: $scope.allDates.dt3,
+                toDate: $scope.allDates.dt4
             };
+
             Report.getLogs(dateData).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg2 = returnData.data.message;
                     Scrolling('successLog');
                     // Log in adminLog
-                    const reportData = {action: "Generated Admin Log: " + $scope.dt3 + " to " + $scope.dt4};
+                    const reportData = {action: "Generated Admin Log: " + $scope.allDates.dt3 + " to " + $scope.allDates.dt4};
                     Report.putLog(reportData);
                 } else {
                     $scope.errorMsg2 = returnData.data.message;
