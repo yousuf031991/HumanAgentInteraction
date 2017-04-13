@@ -98,12 +98,12 @@ angular.module('reportControllers', ['reportServices', 'scrollingServices'])
             Scrolling('loadingLog');
             $scope.errorMsg2 = false;
             $scope.successMsg2 = false;
+
             let dateData = {
                 type: "ADMIN_LOGS",
                 fromDate: $scope.allDates.dt3,
                 toDate: $scope.allDates.dt4
             };
-
             Report.getLogs(dateData).then(function (returnData) {
                 if (returnData.data.success) {
                     $scope.successMsg2 = returnData.data.message;
