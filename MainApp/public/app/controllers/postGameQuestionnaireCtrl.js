@@ -154,15 +154,14 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices','ref
         app.makeQuestionResponsePairs=function(){
           var pairs=[];
           var len=app.questions.length;
-          var pair;
           for(var i=0;i<len;i++){
-            pair={};
-            pair.question=app.questions[i];
-            pair.response=app.responses[i];
+            var pair={};
+            pair.question = (app.questions[i]).trim();
+            pair.response = (app.responses[i]).trim();
             pairs.push(pair);
           }
           return pairs;
-        }
+        };
         
 
         app.saveGameResponses=function(questions,responses){

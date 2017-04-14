@@ -5,6 +5,8 @@ import Promise from 'bluebird';
 import UserStatistics from '../../models/userStatistics';
 import fs from 'fs';
 import setConfigs from '../../configs';
+import trustTaskQuestions from '../../configs/trust-task-questions';
+import demographicQuestions from '../../configs/demographic-questions';
 import connectDB from '../../helpers/db';
 
 const configs = JSON.parse(process.env.CONFIGS);
@@ -42,13 +44,35 @@ process.on("message", (msg) => {
         }}).exec()
             .then(function (logs) {
                 logs.forEach(function (log) {
-                    writer.write({
+                    let row = {
                         "Logged At": (new Date(log.timeOf)).toString(),
                         "Username": log.username,
                         "Game Config Id": log.gameConfigId,
                         "Final Score": log.finalScore,
-                        "Moves": log.moves
+                    };
+                    trustTaskQuestions.forEach(function (question) {
+                        let matchObj = log.trustAndTaskQuestionnaire.filter(function (resp) {
+                            return resp.question === question;
+                        });
+                        if(matchObj[0] && matchObj[0].response) {
+                            row[question] = matchObj[0].response;
+                        } else {
+                            row[question] = "NA";
+                        }
                     });
+
+                    demographicQuestions.forEach(function (question) {
+                        let matchObj = log.demographics.filter(function (resp) {
+                            return resp.question === question;
+                        });
+                        if(matchObj[0] && matchObj[0].response) {
+                            row[question] = matchObj[0].response;
+                        } else {
+                            row[question] = "No Response";
+                        }
+                    });
+
+                    writer.write(row);
                 });
             })
             .then(function () {
