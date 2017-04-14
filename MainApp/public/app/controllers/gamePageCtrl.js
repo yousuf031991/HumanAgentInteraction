@@ -135,9 +135,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function timerClock() {
             // Building the timer from game config
-            // Disabling for debugging purpose only
-            // let seconds = app.gameState.startTime;
-            let seconds = 60;
+            let seconds = app.gameState.startTime;
             let minutes = seconds / 60;
             let remainingSeconds = seconds % 60;
             $scope.counter = "" + minutes + ":" + remainingSeconds;
