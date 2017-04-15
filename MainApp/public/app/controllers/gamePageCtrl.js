@@ -27,10 +27,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function practiceGame() {
 
+            $("#practiceMode").text(" Practice Mode");
             alert("Practice Mode. You are entering practice mode of 2 minutes.")
             startGameDuties();
 
-           /* $("#practiceMode").text(" Practice Mode");
+           /*
             $("#startModalTitle").text("Practice Mode");
             $("#startModalBody").text("You are entering practice mode of 2 minutes.");
             $("#startModal").modal("show");
