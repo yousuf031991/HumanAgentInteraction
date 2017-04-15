@@ -42,6 +42,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
             alert("You are successfully done with practice session. You are now entering " +
                    "actual game. The goal is to save as many patients as possible. Good luck");
+            //PatientService.resetDivs();
             startGameDuties();
 
            /* console.log("GameLoad in actualGame:" +$rootScope.gameload);
@@ -449,6 +450,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                  //$cookies.put('gameload', '0');
                  console.log("Gameload value set in checkPath" +$rootScope.gameload);
                  $location.path('/gamepage/' + app.username);
+                 //$route.reload();
 
                  
             } else {

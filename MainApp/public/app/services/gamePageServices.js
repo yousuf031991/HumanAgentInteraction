@@ -53,6 +53,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             circleBs.push(new Circle(circleBIds[i]));
         }
 
+        gamePageFactory.resetDivs = function() {
+            for (let i = 0, len = roomIds.length; i < len; i++) {
+                roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
+                map.set(divIds[i], "green");
+                patientMap.set(divIds[i], null);
+            }
+        }
+
         gamePageFactory.create = function (userStatsData) {
             return $http.post('/api/userStatistics', userStatsData);
         };
