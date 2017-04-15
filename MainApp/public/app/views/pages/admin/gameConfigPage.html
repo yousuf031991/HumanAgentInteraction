@@ -394,16 +394,16 @@
 
     </div>
 </form>
-<div class="jumbotron text-center" ng-show="gameConf.loading">
+<div class="jumbotron text-center" ng-show="gameConf.loading" id="configLoader">
     <span class="glyphicon glyphicon-repeat spinner"></span>
 
     <p>Loading...</p>
 </div>
-<div class="row show-hide-message" ng-show="gameConf.successMsg">
+<div class="row show-hide-message" ng-show="gameConf.successMsg" id="configSuccess">
     <div class="alert alert-success">
         {{gameConf.successMsg}}
     </div>
 </div>
-<div class="row show-hide-message" ng-show="gameConf.errorMsg">
+<div class="row show-hide-message" ng-show="gameConf.errorMsg" id="configFailure">
     <pre class="alert alert-danger">{{gameConf.errorMsg}}</pre>
 </div>

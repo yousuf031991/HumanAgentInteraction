@@ -1,72 +1,72 @@
-angular.module('gamePageControllers', ['roomServices', 'circleServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices'])
+    .controller('gamePageCtrl', function ($window, $route, $scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope, $cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh, $templateCache) {
+        
+       //$window.location.href = '/';
         let app = this;
-        app.username = $routeParams.username;
         let blinkTimer;
         let blinkTimer2;
-
-        // let statsObject = {};
-        // statsObject.finalScore = 10;
-        // statsObject.username = "Syed";
-        // let moves = [];
-        // moves.push("Doctor to Room1");
-        // moves.push("Surgeon to Room2");
-        // moves.push("Nurse to Room3");
-        // statsObject.moves = moves;
-
-
+        Refresh.checkRefresh();
+        app.username=$rootScope.username;
         (function startButton() {
-            alert("The goal is to save as many patients as possible");
+
+
+            //alert("The goal is to save as many patients as possible");
 
             // Get active game config and initialize game state object
             let activeGameConfig = {};
             let patientACount;
             let patientBCount;
 
-            PatientService.getGameConfig().then(function (returnData) {
-                //console.log("In start button")
-                if (returnData.data.success) {
-                   // console.log(returnData.data.config);
-                    activeGameConfig = returnData.data.config;
-                    app.gameState = new GameState(activeGameConfig);
-
-                    patientACount = activeGameConfig.startNumPatientAs;
-                    patientBCount = activeGameConfig.startNumPatientBs;
-
-                    //console.log(app.gameState);
-                    // Start clock
-                    timerClock();
-
-                    // Initialize Side Bar with start number of patients specified in config file
-                    initializeSideBarQueue(patientACount, patientBCount);
-
-                    // Start patient queueing algorithm for player.
-                    PatientService.newPatient(app.gameState);
-                    PatientService.newPatientforNH(app.gameState);
-
-                    // Initialize User Statistics Service, to record user moves.
-                    UserStats.create(app.username, activeGameConfig._id);
-
-                    // Start Agent resource sharing algorithm
-                    Agent.NHShareResource(PatientService, app.gameState);
-
-                    // Agent playing algorithm.
-                    Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
-                    //console.log("In start button- success")
+            $timeout(function() {
+                 if($location.path() == '/practicePage') {
+                    practiceGame();
                 } else {
-                    console.log("Failed to get configuration");
-                    console.log(returnData.data);
+                    actualGame();
                 }
             });
 
-            /*// Start patient queueing algorithm for player.
-            PatientService.newPatient(patientACount, patientBCount);
-            PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
-*/
         })();
 
+        function practiceGame() {
+            $("#practiceMode").text(" Practice Mode");
+            $("#startModalTitle").text("Practice Mode");
+            $("#startModalBody").text("You are entering practice mode of 2 minutes.");
+            $("#startModal").modal("show");
+            $('#startModal').modal({backdrop: 'static', keyboard: false});
+        }
+
+        function actualGame() {
+
+
+            
+                console.log("GameLoad in actualGame:" +$rootScope.gameload);
+                if($rootScope.gameload == '0') {
+                    $rootScope.gameload = '1';
+                    console.log("reloading page")
+                    $route.reload();
+                    /*console.log($window)
+                    if(!$window.location.hash) {
+                        $window.location = $window.location + '#loaded';
+                        $route.reload();
+                   }*/    
+            }
+
+       
+
+            showStartModal();
+        }
+
+
+        function showStartModal() {
+            $("#startModalTitle").text("Actual Game Mode");
+            $("#startModalBody").text("You are successfully done with practice session. You are now entering " +
+                   "actual game. The goal is to save as many patients as possible. Good luck");
+            $("#startModal").modal("show");
+            $('#startModal').modal({backdrop: 'static', keyboard: false});
+
+        }
         function initializeSideBarQueue(patientACount, patientBCount) {
-             //alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
+            //alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
 
             for (let i = 0; i < patientACount; i++) {
                 $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
@@ -78,8 +78,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         }
 
-        $("#patients").click(function () {
+//Binding events in angular world
+angular.element(document).ready(function () {
+
+    $("#patients").click(function () {
             resetMsg();
+            console.log("hello from")
             $('#patientsgroup').show();
             $('#resources').show();
             $('#shareResources').show();
@@ -90,28 +94,27 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
         });
 
-        $("#playerScore").on('change', function() {
+        $("#playerScore").on('change', function () {
             let count = 0;
-            blinkTimer = setInterval(function() {
+            blinkTimer = setInterval(function () {
 
-                 if(count >= 5) {
-                     console.log("Count: "+ count);
-                     $('#playerScoreDiv').css({'background':''});
+                if (count >= 5) {
+                    console.log("Count: " + count);
+                    $('#playerScoreDiv').css({'background': ''});
                     clearInterval(blinkTimer);
                 }
-               // console.log ("in set interval")
+                // console.log ("in set interval")
                 $('#playerScoreDiv').toggleClass('backgroundRed');
                 count++;
             }, 500);
         });
 
-        $("#agentScore").on('change', function() {
-
+        $("#agentScore").on('change', function () {
             let count = 0;
-            blinkTimer2 = setInterval(function() {
+            blinkTimer2 = setInterval(function () {
 
-                if(count >= 5) {
-                    $('#agentScoreDiv').css({'background':''});
+                if (count >= 5) {
+                    $('#agentScoreDiv').css({'background': ''});
                     clearInterval(blinkTimer2);
                 }
                 // console.log ("in set interval")
@@ -119,7 +122,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 count++;
             }, 500);
         });
-        
+
         $('#resources').click(function () {
             resetMsg();
             $('#resourcesGroup').show();
@@ -144,9 +147,197 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
             $('#patientsgroup').hide();
         });
 
+
+        $('#btnA').click(function (event) {
+            //check if patientA is available in waiting room
+            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
+
+        });
+
+        $('#btnB').click(function (event) {
+            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
+        });
+
+
+        $('#btnDoctor').click(function (event) {
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+        });
+
+
+        $('#btnSurgeon').click(function (event) {
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+        });
+
+
+        $('#btnNurse').click(function (event) {
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+            //console.log(UserStats.getStats());
+        });
+
+        // Listener for the request resource buttons  
+        $('#btnShareDoctor').click(function () {
+            // resetMsg();
+
+            /*let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+             //console.log(decision);
+             if (decision) {
+             app.successMsg = "Doctor Request is accepted by neighbouring hospital";
+             UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+             } else {
+             app.errorMsg = "Doctor Request is denied by neighbouring hospital";
+             UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+             }*/
+
+            UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
+
+            if (app.gameState.numberOfDoctors > 0) {
+                app.gameState.numberOfDoctors -= 1;
+                app.gameState.otherNumberOfDoctors += 1;
+                UserStats.addMove("DoctorShared, Success", $scope.counter, app.gameState);
+                app.successMsg = "Doctor is shared with neighbouring hospital";
+                $location.hash('notify');
+                $anchorScroll();
+
+            } else {
+                $("#notifyModalTitle").text("Error");
+                $("#notifyModalbody").text("There are no doctors to share.");
+                $("#notifyModal").modal("show");
+                UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
+            }
+
+
+        });
+
+
+        $('#btnShareSurgeon').click(function () {
+            /* resetMsg();
+             UserStats.addMove("PlayerRequest, Surgeon", $scope.counter, app.gameState);
+             let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
+             if (decision) {
+             app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
+             UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+             } else {
+             app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
+             UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+             }
+             $location.hash('notify');
+             $anchorScroll();*/
+
+            UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
+
+            if (app.gameState.numberOfSurgeons > 0) {
+                app.gameState.numberOfSurgeons -= 1;
+                app.gameState.otherNumberOfSurgeons += 1;
+                app.successMsg = "Surgeon is shared with neighbouring hospital";
+                UserStats.addMove("SurgeonShared, Success", $scope.counter, app.gameState);
+                $location.hash('notify');
+                $anchorScroll();
+            } else {
+                //show a modal
+                $("#notifyModalTitle").text("Error");
+                $("#notifyModalbody").text("There are no surgeons to share.");
+                $("#notifyModal").modal("show");
+                UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
+            }
+
+        });
+
+
+        $('#btnShareNurse').click(function () {
+            /* resetMsg();
+             UserStats.addMove("PlayerRequest, Nurse", $scope.counter, app.gameState);
+             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
+             $location.hash('notify');
+             $anchorScroll();
+             if (decision) {
+             app.successMsg = "Nurse Request is accepted by neighbouring hospital";
+             UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+             } else {
+             app.errorMsg = "NurseRequest is denied by neighbouring hospital";
+             UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+             }
+             */
+
+            UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+            if (app.gameState.numberOfNurses > 0) {
+                app.gameState.numberOfNurses -= 1;
+                app.gameState.otherNumberOfNurses += 1;
+                app.successMsg = "Nurse is shared with neighbouring hospital";
+                UserStats.addMove("NurseShared, Success", $scope.counter, app.gameState);
+                $location.hash('notify');
+                $anchorScroll();
+            } else {
+                //show modal popup
+                $("#notifyModalTitle").text("Error");
+                $("#notifyModalbody").text("There are no nurses to share.");
+                $("#notifyModal").modal("show");
+                UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
+            }
+
+        });
+
+        $("#startModalClose").on("click", function() {
+            
+             $("#startModal").modal("hide");
+            console.log("startModal clicked");  
+            PatientService.getGameConfig().then(function (returnData) {
+                console.log("In start button");
+                if (returnData.data.success) {
+                    // console.log(returnData.data.config);
+                    activeGameConfig = returnData.data.config;
+                    app.gameState = new GameState(activeGameConfig);
+
+                    patientACount = activeGameConfig.startNumPatientAs;
+                    patientBCount = activeGameConfig.startNumPatientBs;
+
+                    // Start clock
+                    timerClock();
+
+                    // Initialize Side Bar with start number of patients specified in config file
+                    initializeSideBarQueue(patientACount, patientBCount);
+
+                    // Start patient queueing algorithm for player.
+                    PatientService.newPatient(app.gameState);
+                    PatientService.newPatientforNH(app.gameState);
+
+                    // Initialize User Statistics Service, to record user moves.
+                    UserStats.create(app.username, activeGameConfig._id);
+
+                    // Start Agent resource sharing algorithm
+                    Agent.NHShareResource(PatientService, app.gameState);
+
+                    // Agent playing algorithm.
+                    Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
+                    console.log("In start button- success")
+                } else {
+                    console.log("Failed to get configuration");
+                    console.log(returnData.data);
+                }
+            });
+
+            /*// Start patient queueing algorithm for player.
+             PatientService.newPatient(patientACount, patientBCount);
+             PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
+             */
+
+
+        });
+
+});
+
+
         function timerClock() {
             // Building the timer from game config
-            let seconds = app.gameState.startTime;
+
+            let seconds = 0;
+
+            if($location.path() == '/practicePage') {
+                seconds = 120;
+            } else {
+                seconds = app.gameState.startTime;
+                console.log("gamestate seconds: " + seconds)
+            }
+
             let minutes = seconds / 60;
             let remainingSeconds = seconds % 60;
             $scope.counter = "" + minutes + ":" + remainingSeconds;
@@ -156,26 +347,20 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
                 minutes = Math.round((seconds - 30) / 60);
                 remainingSeconds = seconds % 60;
 
-            if (remainingSeconds < 10) {
-                remainingSeconds = "0" + remainingSeconds;
-            }
-
-           
+                if (remainingSeconds < 10) {
+                    remainingSeconds = "0" + remainingSeconds;
+                }
                 seconds--;
                 let x = minutes * 60 * 1000;
                 let y = remainingSeconds * 1000;
                 let totalMs = x + y;
-
                 PatientService.timeProgress(totalMs);
-
                 $scope.counter = minutes + ":" + remainingSeconds;
-
-
-                // $scope.counter++;
                 mytimeout = $timeout($scope.onTimeout, 1000);
-                if(seconds == 0) {
+                if (seconds == 0) {
                     $scope.counter = "00:00";
-                    //console.log(seconds);
+                    console.log(seconds);
+
                     stopTimer(mytimeout);
                 }
             };
@@ -185,172 +370,52 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices'])
 
 
         function stopTimer(mytimeout) {
-            // console.log("Time stopped")
-             $timeout.cancel(mytimeout);
-             showFinishedModal();
-            
-
+            console.log("Time stopped");
+            $timeout.cancel(mytimeout);
+            checkPath();
            
+        }
+
+        function checkPath() {
+            if($location.path() == '/practicePage') {
+
+                 $rootScope.gameload = '0';
+                 //$cookies.put('gameload', '0');
+                 console.log("Gameload value set in checkPath" +$rootScope.gameload);
+                 $location.path('/gamepage/' + app.username);
+
+                 
+            } else {
+                 UserStats.addRecord();
+                showFinishedModal();
+            }
         }
 
 
         function showFinishedModal() {
-
-            $("#gameFinishedModal").modal("show")
-            //console.log("Shown")
-             gameFinished();
+            $("#gameFinishedModal").modal("show");
+            console.log("Shown");
+            gameFinished();
         }
+
         function gameFinished() {
+             $("#gFMclose").bind("click", function() {
+             $("#gameFinishedModal").modal("hide")
+             $timeout(function(){
+                
+                var data={
+                    lastStageCompleted:$rootScope.GAMEPAGE
+                }
 
-                $("#gFMclose").bind("click", function() {
-                $("#gameFinishedModal").modal("hide")
-
-                 $timeout(function(){
-                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
-                    gameSession.lastStageCompleted=$rootScope.GAMEPAGE;
-                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions())
-                    $location.path('/trustAndTaskQuestionnaire');
-                    //console.log("in timeout")
-                 });
-                // console.log("hidden")
+                $rootScope.updateGameSession(data);
+                $location.path('/trustAndTaskQuestionnaire');
+                
              });
+             console.log("hidden")
+        });
         }
-
         function resetMsg() {
             app.errorMsg = false;
             app.successMsg = false;
         }
-
-        $('#btnA').click(function () {
-            //check if patientA is available in waiting room
-            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
-
-        });
-
-        $('#btnB').click(function () {
-            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
-        });
-
-
-        $('#btnDoctor').click(function () {
-            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-        });
-
-
-        $('#btnSurgeon').click(function () {
-            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-        });
-
-
-        $('#btnNurse').click(function () {
-            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-            //console.log(UserStats.getStats());
-        });
-
-        // Listener for the request resource buttons  
-        $('#btnShareDoctor').click(function () {
-           // resetMsg();
-           
-            /*let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
-            //console.log(decision);
-            if (decision) {
-                app.successMsg = "Doctor Request is accepted by neighbouring hospital";
-                UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
-            } else {
-                app.errorMsg = "Doctor Request is denied by neighbouring hospital";
-                UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
-            }*/
-
-             UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
-
-            if(app.gameState.numberOfDoctors>0) {
-                app.gameState.numberOfDoctors -= 1;
-                app.gameState.otherNumberOfDoctors += 1;
-                UserStats.addMove("DoctorShared, success", $scope.counter, app.gameState);
-                app.successMsg = "Doctor is shared with neighbouring hospital";
-                $location.hash('notify');
-                $anchorScroll();
-
-            } else {
-                $("#notifyModalTitle").text("Error");
-                $("#notifyModalbody").text("There are no doctors to share.");
-                $("#notifyModal").modal("show");
-                UserStats.addMove("DoctorShared, failure", $scope.counter, app.gameState);
-            }
-           
-
-           
-        });
-
-
-        $('#btnShareSurgeon').click(function () {
-           /* resetMsg();
-            UserStats.addMove("PlayerRequest, Surgeon", $scope.counter, app.gameState);
-            let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
-            if (decision) {
-                app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
-                UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
-            } else {
-                app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
-                UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
-            }
-            $location.hash('notify');
-            $anchorScroll();*/
-
-            UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
-
-            if(app.gameState.numberOfSurgeons>0) {
-                app.gameState.numberOfSurgeons -= 1;
-                app.gameState.otherNumberOfSurgeons += 1;
-                app.successMsg = "Surgeon is shared with neighbouring hospital";
-                UserStats.addMove("SurgeonShared, success", $scope.counter, app.gameState);
-                $location.hash('notify');
-                $anchorScroll();
-            } else {
-                //show a modal
-                $("#notifyModalTitle").text("Error");
-                $("#notifyModalbody").text("There are no surgeons to share.");
-                $("#notifyModal").modal("show");
-                UserStats.addMove("SurgeonShared, failure", $scope.counter, app.gameState);
-            }
-
-            
-
-
-        });
-
-
-        $('#btnShareNurse').click(function () {
-           /* resetMsg();
-            UserStats.addMove("PlayerRequest, Nurse", $scope.counter, app.gameState);
-            let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
-            $location.hash('notify');
-            $anchorScroll();
-            if (decision) {
-                app.successMsg = "Nurse Request is accepted by neighbouring hospital";
-                UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
-            } else {
-                app.errorMsg = "NurseRequest is denied by neighbouring hospital";
-                UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
-            }
-            */
-            
-            UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
-            if(app.gameState.numberOfNurses>0) {
-                app.gameState.numberOfNurses -= 1;
-                app.gameState.otherNumberOfNurses += 1;
-                app.successMsg = "Nurse is shared with neighbouring hospital";
-                UserStats.addMove("NurseShared, success", $scope.counter, app.gameState);
-                $location.hash('notify');
-                $anchorScroll();
-            } else {
-                //show modal popup
-                $("#notifyModalTitle").text("Error");
-                $("#notifyModalbody").text("There are no nurses to share.");
-                $("#notifyModal").modal("show");
-                UserStats.addMove("NurseShared, failure", $scope.counter, app.gameState);
-            }     
-
-        });
-
     });

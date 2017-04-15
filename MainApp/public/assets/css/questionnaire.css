@@ -55,3 +55,6 @@ color:#FF0000;
 .incomplete{
 	color:#FF0000;
 }
+input[type="checkbox"]{
+	margin-right: 4px;
+}

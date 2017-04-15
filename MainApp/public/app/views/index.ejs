@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     <link rel="stylesheet" type="text/css" href="assets/css/questionnaire.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/introjs.css">
+
     
     <!--bootstrap tag for enabling mobile view-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -26,6 +28,9 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- TODO - get client_id from constants. right now, it is visible to public. -->
     <meta name="google-signin-client_id" content="79517414502-p33r8rq5viqvrb35ukgrdd0fk3a2mr8j.apps.googleusercontent.com">
+    <script src="assets/js/intro.js"></script>
+   
+
 
     <!--Angular Config/Routes-->
     <script src="app/app.js"></script>
@@ -44,6 +49,7 @@
     <script src="app/controllers/preGameQuestionnaireCtrl.js"></script>
     <script src="app/controllers/postGameQuestionnaireCtrl.js"></script>
     <script src="app/controllers/exportCtrl.js"></script>
+    <script src="app/controllers/tutorialPageCtrl.js"></script>
 
 
     
@@ -62,6 +68,10 @@
     <script src="app/services/userStatsServices.js"></script>
     <script src="app/services/questionnaireServices.js"></script>
     <script src="app/services/exportServices.js"></script>
+    <script src="app/services/scrollingServices.js"></script>
+    <script src="app/services/refreshServices.js"></script>
+    <script src="app/services/globalServices.js"></script>
+
 
 
     <script src="assets/images/"></script>
@@ -83,7 +93,6 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ng-class="{active: $route.current.activeTab === 'playGame'}"><a href="/">Play</a></li>
-                <li ng-class="{active: $route.current.activeTab === 'about'}"><a href="/about">About</a></li>
                 <li ng-class="{active: $route.current.activeTab === 'adminPanel'}" ng-if="isAdmin()">
                     <a href="/admin">Admin Panel</a>
                 </li>
