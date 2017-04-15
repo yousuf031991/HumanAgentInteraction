@@ -1,7 +1,6 @@
 angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices'])
     .controller('gamePageCtrl', function ($window, $route, $scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope, $cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh, $templateCache) {
-        
-       //$window.location.href = '/';
+
         let app = this;
         let blinkTimer;
         let blinkTimer2;
@@ -9,13 +8,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         app.username=$rootScope.username;
         (function startButton() {
 
-
-            //alert("The goal is to save as many patients as possible");
-
             // Get active game config and initialize game state object
             let activeGameConfig = {};
             let patientACount;
             let patientBCount;
+
 
             $timeout(function() {
                  if($location.path() == '/practicePage') {
@@ -25,37 +22,35 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 }
             });
 
+
         })();
 
         function practiceGame() {
-            $("#practiceMode").text(" Practice Mode");
+
+            alert("Practice Mode. You are entering practice mode of 2 minutes.")
+            startGameDuties();
+
+           /* $("#practiceMode").text(" Practice Mode");
             $("#startModalTitle").text("Practice Mode");
             $("#startModalBody").text("You are entering practice mode of 2 minutes.");
             $("#startModal").modal("show");
-            $('#startModal').modal({backdrop: 'static', keyboard: false});
+            $('#startModal').modal({backdrop: 'static', keyboard: false});*/
         }
 
         function actualGame() {
 
+            alert("You are successfully done with practice session. You are now entering " +
+                   "actual game. The goal is to save as many patients as possible. Good luck");
+            startGameDuties();
 
-            
-                console.log("GameLoad in actualGame:" +$rootScope.gameload);
-                if($rootScope.gameload == '0') {
-                    $rootScope.gameload = '1';
-                    console.log("reloading page")
-                    $route.reload();
-                    /*console.log($window)
-                    if(!$window.location.hash) {
-                        $window.location = $window.location + '#loaded';
-                        $route.reload();
-                   }*/    
+           /* console.log("GameLoad in actualGame:" +$rootScope.gameload);
+            if($rootScope.gameload == '0') {
+                $rootScope.gameload = '1';
+                console.log("reloading page")
+                $route.reload();  
             }
-
-       
-
-            showStartModal();
+            showStartModal();*/
         }
-
 
         function showStartModal() {
             $("#startModalTitle").text("Actual Game Mode");
@@ -63,11 +58,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                    "actual game. The goal is to save as many patients as possible. Good luck");
             $("#startModal").modal("show");
             $('#startModal').modal({backdrop: 'static', keyboard: false});
-
         }
-        function initializeSideBarQueue(patientACount, patientBCount) {
-            //alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
 
+        function initializeSideBarQueue(patientACount, patientBCount) {
             for (let i = 0; i < patientACount; i++) {
                 $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
@@ -78,36 +71,36 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         }
 
-//Binding events in angular world
-angular.element(document).ready(function () {
+        //Binding events in angular world
+        angular.element(document).ready(function () {
 
-    $("#patients").click(function () {
-            resetMsg();
-            console.log("hello from")
-            $('#patientsgroup').show();
-            $('#resources').show();
-            $('#shareResources').show();
+            $("#patients").click(function () {
+                    resetMsg();
+                    console.log("hello from")
+                    $('#patientsgroup').show();
+                    $('#resources').show();
+                    $('#shareResources').show();
 
-            $('#patients').hide();
-            $('#resourcesGroup').hide();
-            $('#requestGroup').hide();
+                    $('#patients').hide();
+                    $('#resourcesGroup').hide();
+                    $('#requestGroup').hide();
 
-        });
+            });
 
-        $("#playerScore").on('change', function () {
-            let count = 0;
-            blinkTimer = setInterval(function () {
+            $("#playerScore").on('change', function () {
+                let count = 0;
+                blinkTimer = setInterval(function () {
 
-                if (count >= 5) {
-                    console.log("Count: " + count);
-                    $('#playerScoreDiv').css({'background': ''});
-                    clearInterval(blinkTimer);
-                }
-                // console.log ("in set interval")
-                $('#playerScoreDiv').toggleClass('backgroundRed');
-                count++;
-            }, 500);
-        });
+                    if (count >= 5) {
+                        console.log("Count: " + count);
+                        $('#playerScoreDiv').css({'background': ''});
+                        clearInterval(blinkTimer);
+                    }
+                    // console.log ("in set interval")
+                    $('#playerScoreDiv').toggleClass('backgroundRed');
+                    count++;
+                }, 500);
+            });
 
         $("#agentScore").on('change', function () {
             let count = 0;
@@ -147,6 +140,75 @@ angular.element(document).ready(function () {
             $('#patientsgroup').hide();
         });
 
+        function timerClock() {
+            // Building the timer from game config
+            // Disabling for debugging purpose only
+            // let seconds = app.gameState.startTime;
+            let seconds = 60;
+            let minutes = seconds / 60;
+            let remainingSeconds = seconds % 60;
+            $scope.counter = "" + minutes + ":" + remainingSeconds;
+
+            // Timer logic
+            $scope.onTimeout = function () {
+                minutes = Math.round((seconds - 30) / 60);
+                remainingSeconds = seconds % 60;
+
+                if (remainingSeconds < 10) {
+                    remainingSeconds = "0" + remainingSeconds;
+                }
+                seconds--;
+                let x = minutes * 60 * 1000;
+                let y = remainingSeconds * 1000;
+                let totalMs = x + y;
+                PatientService.timeProgress(totalMs);
+                $scope.counter = minutes + ":" + remainingSeconds;
+                mytimeout = $timeout($scope.onTimeout, 1000);
+                if (seconds == 0) {
+                    $scope.counter = "00:00";
+                    console.log(seconds);
+
+                    stopTimer(mytimeout);
+                }
+            };
+
+            let mytimeout = $timeout($scope.onTimeout, 1000);
+        }
+/*
+
+        function stopTimer(mytimeout) {
+            console.log("Time stopped");
+            $timeout.cancel(mytimeout);
+            UserStats.addRecord();
+            showFinishedModal();
+        }
+
+
+        function showFinishedModal() {
+            $("#gameFinishedModal").modal("show");
+            console.log("Shown");
+            gameFinished();
+        }
+
+        function gameFinished() {
+             $("#gFMclose").bind("click", function() {
+             $("#gameFinishedModal").modal("hide")
+             $timeout(function(){
+                
+                var data={
+                    lastStageCompleted:$rootScope.GAMEPAGE
+                }
+                $rootScope.updateGameSession(data);
+                $location.path('/trustAndTaskQuestionnaire');
+                
+             });
+             console.log("hidden")
+        });
+        }
+        function resetMsg() {
+            app.errorMsg = false;
+            app.successMsg = false;
+        }*/
 
         $('#btnA').click(function (event) {
             //check if patientA is available in waiting room
@@ -207,7 +269,6 @@ angular.element(document).ready(function () {
 
 
         });
-
 
         $('#btnShareSurgeon').click(function () {
             /* resetMsg();
@@ -279,7 +340,16 @@ angular.element(document).ready(function () {
         $("#startModalClose").on("click", function() {
             
              $("#startModal").modal("hide");
-            console.log("startModal clicked");  
+            console.log("startModal clicked"); 
+            startGameDuties(); 
+
+        });
+
+});
+
+        
+        function startGameDuties() {
+            
             PatientService.getGameConfig().then(function (returnData) {
                 console.log("In start button");
                 if (returnData.data.success) {
@@ -320,11 +390,7 @@ angular.element(document).ready(function () {
              PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
              */
 
-
-        });
-
-});
-
+        }
 
         function timerClock() {
             // Building the timer from game config
@@ -367,7 +433,6 @@ angular.element(document).ready(function () {
 
             let mytimeout = $timeout($scope.onTimeout, 1000);
         }
-
 
         function stopTimer(mytimeout) {
             console.log("Time stopped");
@@ -418,4 +483,4 @@ angular.element(document).ready(function () {
             app.errorMsg = false;
             app.successMsg = false;
         }
-    });
+});

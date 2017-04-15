@@ -148,9 +148,7 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices', 'ref
                         lastStageCompleted: $rootScope.DEMOGRAPHICS_QUESTIONNAIRE
                     };
                     $rootScope.updateGameSession(data);
-
                     $location.path('/tutorialPage')
-
                     //$location.path('/gamepage/' + app.username);
                 }
                 else {
