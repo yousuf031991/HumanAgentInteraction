@@ -1,58 +1,57 @@
-import Admin from '../models/user';
-import TrialInfo from '../models/trialinfo';
-import GameConfig from '../models/gameConfig';
-import Game from '../models/game';
-import hash from 'murmurhash-native';
-import UserStatistics from '../models/userStatistics';
-import Authenticator from '../helpers/authentication';
-import WorkerQueue from '../background-jobs/worker-queue';
-import AdminLog from '../models/adminLog';
-import BackgroundJob from '../models/background-job';
-import * as UUID from 'uuid-1345';
+import Admin from "../models/user";
+import TrialInfo from "../models/trialinfo";
+import GameConfig from "../models/gameConfig";
+import Game from "../models/game";
+import UserStatistics from "../models/userStatistics";
+import Authenticator from "../helpers/authentication";
+import WorkerQueue from "../background-jobs/worker-queue";
+import AdminLog from "../models/adminLog";
+import BackgroundJob from "../models/background-job";
+import * as UUID from "uuid-1345";
 
 
 export default function (router) {
     //http://localhost:8080/api/trialinfo
     router.post('/trialinfo', function (req, res) {
         let trialinfo = new TrialInfo();
-            
-            let userIdV1=UUID.v1();// Version 1 UUID- Created using MAC address of the server and timestamp 
-            let userIdV4=UUID.v4();// Version 4 UUID- Created Using random number generator. 
-            trialinfo.username = userIdV1+"-"+userIdV4;// The combination to prevent any collision between uuids created on different servers. 
-            
-            GameConfig.find({active : true}, function(err, record) {
-                if (record.length == 0) {
-                    res.send({success: false, message: "No active game config"});
-                    return;
-                }
 
-                let gameConfigId = record[0]._id;
-                trialinfo.trialid = gameConfigId;
-                
-                // Dummy field. Could be used for something later or removed.
-                trialinfo.condition = 'A';
+        let userIdV1 = UUID.v1();// Version 1 UUID- Created using MAC address of the server and timestamp
+        let userIdV4 = UUID.v4();// Version 4 UUID- Created Using random number generator.
+        trialinfo.username = userIdV1 + "-" + userIdV4;// The combination to prevent any collision between uuids created on different servers.
 
-                console.log(trialinfo.username);
-                console.log("GAME CONFIG ID" + gameConfigId);
+        GameConfig.find({active: true}, function (err, record) {
+            if (record.length == 0) {
+                res.send({success: false, message: "No active game config"});
+                return;
+            }
 
-                if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
-                    res.send({
-                        success: false,
-                        message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
-                    });
-                } else {
-                    trialinfo.save(function (error) {
-                        if (error) {
-                            console.log(error);
-                            // TODO: Redirect to Thank you for already playing the game page.
-                            res.send({success: false, message: "Username already exists"});
-                        } else {
-                            res.send({success: true, userid: trialinfo.username, message: "Trial Information saved"});
-                        }
-                    });
-                }
-            });
-    
+            let gameConfigId = record[0]._id;
+            trialinfo.trialid = gameConfigId;
+
+            // Dummy field. Could be used for something later or removed.
+            trialinfo.condition = 'A';
+
+            console.log(trialinfo.username);
+            console.log("GAME CONFIG ID" + gameConfigId);
+
+            if (trialinfo.username == null || trialinfo.username == '' || trialinfo.trialid == null || trialinfo.trialid == '') {
+                res.send({
+                    success: false,
+                    message: 'Username or trialid or condition was empty' + trialinfo.username + ' ID:' + trialinfo.trialid
+                });
+            } else {
+                trialinfo.save(function (error) {
+                    if (error) {
+                        console.log(error);
+                        // TODO: Redirect to Thank you for already playing the game page.
+                        res.send({success: false, message: "Username already exists"});
+                    } else {
+                        res.send({success: true, userid: trialinfo.username, message: "Trial Information saved"});
+                    }
+                });
+            }
+        });
+
     });
 
     //http://localhost:8080/api/gameConfig
@@ -89,7 +88,7 @@ export default function (router) {
     });
 
     router.get("/getGameConfig", function (req, res) {
-        GameConfig.find({active : true}, function(error, record) {
+        GameConfig.find({active: true}, function (error, record) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
@@ -125,10 +124,13 @@ export default function (router) {
 
 
     //http://localhost:8080/api/admin/login
-    router.post("/admin/login",function(req,res) {
-        Admin.count({ username: req.body.username}, function(err,count) {
-            if(count>0) {
-                res.send({success: true, message: "The username you entered is a valid admin username. Please continue with Gmail sign in."});
+    router.post("/admin/login", function (req, res) {
+        Admin.count({username: req.body.username}, function (err, count) {
+            if (count > 0) {
+                res.send({
+                    success: true,
+                    message: "The username you entered is a valid admin username. Please continue with Gmail sign in."
+                });
             } else {
                 res.send({success: false, message: "Sorry! There is no admin user with the username you provided."});
             }
@@ -146,11 +148,11 @@ export default function (router) {
                 if (error) {
                     console.log(error);
                     var errorMsg;
-                    if(error.message.includes("duplicate key error")){
-                        errorMsg="Admin already exists";
+                    if (error.message.includes("duplicate key error")) {
+                        errorMsg = "Admin already exists";
                     }
-                    else{
-                        errorMsg="Please Enter a valid ASU Email Id";
+                    else {
+                        errorMsg = "Please Enter a valid ASU Email Id";
                     }
                     res.send({success: false, message: errorMsg});
                 } else {
@@ -160,30 +162,38 @@ export default function (router) {
         }
     });
 
-    router.post('/userStatistics', function(req, res) {
+    router.post('/game/userStatistics', function (req, res) {
+        let query = {'username': req.body.username};
 
-        let userStatistics = new UserStatistics();
-        userStatistics.username = req.body.username;
+        let userStatistics = {};
         userStatistics.finalScore = req.body.finalScore;
         userStatistics.moves = req.body.moves;
         userStatistics.gameConfigId = req.body.gameConfigId;
 
-        userStatistics.save(function (err) {
-            
-            //console.log("Printing userStatistics")
-            //console.log(userStatistics)
+        // Since user stats record already exists, update.
+        UserStatistics.findOneAndUpdate(query, userStatistics, {upsert: true}, function (err, doc) {
+
             if (err) {
-                    console.log(err);
-                    res.send({success: false, message: "User statistics row not created"});
-                } else {
-                    res.send({success: true, message: "User statistics row created"});
-                }
+                res.send({success: false, message: "User statistics could not be saved"});
+            }
+            else {
+                res.send({success: true, message: "User statistics saved Successfully"});
+            }
 
         });
+        // userStatistics.save(function (err) {
+        //     if (err) {
+        //         console.log(err);
+        //         res.send({success: false, message: "User statistics row not created"});
+        //     } else {
+        //         res.send({success: true, message: "User statistics row created"});
+        //     }
+        //
+        // });
     });
 
     router.get("/viewAdmin", function (req, res) {
-        Admin.find({role:"ADMIN"}, function (error, docs) {
+        Admin.find({role: "ADMIN"}, function (error, docs) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Error"});
@@ -206,11 +216,11 @@ export default function (router) {
 
     router.post("/admin/signInUser", function (req, res) {
         Authenticator.serializeUser(req.body.username, req, res, function (err, user) {
-            if(err) {
+            if (err) {
                 console.log(err);
                 res.send({success: false, error: err});
             } else {
-                if(req.body.fullname) {
+                if (req.body.fullname) {
                     user.fullname = req.body.fullname;
                     user.save(function (error) {
                         if (error) {
@@ -228,7 +238,7 @@ export default function (router) {
     });
 
     //http://localhost:8080/api/admin/signOutUser
-    router.post('/admin/signOutUser', function(req, res) {
+    router.post('/admin/signOutUser', function (req, res) {
         req.session.reset();
         res.send({success: true, redirectTo: '/'});
     });
@@ -257,12 +267,12 @@ export default function (router) {
 
     router.post("/updateConf", function (req, res) {
         // set the active config to inactive
-        GameConfig.update({ active: true }, { $set: { active: false } }, function (error) {
+        GameConfig.update({active: true}, {$set: {active: false}}, function (error) {
             if (error) {
                 console.log(error);
             }
             // activate the required config
-            GameConfig.findByIdAndUpdate(req.body._id, { active: true }, function (error) {
+            GameConfig.findByIdAndUpdate(req.body._id, {active: true}, function (error) {
                 if (error) {
                     console.log(error);
                     res.send({success: false, message: "Game Configuration doesn't exist"});
@@ -275,7 +285,7 @@ export default function (router) {
 
     router.post("/deactivateConf", function (req, res) {
         // set the active config to inactive
-        GameConfig.findByIdAndUpdate(req.body._id, { $set: { active: false } }, function (error) {
+        GameConfig.findByIdAndUpdate(req.body._id, {$set: {active: false}}, function (error) {
             if (error) {
                 console.log(error);
                 res.send({success: false, message: "Configuration not found"});
@@ -287,7 +297,7 @@ export default function (router) {
 
     router.post("/addToAdminLog", function (req, res) {
         let adminLog = new AdminLog();
-        if(req.body.fullname || req.body.username) {
+        if (req.body.fullname || req.body.username) {
             adminLog.author = req.body.username;
         } else {
             adminLog.author = req.user.username;
@@ -308,7 +318,7 @@ export default function (router) {
         /*get from and to date by req.body.fromDate, req.body.toDate*/
         WorkerQueue.checkAvailability()
             .then(function (response) {
-                if(response.isAvailable) {
+                if (response.isAvailable) {
                     const jobData = {
                         fromDate: req.body.fromDate,
                         toDate: req.body.toDate
@@ -318,7 +328,10 @@ export default function (router) {
                             return WorkerQueue.executeJob(job);
                         })
                         .then(function () {
-                            res.send({success: true, message: "Your job has been queued. Please check the exports tab to view your CSV file."});
+                            res.send({
+                                success: true,
+                                message: "Your job has been queued. Please check the exports tab to view your CSV file."
+                            });
                         })
                         .catch(function (error) {
                             console.error(error);
@@ -347,28 +360,27 @@ export default function (router) {
             })
     });
 
-    router.post('/game/updateUserStatistics',function(req,res){
-        var query={'username':req.body.username};
-        
-        var userstatistics={};
-        
-        if(req.body.demographics!=undefined){
-            userstatistics.demographics=req.body.demographics;
+    router.post('/game/updateUserStatistics', function (req, res) {
+        let query = {'username': req.body.username};
+
+        let userstatistics = {};
+
+        if (req.body.demographics != undefined) {
+            userstatistics.demographics = req.body.demographics;
         }
 
-        else if(req.body.trustAndTaskQuestionnaire!=undefined){
-            userstatistics.trustAndTaskQuestionnaire=req.body.trustAndTaskQuestionnaire;
+        else if (req.body.trustAndTaskQuestionnaire != undefined) {
+            userstatistics.trustAndTaskQuestionnaire = req.body.trustAndTaskQuestionnaire;
         }
 
 
-       UserStatistics.findOneAndUpdate(query,userstatistics,{upsert:true},function(err,doc) {
-            
+        UserStatistics.findOneAndUpdate(query, userstatistics, {upsert: true}, function (err, doc) {
             if (err) {
-                    res.send({success: false, message: "User statistics could not be saved"});
-                } 
-            else { 
-                    res.send({success: true, message: "User statistics saved Successfully"});
-                }
+                res.send({success: false, message: "User statistics could not be saved"});
+            }
+            else {
+                res.send({success: true, message: "User statistics saved Successfully"});
+            }
 
         });
 

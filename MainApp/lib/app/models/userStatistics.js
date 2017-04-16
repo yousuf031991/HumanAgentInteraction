@@ -1,12 +1,13 @@
-import mongoose from 'mongoose';
-import validate from 'mongoose-validator';
+import mongoose from "mongoose";
+import validate from "mongoose-validator";
 const Schema = mongoose.Schema;
 
-let numberValidator =[
+
+let numberValidator = [
     validate({
         validator: 'isNumeric',
         message: 'Should contain numeric characters only'
-        })
+    })
 ];
 
 let userStatisticsSchema = new Schema({

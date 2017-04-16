@@ -39,7 +39,7 @@ angular.module('userStatsServices', [])
 
         UserStatsFactory.addRecord = function () {
             // Post request to server
-            return $http.post('/api/userStatistics', userStatsData);
+            return $http.post('/api/game/userStatistics', userStatsData);
         };
 
         return UserStatsFactory;
