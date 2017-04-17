@@ -1,5 +1,5 @@
-angular.module('trialInfoControllers', ['trialInfoServices'])
-    .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo) {
+angular.module('trialInfoControllers', ['trialInfoServices','scrollingServices'])
+    .controller('trialInfoCtrl', function ($http, $location, $rootScope, $cookies,TrialInfo,Scrolling) {
         var app = this;
         app.username=null;
         app.latestStage=-1;
@@ -64,8 +64,9 @@ angular.module('trialInfoControllers', ['trialInfoServices'])
                     $cookies.putObject($rootScope.COOKIE_NAME,gameSession,$rootScope.getCookieOptions());
                     $location.path('/demographics');
                 } else {
-                    $location.path('/thankyou');
+                    //$location.path('/thankyou');
                     app.errorMsg = returnData.data.message;
+                    Scrolling('errorMsg');
                 }
                 app.loading = false;
             });
