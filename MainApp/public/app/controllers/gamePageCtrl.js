@@ -39,7 +39,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     PatientService.newPatientforNH(app.gameState);
 
                     // Initialize User Statistics Service, to record user moves.
-                    UserStats.create(app.username, activeGameConfig._id);
+                    UserStats.create(app.username, activeGameConfig._id, versionNum);
 
                     // Start Agent resource sharing algorithm
                     Agent.NHShareResource(PatientService, app.gameState, versionNum);
@@ -140,7 +140,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function timerClock() {
             // Building the timer from game config
-            let seconds = app.gameState.startTime;
+            // let seconds = app.gameState.startTime;
+            let seconds = 120;
             let minutes = seconds / 60;
             let remainingSeconds = seconds % 60;
             $scope.counter = "" + minutes + ":" + remainingSeconds;
