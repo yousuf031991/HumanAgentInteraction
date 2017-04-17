@@ -170,6 +170,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         function stopTimer(mytimeout) {
             console.log("Time stopped");
             $timeout.cancel(mytimeout);
+            UserStats.updateScore(app.gameState.score);
             UserStats.addRecord();
             showFinishedModal();
         }

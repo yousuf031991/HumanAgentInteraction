@@ -21,7 +21,7 @@ let userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
-    moves:[String],
+    moves:[{}],
     demographics:[{
         question: String,
         response: Schema.Types.Mixed
