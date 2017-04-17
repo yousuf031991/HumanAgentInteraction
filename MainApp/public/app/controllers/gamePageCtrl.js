@@ -22,6 +22,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 console.log("In start button");
                 if (returnData.data.success) {
                     // console.log(returnData.data.config);
+                    PatientService.initialize();
+
                     activeGameConfig = returnData.data.config;
                     app.gameState = new GameState(activeGameConfig);
 
@@ -140,8 +142,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function timerClock() {
             // Building the timer from game config
-            // let seconds = app.gameState.startTime;
-            let seconds = 120;
+            let seconds = app.gameState.startTime;
+            // let seconds = 120;
             let minutes = seconds / 60;
             let remainingSeconds = seconds % 60;
             $scope.counter = "" + minutes + ":" + remainingSeconds;
