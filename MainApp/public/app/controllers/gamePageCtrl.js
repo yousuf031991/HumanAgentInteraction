@@ -3,8 +3,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         let app = this;
         let blinkTimer;
         let blinkTimer2;
+
+        // TODO: Obtain versionNum from cookie
+        let versionNum = 2;
+
         Refresh.checkRefresh();
-        app.username=$rootScope.username;
+        app.username = $rootScope.username;
+
         (function startButton() {
             alert("The goal is to save as many patients as possible");
 
@@ -203,12 +208,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         $('#btnA').click(function (event) {
             //check if patientA is available in waiting room
-            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
-
+            PatientService.assignRoom(event.target.id, app.gameState, UserStats);
         });
 
         $('#btnB').click(function (event) {
-            PatientService.assignRoom(event.target.id, app.gameState, UserStats)
+            PatientService.assignRoom(event.target.id, app.gameState, UserStats);
         });
 
 
@@ -229,104 +233,141 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         // Listener for the request resource buttons  
         $('#btnShareDoctor').click(function () {
-            // resetMsg();
+            if (versionNum == 1) {
+                UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
 
-            /*let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
-             //console.log(decision);
-             if (decision) {
-             app.successMsg = "Doctor Request is accepted by neighbouring hospital";
-             UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
-             } else {
-             app.errorMsg = "Doctor Request is denied by neighbouring hospital";
-             UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
-             }*/
+                if (app.gameState.numberOfDoctors > 0) {
+                    app.gameState.numberOfDoctors -= 1;
+                    app.gameState.otherNumberOfDoctors += 1;
+                    UserStats.addMove("DoctorShared, Success", $scope.counter, app.gameState);
+                    app.successMsg = "Doctor is shared with neighbouring hospital";
+                    $location.hash('notify');
+                    $anchorScroll();
 
-            UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
-
-            if (app.gameState.numberOfDoctors > 0) {
-                app.gameState.numberOfDoctors -= 1;
-                app.gameState.otherNumberOfDoctors += 1;
-                UserStats.addMove("DoctorShared, Success", $scope.counter, app.gameState);
-                app.successMsg = "Doctor is shared with neighbouring hospital";
-                $location.hash('notify');
-                $anchorScroll();
-
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no doctors to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
+                }
             } else {
-                $("#notifyModalTitle").text("Error");
-                $("#notifyModalbody").text("There are no doctors to share.");
-                $("#notifyModal").modal("show");
-                UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
+                resetMsg();
+                if (app.gameState.numberOfDoctors > 0) {
+
+                    let playerResources = app.gameState.numberOfDoctors + app.gameState.numberOfNurses + app.gameState.numberOfSurgeons;
+                    let hospitalResources = app.gameState.otherNumberOfDoctors + app.gameState.otherNumberOfNurses + app.gameState.otherNumberOfSurgeons;
+
+                    UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
+                    let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
+                    console.log(decision);
+                    if (decision) {
+                        app.gameState.numberOfDoctors -= 1;
+                        app.gameState.otherNumberOfDoctors += 1;
+                        app.successMsg = "Shared Doctor is accepted by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+                    } else {
+                        app.errorMsg = "Shared Doctor is denied by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+                    }
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no doctors to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
+                }
             }
-
-
         });
 
 
         $('#btnShareSurgeon').click(function () {
-            /* resetMsg();
-             UserStats.addMove("PlayerRequest, Surgeon", $scope.counter, app.gameState);
-             let decision = Agent.fulfillRequestAlgorithm(2, 3, 'high');
-             if (decision) {
-             app.successMsg = "Surgeon Request is accepted by neighbouring hospital";
-             UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
-             } else {
-             app.errorMsg = "Surgeon Request is denied by neighbouring hospital";
-             UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
-             }
-             $location.hash('notify');
-             $anchorScroll();*/
+            if (versionNum == 1) {
+                UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
 
-            UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
-
-            if (app.gameState.numberOfSurgeons > 0) {
-                app.gameState.numberOfSurgeons -= 1;
-                app.gameState.otherNumberOfSurgeons += 1;
-                app.successMsg = "Surgeon is shared with neighbouring hospital";
-                UserStats.addMove("SurgeonShared, Success", $scope.counter, app.gameState);
-                $location.hash('notify');
-                $anchorScroll();
+                if (app.gameState.numberOfSurgeons > 0) {
+                    app.gameState.numberOfSurgeons -= 1;
+                    app.gameState.otherNumberOfSurgeons += 1;
+                    app.successMsg = "Surgeon is shared with neighbouring hospital";
+                    UserStats.addMove("SurgeonShared, Success", $scope.counter, app.gameState);
+                    $location.hash('notify');
+                    $anchorScroll();
+                } else {
+                    //show a modal
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no surgeons to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
+                }
             } else {
-                //show a modal
-                $("#notifyModalTitle").text("Error");
-                $("#notifyModalbody").text("There are no surgeons to share.");
-                $("#notifyModal").modal("show");
-                UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
-            }
+                resetMsg();
+                if (app.gameState.numberOfSurgeons > 0) {
 
+                    let playerResources = app.gameState.numberOfDoctors + app.gameState.numberOfNurses + app.gameState.numberOfSurgeons;
+                    let hospitalResources = app.gameState.otherNumberOfDoctors + app.gameState.otherNumberOfNurses + app.gameState.otherNumberOfSurgeons;
+
+                    UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
+                    let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
+                    if (decision) {
+                        app.gameState.numberOfSurgeons -= 1;
+                        app.gameState.otherNumberOfSurgeons += 1;
+                        app.successMsg = "Shared surgeon is accepted by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+                    } else {
+                        app.errorMsg = "Shared surgeon is denied by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+                    }
+                    $location.hash('notify');
+                    $anchorScroll();
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no surgeons to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
+                }
+            }
         });
 
 
         $('#btnShareNurse').click(function () {
-            /* resetMsg();
-             UserStats.addMove("PlayerRequest, Nurse", $scope.counter, app.gameState);
-             let decision = Agent.fulfillRequestAlgorithm(0, 2, 'high');
-             $location.hash('notify');
-             $anchorScroll();
-             if (decision) {
-             app.successMsg = "Nurse Request is accepted by neighbouring hospital";
-             UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
-             } else {
-             app.errorMsg = "NurseRequest is denied by neighbouring hospital";
-             UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
-             }
-             */
-
-            UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
-            if (app.gameState.numberOfNurses > 0) {
-                app.gameState.numberOfNurses -= 1;
-                app.gameState.otherNumberOfNurses += 1;
-                app.successMsg = "Nurse is shared with neighbouring hospital";
-                UserStats.addMove("NurseShared, Success", $scope.counter, app.gameState);
-                $location.hash('notify');
-                $anchorScroll();
+            if (versionNum == 1) {
+                UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+                if (app.gameState.numberOfNurses > 0) {
+                    app.gameState.numberOfNurses -= 1;
+                    app.gameState.otherNumberOfNurses += 1;
+                    app.successMsg = "Nurse is shared with neighbouring hospital";
+                    UserStats.addMove("NurseShared, Success", $scope.counter, app.gameState);
+                    $location.hash('notify');
+                    $anchorScroll();
+                } else {
+                    //show modal popup
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no nurses to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
+                }
             } else {
-                //show modal popup
-                $("#notifyModalTitle").text("Error");
-                $("#notifyModalbody").text("There are no nurses to share.");
-                $("#notifyModal").modal("show");
-                UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
-            }
+                resetMsg();
+                if (app.gameState.numberOfNurses > 0) {
+                    UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+                    let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
+                    $location.hash('notify');
+                    $anchorScroll();
+                    if (decision) {
+                        app.gameState.numberOfNurses -= 1;
+                        app.gameState.otherNumberOfNurses += 1;
+                        app.successMsg = "Shared Nurse is accepted by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
 
+                    } else {
+                        app.errorMsg = "Shared Nurse is denied by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+                    }
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no nurses to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
+                }
+            }
         });
 
     });

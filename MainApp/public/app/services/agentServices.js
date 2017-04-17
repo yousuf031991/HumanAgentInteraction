@@ -2,6 +2,27 @@ angular.module('agentServices', [])
     .factory('Agent', function () {
     	let agentFactory = {};
 
+    	// Algorithm for agent to accept or deny shared resource
+    	agentFactory.decisionAlgorithm = function(cooperationType) {
+            let randomDecision = agentFactory.generateRandomNum(0, 1);
+
+            if (cooperationType === 'HIGH COOPERATION') {
+                // In high cooperation, agent accepts shared resource only 60% of the time.
+                if (randomDecision >= 0 && randomDecision <= 0.6) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // In low cooperation, agent accepts shared resource only 30% of the time.
+                if (randomDecision >= 0 && randomDecision <= 0.3) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+		};
+
     	agentFactory.fulfillRequestAlgorithm = function(currentResources, otherHospitalResources, cooperationType) {
 			/**
 			* REFERENCE:
@@ -9,7 +30,7 @@ angular.module('agentServices', [])
 			* Function : fulfillRequestAlgorithm
 			*/
 
-    		// If agent has no resources available, reject request
+			// If agent has no resources available, reject request
     		if (otherHospitalResources == 0) {
     			return false;
     		}
@@ -17,7 +38,7 @@ angular.module('agentServices', [])
     		let total = currentResources + otherHospitalResources;
 
     		// If cooperation mode is high, agent fulfills request even when it has low resources
-    		if(cooperationType === 'high') {
+    		if(cooperationType === 'HIGH COOPERATION') {
 				if(total >= 0 && total <= 2) {
                     // Always fulfills request if total available resources between 0 and 2
                     return true;

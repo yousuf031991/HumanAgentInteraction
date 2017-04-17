@@ -563,11 +563,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             roomMap.forEach(function (value, key) {
                 if (value.patientType === 'Patient A' && value.nDoctors === 1 && value.nNurses === 1 && value.collect === false) {
                     value.timeStarted = 60;
+                    $("#hint").text("");
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
                     gamePageFactory.showTimer(key, gameState, currentTime, userStats);
                     value.collect = true;
                 } else if (value.patientType === 'Patient B' && value.nSurgeons === 1 && value.nNurses === 1 && value.collect === false) {
                     value.timeStarted = 60;
+                    $("#hint").text("");
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
                     gamePageFactory.showTimer(key, gameState, currentTime, userStats);
                     value.collect = true
