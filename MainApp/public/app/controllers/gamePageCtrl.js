@@ -10,14 +10,15 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
             // Get active game config and initialize game state object
             let activeGameConfig = {};
-            let patientACount;
-            let patientBCount;
+            // let patientACount;
+            // let patientBCount;
 
 
             $timeout(function() {
                  if($location.path() == '/practicePage') {
                     practiceGame();
                 } else {
+
                     actualGame();
                 }
             });
@@ -357,6 +358,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 if (returnData.data.success) {
                     // console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
+
+                    app.gameState = {};
                     app.gameState = new GameState(activeGameConfig);
 
                     patientACount = activeGameConfig.startNumPatientAs;
@@ -387,6 +390,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 }
             });
 
+            console.log("In Actual Game: ")
+            console.log(app.gameState);
+
             /*// Start patient queueing algorithm for player.
              PatientService.newPatient(patientACount, patientBCount);
              PatientService.newPatientforNH(otherNumberOfPatientBsCount, otherNumberOfPatientBsCount);
@@ -400,7 +406,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             let seconds = 0;
 
             if($location.path() == '/practicePage') {
-                seconds = 120;
+                seconds = 30;
             } else {
                 seconds = app.gameState.startTime;
                 console.log("gamestate seconds: " + seconds)
@@ -448,8 +454,22 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
                  $rootScope.gameload = '0';
                  //$cookies.put('gameload', '0');
+
+                  //clear all the active timers of gamePageServices
+                  console.log("Clearing all timers");
+                  PatientService.clearTimers();
+                  Agent.clearTimers();
+
+                  console.log("Before going to acutal game")
+                  console.log(app.gameState);
+
                  console.log("Gameload value set in checkPath" +$rootScope.gameload);
-                 $location.path('/gamepage/' + app.username);
+                 $window.location.href = '/gamepage/' + app.username;
+
+                
+
+
+
                  //$route.reload();
 
                  

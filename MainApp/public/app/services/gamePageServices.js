@@ -7,6 +7,10 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let patientMap = new Map();
         let roomMap = new Map();
 
+        //Timer globals
+        let newPatientTimer;
+        let newNHPatientTimer;
+
         // Initial variables for Room
         let roomData = {};
         roomData.nDoctors = 0;
@@ -51,6 +55,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         for (let i = 0; i < circleAIds.length; i++) {
             circleAs.push(new Circle(circleAIds[i]));
             circleBs.push(new Circle(circleBIds[i]));
+        }
+
+        gamePageFactory.clearTimers = function() {
+
+            clearTimeout(newPatientTimer);
+            clearTimeout(newNHPatientTimer); 
+                       
         }
 
         gamePageFactory.resetDivs = function() {
@@ -184,6 +195,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                             milliseconds = quintupletTimeLeft / numPatientsForMediumQuintuplet;
                             break;
                     }
+
                 }
             }
 
@@ -193,7 +205,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.countdownTimer = function (milliseconds, gameState) {
-            setTimeout(function () {
+             newPatientTimer = setTimeout(function () {
                 if (totalTimeLeftInMilliseconds !== 0) {
                     let patient = parseInt(Math.random() * ((1) + 1));
                     let totalPatients = gameState.numberOfPatientAs + gameState.numberOfPatientBs;
@@ -277,7 +289,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
         gamePageFactory.countdownTimerforNH = function (milliseconds, gameState) {
 
-            setTimeout(function () {
+            newNHPatientTimer = setTimeout(function () {
                 if (totalTimeLeftInMilliseconds !== 0) {
                     let patient = parseInt(Math.random() * ((1) + 1));
                     let totalPatientCount = gameState.otherNumberOfPatientAs + gameState.otherNumberOfPatientBs;
@@ -340,6 +352,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 let success = true;
                 let myroomid = e.target.id;
                 let __roomId = myroomid.replace("R", "div");
+
+                console.log(gameState);
+                console.log("resource id" + resourceId);
 
                 if (resourceId === 'btnDoctor') {
                     // Checking if enough doctors are present
