@@ -13,7 +13,8 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices', 'ref
         app.incompleteQuestions = [];
         app.noneOfTheAbove="None of the above";
 
-        Refresh.checkRefresh();
+        
+        Refresh.checkRefresh($rootScope.DEMOGRAPHICS_QUESTIONNAIRE);
 
         app.username = $rootScope.username;
 
@@ -62,11 +63,12 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices', 'ref
 
         }
 
+        
+        app.validate=function(){
+        	//To ensure that the user was navigated to this page from trial info page.
+        	if(app.username==undefined)
+        		return;
 
-        app.validate = function () {
-            //To ensure that the user was navigated to this page from trial info page.
-            if (app.username == undefined)
-                return;
 
             if ($rootScope.checkTimeout()) {
                 $location.path('/timeout');
@@ -92,43 +94,40 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices', 'ref
             if (app.computerUsage == undefined) {
                 app.incompleteQuestions.push(document.getElementById('questionComputerUsageFrequency'));
             }
-
+            
             if (Object.keys(app.computerUsageTypes).length == 0) {
                 app.incompleteQuestions.push(document.getElementById('questionComputerUsageTypes'));
-
             }
-
-            if (Object.keys(app.videoGameDevices).length == 0) {
-                app.incompleteQuestions.push(document.getElementById('questionVideoGameDevices'));
-            }
-
-            if (Object.keys(app.videoGameTypes).length == 0) {
-                app.incompleteQuestions.push(document.getElementById('questionVideoGameTypes'));
-            }
-
-            if (Object.keys(app.allDevicesUsed).length == 0) {
-                app.incompleteQuestions.push(document.getElementById('questionDevicesUsed'));
-            }
-
-            if (app.videoGameExperience == undefined) {
-                app.incompleteQuestions.push(document.getElementById('questionVideoGameExperience'));
-
-            }
-
-            if (app.videoGameUsage == undefined) {
-                app.incompleteQuestions.push(document.getElementById('questionVideoGameUsageFrequency'));
-
-            }
-
+ 
+       	    if(Object.keys(app.videoGameDevices).length==0){
+        		app.incompleteQuestions.push(document.getElementById('questionVideoGameDevices'));
+        	}
+            
+            if(Object.keys(app.videoGameTypes).length==0){
+        		app.incompleteQuestions.push(document.getElementById('questionVideoGameTypes'));
+        	}
+            
+            if(Object.keys(app.allDevicesUsed).length==0){
+        		app.incompleteQuestions.push(document.getElementById('questionDevicesUsed'));
+        	}
+            
+            if(app.videoGameExperience==undefined){
+        		app.incompleteQuestions.push(document.getElementById('questionVideoGameExperience'));	
+        	}
+        	
+        	if(app.videoGameUsage==undefined){
+        		app.incompleteQuestions.push(document.getElementById('questionVideoGameUsageFrequency'));
+        	}
+            
             if (app.incompleteQuestions.length > 0) {
                 app.highlightIncompleteQuestions();
             }
-
             else {
                 app.saveQuestionnaire();
             }
 
-        };
+        }
+        
 
         //Resets the style of all previously incomplete questions to default. 
         app.reset = function () {
