@@ -130,3 +130,6 @@ time {
     line-height: 30px;
 }
 
+.invisible {
+    style: "display:none"
+}

@@ -42,7 +42,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     UserStats.create(app.username, activeGameConfig._id);
 
                     // Start Agent resource sharing algorithm
-                    Agent.NHShareResource(PatientService, app.gameState);
+                    Agent.NHShareResource(PatientService, app.gameState, versionNum);
 
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
@@ -188,12 +188,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function gameFinished() {
              $("#gFMclose").bind("click", function() {
-             $("#gameFinishedModal").modal("hide")
+             $("#gameFinishedModal").modal("hide");
              $timeout(function(){
                 
-                var data={
+                let data={
                     lastStageCompleted:$rootScope.GAMEPAGE
-                }
+                };
                 $rootScope.updateGameSession(data);
                 $location.path('/trustAndTaskQuestionnaire');
                 
@@ -231,6 +231,27 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             //console.log(UserStats.getStats());
         });
 
+        $('#btnRAccept').click(function (event) {
+            let type = $('#shareResourceType').text();
+            console.log('Updating game state');
+            $('#shareResourceModal').modal("hide");
+            if (type == 'Nurse') {
+                app.gameState.otherNumberOfNurses -= 1;
+                app.gameState.numberOfNurses   += 1;
+            } else  if (type == 'Surgeon') {
+                app.gameState.otherNumberOfSurgeons -= 1;
+                app.gameState.numberOfSurgeons += 1;
+            } else if (type == 'Doctor') {
+                app.gameState.otherNumberOfDoctors -= 1;
+                app.gameState.numberOfDoctors  += 1;
+            }
+        });
+
+        $('#btnRADeny').click(function (event) {
+            $('#shareResourceModal').modal("hide");
+            console.log('Denied shared resource');
+        });
+
         // Listener for the request resource buttons  
         $('#btnShareDoctor').click(function () {
             if (versionNum == 1) {
@@ -253,10 +274,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             } else {
                 resetMsg();
                 if (app.gameState.numberOfDoctors > 0) {
-
-                    let playerResources = app.gameState.numberOfDoctors + app.gameState.numberOfNurses + app.gameState.numberOfSurgeons;
-                    let hospitalResources = app.gameState.otherNumberOfDoctors + app.gameState.otherNumberOfNurses + app.gameState.otherNumberOfSurgeons;
-
                     UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
                     let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
                     console.log(decision);
@@ -300,10 +317,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             } else {
                 resetMsg();
                 if (app.gameState.numberOfSurgeons > 0) {
-
-                    let playerResources = app.gameState.numberOfDoctors + app.gameState.numberOfNurses + app.gameState.numberOfSurgeons;
-                    let hospitalResources = app.gameState.otherNumberOfDoctors + app.gameState.otherNumberOfNurses + app.gameState.otherNumberOfSurgeons;
-
                     UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
                     let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
                     if (decision) {

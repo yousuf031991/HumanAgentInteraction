@@ -76,7 +76,7 @@ angular.module('agentServices', [])
 		};
 
         // Resource sharing algorithm for agent. Used instead of request resource algorithm
-        agentFactory.NHShareResource = function(patientService, gameState) {
+        agentFactory.NHShareResource = function(patientService, gameState, versionNum) {
         	let factor = 1;
         	if (gameState.cooperationMode == "LOW COOPERATION") {
 				factor = 4;
@@ -104,13 +104,13 @@ angular.module('agentServices', [])
                 }
                 // console.log("QuintupleNum: " + quintupletNum);
                 // console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
-                agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime);
+                agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime, versionNum);
 			}
 
 		};
 
         // Timer function to share resources
-    	agentFactory.NHShareResourceTimer = function(patientService, gameState, milliseconds) {
+    	agentFactory.NHShareResourceTimer = function(patientService, gameState, milliseconds, versionNum) {
 			setTimeout(function() {
 				// Wait time before sharing is determined based on cooperation mode set
 				// Step 1: Form an array of non-zero resources
@@ -135,23 +135,39 @@ angular.module('agentServices', [])
                 // Update agent's available resource in game state
 				// Update player's available resource in game state
                 // Notify player that agent shared a resource
-                $('#notifyModalTitle').text("Notification");
-                if (availableResources[randomIdx] == 'D') {
-                	gameState.otherNumberOfDoctors -= 1;
-					gameState.numberOfDoctors  += 1;
-                    $('#notifyModalbody').text("Agent has shared a doctor");
-                } else if (availableResources[randomIdx] == 'N') {
-                    gameState.otherNumberOfNurses -= 1;
-                    gameState.numberOfNurses   += 1;
-                    $('#notifyModalbody').text("Agent has shared a nurse");
-                } else if (availableResources[randomIdx] == 'S') {
-                    gameState.otherNumberOfSurgeons -= 1;
-                    gameState.numberOfSurgeons += 1;
-                    $('#notifyModalbody').text("Agent has shared a surgeon")
-                }
+				if (versionNum == 1) {
+                    $('#notifyModalTitle').text("Notification");
+                    if (availableResources[randomIdx] == 'D') {
+                        gameState.otherNumberOfDoctors -= 1;
+                        gameState.numberOfDoctors  += 1;
+                        $('#notifyModalbody').text("Agent has shared a doctor");
+                    } else if (availableResources[randomIdx] == 'N') {
+                        gameState.otherNumberOfNurses -= 1;
+                        gameState.numberOfNurses   += 1;
+                        $('#notifyModalbody').text("Agent has shared a nurse");
+                    } else if (availableResources[randomIdx] == 'S') {
+                        gameState.otherNumberOfSurgeons -= 1;
+                        gameState.numberOfSurgeons += 1;
+                        $('#notifyModalbody').text("Agent has shared a surgeon")
+                    }
 
-                $('#notifyModal').modal("show");
-                agentFactory.NHShareResource(patientService, gameState);
+                    $('#notifyModal').modal("show");
+				} else {
+                    $('#shareResourceModalTitle').text("Notification");
+                    if (availableResources[randomIdx] == 'D') {
+                        $('#shareResourceModalBody').text("Agent has shared a doctor");
+                        $('#shareResourceType').text("Doctor");
+                    } else if (availableResources[randomIdx] == 'N') {
+                        $('#shareResourceModalBody').text("Agent has shared a nurse");
+                        $('#shareResourceType').text("Nurse");
+                    } else if (availableResources[randomIdx] == 'S') {
+                        $('#shareResourceModalBody').text("Agent has shared a surgeon");
+                        $('#shareResourceType').text("Surgeon");
+                    }
+					$('#shareResourceModal').modal("show");
+				}
+
+                agentFactory.NHShareResource(patientService, gameState, versionNum);
 			}, milliseconds);
 		};
 
