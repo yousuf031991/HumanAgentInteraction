@@ -1,5 +1,5 @@
 angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 'refreshServices', 'scrollingServices'])
-    .controller('postGameQuestionnaireCtrl', function ($rootScope, $location, $cookies, QuestionnaireService, Refresh, Scrolling) {
+    .controller('postGameQuestionnaireCtrl', function ($scope,$timeout,$rootScope, $location, $cookies, QuestionnaireService, Refresh, Scrolling) {
 
         let app = this;
         app.questionnaireIncomplete = false;
@@ -11,7 +11,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
         app.trustQuestionnaireRows = [];
         app.taskQuestionnaireRows = [];
 
-        Refresh.checkRefresh();
+        Refresh.checkRefresh($rootScope.TRUST_TASK_QUESTIONNAIRE);
 
         app.username = $rootScope.username;
 
@@ -31,9 +31,9 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
 
         app.getRows = function () {
             let trustQuestionnaireTable = document.getElementById('trustQuestionnaireTable');
-            app.trustQuestionnaireRows = trustQuestionnaireTable.getElementsByClassName("questionnaireRowClass");
+            app.trustQuestionnaireRows = angular.element(trustQuestionnaireTable.getElementsByClassName("questionnaireRowClass"));
             let taskQuestionnaireTable = document.getElementById('taskQuestionnaireTable');
-            app.taskQuestionnaireRows = taskQuestionnaireTable.getElementsByClassName('questionnaireRowClass');
+            app.taskQuestionnaireRows = angular.element(taskQuestionnaireTable.getElementsByClassName('questionnaireRowClass'));
         };
 
 
@@ -101,21 +101,24 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
 
 
             let len = rows.length;
-
-
+             
             for (let i = 0; i < len; i++) {
+                
                 let row = rows[i];
                 let radioButtons = row.getElementsByClassName('questionnaireRadioButton');
                 let radioButtonRect = radioButtons[0].getBoundingClientRect();
+                
                 if (radioButtonRect.top >= top && radioButtonRect.bottom <= bottom || radioButtonRect.top <= top && radioButtonRect.bottom >= top || radioButtonRect.top <= bottom && radioButtonRect.bottom >= bottom) {
                     row.style.opacity = 0.0;
                     row.disabled = true;
+                
                 }
                 else {
                     row.style.opacity = 1.0;
                     row.disabled = false;
                 }
             }
+          
 
         };
 
@@ -134,7 +137,8 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
 
 
         app.makeStickyHeader = function () {
-            document.getElementById('trustQuestionnaireTable').addEventListener('scroll', function (event) {
+            $timeout(function(){ 
+            angular.element(document.getElementById('trustQuestionnaireTable')).on('scroll',function (event) {
                 let stickyHeader = 'translate(0,' + this.scrollTop + 'px)';
                 document.getElementById('trustQuestionnaireHeader').style.transform = stickyHeader;
                 //console.log("Scroll Top:"+this.scrollTop);
@@ -142,13 +146,14 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
                 app.checkOverlap(app.trustQuestionnaireRows, rect.top, rect.bottom);
             });
 
-            document.getElementById('taskQuestionnaireTable').addEventListener('scroll', function (event) {
+            angular.element(document.getElementById('taskQuestionnaireTable')).on('scroll',function (event) {
                 let stickyHeader = 'translate(0,' + this.scrollTop + 'px)';
                 document.getElementById('taskQuestionnaireHeader').style.transform = stickyHeader;
                 let rect = document.getElementById('taskQuestionnaireHeader').getBoundingClientRect();
                 app.checkOverlap(app.taskQuestionnaireRows, rect.top, rect.bottom);
             });
-
+           });
+            
         };
 
         app.makeQuestionResponsePairs = function () {
@@ -157,8 +162,8 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
             let pair;
             for (let i = 0; i < len; i++) {
                 pair = {};
-                pair.question = app.questions[i];
-                pair.response = app.responses[i];
+                pair.question = (app.questions[i]).trim();
+                pair.response = (app.responses[i]).trim();
                 pairs.push(pair);
             }
             return pairs;
@@ -187,6 +192,7 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
         };
 
         app.init = function () {
+            
             app.getRows();
 
             app.makeStickyHeader();

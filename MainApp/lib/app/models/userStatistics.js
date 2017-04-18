@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validate from "mongoose-validator";
 const Schema = mongoose.Schema;
 
+
 let numberValidator = [
     validate({
         validator: 'isNumeric',
@@ -24,19 +25,22 @@ let userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator
     },
-    moves: [String],
-    demographics: [
-        {
+    moves: [{}],
+    demographics: [{
             question: String,
             response: Schema.Types.Mixed
-        }
-    ],
-    trustAndTaskQuestionnaire: [
-        {
+        }],
+    trustAndTaskQuestionnaire: [{
             question: String,
             response: String
-        }
-    ]
+        }],
+    timeOf: {
+        type: Date,
+        default: Date.now
+    },
+    timesGameLoaded:{
+        type: Number
+    }
 
 });
 

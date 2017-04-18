@@ -132,11 +132,11 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             let y = numOfPatientB;
 
             while (x != 0) {
-                $("#P1").find("#patientA").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
+                $("#P1").find("#patientA").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" class="statusImages" >');
                 x -= 1;
             }
             while (y != 0) {
-                $("#P1").find("#patientB").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
+                $("#P1").find("#patientB").append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" class="statusImages" >');
                 y -= 1;
             }
         };
@@ -479,14 +479,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             if (x > 0) {
                 while (x != 0) {
-                    patientADiv.append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
+                    patientADiv.append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" class="statusImages" >');
                     x -= 1;
                 }
             }
 
             if (y > 0) {
                 while (y != 0) {
-                    patientBDiv.append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" >');
+                    patientBDiv.append('<img src="assets/images/' + color + '.png" height = "30px" width="30px" class="statusImages">');
                     y -= 1;
                 }
 

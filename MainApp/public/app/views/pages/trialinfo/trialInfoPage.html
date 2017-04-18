@@ -1,7 +1,6 @@
 <div class="page-header">
     <h1>Trial Information</h1>
 </div>
-
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -40,43 +39,36 @@
 
                 <p>Please let me know if you do not wish to be part of the study.</p>
 
-                <p><b>By clicking below, you are agreeing to be part of the study.</b></p>
+                <p><b>By clicking 'I agree', you are agreeing to be part of the study.</b></p>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="trialCheck"> I agree
+                    </label>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
 
 <form ng-submit="trialData.trialInfoData(trailData);">
-    <!--     <label>Username:</label>
-        <input class="form-control" type="text" name="username" placeholder="Enter username"
-               ng-model="trialData.trailData.username">
-        <br>
-
-        <label>Trial:</label>
-        <input class="form-control" type="number" name="trialid" placeholder="Enter trial id"
-               ng-model="trialData.trailData.trialid">
-        <br>
-
-        <label>Condition:</label>
-        <input class="form-control" type="text" name="condition" placeholder="Enter condition"
-               ng-model="trialData.trailData.condition">
-        <br>
-     -->
     <button class="btn btn-primary" type="submit">Next</button>
 </form>
 
-<div class="jumbotron text-center" ng-show="trialData.loading">
+<div class="jumbotron text-center" id ="trialLoader" ng-show="trialData.loading">
     <span class="glyphicon glyphicon-repeat spinner"></span>
 
     <p>Loading...</p>
 </div>
 
-<div class="row show-hide-message" ng-show="trialData.successMsg">
+<div class="row show-hide-message" id ="trialSuccess" ng-show="trialData.successMsg">
     <div class="alert alert-success">
         {{trialData.successMsg}}
     </div>
 </div>
-<div class="row show-hide-message" ng-show="trialData.errorMsg">
+
+<div class="row show-hide-message" id ="trialError" ng-show="trialData.errorMsg">
     <div class="alert alert-danger">
         {{trialData.errorMsg}}
     </div>

@@ -127,9 +127,81 @@ time {
     position: relative;
     text-align: center;
     vertical-align: middle;
-    line-height: 30px;
+    line-height: 200%;
 }
 
 .invisible {
     style: "display:none"
+}
+.mobile-panel-title {
+    font-size: 11px;
+}
+
+#timeKeeper {
+    font-size: 25px;
+}
+
+/* mobile specifications */
+@media (max-width: 768px) {
+
+    #timeKeeper {
+        font-size: 13px;
+        padding: 0px 0px 0px 0px;
+    }
+
+    #timeKeeper .col-xs-4{
+        padding: 0px 0px 0px 0px;
+    }
+
+    #resourcesCol, #playButtonsDiv {
+        padding: 3px 3px 3px 3px;
+    }
+
+    #P1, #P2, #S1, #S2, #patients, #resources, #shareResources, #btnA, #btnB, #btnDoctor,
+    #btnNurse, #btnSurgeon, #btnShareDoctor, #btnShareNurse, #btnShareSurgeon{
+        font-size: 10px;
+    }
+
+    #roomsRow {
+        padding: 0px 3px 0px 0px;
+    }
+
+    #R1, #R3, #R5, #R2, #R4, #R6, #P1, #P2, #S1, #S2 {
+        padding: 3px 3px 3px 3px;
+        font-size: 9px;
+    }
+
+    #room1col, #room2col, #room3col, #div1, #div2, #div3, #div4, #div5, #div6, #waitingPanel, #resourcesPanel,
+    #neighWaitingPanel, #neighResourcesPanel {
+        margin-bottom: 5px;
+    }
+
+    #room1col, #room2col, #room3col {
+        padding: 3px 3px 0px 3px;
+        margin-bottom: 0px;
+    }
+
+    #prdiv {
+        padding: 0px 0px 3px 0px;
+    }
+
+    .statusImages {
+        width: 15px;
+        height: 15px;
+    }
+
+    .square {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #000;
+    }
+
+   /* .v-align {
+        position: relative;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 200%;
+    }*/
+
 }

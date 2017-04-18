@@ -24,7 +24,7 @@ angular.module('homeControllers', ['authServices', 'reportServices'])
             return displayName;
         };
 
-        $scope.isSuperAdmin = function () {
+        $rootScope.isSuperAdmin = function () {
             if ($rootScope.currentUser && $rootScope.currentUser.role === 'SUPER ADMIN') {
                 return true;
             } else {
