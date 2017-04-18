@@ -1,11 +1,11 @@
 import Utils from '../../helpers/utils';
-import CSVWriter from 'csv-write-stream';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
 import AdminLog from '../../models/adminLog';
-import fs from 'fs';
 import setConfigs from '../../configs';
 import connectDB from '../../helpers/db';
+import Excel from 'exceljs';
+
 
 const configs = JSON.parse(process.env.CONFIGS);
 mongoose.Promise = Promise;
@@ -31,29 +31,40 @@ process.on("message", (msg) => {
         process.send({type: "initiationComplete"});
     } else if(msg.type === "start") {
         const job = msg.job;
-        let writer = CSVWriter();
+        const xlsxName = "AdminLogs-" + Date.now().toString() + ".xlsx";
+        const finalPath = configs.csvPath + xlsxName;
 
-        const csvName = "AdminLogs-" + Date.now().toString() + ".csv";
-        writer.pipe(fs.createWriteStream(configs.csvPath + csvName));
+        let workbook = new Excel.Workbook();
+        workbook.creator = 'System Generated';
+        workbook.created = new Date();
 
         AdminLog.find({"timeOf": {
                 "$gte": new Date(job.data.fromDate),
                 "$lt": new Date(job.data.toDate)
             }}).exec()
             .then(function (logs) {
+
+                let sheet = workbook.addWorksheet('Admin Logs');
+                sheet.columns = [
+                    { header: 'Logged At', key: 'log', width: 14 },
+                    { header: 'Action', key: 'action', width: 50 },
+                    { header: 'Author', key: 'author', width: 20 }
+                ];
+
                 logs.forEach(function (log) {
-                    writer.write({
-                        "Logged At": (new Date(log.timeOf)).toString(),
-                        "Action": log.action,
-                        "Author": log.author
+                    sheet.addRow({
+                        log: new Date(log.timeOf),
+                        action: log.action,
+                        author: log.author
                     });
                 });
             })
             .then(function () {
-                writer.end();
+                return workbook.xlsx.writeFile(finalPath);
+
             })
             .then(function () {
-                process.send({type: "success", fileName: csvName});
+                process.send({type: "success", fileName: xlsxName});
             })
             .catch(function (error) {
                 process.send({type: "error", message: error.message});

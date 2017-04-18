@@ -157,8 +157,8 @@ angular.module('postGameQuestionnaireControllers', ['questionnaireServices', 're
             let pair;
             for (let i = 0; i < len; i++) {
                 pair = {};
-                pair.question = app.questions[i];
-                pair.response = app.responses[i];
+                pair.question = (app.questions[i]).trim();
+                pair.response = (app.responses[i]).trim();
                 pairs.push(pair);
             }
             return pairs;

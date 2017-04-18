@@ -85,20 +85,23 @@ function runInProgressJobs() {
 function deleteOldFiles() {
     const diffDate = new Date();
     diffDate.setDate(diffDate.getDate() - configs.csvExpiryDays);
-    BackgroundJob.find({status: "SUCCESSFUL"}).exec()
+    BackgroundJob.find({status: { $in: ["UNSUCCESSFUL", "SUCCESSFUL"] } }).exec()
         .then(function (jobs) {
             jobs.forEach(function (job) {
                 let jobDate = new Date(job.createdAt);
                 if(diffDate > jobDate) {
-                    const fileName = path.join(__dirname, '..', '..', '..', configs.csvPath, job.outputFileName);
-                    fs.unlink(fileName, function (err) {
-                       if(err) {
-                           console.log("Error while delete file",  err);
-                       } else {
-                           console.log("Deleted file", job.outputFileName);
-                           job.remove();
-                       }
-                    });
+                    if(job.outputFileName) {
+                        const fileName = path.join(__dirname, '..', '..', '..', configs.csvPath, job.outputFileName);
+                        fs.unlink(fileName, function (err) {
+                            if(err) {
+                                console.log("Error while delete file",  err);
+                            } else {
+                                console.log("Deleted file", job.outputFileName);
+                            }
+                        });
+                    }
+                    job.remove();
+
                 }
             });
         })

@@ -314,7 +314,7 @@ export default function (router) {
         });
     });
 
-    router.post("/exportAdminLogs", function (req, res) {
+    router.post("/exportLogs", function (req, res) {
         /*get from and to date by req.body.fromDate, req.body.toDate*/
         WorkerQueue.checkAvailability()
             .then(function (response) {
@@ -323,7 +323,7 @@ export default function (router) {
                         fromDate: req.body.fromDate,
                         toDate: req.body.toDate
                     };
-                    WorkerQueue.queueJob("ADMIN_LOGS", req.user.username, jobData)
+                    WorkerQueue.queueJob(req.body.type, req.user.username, jobData)
                         .then(function (job) {
                             return WorkerQueue.executeJob(job);
                         })
@@ -348,11 +348,10 @@ export default function (router) {
 
     });
 
-    router.get("/listAdminExports", function (req, res) {
-        BackgroundJob.find({type: "ADMIN_LOGS"})
+    router.get("/listExports", function (req, res) {
+        BackgroundJob.find({ author: req.user.username })
             .sort({createdAt: -1}).exec()
             .then(function (exports) {
-                console.log(exports);
                 res.send({success: true, data: exports});
             })
             .catch(function (error) {
