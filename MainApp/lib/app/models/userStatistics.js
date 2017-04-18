@@ -32,7 +32,10 @@ let userStatisticsSchema = new Schema({
             question: String,
             response: String
         }
-    ]
+    ],
+    timesGameLoaded:{
+        type: Number
+    }
 
 });
 

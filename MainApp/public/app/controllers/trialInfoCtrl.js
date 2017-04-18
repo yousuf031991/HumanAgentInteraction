@@ -7,6 +7,11 @@ angular.module('trialInfoControllers', ['trialInfoServices', 'scrollingServices'
         this.getAppState=function(){
             var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
             
+            let version=$routeParams.version;
+
+            if(version==undefined)
+                  version=1;
+
             if(gameSession){ //If the game has been started from this client in past.
                 
                 var trialExpiry=new Date(gameSession.trialEnds);
@@ -19,11 +24,20 @@ angular.module('trialInfoControllers', ['trialInfoServices', 'scrollingServices'
 
                 if(currentTime<=trialExpiry){
 
+                    let data={
+                                version:version
+                             }
+                    $rootScope.updateGameSession(data);
+
                     switch(app.latestStage){
 
                         case $rootScope.TRIALINFO_PAGE: {$location.path('/demographics'); break;}
 
-                        case $rootScope.DEMOGRAPHICS_QUESTIONNAIRE: {$location.path('/gamepage/'+app.username); break;}
+                        case $rootScope.DEMOGRAPHICS_QUESTIONNAIRE: {$location.path('/gamepage/'+app.username); break;}// ToDo - edirect to tutorial page
+
+                        case $rootScope.TUTORIAL:{$location.path('/practicePage');break;}
+
+                        case $rootScope.PRACTICE_GAME:{$location.path('/gamepage/'+app.username); break;}
 
                         case $rootScope.GAMEPAGE: {$location.path('/trustAndTaskQuestionnaire'); break;}
 
@@ -32,6 +46,7 @@ angular.module('trialInfoControllers', ['trialInfoServices', 'scrollingServices'
                         
                     }
 
+                    
                 }
 
 
@@ -42,7 +57,7 @@ angular.module('trialInfoControllers', ['trialInfoServices', 'scrollingServices'
             }
 
             else{
-                    $rootScope.createGameSession();                    
+                    $rootScope.createGameSession(version);                    
             }
 
         };

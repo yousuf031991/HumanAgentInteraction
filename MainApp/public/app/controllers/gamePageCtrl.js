@@ -3,8 +3,10 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         let app = this;
         let blinkTimer;
         let blinkTimer2;
-        Refresh.checkRefresh();
+        Refresh.checkRefresh($rootScope.GAMEPAGE);
         app.username=$rootScope.username;
+
+
         (function startButton() {
             alert("The goal is to save as many patients as possible");
 
@@ -166,10 +168,19 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             let mytimeout = $timeout($scope.onTimeout, 1000);
         }
 
+        function getPageLoadCount(){
+            let gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+            let pageLoadCount=gameSession.timesGameLoaded;
+            return pageLoadCount;
+        }
+        
+
+
 
         function stopTimer(mytimeout) {
             console.log("Time stopped");
             $timeout.cancel(mytimeout);
+            UserStats.setPageLoadCount(getPageLoadCount());
             UserStats.addRecord();
             showFinishedModal();
         }
@@ -328,5 +339,20 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             }
 
         });
+
+
+
+        this.incrementPageLoadCount=function(){
+            let gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+            let pageLoadCount=gameSession.timesGameLoaded;
+            pageLoadCount=pageLoadCount+1;
+            let data={
+                        timesGameLoaded:pageLoadCount
+                     }
+            $rootScope.updateGameSession(data);
+        }
+
+        this.incrementPageLoadCount();
+        
 
     });

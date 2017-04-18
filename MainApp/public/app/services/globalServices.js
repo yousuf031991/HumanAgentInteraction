@@ -9,9 +9,11 @@ angular.module('globalServices', []) //This is a service that sets the global pa
 
         			$rootScope.TRIALINFO_PAGE=1;
         			$rootScope.DEMOGRAPHICS_QUESTIONNAIRE=2;
-        			$rootScope.GAMEPAGE=3;
-        			$rootScope.TRUST_TASK_QUESTIONNAIRE=4; 
-        			$rootScope.THANKYOU_PAGE=5;     
+        			$rootScope.TUTORIAL=3;
+        			$rootScope.TRIAL_GAME=4;
+        			$rootScope.GAMEPAGE=5;
+        			$rootScope.TRUST_TASK_QUESTIONNAIRE=6; 
+        			$rootScope.THANKYOU_PAGE=7;     
               
 			        $rootScope.getCookieOptions=function(){
 			            var date=new Date();
@@ -33,10 +35,17 @@ angular.module('globalServices', []) //This is a service that sets the global pa
 			            return true;
 			            }
 
-			        $rootScope.createGameSession=function(){
+			        $rootScope.createGameSession=function(version){
+				        if(version==undefined)
+				        	version=1;
 				        var trialExpiry=new Date();
 	                    trialExpiry.setHours(trialExpiry.getHours()+$rootScope.TRIAL_DURATION_HOURS);
-	                    var gameSession={lastStageCompleted:0};
+	                    var gameSession={
+	                    					lastStageCompleted:0,
+	                    					timesGameLoaded:0,
+	                    					version: version
+
+	                    				};
 	                    gameSession.trialEnds=trialExpiry.toUTCString(); 
 	                    $cookies.putObject($rootScope.COOKIE_NAME,gameSession, $rootScope.getCookieOptions());
 	                    return gameSession; 
