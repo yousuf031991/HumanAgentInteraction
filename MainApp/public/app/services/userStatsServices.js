@@ -55,7 +55,7 @@ angular.module('userStatsServices', [])
 
         UserStatsFactory.setPageLoadCount=function(pageLoadCount){
             userStatsData.timesGameLoaded=pageLoadCount;
-        }
+        };
 
         return UserStatsFactory;
     });

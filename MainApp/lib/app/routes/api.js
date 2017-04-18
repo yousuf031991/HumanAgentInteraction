@@ -162,42 +162,6 @@ export default function (router) {
         }
     });
 
-    router.post('/game/userStatistics', function (req, res) {
-        let query = {'username': req.body.username};
-
-        let userStatistics = {};
-        userStatistics.finalScore = req.body.finalScore;
-        userStatistics.moves = req.body.moves;
-        userStatistics.gameConfigId = req.body.gameConfigId;
-        userStatistics.timesGameLoaded=req.body.timesGameLoaded;
-
-        let queryOptions = {
-            upsert: true,
-            setDefaultsOnInsert: true
-        };
-
-        // Since user stats record already exists, update.
-        UserStatistics.findOneAndUpdate(query, userStatistics, queryOptions, function (err, doc) {
-
-            if (err) {
-                res.send({success: false, message: "User statistics could not be saved"});
-            }
-            else {
-                res.send({success: true, message: "User statistics saved Successfully"});
-            }
-
-        });
-        // userStatistics.save(function (err) {
-        //     if (err) {
-        //         console.log(err);
-        //         res.send({success: false, message: "User statistics row not created"});
-        //     } else {
-        //         res.send({success: true, message: "User statistics row created"});
-        //     }
-        //
-        // });
-    });
-
     router.get("/viewAdmin", function (req, res) {
         Admin.find({role: "ADMIN"}, function (error, docs) {
             if (error) {
@@ -396,6 +360,9 @@ export default function (router) {
             userStatistics.versionNum = req.body.versionNum;
         }
 
+        if (req.body.timesGameLoaded != undefined) {
+            userStatistics.timesGameLoaded = req.body.timesGameLoaded;
+        }
         let queryOptions = {
             upsert: true,
             setDefaultsOnInsert: true
