@@ -1,5 +1,6 @@
-angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices'])
-    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope, $cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh) {
+angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices', 'scrollingServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,
+                            $cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh, Scrolling) {
         let app = this;
         let blinkTimer;
         let blinkTimer2;
@@ -8,7 +9,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
 
         (function startButton() {
-            alert("The goal is to save as many patients as possible");
+            alert("The goal is to save as many patients as possible. Please switch to landscape mode if using a " +
+                "mobile device or tablet!");
 
             // Get active game config and initialize game state object
             let activeGameConfig = {};
@@ -16,8 +18,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             let patientBCount;
 
             PatientService.getGameConfig().then(function (returnData) {
-                console.log("In start button");
+                //console.log("In start button");
                 if (returnData.data.success) {
+                    Scrolling('timeKeeper');
                     // console.log(returnData.data.config);
                     activeGameConfig = returnData.data.config;
                     app.gameState = new GameState(activeGameConfig);
@@ -43,10 +46,10 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
-                    console.log("In start button- success")
+                    //console.log("In start button- success")
                 } else {
                     console.log("Failed to get configuration");
-                    console.log(returnData.data);
+                    //console.log(returnData.data);
                 }
             });
 
@@ -60,11 +63,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             //alert("Number of patientACount and patientBCount in initialize" + patientACount + patientBCount)
 
             for (let i = 0; i < patientACount; i++) {
-                $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+                $("#P1").find("#patientA").append('<img src="assets/images/green.png" class="statusImages" height = "30px" width="30px" >');
             }
 
             for (let j = 0; j < patientBCount; j++) {
-                $("#P1").find("#patientB").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+                $("#P1").find("#patientB").append('<img src="assets/images/green.png" class="statusImages" height = "30px" width="30px" >');
             }
 
         }

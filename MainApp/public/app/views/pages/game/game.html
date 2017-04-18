@@ -32,30 +32,6 @@
 
         </div>
     </div>
-  
-   <!-- Game Over modal -->
-    <div class="modal fade" id="gameFinishedModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Done</h4>
-                </div>
-                <div id="modalbody" class="modal-body">
-                    <p>Congratulations. You have successfully finsihed the game. You saved {{gameData.gameState.score}} patients </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="gFMclose" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-
 
     <!-- Game Over modal -->
     <div class="modal fade" id="gameFinishedModal" role="dialog">
@@ -98,20 +74,23 @@
         </div>
     </div>
 
-    <div class="row well">
-        <div class="col-md-4">
-            <h3 class="text-left"><b>Time Left : {{counter}}</b></h3>
+    <div class="row" id="timeKeeper">
+        <div class="col-xs-4">
+            <div class="text-left"><b>Time Left - {{counter}}</b></div>
         </div>
-        <div class="col-md-8">
-            <h3><strong>Hospital Management Game</strong></h3>
+        <div class="col-xs-8">
+            <div><strong>Hospital Management Game</strong></div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-primary">
+        <div class="col-xs-4" id="resourcesCol">
+            <div class="panel panel-primary" id="waitingPanel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title hidden-xs">
+                        Your Waiting room
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Your Waiting room
                     </h3>
                 </div>
@@ -120,19 +99,22 @@
                     <strong> Patient B: <span id="patientB"></span><br/> </strong>
                 </div>
             </div>
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="resourcesPanel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title hidden-xs">
+                        Your Available Resources
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Your Available Resources
                     </h3>
                 </div>
                 <div class="panel-body" id="S1">
-                    <div class = "col-sm-6" >
+                    <div class = "col-xs-6" >
                         <strong>Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
                         <strong>Nurses   : <span id="totalNurses" class="sidebar"> {{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
                         <strong>Surgeons : <span id="totalSurgeons" class="sidebar"> {{gameData.gameState.numberOfSurgeons}} </span> <br/></strong>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
@@ -154,20 +136,23 @@
                     <!--</div>   -->
                 </div>
             </div>
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="neighWaitingPanel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title hidden-xs">
+                        Neighbor's Waiting room
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Neighbor's Waiting room
                     </h3>
                 </div>
                 <div class="panel-body" id="P2">
-                    <div class = "col-sm-6" >
+                    <div class = "col-xs-6" >
                         <strong>
                             <p class="text-center"> Patient A </p>
                         </strong>
                         <span id="otherPatientA"><div class="square center bg-green"></div></span><br/>
                     </div>
-                    <div class = "col-sm-6" >
+                    <div class = "col-xs-6" >
                         <strong>
                             <p class="text-center"> Patient B </p>
                         </strong>
@@ -175,19 +160,22 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="neighResourcesPanel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title hidden-xs">
+                        Neighbor's Available Resources
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Neighbor's Available Resources
                     </h3>
                 </div>
                 <div class="panel-body" id="S2">
-                    <div class = "col-sm-6" >
+                    <div class = "col-xs-6" >
                         <strong>Doctors :<span id="nbrDoctors" class="sidebar">{{gameData.gameState.otherNumberOfDoctors}} </span> <br/> </strong>
                         <strong>Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
                         <strong>Surgeons :<span id="nbrSurgeons" class="sidebar">{{gameData.gameState.otherNumberOfSurgeons}} </span> <br/> </strong>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
@@ -210,12 +198,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-4">
+        <div class="col-xs-8">
+            <div class="row" id="roomsRow">
+                <div class="col-xs-4" id="room1Col">
                     <div id="div1" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 1
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 1
                             </h3>
                         </div>
@@ -229,7 +220,10 @@
                     </div>
                     <div id="div2" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 2
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 2
                             </h3>
                         </div>
@@ -242,10 +236,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4" id="room2Col">
                     <div id="div3" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 3
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 3
                             </h3>
                         </div>
@@ -259,7 +256,10 @@
                     </div>
                     <div id="div4" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 4
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 4
                             </h3>
                         </div>
@@ -272,10 +272,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4" id="room3Col">
                     <div id="div5" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 5
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 5
                             </h3>
                         </div>
@@ -289,7 +292,10 @@
                     </div>
                     <div id="div6" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 6
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 6
                             </h3>
                         </div>
@@ -304,15 +310,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <br>
+                <div class="col-xs-12" id="playButtonsDiv">
+                    <br class="hidden-xs">
                     <div class="btn-group btn-group-justified" id="prdiv">
                         <a href="#" class="btn btn-primary" id="patients">Assign Patients</a>
                         <a href="#" class="btn btn-primary" id="resources">Assign Resources</a>
                         <a href="#" class="btn btn-primary" id="shareResources">Share Resources</a>
                     </div>
                     <div id="patientsgroup" style="display: none;">
-                        <br/>
+                        <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
                             <a class="btn btn-primary" id="btnA">Patient A</a>
                             <a href="#" class="btn btn-primary" id="btnB">Patient B</a>
@@ -322,7 +328,7 @@
                     </div>
 
                     <div id="resourcesGroup" style="display: none;">
-                        <br/>
+                        <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
                             <a href='#' class="btn btn-primary" id="btnDoctor">Doctor</a>
                             <a href="#" class="btn btn-primary" id="btnNurse">Nurse</a>
@@ -336,7 +342,7 @@
 
                     <!-- Request Resources Button Group -->
                     <div id="requestGroup" style="display: none;">
-                        <br/>
+                        <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
                             <a href="#" class="btn btn-primary" id="btnShareDoctor">Doctor</a>
                             <a href="#" class="btn btn-primary" id="btnShareNurse">Nurse</a>
@@ -364,7 +370,7 @@
 
 <!-- <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
       <h3><strong>Hi {{gameData.username}}! Welcome to Hospital Management Game.</strong></h3>
     </div>
   </div>
@@ -446,6 +452,3 @@
     </div>  
 </div>
 </div> -->
-<!-- 
-</body>
-</html>
