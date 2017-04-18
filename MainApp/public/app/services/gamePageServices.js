@@ -384,11 +384,15 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         gameState.numberOfNurses -= 1;
 
                         $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
+                        console.log(roomMap.get(myroomid).patientType);
+
                         if (roomMap.get(myroomid).patientType == 'Patient A' && roomMap.get(myroomid).nDoctors == 0) {
-                            $("#" + myroomid + "span[id='hint'").text("Doctor needed!");
+                            $("#" + myroomid + " span[id='hint'").text("Doctor needed!");
                         } else if (roomMap.get(myroomid).patientType == 'Patient B' && roomMap.get(myroomid).nSurgeons == 0) {
+                            console.log("Doctor Needed");
                             $("#" + myroomid + " span[id='hint'").text("Surgeon needed!");
                         } else {
+                            console.log("Empty");
                             $("#" + myroomid + " span[id='hint'").text("");
                         }
                     } else {
