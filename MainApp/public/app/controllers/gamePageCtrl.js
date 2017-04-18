@@ -5,8 +5,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         let blinkTimer2;
 
         // TODO: Obtain versionNum from cookie
-        let versionNum = 2;
+        let versionNum = $rootScope.getGameVersion();
+        if (versionNum != undefined)
+            versionNum = 1;
 
+        console.log("Version: " + versionNum);
         Refresh.checkRefresh();
         app.username = $rootScope.username;
 
