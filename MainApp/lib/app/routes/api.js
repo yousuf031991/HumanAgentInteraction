@@ -171,8 +171,13 @@ export default function (router) {
         userStatistics.gameConfigId = req.body.gameConfigId;
         userStatistics.timesGameLoaded=req.body.timesGameLoaded;
 
+        let queryOptions = {
+            upsert: true,
+            setDefaultsOnInsert: true
+        };
+
         // Since user stats record already exists, update.
-        UserStatistics.findOneAndUpdate(query, userStatistics, {upsert: true}, function (err, doc) {
+        UserStatistics.findOneAndUpdate(query, userStatistics, queryOptions, function (err, doc) {
 
             if (err) {
                 res.send({success: false, message: "User statistics could not be saved"});
@@ -374,8 +379,12 @@ export default function (router) {
             userstatistics.trustAndTaskQuestionnaire = req.body.trustAndTaskQuestionnaire;
         }
 
+        let queryOptions = {
+            upsert: true,
+            setDefaultsOnInsert: true
+        };
 
-        UserStatistics.findOneAndUpdate(query, userstatistics, {upsert: true}, function (err, doc) {
+        UserStatistics.findOneAndUpdate(query, userstatistics, queryOptions, function (err, doc) {
             if (err) {
                 res.send({success: false, message: "User statistics could not be saved"});
             }

@@ -21,25 +21,19 @@ let userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
-    moves: [String],
-    demographics: [
-        {
+    moves: [{}],
+    demographics: [{
             question: String,
             response: Schema.Types.Mixed
-        }
-    ],
-    trustAndTaskQuestionnaire: [
-        {
+        }],
+    trustAndTaskQuestionnaire: [{
             question: String,
             response: String
-        }
-    ],
-    
+        }],
     timeOf: {
         type: Date,
         default: Date.now
     },
-
     timesGameLoaded:{
         type: Number
     }
