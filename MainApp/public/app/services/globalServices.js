@@ -66,9 +66,14 @@ angular.module('globalServices', []) //This is a service that sets the global pa
 	                    }
 	                    return gameSession;
 			        }
+
+			        $rootScope.getGameVersion=function(){
+			        	return $rootScope.getSession().version;
+			        }
 			        	
         }
         return globalFactory;
+			        }
 	
     });
    
