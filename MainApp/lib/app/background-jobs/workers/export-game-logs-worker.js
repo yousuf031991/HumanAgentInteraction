@@ -121,10 +121,11 @@ process.on("message", (msg) => {
 
 
                     let questionRow = {
-                        loggedAt: (new Date(log.timeOf)).toString(),
+                        loggedAt: (new Date(log.timeOf)),
                         userID: log.username,
                         gameConfigId: log.gameConfigId,
                         finalScore: log.finalScore,
+                        timesGameLoaded: log.timesGameLoaded
                     };
 
                     let counter = 0;
