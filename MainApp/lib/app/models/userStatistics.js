@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validate from "mongoose-validator";
 const Schema = mongoose.Schema;
 
+
 let numberValidator = [
     validate({
         validator: 'isNumeric',
