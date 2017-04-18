@@ -50,5 +50,9 @@ angular.module('userStatsServices', [])
             return $http.post('/api/game/userStatistics', userStatsData);
         };
 
+        UserStatsFactory.setPageLoadCount=function(pageLoadCount){
+            userStatsData.timesGameLoaded=pageLoadCount;
+        }
+
         return UserStatsFactory;
     });

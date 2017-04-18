@@ -169,6 +169,7 @@ export default function (router) {
         userStatistics.finalScore = req.body.finalScore;
         userStatistics.moves = req.body.moves;
         userStatistics.gameConfigId = req.body.gameConfigId;
+        userStatistics.timesGameLoaded=req.body.timesGameLoaded;
 
         // Since user stats record already exists, update.
         UserStatistics.findOneAndUpdate(query, userStatistics, {upsert: true}, function (err, doc) {

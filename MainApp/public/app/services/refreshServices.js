@@ -3,12 +3,19 @@ angular.module('refreshServices', []) //Service that checks whether a page was r
         
         let refreshFactory={};
 
-        refreshFactory.checkRefresh=function() {
+        refreshFactory.checkRefresh=function(currentStage) {
             
+            var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+
+            if(gameSession.lastStageCompleted>=currentStage){
+                $location.path('/');
+                return;
+            }
+  
             var refreshed=(window.performance.navigation.type==1);
+                        
 
             if(refreshed){// If the page is refreshed load the username from cookie
-                    var gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
                     var timeout=$rootScope.checkTimeout(gameSession);
                     if(!timeout){
                         $rootScope.username=gameSession.username;

@@ -21,19 +21,29 @@ let userStatisticsSchema = new Schema({
         type: Number,
         validate: numberValidator,
     },
-    moves:[{}],
-    demographics:[{
-        question: String,
-        response: Schema.Types.Mixed
-    }],
-    trustAndTaskQuestionnaire:[{
-        question: String,
-        response: String
-    }],
+    moves: [String],
+    demographics: [
+        {
+            question: String,
+            response: Schema.Types.Mixed
+        }
+    ],
+    trustAndTaskQuestionnaire: [
+        {
+            question: String,
+            response: String
+        }
+    ],
+    
     timeOf: {
         type: Date,
         default: Date.now
+    },
+
+    timesGameLoaded:{
+        type: Number
     }
+
 });
 
 export default mongoose.model('UserStatistics', userStatisticsSchema, 'userStatistics');
