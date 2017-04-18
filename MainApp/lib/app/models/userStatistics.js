@@ -33,6 +33,12 @@ let userStatisticsSchema = new Schema({
             response: String
         }
     ],
+    
+    timeOf: {
+        type: Date,
+        default: Date.now
+    },
+
     timesGameLoaded:{
         type: Number
     }
