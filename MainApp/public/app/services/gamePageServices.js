@@ -338,8 +338,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                 let __roomId = myroomid.replace("R", "div");
 
-                console.log(myroomid);
-                console.log(roomMap.get(myroomid));
+                // console.log(myroomid);
+                console.log(gameState);
 
                 if (resourceId === 'btnDoctor') {
                     // Checking if enough doctors are present

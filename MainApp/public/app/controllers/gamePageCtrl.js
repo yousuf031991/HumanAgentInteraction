@@ -5,8 +5,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         let blinkTimer;
         let blinkTimer2;
         let versionNum = $rootScope.getGameVersion();
-        if (versionNum != undefined)
+        console.log("Version: " + versionNum);
+        if (versionNum == undefined) {
             versionNum = 1;
+        }
+
         console.log("Version: " + versionNum);
         Refresh.checkRefresh($rootScope.GAMEPAGE);
         app.username=$rootScope.username;
