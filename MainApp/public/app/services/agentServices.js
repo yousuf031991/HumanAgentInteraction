@@ -10,7 +10,7 @@ angular.module('agentServices', [])
             clearTimeout(collectTimer);
             clearTimeout(helpTimer);
             clearTimeout(shareTimer);
-        }
+        };
 
     	agentFactory.fulfillRequestAlgorithm = function(currentResources, otherHospitalResources, cooperationType) {
 			/**
@@ -27,7 +27,7 @@ angular.module('agentServices', [])
     		let total = currentResources + otherHospitalResources;
 
     		// If cooperation mode is high, agent fulfills request even when it has low resources
-    		if(cooperationType === 'high') {
+    		if(cooperationType === 'HIGH COOPERATION') {
 				if(total >= 0 && total <= 2) {
                     // Always fulfills request if total available resources between 0 and 2
                     return true;
@@ -163,10 +163,6 @@ angular.module('agentServices', [])
             }, treatmentTimeInMs);
 
             gameState.otherNumberOfRooms += 1;
-        };
-
-        agentFactory.interruptionRequest = function(resourceType) {
-            // TODO: Add interrupt request implementation
         };
 
     	// Agent playing algorithm

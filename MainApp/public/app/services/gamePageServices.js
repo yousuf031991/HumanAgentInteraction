@@ -22,6 +22,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         roomData.collect = false;
 
         let startTimeMilliseconds = 480000;
+        let patientHelpTimeInSeconds;
         let practiceRound = false;
         // let interruptOn = false;
         let numPatientsForHighQuintuplet = 8;
@@ -35,36 +36,44 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let earlySlowPattern = true;
         let color;
 
+        let roomTimers = [];
         // Create room instances
         let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
         let divIds = ['div1', 'div2', 'div3', 'div4', 'div5', 'div6'];
         let circleAIds = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
         let circleBIds = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6'];
 
-
-        for (let i = 0, len = roomIds.length; i < len; i++) {
-            roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
-            map.set(divIds[i], "green");
-            patientMap.set(divIds[i], null);
-        }
-
         let circleAs = [];
         let circleBs = [];
 
-        // Assume circleA and circleB lengths are equal
-        for (let i = 0; i < circleAIds.length; i++) {
-            circleAs.push(new Circle(circleAIds[i]));
-            circleBs.push(new Circle(circleBIds[i]));
-        }
+        gamePageFactory.initialize = function (gameState) {
+            earlySlowPattern = gameState.cooperationMode == 'EARLY SLOW';
+            patientHelpTimeInSeconds = gameState.patientHelpTime;
 
-        gamePageFactory.clearTimers = function() {
+            // Initialize rooms
+            for (let i = 0, len = roomIds.length; i < len; i++) {
+                roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
+                map.set(divIds[i], "green");
+                patientMap.set(divIds[i], null);
+            }
+
+            // Initialize the circles
+            for (let i = 0; i < circleAIds.length; i++) {
+                circleAs.push(new Circle(circleAIds[i]));
+                circleBs.push(new Circle(circleBIds[i]));
+            }
+
+            // initialize sidebar queue.
+            gamePageFactory.updatePlayerPatientsInSideBar(gameState.numberOfPatientAs, gameState.numberOfPatientBs);
+        };
+        gamePageFactory.clearTimers = function () {
 
             clearTimeout(newPatientTimer);
-            clearTimeout(newNHPatientTimer); 
-                       
-        }
+            clearTimeout(newNHPatientTimer);
 
-        gamePageFactory.resetDivs = function() {
+        };
+
+        gamePageFactory.resetDivs = function () {
 
 
             $("#P1").find("#patientA").html("");
@@ -78,7 +87,12 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 map.set(divIds[i], "green");
                 patientMap.set(divIds[i], null);
             }
-        }
+
+            console.log(roomTimers);
+            for (let i = 0, len = roomTimers.length; i < len; i++) {
+                clearInterval(roomTimers[i]);
+            }
+        };
 
         gamePageFactory.create = function (userStatsData) {
             return $http.post('/api/userStatistics', userStatsData);
@@ -94,6 +108,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.updatePlayerPatientsInSideBar = function (patientACount, patientBCount) {
+            console.log("(updatePlayerPatientsInSideBar) Patient A: " + patientACount);
+            console.log("(updatePlayerPatientsInSideBar) Patient B: " + patientBCount);
+
             for (let i = 0; i < circleAs.length; i++) {
                 circleAs[i].setVisibility('invisible', 'A');
                 circleBs[i].setVisibility('invisible', 'B');
@@ -175,6 +192,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 if (earlySlowPattern) {
                     switch (gamePageFactory.whichQuintupletTimeLeft()) {
                         case 1:
+                            milliseconds = quintupletTimeLeft / numPatientsForHighQuintuplet;
+                            break;
                         case 3:
                         case 5:
                         case 2:
@@ -191,6 +210,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 else {
                     switch (gamePageFactory.whichQuintupletTimeLeft()) {
                         case 1:
+                            milliseconds = quintupletTimeLeft / numPatientsForHighQuintuplet;
+                            break;
                         case 3:
                         case 5:
                         case 4:
@@ -213,7 +234,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.countdownTimer = function (milliseconds, gameState) {
-             newPatientTimer = setTimeout(function () {
+            newPatientTimer = setTimeout(function () {
                 if (totalTimeLeftInMilliseconds !== 0) {
                     let patient = parseInt(Math.random() * ((1) + 1));
                     let totalPatients = gameState.numberOfPatientAs + gameState.numberOfPatientBs;
@@ -272,7 +293,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     }
                 }
                 else {
-                    switch (whichQuintupletTimeLeft()) {
+                    switch (gamePageFactory.whichQuintupletTimeLeft()) {
                         case 1:
                         case 3:
                         case 5:
@@ -361,13 +382,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 let myroomid = e.currentTarget.id;
                 let __roomId = myroomid.replace("R", "div");
 
-                console.log(gameState);
+                // console.log(gameState);
                 console.log("resource id" + resourceId);
 
                 if (resourceId === 'btnDoctor') {
                     // Checking if enough doctors are present
                     //dis
-                   
+
                     if (gameState.numberOfDoctors > 0) {
                         gameState.numberOfDoctors -= 1;
                         roomMap.get(myroomid).nDoctors = 1;
@@ -376,12 +397,12 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                             $("#" + myroomid + " span[id='hint'").text("Nurse needed!");
                         }
                     } else {
-                            if (gameState.numberOfDoctors == 0) {
-                                 $('#notifyModalTitle').text("Error");
-                                 $("#notifyModalbody").text("Insufficient Number of Doctors");
-                        //noinspection JSUnresolvedFunction
-                                $("#notifyModal").modal("show");
-                            }
+                        if (gameState.numberOfDoctors == 0) {
+                            $('#notifyModalTitle').text("Error");
+                            $("#notifyModalbody").text("Insufficient Number of Doctors");
+                            //noinspection JSUnresolvedFunction
+                            $("#notifyModal").modal("show");
+                        }
                         userStats.addMove("FailAssign,Doctor", currentTime, gameState);
                     }
 
@@ -399,21 +420,21 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         }
                     } else {
 
-                         if (gameState.numberOfSurgeons == 0) {
+                        if (gameState.numberOfSurgeons == 0) {
 
-                             $('#notifyModalTitle').text("Error");
-                        $("#notifyModalbody").text("Insufficient Number of Surgeons");
-                        //noinspection JSUnresolvedFunction
-                        $("#notifyModal").modal("show");
+                            $('#notifyModalTitle').text("Error");
+                            $("#notifyModalbody").text("Insufficient Number of Surgeons");
+                            //noinspection JSUnresolvedFunction
+                            $("#notifyModal").modal("show");
 
 
-                         }
-                       
+                        }
+
                         userStats.addMove("FailAssign,Surgeon", currentTime, gameState);
                     }
 
-                     $('#btnDoctor').removeClass('disabled');
-                     $('#btnNurse').removeClass('disabled');
+                    $('#btnDoctor').removeClass('disabled');
+                    $('#btnNurse').removeClass('disabled');
                 } else if (resourceId === 'btnNurse') {
                     // Checking if enough nurses are present
                     if (gameState.numberOfNurses > 0) {
@@ -421,7 +442,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         roomMap.get(myroomid).nNurses = 1;
                         $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
                         if (roomMap.get(myroomid).patientType == 'Patient A' && roomMap.get(myroomid).nDoctors == 0) {
-                            $("#" + myroomid + "span[id='hint'").text("Doctor needed!");
+                            $("#" + myroomid + " span[id='hint'").text("Doctor needed!");
                         } else if (roomMap.get(myroomid).patientType == 'Patient B' && roomMap.get(myroomid).nSurgeons == 0) {
                             $("#" + myroomid + " span[id='hint'").text("Surgeon needed!");
                         } else {
@@ -429,15 +450,15 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         }
                     } else {
 
-                         if (gameState.numberOfNurses > 0) {
+                        if (gameState.numberOfNurses == 0) {
 
-                        $('#notifyModalTitle').text("Error");
-                        $("#notifyModalbody").text("Insufficient Number of Nurses");
-                        //noinspection JSUnresolvedFunction
-                        $("#notifyModal").modal("show");
+                            $('#notifyModalTitle').text("Error");
+                            $("#notifyModalbody").text("Insufficient Number of Nurses");
+                            //noinspection JSUnresolvedFunction
+                            $("#notifyModal").modal("show");
 
-                         }
-                       
+                        }
+
                         userStats.addMove("FailAssign,Nurse", currentTime, gameState);
                     }
 
@@ -457,18 +478,18 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         gamePageFactory.update2(gameState.numberOfPatientAs, gameState.numberOfPatientBs);
                     } else {
 
-                          if (gameState.numberOfPatientAs == 0) {
+                        if (gameState.numberOfPatientAs == 0) {
 
-                                $('#notifyModalTitle').text("Error");
-                        $("#notifyModalbody").text("Insufficient Number of Patient As");
-                        //noinspection JSUnresolvedFunction
-                        $("#notifyModal").modal("show");
-                           
+                            $('#notifyModalTitle').text("Error");
+                            $("#notifyModalbody").text("Insufficient Number of Patient As");
+                            //noinspection JSUnresolvedFunction
+                            $("#notifyModal").modal("show");
 
-                           }
 
-                         success = false;
-                        
+                        }
+
+                        success = false;
+
                     }
 
                     $('#btnB').removeClass('disabled');
@@ -485,16 +506,16 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                         gamePageFactory.update2(gameState.numberOfPatientAs, gameState.numberOfPatientBs);
                     } else {
 
-                         if (gameState.numberOfPatientBs == 0) {
+                        if (gameState.numberOfPatientBs == 0) {
                             $('#notifyModalTitle').text("Error");
-                        $("#notifyModalbody").text("Insufficient Number of Patient Bs");
-                        //noinspection JSUnresolvedFunction
-                        $("#notifyModal").modal("show");
+                            $("#notifyModalbody").text("Insufficient Number of Patient Bs");
+                            //noinspection JSUnresolvedFunction
+                            $("#notifyModal").modal("show");
 
 
                         }
                         success = false;
-                       
+
                     }
 
                     $('#btnA').removeClass('disabled');
@@ -528,8 +549,9 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             let x = patientACount;
             let y = patientBCount;
 
-             console.log("patientACount" + patientACount + ". patientBCount" + patientBCount)
-            console.log("printing total:" + total)
+            console.log("(Update2) Patient A: " + patientACount);
+            console.log("(Update2) Patient B: " + patientBCount);
+
 
             patientADiv = $("#P1").find("#patientA");
             patientBDiv = $("#P1").find("#patientB");
@@ -584,7 +606,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             // Update game score
             gameState.score += 1;
             console.log("Printing score in collectresource" + gameState.score)
-            console.log(gameState);
+            // console.log(gameState);
             $('#playerScore').trigger('change');
 
 
@@ -644,14 +666,16 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             //iterate over map and collect resources
             roomMap.forEach(function (value, key) {
                 if (value.patientType === 'Patient A' && value.nDoctors === 1 && value.nNurses === 1 && value.collect === false) {
-                    value.timeStarted = 60;
+                    value.timeStarted = gameState.patientHelpTime;
+                    $("#hint").text("");
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
-                    gamePageFactory.showTimer(key, gameState, currentTime, userStats);
+                    roomTimers.push(gamePageFactory.showTimer(key, gameState, currentTime, userStats));
                     value.collect = true;
                 } else if (value.patientType === 'Patient B' && value.nSurgeons === 1 && value.nNurses === 1 && value.collect === false) {
-                    value.timeStarted = 60;
+                    value.timeStarted = gameState.patientHelpTime;
+                    $("#hint").text("");
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
-                    gamePageFactory.showTimer(key, gameState, currentTime, userStats);
+                    roomTimers.push(gamePageFactory.showTimer(key, gameState, currentTime, userStats));
                     value.collect = true
                 }
             });
@@ -659,8 +683,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
 
         gamePageFactory.showTimer = function (key, gameState, currentTime, userStats) {
-            let seconds = 60;
-            let rt = "01:00";
+            let seconds = patientHelpTimeInSeconds;
+            let rt = "" + Math.round((seconds - 30) / 60) + ":" + seconds % 60;
 
             let roomTimer = setInterval(function () {
                 let minutes = Math.round((seconds - 30) / 60),
@@ -693,6 +717,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 $("#" + key + " #timerForRoom").text("Time left: " + rt);
 
             }, 1000);
+
+            return roomTimer;
 
         };
 
