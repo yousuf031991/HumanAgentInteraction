@@ -4,8 +4,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         let app = this;
         let blinkTimer;
         let blinkTimer2;
+        let x=0,y=0,z=0;
         Refresh.checkRefresh();
         app.username=$rootScope.username;
+
+
         (function startButton() {
 
             // Get active game config and initialize game state object
@@ -46,13 +49,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             //PatientService.resetDivs();
             startGameDuties();
 
-           /* console.log("GameLoad in actualGame:" +$rootScope.gameload);
+            console.log("GameLoad in actualGame:" +$rootScope.gameload);
             if($rootScope.gameload == '0') {
                 $rootScope.gameload = '1';
                 console.log("reloading page")
-                $route.reload();  
+                $route.reload();
             }
-            showStartModal();*/
+            //showStartModal();*/
         }
 
         function showStartModal() {
@@ -64,6 +67,10 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         }
 
         function initializeSideBarQueue(patientACount, patientBCount) {
+
+            $("#P1").find("#patientA").html("");
+            $("#P1").find("#patientB").html("");
+
             for (let i = 0; i < patientACount; i++) {
                 $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
             }
@@ -76,6 +83,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         //Binding events in angular world
         angular.element(document).ready(function () {
+
+
 
             $("#patients").click(function () {
                     resetMsg();
@@ -215,28 +224,40 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         $('#btnA').click(function (event) {
             //check if patientA is available in waiting room
+            $('#btnB').addClass('disabled');
             PatientService.assignRoom(event.target.id, app.gameState, UserStats)
 
         });
 
         $('#btnB').click(function (event) {
+
+            $('#btnA').addClass('disabled');
             PatientService.assignRoom(event.target.id, app.gameState, UserStats)
         });
 
 
+
         $('#btnDoctor').click(function (event) {
+
+            $('#btnSurgeon').addClass('disabled');
+            $('#btnNurse').addClass('disabled'); 
             PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
         });
 
 
         $('#btnSurgeon').click(function (event) {
-            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+
+             $('#btnDoctor').addClass('disabled');
+             $('#btnNurse').addClass('disabled');  
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);       
         });
 
 
         $('#btnNurse').click(function (event) {
-            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-            //console.log(UserStats.getStats());
+
+             $('#btnDoctor').addClass('disabled');
+             $('#btnSurgeon').addClass('disabled');  
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);   
         });
 
         // Listener for the request resource buttons  
@@ -353,6 +374,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         
         function startGameDuties() {
             
+            
             PatientService.getGameConfig().then(function (returnData) {
                 console.log("In start button");
                 if (returnData.data.success) {
@@ -406,7 +428,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             let seconds = 0;
 
             if($location.path() == '/practicePage') {
-                seconds = 30;
+                seconds = 120;
             } else {
                 seconds = app.gameState.startTime;
                 console.log("gamestate seconds: " + seconds)
@@ -465,6 +487,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
                  console.log("Gameload value set in checkPath" +$rootScope.gameload);
                  $window.location.href = '/gamepage/' + app.username;
+
 
                 
 
