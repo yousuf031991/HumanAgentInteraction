@@ -8,12 +8,6 @@ var gameConfigSchema = new Schema({
         required: 'Cooperation field is empty!',
         enum: ['HIGH COOPERATION', 'LOW COOPERATION']
     },
-    mode: {
-        type: String,
-        uppercase: true,
-        required: 'Mode field is empty!',
-        enum: ['NORMAL MODE', 'PRACTICE MODE']
-    },
     earlyType: {
         type: String,
         uppercase: true,
