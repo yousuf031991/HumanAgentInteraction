@@ -1,14 +1,13 @@
-angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices'])
-    .controller('gamePageCtrl', function ($window, $route, $scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope, $cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh, $templateCache) {
-
+angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refreshServices', 'scrollingServices'])
+    .controller('gamePageCtrl', function ($scope, $http, $routeParams, $timeout, $location, $anchorScroll, $rootScope,$cookies, PatientService, Room, Agent, Circle, GameState, UserStats, Refresh, Scrolling, $templateCache) {
         let app = this;
         let blinkTimer;
         let blinkTimer2;
-        let x = 0, y = 0, z = 0;
-        Refresh.checkRefresh();
-        app.username = $rootScope.username;
+        Refresh.checkRefresh($rootScope.GAMEPAGE);
+        app.username=$rootScope.username;
 
-
+    
+//Start function: Self invoked
         (function startButton() {
             if ($location.path() == '/practicePage') {
                 practiceGame();
@@ -17,22 +16,25 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             }
         })();
 
+
         function practiceGame() {
 
             $("#practiceMode").text(" Practice Mode");
-            alert("Practice Mode. You are entering practice mode of 2 minutes.");
+            alert("Practice Mode\n\n"+
+                "You are entering practice mode of 2 minutes.\n\n " + 
+                "The goal is to save as many patients as possible. Please switch to landscape mode if using a mobile device or tablet!");
             startGameDuties();
-
         }
 
+    
         function actualGame() {
-
-            alert("You are successfully done with practice session. You are now entering " +
-                "actual game. The goal is to save as many patients as possible. Good luck");
+            
+            alert("You are successfully done with practice session.\n\n " +
+                  "You are now entering actual game.\n\n " +
+                  "The goal is to save as many patients as possible. Please switch to landscape mode if using a mobile device or tablet!. Good luck");
             PatientService.resetDivs();
             startGameDuties();
         }
-
 
         function initializeSideBarQueue(patientACount, patientBCount) {
 
@@ -40,22 +42,21 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             $("#P1").find("#patientB").html("");
 
             for (let i = 0; i < patientACount; i++) {
-                $("#P1").find("#patientA").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+                $("#P1").find("#patientA").append('<img src="assets/images/green.png" class="statusImages" height = "30px" width="30px" >');
             }
 
             for (let j = 0; j < patientBCount; j++) {
-                $("#P1").find("#patientB").append('<img src="assets/images/green.png" height = "30px" width="30px" >');
+                $("#P1").find("#patientB").append('<img src="assets/images/green.png" class="statusImages" height = "30px" width="30px" >');
             }
 
         }
 
+    
         //Binding events in angular world
         angular.element(document).ready(function () {
 
-
             $("#patients").click(function () {
                 resetMsg();
-                console.log("hello from")
                 $('#patientsgroup').show();
                 $('#resources').show();
                 $('#shareResources').show();
@@ -71,11 +72,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 blinkTimer = setInterval(function () {
 
                     if (count >= 5) {
-                        console.log("Count: " + count);
                         $('#playerScoreDiv').css({'background': ''});
                         clearInterval(blinkTimer);
                     }
-                    // console.log ("in set interval")
                     $('#playerScoreDiv').toggleClass('backgroundRed');
                     count++;
                 }, 500);
@@ -89,7 +88,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                         $('#agentScoreDiv').css({'background': ''});
                         clearInterval(blinkTimer2);
                     }
-                    // console.log ("in set interval")
                     $('#agentScoreDiv').toggleClass('backgroundRed');
                     count++;
                 }, 500);
@@ -120,9 +118,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             });
 
             function timerClock() {
-                // Building the timer from game config
-                // Disabling for debugging purpose only
-                // let seconds = app.gameState.startTime;
+                
                 let seconds = 60;
                 let minutes = seconds / 60;
                 let remainingSeconds = seconds % 60;
@@ -145,8 +141,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     mytimeout = $timeout($scope.onTimeout, 1000);
                     if (seconds == 0) {
                         $scope.counter = "00:00";
-                        console.log(seconds);
-
                         stopTimer(mytimeout);
                     }
                 };
@@ -155,39 +149,22 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             }
 
             $('#btnA').click(function (event) {
-                //check if patientA is available in waiting room
-                // $('#btnB').addClass('disabled');
                 PatientService.assignRoom(event.target.id, app.gameState, UserStats)
-
             });
 
             $('#btnB').click(function (event) {
-
-                // $('#btnA').addClass('disabled');
                 PatientService.assignRoom(event.target.id, app.gameState, UserStats)
             });
 
-
             $('#btnDoctor').click(function (event) {
-
-                // $('#btnSurgeon').addClass('disabled');
-                // $('#btnNurse').addClass('disabled');
                 PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
-
 
             $('#btnSurgeon').click(function (event) {
-
-                // $('#btnDoctor').addClass('disabled');
-                // $('#btnNurse').addClass('disabled');
                 PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
 
-
             $('#btnNurse').click(function (event) {
-
-                // $('#btnDoctor').addClass('disabled');
-                // $('#btnSurgeon').addClass('disabled');
                 PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
 
@@ -209,8 +186,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     $("#notifyModal").modal("show");
                     UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
                 }
-
-
             });
 
             $('#btnShareSurgeon').click(function () {
@@ -254,9 +229,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             });
 
             $("#startModalClose").on("click", function () {
-
                 $("#startModal").modal("hide");
-                console.log("startModal clicked");
                 startGameDuties();
 
             });
@@ -265,27 +238,24 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
 
         function startGameDuties() {
-
-
+            
+            let activeGameConfig = {};
             PatientService.getGameConfig().then(function (returnData) {
-                console.log("In start button");
+                
                 if (returnData.data.success) {
-                    // console.log(returnData.data.config);
+                   
+                    Scrolling('timeKeeper');
                     activeGameConfig = returnData.data.config;
-
                     app.gameState = {};
                     app.gameState = new GameState(activeGameConfig);
-
-                    // patientACount = activeGameConfig.startNumPatientAs;
-                    // patientBCount = activeGameConfig.startNumPatientBs;
-
+                    
                     // Start clock
                     timerClock();
-
                     PatientService.initialize(app.gameState);
+                    
                     // Initialize Side Bar with start number of patients specified in config file
                     //initializeSideBarQueue(patientACount, patientBCount);
-
+                    
                     // Start patient queueing algorithm for player.
                     PatientService.newPatient(app.gameState);
                     PatientService.newPatientforNH(app.gameState);
@@ -298,7 +268,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
-                    console.log("In start button- success")
                 } else {
                     console.log("Failed to get configuration");
                     console.log(returnData.data);
@@ -308,15 +277,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         }
 
         function timerClock() {
+            
             // Building the timer from game config
-
             let seconds = 0;
-
             if ($location.path() == '/practicePage') {
                 seconds = 120;
             } else {
                 seconds = app.gameState.startTime;
-                console.log("gamestate seconds: " + seconds)
             }
 
             let minutes = seconds / 60;
@@ -340,7 +307,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 mytimeout = $timeout($scope.onTimeout, 1000);
                 if (seconds == 0) {
                     $scope.counter = "00:00";
-                    console.log(seconds);
 
                     stopTimer(mytimeout);
                 }
@@ -350,27 +316,33 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         }
 
         function stopTimer(mytimeout) {
-            console.log("Time stopped");
+            
             $timeout.cancel(mytimeout);
             checkPath();
-
+        }
+    
+        function getPageLoadCount(){
+            
+            let gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+            let pageLoadCount=gameSession.timesGameLoaded;
+            return pageLoadCount;
         }
 
         function checkPath() {
+            
             if ($location.path() == '/practicePage') {
-
+                
                 //clear all the active timers of gamePageServices
-                console.log("Clearing all timers");
                 PatientService.clearTimers();
                 Agent.clearTimers();
-
-                console.log("Before going to acutal game");
-                console.log(app.gameState);
 
                 PatientService.resetDivs();
 
                 $location.path('/gamepage/' + app.username);
             } else {
+               
+                UserStats.updateScore(app.gameState.score);
+                UserStats.setPageLoadCount(getPageLoadCount());
                 UserStats.addRecord();
                 showFinishedModal();
             }
@@ -378,12 +350,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
 
         function showFinishedModal() {
+            
             $("#gameFinishedModal").modal("show");
-            console.log("Shown");
             gameFinished();
         }
 
         function gameFinished() {
+            
             $("#gFMclose").bind("click", function () {
                 $("#gameFinishedModal").modal("hide")
                 $timeout(function () {
@@ -396,7 +369,6 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     $location.path('/trustAndTaskQuestionnaire');
 
                 });
-                console.log("hidden")
             });
         }
 
@@ -404,4 +376,17 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             app.errorMsg = false;
             app.successMsg = false;
         }
+
+        this.incrementPageLoadCount=function(){
+            let gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
+            let pageLoadCount=gameSession.timesGameLoaded;
+            pageLoadCount=pageLoadCount+1;
+            let data={
+                        timesGameLoaded:pageLoadCount
+                     }
+            $rootScope.updateGameSession(data);
+        }
+
+        this.incrementPageLoadCount();
+
     });

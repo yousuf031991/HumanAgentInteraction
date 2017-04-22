@@ -18,29 +18,41 @@ angular.module('userStatsServices', [])
 
         UserStatsFactory.addMove = function (moveInfo, mainTimeLeft, gameState) {
             let totalScore = gameState.score + gameState.otherScore;
-            let csvLine = moveInfo + ","
-                + mainTimeLeft + ","
-                + gameState.numberOfNurses + ","
-                + gameState.numberOfDoctors + ","
-                + gameState.numberOfSurgeons + ","
-                + gameState.otherNumberOfNurses + ","
-                + gameState.otherNumberOfDoctors + ","
-                + gameState.otherNumberOfSurgeons + ","
-                + gameState.numberOfPatientAs + ","
-                + gameState.numberOfPatientBs + ","
-                + gameState.otherNumberOfPatientAs + ","
-                + gameState.otherNumberOfPatientBs + ","
-                + gameState.score + ","
-                + gameState.otherScore + ","
-                + totalScore;
 
-            userStatsData.moves.push(csvLine);
+            let data = {
+                moveInfo: moveInfo,
+                mainTimeLeft: mainTimeLeft,
+                numberOfNurses: gameState.numberOfNurses,
+                numberOfDoctors: gameState.numberOfDoctors,
+                numberOfSurgeons: gameState.numberOfSurgeons,
+                otherNumberOfNurses: gameState.otherNumberOfNurses,
+                otherNumberOfDoctors: gameState.otherNumberOfDoctors,
+                otherNumberOfSurgeons: gameState.otherNumberOfSurgeons,
+                numberOfPatientAs: gameState.numberOfPatientAs,
+                numberOfPatientBs: gameState.numberOfPatientBs,
+                otherNumberOfPatientAs: gameState.otherNumberOfPatientAs,
+                otherNumberOfPatientBs: gameState.otherNumberOfPatientBs,
+                score: gameState.score,
+                otherScore: gameState.otherScore,
+                totalScore: totalScore
+            };
+
+            userStatsData.moves.push(data);
+
+        };
+
+        UserStatsFactory.updateScore = function (finalScore) {
+            userStatsData.finalScore = finalScore;
         };
 
         UserStatsFactory.addRecord = function () {
             // Post request to server
             return $http.post('/api/game/userStatistics', userStatsData);
         };
+
+        UserStatsFactory.setPageLoadCount=function(pageLoadCount){
+            userStatsData.timesGameLoaded=pageLoadCount;
+        }
 
         return UserStatsFactory;
     });

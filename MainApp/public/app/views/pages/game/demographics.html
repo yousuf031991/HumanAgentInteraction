@@ -288,22 +288,22 @@ mandatory.</p>
   <label id="questionDevicesUsed" class="question"><b>I use the following (check all that apply):</b></label> <br> <br> 
    
     
-   <input type="checkbox"  ng-model="preGameQuestionnaire.useBasicMobilePhone" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Basic mobile phone',preGameQuestionnaire.useBasicMobilePhone)"> Basic mobile phone
+   <input type="checkbox"  ng-model="preGameQuestionnaire.useBasicMobilePhone" ng-change="preGameQuestionnaire.manageDevices(false,'Basic mobile phone',preGameQuestionnaire.useBasicMobilePhone)"> Basic mobile phone
    
    <br>
    <br>
    
-   <input type="checkbox"  ng-model="preGameQuestionnaire.useSmartPhonePDAIpad" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'Mobile smart phone / PDA / iPod touch',preGameQuestionnaire.useSmartPhonePDAIpad)"> Mobile smart phone / PDA / iPod touch
+   <input type="checkbox"  ng-model="preGameQuestionnaire.useSmartPhonePDAIpad" ng-change="preGameQuestionnaire.manageDevices(false,'Mobile smart phone / PDA / iPod touch',preGameQuestionnaire.useSmartPhonePDAIpad)"> Mobile smart phone / PDA / iPod touch
    
    <br>
    <br>
    
-   <input type="checkbox"  ng-model="preGameQuestionnaire.useGPS" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'GPS navigation device with touch screen',preGameQuestionnaire.useGPS)"> GPS navigation device with touch screen
+   <input type="checkbox"  ng-model="preGameQuestionnaire.useGPS" ng-change="preGameQuestionnaire.manageDevices(false,'GPS navigation device with touch screen',preGameQuestionnaire.useGPS)"> GPS navigation device with touch screen
    
    <br>
    <br>
 
-   <input type="checkbox"  ng-model="preGameQuestionnaire.noDevice" ng-change="preGameQuestionnaire.update(preGameQuestionnaire.allDevicesUsed,'None of the above',preGameQuestionnaire.noDevice)"> None of the above
+   <input type="checkbox"  ng-model="preGameQuestionnaire.noDevice" ng-change="preGameQuestionnaire.manageDevices(true,preGameQuestionnaire.noneOfTheAbove,preGameQuestionnaire.noDevice)"> None of the above
    
    </div>
    

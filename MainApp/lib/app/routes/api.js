@@ -169,9 +169,15 @@ export default function (router) {
         userStatistics.finalScore = req.body.finalScore;
         userStatistics.moves = req.body.moves;
         userStatistics.gameConfigId = req.body.gameConfigId;
+        userStatistics.timesGameLoaded=req.body.timesGameLoaded;
+
+        let queryOptions = {
+            upsert: true,
+            setDefaultsOnInsert: true
+        };
 
         // Since user stats record already exists, update.
-        UserStatistics.findOneAndUpdate(query, userStatistics, {upsert: true}, function (err, doc) {
+        UserStatistics.findOneAndUpdate(query, userStatistics, queryOptions, function (err, doc) {
 
             if (err) {
                 res.send({success: false, message: "User statistics could not be saved"});
@@ -314,7 +320,7 @@ export default function (router) {
         });
     });
 
-    router.post("/exportAdminLogs", function (req, res) {
+    router.post("/exportLogs", function (req, res) {
         /*get from and to date by req.body.fromDate, req.body.toDate*/
         WorkerQueue.checkAvailability()
             .then(function (response) {
@@ -323,7 +329,7 @@ export default function (router) {
                         fromDate: req.body.fromDate,
                         toDate: req.body.toDate
                     };
-                    WorkerQueue.queueJob("ADMIN_LOGS", req.user.username, jobData)
+                    WorkerQueue.queueJob(req.body.type, req.user.username, jobData)
                         .then(function (job) {
                             return WorkerQueue.executeJob(job);
                         })
@@ -348,11 +354,10 @@ export default function (router) {
 
     });
 
-    router.get("/listAdminExports", function (req, res) {
-        BackgroundJob.find({type: "ADMIN_LOGS"})
+    router.get("/listExports", function (req, res) {
+        BackgroundJob.find({ author: req.user.username })
             .sort({createdAt: -1}).exec()
             .then(function (exports) {
-                console.log(exports);
                 res.send({success: true, data: exports});
             })
             .catch(function (error) {
@@ -374,8 +379,12 @@ export default function (router) {
             userstatistics.trustAndTaskQuestionnaire = req.body.trustAndTaskQuestionnaire;
         }
 
+        let queryOptions = {
+            upsert: true,
+            setDefaultsOnInsert: true
+        };
 
-        UserStatistics.findOneAndUpdate(query, userstatistics, {upsert: true}, function (err, doc) {
+        UserStatistics.findOneAndUpdate(query, userstatistics, queryOptions, function (err, doc) {
             if (err) {
                 res.send({success: false, message: "User statistics could not be saved"});
             }
