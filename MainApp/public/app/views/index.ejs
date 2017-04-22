@@ -98,7 +98,7 @@
                 <li ng-class="{active: $route.current.activeTab === 'reporting'}" ng-if="isAdmin()">
                     <a href="/admin/reporting">Report</a>
                 </li>
-                <li ng-class="{active: $route.current.activeTab === 'exports'}" ng-if="isSuperAdmin()">
+                <li ng-class="{active: $route.current.activeTab === 'exports'}" ng-if="isAdmin()">
                     <a href="/admin/exports">CSV Exports</a>
                 </li>
 
