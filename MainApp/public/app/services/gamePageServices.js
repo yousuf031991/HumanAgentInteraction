@@ -31,27 +31,30 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         let earlySlowPattern = true;
         let color;
 
-        // Create room instances
-        let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
-        let divIds = ['div1', 'div2', 'div3', 'div4', 'div5', 'div6'];
-        let circleAIds = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
-        let circleBIds = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6'];
-
-
-        for (let i = 0, len = roomIds.length; i < len; i++) {
-            roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
-            map.set(divIds[i], "green");
-            patientMap.set(divIds[i], null);
-        }
-
         let circleAs = [];
         let circleBs = [];
 
-        // Assume circleA and circleB lengths are equal
-        for (let i = 0; i < circleAIds.length; i++) {
-            circleAs.push(new Circle(circleAIds[i]));
-            circleBs.push(new Circle(circleBIds[i]));
-        }
+        gamePageFactory.initialize = function() {
+            // Create room instances
+            let roomIds = ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'];
+            let divIds = ['div1', 'div2', 'div3', 'div4', 'div5', 'div6'];
+            let circleAIds = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
+            let circleBIds = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6'];
+
+
+            for (let i = 0, len = roomIds.length; i < len; i++) {
+                roomMap.set(roomIds[i], new Room(roomIds[i], roomData));
+                map.set(divIds[i], "green");
+                patientMap.set(divIds[i], null);
+            }
+
+            // Assume circleA and circleB lengths are equal
+            for (let i = 0; i < circleAIds.length; i++) {
+                circleAs.push(new Circle(circleAIds[i]));
+                circleBs.push(new Circle(circleBIds[i]));
+            }
+
+        };
 
         gamePageFactory.create = function (userStatsData) {
             return $http.post('/api/userStatistics', userStatsData);
@@ -330,17 +333,24 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 e.preventDefault();
 
                 let success = true;
-                let myroomid = e.target.id;
+                // let myroomid = e.target.id;
+                let myroomid = e.currentTarget.id;
+
                 let __roomId = myroomid.replace("R", "div");
+
+                // console.log(myroomid);
+                console.log(gameState);
 
                 if (resourceId === 'btnDoctor') {
                     // Checking if enough doctors are present
                     if (gameState.numberOfDoctors > 0) {
-                        gameState.numberOfDoctors -= 1;
                         roomMap.get(myroomid).nDoctors = 1;
+                        gameState.numberOfDoctors -= 1;
                         $("#" + myroomid + " span[id='nDoctors']").text(roomMap.get(myroomid).nDoctors);
                         if (roomMap.get(myroomid).nNurses == 0) {
                             $("#" + myroomid + " span[id='hint'").text("Nurse needed!");
+                        } else {
+                            $("#" + myroomid + " span[id='hint'").text("");
                         }
                     } else {
                         $('#notifyModalTitle').text("Error");
@@ -352,11 +362,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 } else if (resourceId === 'btnSurgeon') {
                     // Checking if enough surgeons are present
                     if (gameState.numberOfSurgeons > 0) {
-                        gameState.numberOfSurgeons -= 1;
                         roomMap.get(myroomid).nSurgeons = 1;
+                        gameState.numberOfSurgeons -= 1;
                         $("#" + myroomid + " span[id='nSurgeons']").text(roomMap.get(myroomid).nSurgeons);
                         if (roomMap.get(myroomid).nNurses == 0) {
                             $("#" + myroomid + " span[id='hint'").text("Nurse needed!");
+                        } else {
+                            $("#" + myroomid + " span[id='hint'").text("");
                         }
                     } else {
                         $('#notifyModalTitle').text("Error");
@@ -368,14 +380,19 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 } else if (resourceId === 'btnNurse') {
                     // Checking if enough nurses are present
                     if (gameState.numberOfNurses > 0) {
-                        gameState.numberOfNurses -= 1;
                         roomMap.get(myroomid).nNurses = 1;
+                        gameState.numberOfNurses -= 1;
+
                         $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
+                        console.log(roomMap.get(myroomid).patientType);
+
                         if (roomMap.get(myroomid).patientType == 'Patient A' && roomMap.get(myroomid).nDoctors == 0) {
-                            $("#" + myroomid + "span[id='hint'").text("Doctor needed!");
+                            $("#" + myroomid + " span[id='hint'").text("Doctor needed!");
                         } else if (roomMap.get(myroomid).patientType == 'Patient B' && roomMap.get(myroomid).nSurgeons == 0) {
+                            console.log("Doctor Needed");
                             $("#" + myroomid + " span[id='hint'").text("Surgeon needed!");
                         } else {
+                            console.log("Empty");
                             $("#" + myroomid + " span[id='hint'").text("");
                         }
                     } else {
@@ -563,11 +580,13 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             roomMap.forEach(function (value, key) {
                 if (value.patientType === 'Patient A' && value.nDoctors === 1 && value.nNurses === 1 && value.collect === false) {
                     value.timeStarted = 60;
+                    $("#hint").text("");
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
                     gamePageFactory.showTimer(key, gameState, currentTime, userStats);
                     value.collect = true;
                 } else if (value.patientType === 'Patient B' && value.nSurgeons === 1 && value.nNurses === 1 && value.collect === false) {
                     value.timeStarted = 60;
+                    $("#hint").text("");
                     $("#" + key).append('<span id="timerForRoom">Timer started!</span>');
                     gamePageFactory.showTimer(key, gameState, currentTime, userStats);
                     value.collect = true

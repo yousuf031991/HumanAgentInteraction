@@ -4,12 +4,13 @@ angular.module('userStatsServices', [])
 
         let userStatsData = {};
 
-        UserStatsFactory.create = function (userId, gameConfigId) {
+        UserStatsFactory.create = function (userId, gameConfigId, versionNum) {
             // Initialize UserStatistics Object
             userStatsData.username = userId;
             userStatsData.gameConfigId = gameConfigId;
             userStatsData.finalScore = 0;
             userStatsData.moves = [];
+            userStatsData.versionNum = versionNum;
         };
 
         UserStatsFactory.getStats = function () {
@@ -47,12 +48,14 @@ angular.module('userStatsServices', [])
 
         UserStatsFactory.addRecord = function () {
             // Post request to server
-            return $http.post('/api/game/userStatistics', userStatsData);
+            //return $http.post('/api/game/userStatistics', userStatsData);
+            return $http.post('/api/game/updateUserStatistics', userStatsData);
+
         };
 
         UserStatsFactory.setPageLoadCount=function(pageLoadCount){
             userStatsData.timesGameLoaded=pageLoadCount;
-        }
+        };
 
         return UserStatsFactory;
     });

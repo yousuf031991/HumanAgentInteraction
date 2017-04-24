@@ -74,6 +74,27 @@
         </div>
     </div>
 
+    <!-- Share Resource Modal -->
+    <div class="modal fade" id="shareResourceModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="shareResourceModalTitle" class="modal-title">Title</h4>
+                    <span id="shareResourceType" class="invisible"></span>
+                </div>
+                <div id="shareResourceModalBody" class="modal-body">
+                    <p>Message</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id = "btnRAccept" class="btn btn-default" data-dismiss="modal">Accept</button>
+                    <button type="button" id = "btnRDeny" class="btn btn-default" data-dismiss="modal">Deny</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <div class="row" id="timeKeeper">
         <div class="col-xs-4">
             <div class="text-left"><b>Time Left - {{counter}}</b></div>
