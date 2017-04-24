@@ -3,9 +3,15 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         let app = this;
         let blinkTimer;
         let blinkTimer2;
+        let versionNum = $rootScope.getGameVersion();
+        //console.log("Version: " + versionNum);
+        if (versionNum == undefined) {
+            versionNum = 1;
+        }
+
+        console.log("Version: " + versionNum);
         Refresh.checkRefresh($rootScope.GAMEPAGE);
         app.username=$rootScope.username;
-
     
 //Start function: Self invoked
         (function startButton() {
@@ -18,7 +24,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
 
         function practiceGame() {
-
+            
             $("#practiceMode").text(" Practice Mode");
             alert("Practice Mode\n\n"+
                 "You are entering practice mode of 2 minutes.\n\n " + 
@@ -269,8 +275,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
                 } else {
-                    console.log("Failed to get configuration");
-                    console.log(returnData.data);
+                    // console.log("Failed to get configuration");
+                    // console.log(returnData.data);
                 }
             });
 
@@ -355,13 +361,14 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             gameFinished();
         }
 
+    
         function gameFinished() {
             
             $("#gFMclose").bind("click", function () {
                 $("#gameFinishedModal").modal("hide")
                 $timeout(function () {
 
-                    var data = {
+                    let data = {
                         lastStageCompleted: $rootScope.GAMEPAGE
                     }
 

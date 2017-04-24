@@ -88,7 +88,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 patientMap.set(divIds[i], null);
             }
 
-            console.log(roomTimers);
+            //console.log(roomTimers);
             for (let i = 0, len = roomTimers.length; i < len; i++) {
                 clearInterval(roomTimers[i]);
             }
@@ -108,8 +108,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         };
 
         gamePageFactory.updatePlayerPatientsInSideBar = function (patientACount, patientBCount) {
-            console.log("(updatePlayerPatientsInSideBar) Patient A: " + patientACount);
-            console.log("(updatePlayerPatientsInSideBar) Patient B: " + patientBCount);
+           // console.log("(updatePlayerPatientsInSideBar) Patient A: " + patientACount);
+           // console.log("(updatePlayerPatientsInSideBar) Patient B: " + patientBCount);
 
             for (let i = 0; i < circleAs.length; i++) {
                 circleAs[i].setVisibility('invisible', 'A');
@@ -383,7 +383,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 let __roomId = myroomid.replace("R", "div");
 
                 // console.log(gameState);
-                console.log("resource id" + resourceId);
+               // console.log("resource id" + resourceId);
 
                 if (resourceId === 'btnDoctor') {
                     // Checking if enough doctors are present
@@ -549,8 +549,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
             let x = patientACount;
             let y = patientBCount;
 
-            console.log("(Update2) Patient A: " + patientACount);
-            console.log("(Update2) Patient B: " + patientBCount);
+           // console.log("(Update2) Patient A: " + patientACount);
+           // console.log("(Update2) Patient B: " + patientBCount);
 
 
             patientADiv = $("#P1").find("#patientA");
@@ -605,7 +605,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
             // Update game score
             gameState.score += 1;
-            console.log("Printing score in collectresource" + gameState.score)
+            // console.log("Printing score in collectresource" + gameState.score)
             // console.log(gameState);
             $('#playerScore').trigger('change');
 
@@ -705,7 +705,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     // Subtract one minute from the time when the timer started.
                     // As timer for room is changed, this param should be updated
                     let finishedTime = (parseInt(initialTime[0]) - 1) + ":" + initialTime[1];
-                    console.log("Before collect resource")
+                   // console.log("Before collect resource")
                     gamePageFactory.collectResource(key, gameState, finishedTime, userStats);
 
                 } else {
