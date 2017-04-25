@@ -344,6 +344,12 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
                 PatientService.resetDivs();
 
+                let data={
+                            lastStageCompleted:$rootScope.PRACTICE_GAME
+                        }
+
+                $rootScope.updateGameSession(data);        
+
                 $location.path('/gamepage/' + app.username);
             } else {
                
