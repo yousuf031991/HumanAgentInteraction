@@ -385,7 +385,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                 // console.log(gameState);
                // console.log("resource id" + resourceId);
 
-                if (resourceId === 'btnDoctor') {
+                if (resourceId === 'btnDoctor' && window.resourceSelected === 'btnDoctor') {
                     // Checking if enough doctors are present
                     //dis
 
@@ -411,7 +411,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     $('#btnSurgeon').removeClass('disabled');
                     $('#btnNurse').removeClass('disabled');
 
-                } else if (resourceId === 'btnSurgeon') {
+                } else if (resourceId === 'btnSurgeon' && window.resourceSelected === 'btnSurgeon') {
                     // Checking if enough surgeons are present
                     if (gameState.numberOfSurgeons > 0) {
                         gameState.numberOfSurgeons -= 1;
@@ -439,14 +439,14 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                     $('#btnDoctor').removeClass('disabled');
                     $('#btnNurse').removeClass('disabled');
-                } else if (resourceId === 'btnNurse') {
+                } else if (resourceId == 'btnNurse' && window.resourceSelected === 'btnNurse') {
                     // Checking if enough nurses are present
                     if (gameState.numberOfNurses > 0) {
                         gameState.numberOfNurses -= 1;
                         roomMap.get(myroomid).nNurses = 1;
-                        console.log(roomMap.get(myroomid).patientType);
-                        console.log(roomMap.get(myroomid).nDoctors );
-                        console.log(roomMap.get(myroomid).nSurgeons );
+                        // console.log(roomMap.get(myroomid).patientType);
+                        // console.log(roomMap.get(myroomid).nDoctors );
+                        // console.log(roomMap.get(myroomid).nSurgeons );
 
                         $("#" + myroomid + " span[id='nNurses']").text(roomMap.get(myroomid).nNurses);
                         if (roomMap.get(myroomid).patientType == 'Patient A' && roomMap.get(myroomid).nDoctors == 0) {
@@ -474,7 +474,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     $('#btnSurgeon').removeClass('disabled');
                 }
 
-                else if (resourceId === 'btnA') {
+                else if (resourceId === 'btnA' && window.patientSelected === 'btnA') {
                     if (gameState.numberOfPatientAs > 0) {
                         roomMap.get(myroomid).patientType = 'Patient A';
                         $("#" + myroomid + " span[id='assignedPatient']").text(roomMap.get(myroomid).patientType);
@@ -502,7 +502,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
 
                     $('#btnB').removeClass('disabled');
 
-                } else if (resourceId == 'btnB') {
+                } else if (resourceId == 'btnB' && window.patientSelected === 'btnB') {
                     if (gameState.numberOfPatientBs > 0) {
                         roomMap.get(myroomid).patientType = 'Patient B';
                         $("#" + myroomid + " span[id='assignedPatient']").text(roomMap.get(myroomid).patientType);
