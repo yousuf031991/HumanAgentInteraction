@@ -21,6 +21,7 @@ angular.module('gameStateServices', [])
             this.numPatientsForHighQuintuplet 		= 8;
             this.numPatientsForMediumQuintuplet 	= 5;
             this.numPatientsForLowQuintuplet 		= 2;
+            this.minShareWaitTime					= 30; // Minimum wait time in seconds before agent shares resources
 			//console.log("Initializing game state");
 		}
 	return GameState;
