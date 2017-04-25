@@ -267,7 +267,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     PatientService.newPatientforNH(app.gameState);
 
                     // Initialize User Statistics Service, to record user moves.
-                    UserStats.create(app.username, activeGameConfig._id);
+                    UserStats.create(app.username, activeGameConfig._id, versionNum);
 
                     // Start Agent resource sharing algorithm
                     Agent.NHShareResource(PatientService, app.gameState);

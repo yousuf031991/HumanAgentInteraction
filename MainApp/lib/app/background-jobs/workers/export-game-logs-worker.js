@@ -73,6 +73,8 @@ process.on("message", (msg) => {
                     { header: 'User ID', key: 'userID', width: 15 },
                     { header: 'Game Config Id', key: 'gameConfigId', width: 15 },
                     { header: 'Final Score', key: 'finalScore', width: 10 },
+                    { header: 'Times Game Loaded', key: 'timesGameLoaded', width: 10 },
+                    { header: 'Version Num', key: 'versionNum', width: 10 }
                 ];
                 let counter = 0;
                 trustTaskQuestions.forEach(function (question) {
@@ -125,7 +127,8 @@ process.on("message", (msg) => {
                         userID: log.username,
                         gameConfigId: log.gameConfigId,
                         finalScore: log.finalScore,
-                        timesGameLoaded: log.timesGameLoaded
+                        timesGameLoaded: log.timesGameLoaded,
+                        versionNum: log.versionNum
                     };
 
                     let counter = 0;
