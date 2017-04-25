@@ -3,7 +3,7 @@ angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices
         $scope.createNewAdmin = function () {
             $scope.loading = true;
             Scrolling('loader');
-            $scope.user = JSON.stringify({username: $scope.username});
+            $scope.user = JSON.stringify({username: $scope.adminUsername});
             ManageAdmin.create($scope.user).then(function (returnData) {
                 $scope.failureDeleteMsg = false;
                 $scope.successDeleteMsg = false;
@@ -14,7 +14,7 @@ angular.module('manageAdminControllers', ['manageAdminServices', 'reportServices
                     Scrolling('addSuccess');
 
                     // Log in adminLog
-                    const reportData = {action: "Created Admin: " + $scope.username};
+                    const reportData = {action: "Created Admin: " + $scope.adminUsername};
                     Report.putLog(reportData);
                 } else {
                     $scope.successAddMsg = false;
