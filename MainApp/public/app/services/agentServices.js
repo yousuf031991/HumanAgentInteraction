@@ -1,7 +1,16 @@
 angular.module('agentServices', [])
     .factory('Agent', function () {
     	let agentFactory = {};
+        let collectTimer;
+        let helpTimer;
+        let shareTimer;
 
+        agentFactory.clearTimers = function() {
+            clearTimeout(collectTimer);
+            clearTimeout(helpTimer);
+            clearTimeout(shareTimer);
+        };
+    
     	// Algorithm for agent to accept or deny shared resource
     	agentFactory.decisionAlgorithm = function(cooperationType) {
             let randomDecision = agentFactory.generateRandomNum(0, 1);
@@ -111,7 +120,8 @@ angular.module('agentServices', [])
 
         // Timer function to share resources
     	agentFactory.NHShareResourceTimer = function(patientService, gameState, milliseconds, versionNum) {
-			setTimeout(function() {
+			 shareTimer = setTimeout(function() {
+
 				// Wait time before sharing is determined based on cooperation mode set
 				// Step 1: Form an array of non-zero resources
 				// Step 2: Select an available resource at random to share
@@ -174,7 +184,7 @@ angular.module('agentServices', [])
     	// Assign to room and collect after x time
         agentFactory.NHCollectPatient = function(patientChoice, gameState, patientHelpTimeInSeconds) {
 			let treatmentTimeInMs = patientHelpTimeInSeconds*1000;
-            setTimeout(function() {
+            collectTimer = setTimeout(function() {
                 // Patient A
                 if (patientChoice == "A") {
                     gameState.otherNumberOfDoctors  += 1;
@@ -192,17 +202,13 @@ angular.module('agentServices', [])
             gameState.otherNumberOfRooms += 1;
         };
 
-        agentFactory.interruptionRequest = function(resourceType) {
-            // TODO: Add interrupt request implementation
-        };
-
     	// Agent playing algorithm
     	agentFactory.NHHelpPatient = function(milliseconds, gameState, currentTime) {
     		// Codes Used:
 			// Nurses  :  1
 			// Surgeon :  2
 			// let treatmentSuccess = false;
-            setTimeout(function () {
+            helpTimer = setTimeout(function () {
 				if (currentTime != "00:00") {
 					let patientChoice;
 					//console.log('Inside NHHelpPatient');
