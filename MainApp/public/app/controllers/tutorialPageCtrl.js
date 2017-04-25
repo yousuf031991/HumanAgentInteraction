@@ -2,7 +2,7 @@ angular.module('gamePageControllers')
     .controller('tutorialPageCtrl', function($rootScope, $route, $timeout, $http, $location, $scope) {
         let app = this;
         app.username = $rootScope.username;
-
+        var intro = introJs();
         var options_before = {
         steps: [
             {
@@ -48,9 +48,10 @@ angular.module('gamePageControllers')
 
         ]
     };
-
+     
+    
     $("#startTour").on("click", function() {
-    	var intro = introJs();
+    	
         intro.setOptions(options_before);
 
         intro.start().onbeforechange(function () {
@@ -90,6 +91,15 @@ angular.module('gamePageControllers')
                 //$route.reload();
         	});
         	
+        });
+        
+        
+         $('.introjs-skipbutton').hide();
+    
+        intro.start().onafterchange(function(){          
+            if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
+                $('.introjs-skipbutton').show();
+            } 
         });
     });
 
