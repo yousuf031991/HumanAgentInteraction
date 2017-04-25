@@ -35,6 +35,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function actualGame() {
 
+            $(".modal").modal("hide");
             alert("You are successfully done with practice session.\n\n " +
                 "You are now entering actual game.\n\n " +
                 "The goal is to save as many patients as possible. Please switch to landscape mode if using a mobile device or tablet!. Good luck");
@@ -125,8 +126,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             $('#btnSurgeon').click(function (event) {
                 window.resourceSelected = 'btnSurgeon';
                 PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-            });
 
+            });
 
             $('#btnNurse').click(function (event) {
                 window.resourceSelected = 'btnNurse';
@@ -410,6 +411,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function showFinishedModal() {
 
+            $(".modal-remove").modal("hide");
             $("#gameFinishedModal").modal("show");
             gameFinished();
         }
@@ -419,6 +421,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
             $("#gFMclose").bind("click", function () {
                 $("#gameFinishedModal").modal("hide")
+                
                 $timeout(function () {
 
                     let data = {

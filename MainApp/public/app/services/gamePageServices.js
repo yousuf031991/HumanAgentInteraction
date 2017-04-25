@@ -10,6 +10,7 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
         //Timer globals
         let newPatientTimer;
         let newNHPatientTimer;
+        //let resourceSelected;
 
         // Initial variables for Room
         let roomData = {};
@@ -843,6 +844,8 @@ angular.module('gamePageServices', ['roomServices', 'circleServices'])
                     $('#' + key).removeClass().addClass('panel panel-danger');
                 }
             });
+                
+           // window.resourceSelected = resourceId;
             //bug-- only one click should update room 
             gamePageFactory.updateRoomInfo(resourceId, gameState, currentTime, userStats);
         };
