@@ -21,7 +21,7 @@ export default function (router) {
 
         GameConfig.find({active: true}, function (err, record) {
             if (record.length == 0) {
-                res.send({success: false, message: "No active game config"});
+                res.send({success: false, message: "Sorry! The game is not available currently."});
                 return;
             }
 
