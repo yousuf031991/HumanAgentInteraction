@@ -35,6 +35,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function actualGame() {
 
+            $(".modal").modal("hide");
             alert("You are successfully done with practice session.\n\n " +
                 "You are now entering actual game.\n\n " +
                 "The goal is to save as many patients as possible. Please switch to landscape mode if using a mobile device or tablet!. Good luck");
@@ -334,9 +335,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             // Building the timer from game config
             let seconds = 0;
             if ($location.path() == '/practicePage') {
-                seconds = 120;
+                seconds = 40;
             } else {
-                seconds = app.gameState.startTime;
+                seconds = 40;
             }
 
             let minutes = seconds / 60;
@@ -410,6 +411,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         function showFinishedModal() {
 
+            $(".modal-remove").modal("hide");
             $("#gameFinishedModal").modal("show");
             gameFinished();
         }
@@ -419,6 +421,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
             $("#gFMclose").bind("click", function () {
                 $("#gameFinishedModal").modal("hide")
+                
                 $timeout(function () {
 
                     let data = {
