@@ -43,7 +43,7 @@ angular.module('gamePageControllers')
             {
             	element: '#step8',
             	intro: "Hooray. You are done.",
-                position: 'right'
+                position: 'top'
             }
 
         ]
@@ -81,6 +81,10 @@ angular.module('gamePageControllers')
             }
         }).oncomplete(function() {
         	$timeout(function() {
+                let data={
+                            lastStageCompleted:$rootScope.TUTORIAL
+                         }
+                $rootScope.updateGameSession(data);
         		$location.path('/practicePage');
                 //window.location.href = '/gamepage/' + app.username;
                 //$route.reload();
