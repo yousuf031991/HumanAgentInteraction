@@ -155,23 +155,34 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             }
 
             $('#btnA').click(function (event) {
+                
+                window.patientSelected = 'btnA';
                 PatientService.assignRoom(event.target.id, app.gameState, UserStats)
             });
 
             $('#btnB').click(function (event) {
+                
+                window.patientSelected = 'btnB';
                 PatientService.assignRoom(event.target.id, app.gameState, UserStats)
             });
 
             $('#btnDoctor').click(function (event) {
-                PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+                     
+                     window.resourceSelected = 'btnDoctor';
+                     PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
 
             $('#btnSurgeon').click(function (event) {
-                PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+                     
+                     window.resourceSelected = 'btnSurgeon';
+                     PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+
             });
 
             $('#btnNurse').click(function (event) {
-                PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+
+                     window.resourceSelected = 'btnNurse';
+                     PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
 
             // Listener for the request resource buttons
