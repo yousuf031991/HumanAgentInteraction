@@ -43,7 +43,7 @@ angular.module('gamePageControllers')
             {
             	element: '#step8',
             	intro: "Hooray. You are done.",
-                position: 'right'
+                position: 'top'
             }
 
         ]

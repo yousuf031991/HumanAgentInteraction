@@ -155,30 +155,41 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             }
 
             $('#btnA').click(function (event) {
+
+                window.patientSelected = 'btnA';
                 PatientService.assignRoom(event.target.id, app.gameState, UserStats)
             });
 
             $('#btnB').click(function (event) {
+
+                window.patientSelected = 'btnB';
                 PatientService.assignRoom(event.target.id, app.gameState, UserStats)
             });
 
             $('#btnDoctor').click(function (event) {
-                PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+
+                     window.resourceSelected = 'btnDoctor';
+                     PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
 
             $('#btnSurgeon').click(function (event) {
-                PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+
+                     window.resourceSelected = 'btnSurgeon';
+                     PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+
             });
 
 
         $('#btnNurse').click(function (event) {
+
+            window.resourceSelected = 'btnNurse';
             PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             //console.log(UserStats.getStats());
         });
 
         $('#btnRAccept').click(function (event) {
             let type = $('#shareResourceType').text();
-            console.log('Updating game state');
+            // console.log('Updating game state');
             $('#shareResourceModal').modal("hide");
             if (type == 'Nurse') {
                 app.gameState.otherNumberOfNurses -= 1;
@@ -194,7 +205,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
         $('#btnRADeny').click(function (event) {
             $('#shareResourceModal').modal("hide");
-            console.log('Denied shared resource');
+            // console.log('Denied shared resource');
         });
 
         // Listener for the request resource buttons
@@ -361,7 +372,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     PatientService.newPatientforNH(app.gameState);
 
                     // Initialize User Statistics Service, to record user moves.
-                    UserStats.create(app.username, activeGameConfig._id);
+                    UserStats.create(app.username, activeGameConfig._id, versionNum);
 
                     // Start Agent resource sharing algorithm
                     Agent.NHShareResource(PatientService, app.gameState, versionNum);
@@ -482,11 +493,11 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             let gameSession=$cookies.getObject($rootScope.COOKIE_NAME);
             let pageLoadCount=gameSession.timesGameLoaded;
             pageLoadCount=pageLoadCount+1;
-            let data={
+            let data = {
                         timesGameLoaded:pageLoadCount
-                     }
+                       };
             $rootScope.updateGameSession(data);
-        }
+        };
 
         this.incrementPageLoadCount();
 
