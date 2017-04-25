@@ -137,13 +137,13 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 let type = $('#shareResourceType').text();
                 // console.log('Updating game state');
                 $('#shareResourceModal').modal("hide");
-                if (type == 'Nurse') {
+                if (type == 'Nurse' && app.gameState.otherNumberOfNurses > 0) {
                     app.gameState.otherNumberOfNurses -= 1;
                     app.gameState.numberOfNurses += 1;
-                } else if (type == 'Surgeon') {
+                } else if (type == 'Surgeon' && app.gameState.otherNumberOfSurgeons > 0) {
                     app.gameState.otherNumberOfSurgeons -= 1;
                     app.gameState.numberOfSurgeons += 1;
-                } else if (type == 'Doctor') {
+                } else if (type == 'Doctor' && app.gameState.otherNumberOfDoctors > 0) {
                     app.gameState.otherNumberOfDoctors -= 1;
                     app.gameState.numberOfDoctors += 1;
                 }
