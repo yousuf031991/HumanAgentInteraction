@@ -170,12 +170,36 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                 PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
             });
 
-            $('#btnNurse').click(function (event) {
-                PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
-            });
 
-            // Listener for the request resource buttons
-            $('#btnShareDoctor').click(function () {
+        $('#btnNurse').click(function (event) {
+            PatientService.assignResource(event.target.id, app.gameState, $scope.counter, UserStats);
+            //console.log(UserStats.getStats());
+        });
+
+        $('#btnRAccept').click(function (event) {
+            let type = $('#shareResourceType').text();
+            console.log('Updating game state');
+            $('#shareResourceModal').modal("hide");
+            if (type == 'Nurse') {
+                app.gameState.otherNumberOfNurses -= 1;
+                app.gameState.numberOfNurses   += 1;
+            } else  if (type == 'Surgeon') {
+                app.gameState.otherNumberOfSurgeons -= 1;
+                app.gameState.numberOfSurgeons += 1;
+            } else if (type == 'Doctor') {
+                app.gameState.otherNumberOfDoctors -= 1;
+                app.gameState.numberOfDoctors  += 1;
+            }
+        });
+
+        $('#btnRADeny').click(function (event) {
+            $('#shareResourceModal').modal("hide");
+            console.log('Denied shared resource');
+        });
+
+        // Listener for the request resource buttons
+        $('#btnShareDoctor').click(function () {
+            if (versionNum == 1) {
                 UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
 
                 if (app.gameState.numberOfDoctors > 0) {
@@ -192,9 +216,33 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     $("#notifyModal").modal("show");
                     UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
                 }
-            });
+            } else {
+                resetMsg();
+                if (app.gameState.numberOfDoctors > 0) {
+                    UserStats.addMove("PlayerShared, Doctor", $scope.counter, app.gameState);
+                    let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
+                    console.log(decision);
+                    if (decision) {
+                        app.gameState.numberOfDoctors -= 1;
+                        app.gameState.otherNumberOfDoctors += 1;
+                        app.successMsg = "Shared Doctor is accepted by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+                    } else {
+                        app.errorMsg = "Shared Doctor is denied by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+                    }
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no doctors to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("DoctorShared, Failure", $scope.counter, app.gameState);
+                }
+            }
+        });
 
-            $('#btnShareSurgeon').click(function () {
+
+        $('#btnShareSurgeon').click(function () {
+            if (versionNum == 1) {
                 UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
 
                 if (app.gameState.numberOfSurgeons > 0) {
@@ -211,12 +259,35 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     $("#notifyModal").modal("show");
                     UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
                 }
+            } else {
+                resetMsg();
+                if (app.gameState.numberOfSurgeons > 0) {
+                    UserStats.addMove("PlayerShared, Surgeon", $scope.counter, app.gameState);
+                    let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
+                    if (decision) {
+                        app.gameState.numberOfSurgeons -= 1;
+                        app.gameState.otherNumberOfSurgeons += 1;
+                        app.successMsg = "Shared surgeon is accepted by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
+                    } else {
+                        app.errorMsg = "Shared surgeon is denied by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+                    }
+                    $location.hash('notify');
+                    $anchorScroll();
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no surgeons to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("SurgeonShared, Failure", $scope.counter, app.gameState);
+                }
+            }
+        });
 
-            });
 
-
-            $('#btnShareNurse').click(function () {
-                 UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+        $('#btnShareNurse').click(function () {
+            if (versionNum == 1) {
+                UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
                 if (app.gameState.numberOfNurses > 0) {
                     app.gameState.numberOfNurses -= 1;
                     app.gameState.otherNumberOfNurses += 1;
@@ -231,8 +302,31 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     $("#notifyModal").modal("show");
                     UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
                 }
+            } else {
+                resetMsg();
+                if (app.gameState.numberOfNurses > 0) {
+                    UserStats.addMove("PlayerShared, Nurse", $scope.counter, app.gameState);
+                    let decision = Agent.decisionAlgorithm(app.gameState.cooperationMode);
+                    $location.hash('notify');
+                    $anchorScroll();
+                    if (decision) {
+                        app.gameState.numberOfNurses -= 1;
+                        app.gameState.otherNumberOfNurses += 1;
+                        app.successMsg = "Shared Nurse is accepted by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Accept", $scope.counter, app.gameState);
 
-            });
+                    } else {
+                        app.errorMsg = "Shared Nurse is denied by neighbouring hospital";
+                        UserStats.addMove("AgentResponse, Deny", $scope.counter, app.gameState);
+                    }
+                } else {
+                    $("#notifyModalTitle").text("Error");
+                    $("#notifyModalbody").text("There are no nurses to share.");
+                    $("#notifyModal").modal("show");
+                    UserStats.addMove("NurseShared, Failure", $scope.counter, app.gameState);
+                }
+            }
+        });
 
             $("#startModalClose").on("click", function () {
                 $("#startModal").modal("hide");
@@ -270,7 +364,7 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
                     UserStats.create(app.username, activeGameConfig._id);
 
                     // Start Agent resource sharing algorithm
-                    Agent.NHShareResource(PatientService, app.gameState);
+                    Agent.NHShareResource(PatientService, app.gameState, versionNum);
 
                     // Agent playing algorithm.
                     Agent.NHHelpPatient(8000, app.gameState, $scope.counter);
