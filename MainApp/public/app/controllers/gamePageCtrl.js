@@ -335,9 +335,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
             // Building the timer from game config
             let seconds = 0;
             if ($location.path() == '/practicePage') {
-                seconds = 40;
+                seconds = 120;
             } else {
-                seconds = 40;
+                seconds = app.gameState.startTime;
             }
 
             let minutes = seconds / 60;
