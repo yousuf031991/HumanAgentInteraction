@@ -112,7 +112,8 @@ angular.module('agentServices', [])
                         break;
                 }
                 // console.log("QuintupleNum: " + quintupletNum);
-                // console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
+				shareWaitTime = Math.max(shareWaitTime, gameState.minShareWaitTime*1000);
+                console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
                 agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime, versionNum);
 			}
 
