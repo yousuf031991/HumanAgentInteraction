@@ -53,8 +53,9 @@ angular.module('gamePageControllers')
     $("#startTour").on("click", function() {
     	
         intro.setOptions(options_before);
+        intro.start();
 
-        intro.start().onbeforechange(function () {
+        intro.onbeforechange(function () {
 
         	if (intro._currentStep+1 == "5") {
                 $('#div1').removeClass().addClass('panel panel-danger');
@@ -96,7 +97,7 @@ angular.module('gamePageControllers')
         
          $('.introjs-skipbutton').hide();
     
-        intro.start().onafterchange(function(){          
+        intro.onafterchange(function(){          
             if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
                 $('.introjs-skipbutton').show();
             } 
