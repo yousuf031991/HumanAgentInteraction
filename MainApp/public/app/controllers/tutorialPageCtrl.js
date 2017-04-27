@@ -3,6 +3,7 @@ angular.module('gamePageControllers')
         let app = this;
         app.username = $rootScope.username;
         var intro = introJs();
+        $timeout(function() { $scope.startTour();},0);
         var options_before = {
         steps: [
             {
