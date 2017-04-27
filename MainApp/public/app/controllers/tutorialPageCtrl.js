@@ -8,7 +8,7 @@ angular.module('gamePageControllers')
             {
                 element: '#step1',
                 intro: 'Time left to finish the game.',
-                position: 'top'
+                position: 'bottom'
             },
             {
                 element: '#step2',
@@ -17,12 +17,12 @@ angular.module('gamePageControllers')
             },
             {
                 element: '#step3',
-                intro: "Neighbouring hospital agent's patients view",
+                intro: "Panel for assigning patients and resources to a room. You need to assign a patient to room first before assigning resources. Patient A: 1 doctor, 1 nurse. Patient B: 1 nurse. 1 surgeon.",
                 position: 'top'
             },
             {
             	element: '#step4',
-                intro: "Panel for assigning patients and resources to a room. You need to assign a patient to room first before assigning resources. Patient A: 1 doctor, 1 nurse. Patient B: 1 nurse. 1 surgeon.",
+                intro: "Neighbouring hospital agent's patients view",
                 position: 'top'
             },
             {
@@ -43,7 +43,7 @@ angular.module('gamePageControllers')
             {
             	element: '#step8',
             	intro: "Hooray. You are done.",
-                position: 'top'
+                position: 'bottom'
             }
 
         ]

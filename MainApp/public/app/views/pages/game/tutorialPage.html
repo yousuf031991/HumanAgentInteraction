@@ -6,68 +6,50 @@
 <div class="container-fluid" id="step8">
 
     <!-- 1st Step-->
-    <div class="row well" id="step1">
-        <div class="col-md-4">
-            <h3 class="text-left"><b>Time Left :8</b></h3>
+    <div class="row timeKeeper" id="step1">
+        <div class="col-xs-4">
+            <div class="text-left"><b>Time Left - 0:00</b></div>
         </div>
-        <div class="col-md-8">
-            <h3><strong>Hospital Management Game</strong></h3>
+        <div class="col-xs-8">
+            <div><strong>Hospital Management Game</strong></div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-xs-4 resourcesCol">
 
             <!-- 2nd Step-->
-            <div class="panel panel-primary" id="step2">
+            <div class="panel panel-primary waitingPanel" id="step2">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title hidden-xs">
+                        Your Waiting room
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Your Waiting room
                     </h3>
                 </div>
-                <div class="panel-body" id="P1">
+                <div class="panel-body P1" id="P1">
                     <strong> Patient A: <span id="patientA"></span><br/> </strong>
                     <strong> Patient B: <span id="patientB"></span><br/> </strong>
                 </div>
             </div>
 
-            <!-- 3rd Step-->
-            <div class="panel panel-primary" id="step3">
+            <div class="panel panel-primary resourcesPanel" id="step6">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Neighbor's Waiting room
+                    <h3 class="panel-title hidden-xs">
+                        Your Available Resources
                     </h3>
-                </div>
-                <div class="panel-body" id="P2">
-                    <div class = "col-sm-6" >
-                        <strong>
-                            <p class="text-center"> Patient A </p>
-                        </strong>
-                        <span id="otherPatientA"><div class="square center bg-green"></div></span><br/>
-                    </div>
-                    <div class = "col-sm-6" >
-                        <strong>
-                            <p class="text-center"> Patient B </p>
-                        </strong>
-                        <span id="otherPatientB"><div class="square center bg-green"></div></span><br/>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="panel panel-primary" id="step6">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Your Available Resources
                     </h3>
                 </div>
-                <div class="panel-body" id="S1">
-                    <div class = "col-sm-6" >
+                <div class="panel-body S1" id="S1">
+                    <div class = "col-xs-6" >
                         <strong>Doctors  : <span id="totalDoctors" class="sidebar">3</span> <br/> </strong>
                         <strong>Nurses   : <span id="totalNurses" class="sidebar"> 3</span> <br/> </strong>
                         <strong>Surgeons : <span id="totalSurgeons" class="sidebar"> 3</span> <br/></strong>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
@@ -77,32 +59,54 @@
                             </strong>
                         </div>
                     </div>
-                    <!--<div class="col-sm-6" id = "scorePanel">-->
-                        <!--<strong>-->
-                            <!--Score-->
-                            <!--<div id = "scoreDiv">-->
-                                <!--<div id ="scoreSpan">-->
-                                    <!--<span id = "playerScore">{{gameData.gameState.score}}</span>-->
-                                <!--</div>-->
-                           <!--</div>-->
-                        <!--</strong>-->
-                    <!--</div>   -->
                 </div>
             </div>
-            
-            <div class="panel panel-primary" id="step7">
+
+            <!-- 4th Step-->
+            <div class="panel panel-primary neighWaitingPanel" id="step4">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
+                    <h3 class="panel-title hidden-xs">
+                        Neighbor's Waiting room
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
+                        Neighbor's Waiting room
+                    </h3>
+                </div>
+                <div class="panel-body P2" id="P2">
+                    <div class = "col-xs-6" >
+                        <strong>
+                            <p class="text-center"> Patient A </p>
+                        </strong>
+                        <span id="otherPatientA"><div class="square center bg-green"></div></span><br/>
+                    </div>
+                    <div class = "col-xs-6" >
+                        <strong>
+                            <p class="text-center"> Patient B </p>
+                        </strong>
+                        <span id="otherPatientB"><div class="square center bg-green"></div></span><br/>
+                    </div>
+                </div>
+            </div>
+
+
+
+            
+            <div class="panel panel-primary neighResourcesPanel" id="step7">
+                <div class="panel-heading">
+                    <h3 class="panel-title hidden-xs">
+                        Neighbor's Available Resources
+                    </h3>
+                    <h3 class="panel-title mobile-panel-title visible-xs">
                         Neighbor's Available Resources
                     </h3>
                 </div>
-                <div class="panel-body" id="S2">
-                    <div class = "col-sm-6" >
+                <div class="panel-body S2" id="S2">
+                    <div class = "col-xs-6" >
                         <strong>Doctors :<span id="nbrDoctors" class="sidebar">3 </span> <br/> </strong>
                         <strong>Nurses :<span id="nbrNurses" class="sidebar">2 </span> <br/> </strong>
                         <strong>Surgeons :<span id="nbrSurgeons" class="sidebar">3</span> <br/> </strong>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         <div class="text-center">
                             <strong>
                                 <span class="text-center">Score</span>
@@ -112,7 +116,7 @@
                             </strong>
                         </div>
                     </div>
-                    <!--<div class="col-sm-6" id = "scorePanel">-->
+                    <!--<div class="col-xs-6" id = "scorePanel">-->
                         <!--<strong>-->
                             <!--score-->
                             <!--<div id = "scoreDiv">-->
@@ -129,12 +133,15 @@
 
 
 
-        <div class="col-md-8" >
-            <div class="row" id="step5" data-intro="Rooms marked red: Cannnot be assigned anything. Green: can be assigned">
-                <div class="col-md-4">
+        <div class="col-xs-8" >
+            <div class="row roomsRow" id="step5" data-intro="Rooms marked red: Cannnot be assigned anything. Green: can be assigned">
+                <div class="col-xs-4 room1Col" id="room1Col">
                     <div id="div1" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 1
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 1
                             </h3>
                         </div>
@@ -148,7 +155,10 @@
                     </div>
                     <div id="div2" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 2
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 2
                             </h3>
                         </div>
@@ -161,10 +171,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4 room2Col" id="room2Col">
                     <div id="div3" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 3
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 3
                             </h3>
                         </div>
@@ -178,7 +191,10 @@
                     </div>
                     <div id="div4" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 4
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 4
                             </h3>
                         </div>
@@ -191,10 +207,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4 room3Col" id="room3Col">
                     <div id="div5" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 5
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 5
                             </h3>
                         </div>
@@ -208,7 +227,10 @@
                     </div>
                     <div id="div6" class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3 class="panel-title">
+                            <h3 class="panel-title hidden-xs">
+                                Room 6
+                            </h3>
+                            <h3 class="panel-title mobile-panel-title visible-xs">
                                 Room 6
                             </h3>
                         </div>
@@ -224,29 +246,29 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12">
-                    <br>
-                    <div class="btn-group btn-group-justified" id="step4">
-                        <a href="#" class="btn btn-primary" id="patients">Assign Patients</a>
-                        <a href="#" class="btn btn-primary" id="resources">Assign Resources</a>
-                        <a href="#" class="btn btn-primary" id="shareResources">Share Resources</a>
+                <div class="col-xs-12 playButtonsDiv">
+                    <br class="hidden-xs">
+                    <div class="btn-group btn-group-justified prdiv" id="step3">
+                        <a href="#" class="btn btn-primary patients" id="patients">Assign Patients</a>
+                        <a href="#" class="btn btn-primary resources" id="resources">Assign Resources</a>
+                        <a href="#" class="btn btn-primary shareResources" id="shareResources">Share Resources</a>
                     </div>
                     <div id="patientsgroup" style="display: none;">
-                        <br/>
+                        <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
-                            <a class="btn btn-primary" id="btnA">Patient A</a>
-                            <a href="#" class="btn btn-primary" id="btnB">Patient B</a>
+                            <a class="btn btn-primary btnA" id="btnA">Patient A</a>
+                            <a href="#" class="btn btn-primary btnB" id="btnB">Patient B</a>
                         </div>
                         <!-- <button class="btn btn-primary" id="btnA" type="submit" >Patient A</button>
                         <button class="btn btn-primary" id="btnB" type="submit" >Patient B</button> -->
                     </div>
 
                     <div id="resourcesGroup" style="display: none;">
-                        <br/>
+                        <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
-                            <a href='#' class="btn btn-primary" id="btnDoctor">Doctor</a>
-                            <a href="#" class="btn btn-primary" id="btnNurse">Nurse</a>
-                            <a href="#" class="btn btn-primary" id="btnSurgeon">Surgeon</a>
+                            <a href='#' class="btn btn-primary btnDoctor" id="btnDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary btnNurse" id="btnNurse">Nurse</a>
+                            <a href="#" class="btn btn-primary btnSurgeon" id="btnSurgeon">Surgeon</a>
                         </div>
                         <!-- button class="btn btn-primary" id="btnDoctor" type="submit" >Doctor</button>
                         <button class="btn btn-primary" id="btnNurse" type="submit" >Nurse</button>
@@ -256,11 +278,11 @@
 
                     <!-- Request Resources Button Group -->
                     <div id="requestGroup" style="display: none;">
-                        <br/>
+                        <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
-                            <a href="#" class="btn btn-primary" id="btnShareDoctor">Doctor</a>
-                            <a href="#" class="btn btn-primary" id="btnShareNurse">Nurse</a>
-                            <a href="#" class="btn btn-primary" id="btnShareSurgeon">Surgeon</a>
+                            <a href="#" class="btn btn-primary btnShareDoctor" id="btnShareDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary btnShareNurse" id="btnShareNurse">Nurse</a>
+                            <a href="#" class="btn btn-primary btnShareSurgeon" id="btnShareSurgeon">Surgeon</a>
                         </div>
                     </div>
 
