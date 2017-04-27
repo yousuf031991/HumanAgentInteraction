@@ -27,8 +27,8 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
 
             $("#practiceMode").text(" Practice Mode");
             alert("Practice Mode\n\n" +
-                "You are entering practice mode of 2 minutes.\n\n " +
-                "The goal is to save as many patients as possible. Please switch to landscape mode if using a mobile device or tablet!");
+                "You are entering practice mode of 2 minutes.\n\n" +
+                "The goal is to save as many patients as possible.");
             startGameDuties();
         }
 
@@ -36,9 +36,9 @@ angular.module('gamePageControllers', ['roomServices', 'circleServices', 'refres
         function actualGame() {
 
             $(".modal").modal("hide");
-            alert("You are successfully done with practice session.\n\n " +
-                "You are now entering actual game.\n\n " +
-                "The goal is to save as many patients as possible. Please switch to landscape mode if using a mobile device or tablet!. Good luck");
+            alert("You are successfully done with the practice session.\n\n" +
+                "You are now entering the actual game.\n\n " +
+                "The goal is to save as many patients as possible. Good luck!");
             PatientService.resetDivs();
             startGameDuties();
         }

@@ -133,55 +133,56 @@ time {
 .invisible {
     style: "display:none"
 }
+
 .mobile-panel-title {
     font-size: 11px;
 }
 
-#timeKeeper {
+.timeKeeper {
     font-size: 25px;
 }
 
 /* mobile specifications */
 @media (max-width: 768px) {
 
-    #timeKeeper {
+    .timeKeeper {
         font-size: 13px;
         padding: 0px 0px 0px 0px;
     }
 
-    #timeKeeper .col-xs-4{
+    .timeKeeper .col-xs-4{
         padding: 0px 0px 0px 0px;
     }
 
-    #resourcesCol, #playButtonsDiv {
+    .resourcesCol, .playButtonsDiv {
         padding: 3px 3px 3px 3px;
     }
 
-    #P1, #P2, #S1, #S2, #patients, #resources, #shareResources, #btnA, #btnB, #btnDoctor,
-    #btnNurse, #btnSurgeon, #btnShareDoctor, #btnShareNurse, #btnShareSurgeon{
+    .P1, .P2, .S1, .S2, .patients, .resources, .shareResources, .btnA, .btnB, .btnDoctor,
+    .btnNurse, .btnSurgeon, .btnShareDoctor, .btnShareNurse, .btnShareSurgeon{
         font-size: 10px;
     }
 
-    #roomsRow {
+    .roomsRow {
         padding: 0px 3px 0px 0px;
     }
 
-    #R1, #R3, #R5, #R2, #R4, #R6, #P1, #P2, #S1, #S2 {
+    #R1, #R3, #R5, #R2, #R4, #R6, .P1, .P2, .S1, .S2 {
         padding: 3px 3px 3px 3px;
         font-size: 9px;
     }
 
-    #room1col, #room2col, #room3col, #div1, #div2, #div3, #div4, #div5, #div6, #waitingPanel, #resourcesPanel,
-    #neighWaitingPanel, #neighResourcesPanel {
+    .room1col, .room2col, .room3col, #div1, #div2, #div3, #div4, #div5, #div6, .waitingPanel, .resourcesPanel,
+    .neighWaitingPanel, .neighResourcesPanel {
         margin-bottom: 5px;
     }
 
-    #room1col, #room2col, #room3col {
+    .room1col, .room2col, .room3col {
         padding: 3px 3px 0px 3px;
         margin-bottom: 0px;
     }
 
-    #prdiv {
+    .prdiv {
         padding: 0px 0px 3px 0px;
     }
 
