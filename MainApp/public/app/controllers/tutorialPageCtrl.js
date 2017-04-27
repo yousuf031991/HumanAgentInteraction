@@ -28,7 +28,7 @@ angular.module('gamePageControllers')
             {
             	element: '#step5',
                 intro: "Rooms marked red: Cannnot be assigned anything. Green: can be assigned",
-                position: 'top'
+                position: 'bottom'
             },
             {
             	element: '#step6',

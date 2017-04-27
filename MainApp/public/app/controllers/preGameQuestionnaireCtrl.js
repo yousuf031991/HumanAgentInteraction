@@ -173,7 +173,8 @@ angular.module('preGameQuestionnaireControllers', ['questionnaireServices', 'ref
                         lastStageCompleted: $rootScope.DEMOGRAPHICS_QUESTIONNAIRE
                     };
                     $rootScope.updateGameSession(data);
-                   $location.path('/tutorialPage')
+                    alert("Please switch to landscape mode for a better game experience.");
+                   $location.path('/tutorialPage');
 
                    //uncomment this for testing purpose.
                     //$location.path('/practicePage');
