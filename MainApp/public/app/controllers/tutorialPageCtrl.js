@@ -50,7 +50,7 @@ angular.module('gamePageControllers')
     };
      
     
-    $("#startTour").on("click", function() {
+    $scope.startTour =  function() {
     	
         intro.setOptions(options_before);
         intro.start();
@@ -102,7 +102,7 @@ angular.module('gamePageControllers')
                 $('.introjs-skipbutton').show();
             } 
         });
-    });
+    };
 
    
      /*function startObjectsIntro() {
