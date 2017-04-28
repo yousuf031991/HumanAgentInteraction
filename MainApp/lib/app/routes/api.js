@@ -8,6 +8,7 @@ import WorkerQueue from "../background-jobs/worker-queue";
 import AdminLog from "../models/adminLog";
 import BackgroundJob from "../models/background-job";
 import * as UUID from "uuid-1345";
+const configs = JSON.parse(process.env.CONFIGS);
 
 
 export default function (router) {
@@ -398,6 +399,11 @@ export default function (router) {
 
     router.get('/home', function (req, res) {
         res.send("Hello from home!");
+    });
+
+    router.get('/googleClientId',function(req,res){
+        console.log(configs.googleClientId);
+        res.send({clientId: configs.googleClientId});
     });
     return router;
 };

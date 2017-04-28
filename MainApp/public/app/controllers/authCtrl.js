@@ -66,27 +66,22 @@ angular.module('authControllers', ['authServices', 'reportServices'])
         //initializes gmail OAuth2 signin functionality
         let loadGmailLogin=function() {
             
-            app.client_id =getClientId();
-            gapi.load('auth2', function(){
+            let googleClientId=null;
+            Auth.getGoogleClientId().then(function(returnData){
+                //console.log(JSON.stringify(returnData));
+                googleClientId=returnData.data.clientId;
+                gapi.load('auth2', function(){
                 // Retrieve the singleton for the GoogleAuth library and set up the client.
                 auth2 = gapi.auth2.init({
-                    client_id: app.client_id,
+                    client_id: googleClientId,
                     cookiepolicy: 'single_host_origin',
                 });
             });
+        });
+
+            
         };
 
-        let getClientId=function(){
-            var metaTags=document.getElementsByTagName('meta');
-            var len=metaTags.length;
-            var tag;
-            for(var i=0;i<len;i++){
-                tag=metaTags[i];
-                if(tag.name=="google-signin-client_id")
-                    return tag.content;
-            } 
-            return null;
-        };
         //Init Gmail Signin when the page loads
         loadGmailLogin();
 
