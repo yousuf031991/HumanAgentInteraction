@@ -1,19 +1,10 @@
-<!-- <div id = "rTimeoutmodal" class = "modal">
-  <div class = "modal-content">
-    <span class="close"></span>
-    <p>Collect Resources</p>
-  </div>
-</div>
-
- -->
-
-<!-- <div class="clock" style="margin:2em;"><p>asdjfk</p></div> -->
+<base href="/" />
 <div class="message"></div>
 <div class="container-fluid">
 
 
     <!-- Collect Resources Modal -->
-    <div class="modal fade" id="rTimeoutmodal" role="dialog">
+    <div class="modal fade modal-remove" id="rTimeoutmodal" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -55,7 +46,7 @@
     </div>
 
     <!-- Notification Modal -->
-    <div class="modal fade" id="notifyModal" role="dialog">
+    <div class="modal fade modal-remove" id="notifyModal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -67,19 +58,61 @@
                     <p>Message</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="closeNotify" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
 
         </div>
     </div>
 
+
+    <!-- Notification Modal -->
+    <div class="modal fade modal-remove" id="startModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="startModalTitle" class="modal-title">Title</h4>
+                </div>
+                <div id="startModalBody" class="modal-body">
+                    <p>Message</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="startModalClose" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Share Resource Modal -->
+    <div class="modal fade modal-remove" id="shareResourceModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="shareResourceModalTitle" class="modal-title">Title</h4>
+                    <span id="shareResourceType" class="invisible"></span>
+                </div>
+                <div id="shareResourceModalBody" class="modal-body">
+                    <p>Message</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id = "btnRAccept" class="btn btn-default" data-dismiss="modal">Accept</button>
+                    <button type="button" id = "btnRDeny" class="btn btn-default" data-dismiss="modal">Deny</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <div class="row" id="timeKeeper">
         <div class="col-xs-4">
             <div class="text-left"><b>Time Left - {{counter}}</b></div>
         </div>
-        <div class="col-xs-8">
-            <div><strong>Hospital Management Game</strong></div>
+        <div class="col-md-8">
+            <h3><strong>Hospital Management Game:<br><span id="practiceMode" style="color:red"></span></strong></h3>
         </div>
     </div>
 

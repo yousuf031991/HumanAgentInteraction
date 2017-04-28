@@ -10,7 +10,7 @@ angular.module('globalServices', []) //This is a service that sets the global pa
         			$rootScope.TRIALINFO_PAGE=1;
         			$rootScope.DEMOGRAPHICS_QUESTIONNAIRE=2;
         			$rootScope.TUTORIAL=3;
-        			$rootScope.TRIAL_GAME=4;
+        			$rootScope.PRACTICE_GAME=4;
         			$rootScope.GAMEPAGE=5;
         			$rootScope.TRUST_TASK_QUESTIONNAIRE=6; 
         			$rootScope.THANKYOU_PAGE=7;     

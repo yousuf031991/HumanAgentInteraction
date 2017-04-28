@@ -1,6 +1,36 @@
 angular.module('agentServices', [])
     .factory('Agent', function () {
     	let agentFactory = {};
+        let collectTimer;
+        let helpTimer;
+        let shareTimer;
+
+        agentFactory.clearTimers = function() {
+            clearTimeout(collectTimer);
+            clearTimeout(helpTimer);
+            clearTimeout(shareTimer);
+        };
+    
+    	// Algorithm for agent to accept or deny shared resource
+    	agentFactory.decisionAlgorithm = function(cooperationType) {
+            let randomDecision = agentFactory.generateRandomNum(0, 1);
+
+            if (cooperationType === 'HIGH COOPERATION') {
+                // In high cooperation, agent accepts shared resource only 60% of the time.
+                if (randomDecision >= 0 && randomDecision <= 0.6) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // In low cooperation, agent accepts shared resource only 30% of the time.
+                if (randomDecision >= 0 && randomDecision <= 0.3) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+		};
 
     	agentFactory.fulfillRequestAlgorithm = function(currentResources, otherHospitalResources, cooperationType) {
 			/**
@@ -9,7 +39,7 @@ angular.module('agentServices', [])
 			* Function : fulfillRequestAlgorithm
 			*/
 
-    		// If agent has no resources available, reject request
+			// If agent has no resources available, reject request
     		if (otherHospitalResources == 0) {
     			return false;
     		}
@@ -17,7 +47,7 @@ angular.module('agentServices', [])
     		let total = currentResources + otherHospitalResources;
 
     		// If cooperation mode is high, agent fulfills request even when it has low resources
-    		if(cooperationType === 'high') {
+    		if(cooperationType === 'HIGH COOPERATION') {
 				if(total >= 0 && total <= 2) {
                     // Always fulfills request if total available resources between 0 and 2
                     return true;
@@ -55,7 +85,7 @@ angular.module('agentServices', [])
 		};
 
         // Resource sharing algorithm for agent. Used instead of request resource algorithm
-        agentFactory.NHShareResource = function(patientService, gameState) {
+        agentFactory.NHShareResource = function(patientService, gameState, versionNum) {
         	let factor = 1;
         	if (gameState.cooperationMode == "LOW COOPERATION") {
 				factor = 4;
@@ -82,15 +112,17 @@ angular.module('agentServices', [])
                         break;
                 }
                 // console.log("QuintupleNum: " + quintupletNum);
-                // console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
-                agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime);
+				shareWaitTime = Math.max(shareWaitTime, gameState.minShareWaitTime*1000);
+                console.log("Sharing resource in " + shareWaitTime / 1000 + "seconds");
+                agentFactory.NHShareResourceTimer(patientService, gameState, shareWaitTime, versionNum);
 			}
 
 		};
 
         // Timer function to share resources
-    	agentFactory.NHShareResourceTimer = function(patientService, gameState, milliseconds) {
-			setTimeout(function() {
+    	agentFactory.NHShareResourceTimer = function(patientService, gameState, milliseconds, versionNum) {
+			 shareTimer = setTimeout(function() {
+
 				// Wait time before sharing is determined based on cooperation mode set
 				// Step 1: Form an array of non-zero resources
 				// Step 2: Select an available resource at random to share
@@ -114,30 +146,46 @@ angular.module('agentServices', [])
                 // Update agent's available resource in game state
 				// Update player's available resource in game state
                 // Notify player that agent shared a resource
-                $('#notifyModalTitle').text("Notification");
-                if (availableResources[randomIdx] == 'D') {
-                	gameState.otherNumberOfDoctors -= 1;
-					gameState.numberOfDoctors  += 1;
-                    $('#notifyModalbody').text("Agent has shared a doctor");
-                } else if (availableResources[randomIdx] == 'N') {
-                    gameState.otherNumberOfNurses -= 1;
-                    gameState.numberOfNurses   += 1;
-                    $('#notifyModalbody').text("Agent has shared a nurse");
-                } else if (availableResources[randomIdx] == 'S') {
-                    gameState.otherNumberOfSurgeons -= 1;
-                    gameState.numberOfSurgeons += 1;
-                    $('#notifyModalbody').text("Agent has shared a surgeon")
-                }
+				if (versionNum == 1) {
+                    $('#notifyModalTitle').text("Notification");
+                    if (availableResources[randomIdx] == 'D') {
+                        gameState.otherNumberOfDoctors -= 1;
+                        gameState.numberOfDoctors  += 1;
+                        $('#notifyModalbody').text("Agent has shared a doctor");
+                    } else if (availableResources[randomIdx] == 'N') {
+                        gameState.otherNumberOfNurses -= 1;
+                        gameState.numberOfNurses   += 1;
+                        $('#notifyModalbody').text("Agent has shared a nurse");
+                    } else if (availableResources[randomIdx] == 'S') {
+                        gameState.otherNumberOfSurgeons -= 1;
+                        gameState.numberOfSurgeons += 1;
+                        $('#notifyModalbody').text("Agent has shared a surgeon")
+                    }
 
-                $('#notifyModal').modal("show");
-                agentFactory.NHShareResource(patientService, gameState);
+                    $('#notifyModal').modal("show");
+				} else {
+                    $('#shareResourceModalTitle').text("Notification");
+                    if (availableResources[randomIdx] == 'D') {
+                        $('#shareResourceModalBody').text("Agent has shared a doctor");
+                        $('#shareResourceType').text("Doctor");
+                    } else if (availableResources[randomIdx] == 'N') {
+                        $('#shareResourceModalBody').text("Agent has shared a nurse");
+                        $('#shareResourceType').text("Nurse");
+                    } else if (availableResources[randomIdx] == 'S') {
+                        $('#shareResourceModalBody').text("Agent has shared a surgeon");
+                        $('#shareResourceType').text("Surgeon");
+                    }
+					$('#shareResourceModal').modal("show");
+				}
+
+                agentFactory.NHShareResource(patientService, gameState, versionNum);
 			}, milliseconds);
 		};
 
     	// Assign to room and collect after x time
         agentFactory.NHCollectPatient = function(patientChoice, gameState, patientHelpTimeInSeconds) {
 			let treatmentTimeInMs = patientHelpTimeInSeconds*1000;
-            setTimeout(function() {
+            collectTimer = setTimeout(function() {
                 // Patient A
                 if (patientChoice == "A") {
                     gameState.otherNumberOfDoctors  += 1;
@@ -155,17 +203,13 @@ angular.module('agentServices', [])
             gameState.otherNumberOfRooms += 1;
         };
 
-        agentFactory.interruptionRequest = function(resourceType) {
-            // TODO: Add interrupt request implementation
-        };
-
     	// Agent playing algorithm
     	agentFactory.NHHelpPatient = function(milliseconds, gameState, currentTime) {
     		// Codes Used:
 			// Nurses  :  1
 			// Surgeon :  2
 			// let treatmentSuccess = false;
-            setTimeout(function () {
+            helpTimer = setTimeout(function () {
 				if (currentTime != "00:00") {
 					let patientChoice;
 					//console.log('Inside NHHelpPatient');

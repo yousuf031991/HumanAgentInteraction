@@ -33,7 +33,7 @@ angular.module('trialInfoControllers', ['trialInfoServices', 'scrollingServices'
 
                         case $rootScope.TRIALINFO_PAGE: {$location.path('/demographics'); break;}
 
-                        case $rootScope.DEMOGRAPHICS_QUESTIONNAIRE: {$location.path('/gamepage/'+app.username); break;}// ToDo - edirect to tutorial page
+                        case $rootScope.DEMOGRAPHICS_QUESTIONNAIRE: {$location.path('/tutorialPage'); break;}// ToDo - edirect to tutorial page
 
                         case $rootScope.TUTORIAL:{$location.path('/practicePage');break;}
 

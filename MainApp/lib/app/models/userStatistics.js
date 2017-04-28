@@ -19,7 +19,11 @@ let userStatisticsSchema = new Schema({
     },
     finalScore: {
         type: Number,
-        validate: numberValidator,
+        validate: numberValidator
+    },
+    versionNum: {
+        type: Number,
+        validate: numberValidator
     },
     moves: [{}],
     demographics: [{

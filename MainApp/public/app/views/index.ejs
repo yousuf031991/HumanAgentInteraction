@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     <link rel="stylesheet" type="text/css" href="assets/css/questionnaire.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/introjs.css">
+
     
     <!--bootstrap tag for enabling mobile view-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -43,6 +45,7 @@
     <script src="app/controllers/preGameQuestionnaireCtrl.js"></script>
     <script src="app/controllers/postGameQuestionnaireCtrl.js"></script>
     <script src="app/controllers/exportCtrl.js"></script>
+    <script src="app/controllers/tutorialPageCtrl.js"></script>
 
 
     
@@ -98,7 +101,7 @@
                 <li ng-class="{active: $route.current.activeTab === 'reporting'}" ng-if="isAdmin()">
                     <a href="/admin/reporting">Report</a>
                 </li>
-                <li ng-class="{active: $route.current.activeTab === 'exports'}" ng-if="isSuperAdmin()">
+                <li ng-class="{active: $route.current.activeTab === 'exports'}" ng-if="isAdmin()">
                     <a href="/admin/exports">CSV Exports</a>
                 </li>
 

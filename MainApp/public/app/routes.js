@@ -38,6 +38,12 @@ angular.module('appRoutes', ['ngRoute']).config(function ($routeProvider, $locat
         .when('/trustAndTaskQuestionnaire', {
             templateUrl: 'app/views/pages/game/trustTaskQuestionnaire.html' , controller: 'postGameQuestionnaireCtrl', controllerAs: 'postGameQuestionnaireCtrl', activeTab: 'playGame'
         })
+        .when('/tutorialPage', {
+            templateUrl: 'app/views/pages/game/tutorialPage.html' , controller: 'tutorialPageCtrl', controllerAs: 'tutorialPage'
+        })
+        .when('/practicePage', {
+            templateUrl: 'app/views/pages/game/game.html' ,  controller: 'gamePageCtrl', controllerAs: 'gameData'
+        })
         .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode({
