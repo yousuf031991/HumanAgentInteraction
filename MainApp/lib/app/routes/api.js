@@ -402,7 +402,6 @@ export default function (router) {
     });
 
     router.get('/googleClientId',function(req,res){
-        console.log(configs.googleClientId);
         res.send({clientId: configs.googleClientId});
     });
     return router;
