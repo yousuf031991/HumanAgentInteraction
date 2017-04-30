@@ -64,9 +64,9 @@ The files relating to the pre-game and post-game questionnaires are as follows:
 ### Admin
 
 The admin module consists of four major sub-components, namely
- - [Report Generation](report-generation)
- - [Admin Management](admin-management)
- - [Game Configuration Management](game-configuration-management)
+ - [Report Generation](#report-generation)
+ - [Admin Management](#admin-management)
+ - [Game Configuration Management](#game-configuration-management)
 
 
 #### Report Generation
