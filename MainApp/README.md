@@ -1,6 +1,6 @@
 # Hospital Management Game
 
-#### Getting Started
+## Getting Started
 
 Clone this repository and execute the following commands in a terminal:
 
@@ -15,9 +15,7 @@ How to run this app?
 * Make sure you do `npm run test` before building the app.
 
 
-> **Note:** Everything is built using [this tutorial](https://www.youtube.com/watch?v=-gd73iczlS8&list=PL3vQyqzqjZ637sWpKvniMCxdqZhnMJC1d)
-
-#### Project Structure
+## Project Structure
 
 You will notice a few files/directories within this project:
 
@@ -27,7 +25,7 @@ You will notice a few files/directories within this project:
  4. [`public/app`](public/app/README.md) - Where the angular controllers, views, routes are located.
  4. [`lib/index.js`](lib/index.js) - the primary configuration file for the server
 
-#### Components
+## Components
 
 The major components of the application are the following:
 
@@ -35,7 +33,7 @@ The major components of the application are the following:
  2. [Questionnaire](#questionnaire)
  3. [Admin](#admin)
  
-##### Game
+### Game
 
 The files relating to the game component are as follows:
  - [`public/app/views/pages/game/game.html`](public/app/views/pages/game/game.html) - Template of the game view.
@@ -49,21 +47,21 @@ The files relating to the game component are as follows:
     utility functions
  - [`public/app/services/circleService.js`](public/app/services/circleService.js) - Provides structure for circle object.
  
-##### Questionnaire
+### Questionnaire
 
 The questionnaire component has two major sub-components, namely
  - Pre-Game Questionnaire
  - Post-Game Questionnaire
  
 The files relating to the pre-game and post-game questionnaires are as follows:
- - [`public/app/views/game/demographics.html`](public/app/views/game/demographics.html) - Template of the pre-game demographics questionnaire.
+ - [`public/app/views/pages/game/demographics.html`](public/app/views/pages/game/demographics.html) - Template of the pre-game demographics questionnaire.
  - [`public/app/controllers/preGameQuestionnaireCtrl.js`](public/app/controllers/preGameQuestionnaireCtrl.js) - Used for rendering data in the pre-game questionnaire view.
  - [`public/app/views/game/trustTaskQuestionnaire.html`](public/app/views/game/trustTaskQuestionnaire.html) - Template of the post-game trust and task questionnaire.
  - [`public/app/controllers/postGameQuestionnaireCtrl.js`](public/app/controllers/postGameQuestionnaireCtrl.js) - Used for rendering data in the post-game questionnaire view.
  - [`public/app/services/questionnaireServices.js`](public/app/services/questionnaireServices.js) - Contains functions for updating user statistics with 
     questionnaire data.
 
-##### Admin
+### Admin
 
 The admin module consists of four major sub-components, namely
  - [Report Generation](report-generation)
@@ -71,29 +69,34 @@ The admin module consists of four major sub-components, namely
  - [Game Configuration Management](game-configuration-management)
 
 
-###### Report Generation
+#### Report Generation
 
 The reporting component consists of two major sub-components, namely
  - Admin reports
  - Game reports
  
 The files relating to reporting component are as follows:
- - [`public/app/views/reporting.html`](public/app/views/reporting.html) - Template to pick date range.
+ - [`public/app/views/pages/admin/reporting.html`](public/app/views/pages/admin/reporting.html) - Template to pick date range.
  - [`public/app/controllers/reportCtrl.js`](public/app/controllers/reportCtrl.js) - Controller associated with reporting
    view.
  - [`public/app/services/reportServices.js`](public/app/services/reportServices.js) - Contains functions to get and set 
    log data.
 
-###### Admin Management
+#### Admin Management
 
 The admin management component is used to add or delete admins. The files associated with the admin
 management module are as follows:
-- [`public/app/views/admin/manageAdmin.html`](public/app/views/admin/manageAdmin.html) - Template used for managing admins
+- [`public/app/views/pages/admin/manageAdmin.html`](public/app/views/pages/admin/manageAdmin.html) - Template used for managing admins
 - [`public/app/controllers/manageAdminCtrl.js`](public/app/controllers/manageAdminCtrl.js) - Contains functions for
   adding, deleting and listing admins in the manage admin view.
 - [`public/app/services/manageAdminServices.js`](public/app/services/manageAdminServices.js) _ Contains functions for 
    adding, deleting admins from the collection.
 
-###### Game Configuration Management
+#### Game Configuration Management
 
-The admin management component is used to create and maintain game configurations.
+The game configuration management component is used to create and maintain game configurations. The files relating
+to game configuration management are as follows:
+- [`public/app/views/pages/admin/gameConfigPage`](public/app/views/pages/admin/gameConfigPage) - Template for game configuration view.
+- [`public/app/controllers/gameConfigCtrl.js`](public/app/controllers/gameConfigCtrl.js) - Controllers used to render addition and deletion of game configuration
+  data in the game configuration view.
+- [`public/app/services/gameConfigServices.js`](public/app/services/gameConfigServices.js) - Functions used to add or delete configurations in the collection.
