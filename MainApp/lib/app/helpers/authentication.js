@@ -2,17 +2,27 @@ import Admin from '../models/user';
 
 const configs = JSON.parse(process.env.CONFIGS);
 
+const adminApiURLs=['/api/gameConfig','/api/gameinfo','/api/newAdmin','/api/viewAdmin','/api/deleteAdmin', 
+                    '/api/admin/signOutUser','/api/deleteConf','/api/updateConf','/api/deactivateConf','/api/exportLogs','/api/listExports'];
+
+const superAdminApiURLs=['/api/newAdmin','/api/viewAdmin','/api/deleteAdmin'];
+
 function authenticate(req, res, next) {
+
+    if(isApiURL(req) && !isBrowserRequest(req)){
+        return res.send("Sorry your request could not be processed");
+    }
+
 
     if(isAdminRoute(req)) {
         if(isLoginRoute(req)) {
             if(hasSignedIn(req)) {
-                res.redirect("/admin/");
+                return res.redirect("/admin/");
             } else {
                 next();
             }
         } else if(!hasSignedIn(req)) {
-            res.redirect("/admin/login?redirect=true");
+            return res.redirect("/admin/login?redirect=true");
         }
     }
 
@@ -20,7 +30,7 @@ function authenticate(req, res, next) {
         const username = req.session.user.username;
         serializeUser(username, req, res, function (err, user) {
             if(isSuperAdminOnlyRoute(req) && user && user.role !== "SUPER ADMIN") {
-                res.redirect("/admin?reason=not_super");
+                return res.redirect("/admin?reason=not_super");
             } else {
                 next();
             }
@@ -48,15 +58,23 @@ function isLoginRoute(req) {
 }
 
 function isSuperAdminOnlyRoute(req) {
-    return req.url.startsWith("/admin/manage");
+    return req.url.startsWith("/admin/manage") || superAdminApiURLs.includes(req.url);
 }
 
 function isAdminRoute(req) {
-    return req.url.startsWith("/admin");
+    return req.url.startsWith("/admin") || adminApiURLs.includes(req.url);
 }
 
 function hasSignedIn(req) {
     return req.session && req.session.user;
+}
+
+function isBrowserRequest(req){
+    return req.get('Cookie')!=undefined;
+}
+
+function isApiURL(req){
+    return req.url.startsWith('/api');
 }
 
 export default {
