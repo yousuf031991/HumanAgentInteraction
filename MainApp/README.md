@@ -36,6 +36,7 @@ The major components of the application are the following:
 ### Game
 
 The files relating to the game component are as follows:
+
 **Client Side**
  - [`public/app/views/pages/game/game.html`](public/app/views/pages/game/game.html) - Template of the game view.
  - [`public/app/controllers/gamePageCtrl.js`](public/app/controllers/gamePageCtrl.js) - Used for rendering data in the game view.
