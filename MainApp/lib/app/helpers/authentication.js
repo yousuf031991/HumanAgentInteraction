@@ -8,7 +8,7 @@ const adminApiURLs=['/api/gameConfig','/api/gameinfo','/api/newAdmin','/api/view
 const superAdminApiURLs=['/api/newAdmin','/api/viewAdmin','/api/deleteAdmin'];
 
 function authenticate(req, res, next) {
-
+    
     if(isApiURL(req) && !isBrowserRequest(req)){
         return res.send("Sorry your request could not be processed");
     }
@@ -70,7 +70,8 @@ function hasSignedIn(req) {
 }
 
 function isBrowserRequest(req){
-    return req.get('Cookie')!=undefined;
+    let scriptedRequest=req.get('Cookie')==undefined || req.get('User-Agent').startsWith('curl/');
+    return !scriptedRequest;
 }
 
 function isApiURL(req){
