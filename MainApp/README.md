@@ -36,6 +36,7 @@ The major components of the application are the following:
 ### Game
 
 The files relating to the game component are as follows:
+**Client Side**
  - [`public/app/views/pages/game/game.html`](public/app/views/pages/game/game.html) - Template of the game view.
  - [`public/app/controllers/gamePageCtrl.js`](public/app/controllers/gamePageCtrl.js) - Used for rendering data in the game view.
  - [`public/app/services/gamePageServices.js`](public/app/services/gamePageServices.js) - Contains the necessary functions like patient queueing algorithm, 
@@ -44,8 +45,16 @@ The files relating to the game component are as follows:
  - [`public/app/services/gameStateServices.js`](public/app/services/gameStateServices.js) - Contains structure of game state. 
  - [`public/app/services/roomServices.js`](public/app/services/roomServices.js) - Contains structure for a room.
  - [`public/app/services/userStatsService.js`](public/app/services/userStatsService.js) - Provides structure for maintaining user statistics like moves and 
-    utility functions
+    utility functions.
  - [`public/app/services/circleService.js`](public/app/services/circleService.js) - Provides structure for circle object.
+
+**Server Side**
+ - [`lib/app/routes/api.js`](lib/app/routes/api.js) - Contains API route to update user statistics collection with 
+   user moves data.
+
+**Models**
+ - [`lib/app/models/userStatistics.js`](lib/app/models/userStatistics.js) - Contains schema for the user statistics
+  collection.
  
 ### Questionnaire
 
