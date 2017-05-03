@@ -332,6 +332,13 @@ export default function (router) {
     });
 
     router.post('/game/updateUserStatistics', function (req, res) {
+        
+        TrialInfo.count({username: req.body.username}, function (err, count) {
+        
+        if(count==0){
+            return res.send({success:false, message:'Sorry your request could not be processed'});
+        }
+       
         let query = {'username': req.body.username};
 
         let userStatistics = {};
@@ -378,6 +385,8 @@ export default function (router) {
             }
 
         });
+
+      });  
 
     });
 
