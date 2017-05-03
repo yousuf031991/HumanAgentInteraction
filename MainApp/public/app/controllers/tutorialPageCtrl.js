@@ -3,12 +3,13 @@ angular.module('gamePageControllers')
         let app = this;
         app.username = $rootScope.username;
         var intro = introJs();
+        $timeout(function() { $scope.startTour();},0);
         var options_before = {
         steps: [
             {
                 element: '#step1',
                 intro: 'Time left to finish the game.',
-                position: 'top'
+                position: 'bottom'
             },
             {
                 element: '#step2',
@@ -17,18 +18,18 @@ angular.module('gamePageControllers')
             },
             {
                 element: '#step3',
-                intro: "Neighbouring hospital agent's patients view",
+                intro: "Panel for assigning patients and resources to a room. You need to assign a patient to room first before assigning resources. Patient A: 1 doctor, 1 nurse. Patient B: 1 nurse. 1 surgeon.",
                 position: 'top'
             },
             {
             	element: '#step4',
-                intro: "Panel for assigning patients and resources to a room. You need to assign a patient to room first before assigning resources. Patient A: 1 doctor, 1 nurse. Patient B: 1 nurse. 1 surgeon.",
+                intro: "Neighbouring hospital agent's patients view",
                 position: 'top'
             },
             {
             	element: '#step5',
                 intro: "Rooms marked red: Cannnot be assigned anything. Green: can be assigned",
-                position: 'top'
+                position: 'bottom'
             },
             {
             	element: '#step6',
@@ -43,14 +44,14 @@ angular.module('gamePageControllers')
             {
             	element: '#step8',
             	intro: "Hooray. You are done.",
-                position: 'top'
+                position: 'bottom'
             }
 
         ]
     };
      
     
-    $("#startTour").on("click", function() {
+    $scope.startTour =  function() {
     	
         intro.setOptions(options_before);
         intro.start();
@@ -102,7 +103,7 @@ angular.module('gamePageControllers')
                 $('.introjs-skipbutton').show();
             } 
         });
-    });
+    };
 
    
      /*function startObjectsIntro() {

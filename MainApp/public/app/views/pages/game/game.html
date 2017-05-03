@@ -107,18 +107,18 @@
 
         </div>
     </div>
-    <div class="row" id="timeKeeper">
+    <div class="row timeKeeper" id="timeKeeper">
         <div class="col-xs-4">
             <div class="text-left"><b>Time Left - {{counter}}</b></div>
         </div>
-        <div class="col-md-8">
-            <h3><strong>Hospital Management Game:<br><span id="practiceMode" style="color:red"></span></strong></h3>
+        <div class="col-xs-8">
+            <div><strong>Hospital Management Game <span id="practiceMode" style="color:red"></span></strong></div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-4" id="resourcesCol">
-            <div class="panel panel-primary" id="waitingPanel">
+        <div class="col-xs-4 resourcesCol" id="resourcesCol">
+            <div class="panel panel-primary waitingPanel" id="waitingPanel">
                 <div class="panel-heading">
                     <h3 class="panel-title hidden-xs">
                         Your Waiting room
@@ -127,12 +127,12 @@
                         Your Waiting room
                     </h3>
                 </div>
-                <div class="panel-body" id="P1">
+                <div class="panel-body P1" id="P1">
                     <strong> Patient A: <span id="patientA"></span><br/> </strong>
                     <strong> Patient B: <span id="patientB"></span><br/> </strong>
                 </div>
             </div>
-            <div class="panel panel-primary" id="resourcesPanel">
+            <div class="panel panel-primary resourcesPanel" id="resourcesPanel">
                 <div class="panel-heading">
                     <h3 class="panel-title hidden-xs">
                         Your Available Resources
@@ -141,7 +141,7 @@
                         Your Available Resources
                     </h3>
                 </div>
-                <div class="panel-body" id="S1">
+                <div class="panel-body S1" id="S1">
                     <div class = "col-xs-6" >
                         <strong>Doctors  : <span id="totalDoctors" class="sidebar">{{gameData.gameState.numberOfDoctors}} </span> <br/> </strong>
                         <strong>Nurses   : <span id="totalNurses" class="sidebar"> {{gameData.gameState.numberOfNurses}} </span> <br/> </strong>
@@ -169,7 +169,7 @@
                     <!--</div>   -->
                 </div>
             </div>
-            <div class="panel panel-primary" id="neighWaitingPanel">
+            <div class="panel panel-primary neighWaitingPanel" id="neighWaitingPanel">
                 <div class="panel-heading">
                     <h3 class="panel-title hidden-xs">
                         Neighbor's Waiting room
@@ -178,7 +178,7 @@
                         Neighbor's Waiting room
                     </h3>
                 </div>
-                <div class="panel-body" id="P2">
+                <div class="panel-body P2" id="P2">
                     <div class = "col-xs-6" >
                         <strong>
                             <p class="text-center"> Patient A </p>
@@ -193,7 +193,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-primary" id="neighResourcesPanel">
+            <div class="panel panel-primary neighResourcesPanel" id="neighResourcesPanel">
                 <div class="panel-heading">
                     <h3 class="panel-title hidden-xs">
                         Neighbor's Available Resources
@@ -202,7 +202,7 @@
                         Neighbor's Available Resources
                     </h3>
                 </div>
-                <div class="panel-body" id="S2">
+                <div class="panel-body S2" id="S2">
                     <div class = "col-xs-6" >
                         <strong>Doctors :<span id="nbrDoctors" class="sidebar">{{gameData.gameState.otherNumberOfDoctors}} </span> <br/> </strong>
                         <strong>Nurses :<span id="nbrNurses" class="sidebar">{{gameData.gameState.otherNumberOfNurses}} </span> <br/> </strong>
@@ -232,8 +232,8 @@
             </div>
         </div>
         <div class="col-xs-8">
-            <div class="row" id="roomsRow">
-                <div class="col-xs-4" id="room1Col">
+            <div class="row roomsRow" id="roomsRow">
+                <div class="col-xs-4 room1Col" id="room1Col">
                     <div id="div1" class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title hidden-xs">
@@ -269,7 +269,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-4" id="room2Col">
+                <div class="col-xs-4 room2Col" id="room2Col">
                     <div id="div3" class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title hidden-xs">
@@ -305,7 +305,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-4" id="room3Col">
+                <div class="col-xs-4 room3Col" id="room3Col">
                     <div id="div5" class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title hidden-xs">
@@ -343,18 +343,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12" id="playButtonsDiv">
+                <div class="col-xs-12 playButtonsDiv" id="playButtonsDiv">
                     <br class="hidden-xs">
-                    <div class="btn-group btn-group-justified" id="prdiv">
-                        <a href="#" class="btn btn-primary" id="patients">Assign Patients</a>
-                        <a href="#" class="btn btn-primary" id="resources">Assign Resources</a>
-                        <a href="#" class="btn btn-primary" id="shareResources">Share Resources</a>
+                    <div class="btn-group btn-group-justified prdiv" id="prdiv">
+                        <a href="#" class="btn btn-primary patients" id="patients">Assign Patients</a>
+                        <a href="#" class="btn btn-primary resources" id="resources">Assign Resources</a>
+                        <a href="#" class="btn btn-primary shareResources" id="shareResources">Share Resources</a>
                     </div>
                     <div id="patientsgroup" style="display: none;">
                         <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
-                            <a class="btn btn-primary" id="btnA">Patient A</a>
-                            <a href="#" class="btn btn-primary" id="btnB">Patient B</a>
+                            <a class="btn btn-primary btnA" id="btnA">Patient A</a>
+                            <a href="#" class="btn btn-primary btnB" id="btnB">Patient B</a>
                         </div>
                         <!-- <button class="btn btn-primary" id="btnA" type="submit" >Patient A</button>
                         <button class="btn btn-primary" id="btnB" type="submit" >Patient B</button> -->
@@ -363,9 +363,9 @@
                     <div id="resourcesGroup" style="display: none;">
                         <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
-                            <a href='#' class="btn btn-primary" id="btnDoctor">Doctor</a>
-                            <a href="#" class="btn btn-primary" id="btnNurse">Nurse</a>
-                            <a href="#" class="btn btn-primary" id="btnSurgeon">Surgeon</a>
+                            <a href='#' class="btn btn-primary btnDoctor" id="btnDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary btnNurse" id="btnNurse">Nurse</a>
+                            <a href="#" class="btn btn-primary btnSurgeon" id="btnSurgeon">Surgeon</a>
                         </div>
                         <!-- button class="btn btn-primary" id="btnDoctor" type="submit" >Doctor</button>
                         <button class="btn btn-primary" id="btnNurse" type="submit" >Nurse</button>
@@ -377,9 +377,9 @@
                     <div id="requestGroup" style="display: none;">
                         <br class="hidden-xs">
                         <div class="btn-group btn-group-justified">
-                            <a href="#" class="btn btn-primary" id="btnShareDoctor">Doctor</a>
-                            <a href="#" class="btn btn-primary" id="btnShareNurse">Nurse</a>
-                            <a href="#" class="btn btn-primary" id="btnShareSurgeon">Surgeon</a>
+                            <a href="#" class="btn btn-primary btnShareDoctor" id="btnShareDoctor">Doctor</a>
+                            <a href="#" class="btn btn-primary btnShareNurse" id="btnShareNurse">Nurse</a>
+                            <a href="#" class="btn btn-primary btnShareSurgeon" id="btnShareSurgeon">Surgeon</a>
                         </div>
                     </div>
 
