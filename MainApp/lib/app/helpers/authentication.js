@@ -8,7 +8,6 @@ const adminApiURLs=['/api/gameConfig','/api/gameinfo','/api/newAdmin','/api/view
 const superAdminApiURLs=['/api/newAdmin','/api/viewAdmin','/api/deleteAdmin'];
 
 function authenticate(req, res, next) {
-    
     if(isApiURL(req) && !isBrowserRequest(req)){
         return res.send("Sorry your request could not be processed");
     }
@@ -58,11 +57,11 @@ function isLoginRoute(req) {
 }
 
 function isSuperAdminOnlyRoute(req) {
-    return req.url.startsWith("/admin/manage") || superAdminApiURLs.includes(req.url);
+    return req.url.startsWith("/admin/manage") || superAdminApiURLs.indexOf(req.url)!=-1;
 }
 
 function isAdminRoute(req) {
-    return req.url.startsWith("/admin") || adminApiURLs.includes(req.url);
+    return req.url.startsWith("/admin") || adminApiURLs.indexOf(req.url)!=-1;
 }
 
 function hasSignedIn(req) {
