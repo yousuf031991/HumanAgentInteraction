@@ -31,6 +31,6 @@ configs.session_secret = "softwarefactory_ser518_human_agent_interaction_project
 configs.session_duration = 30 * 60 * 100 * 1000; // in ms
 configs.session_activeDuration = 5 * 60 * 100 * 1000; // in ms
 configs.session_cookiename = "session";
-
+configs.googleClientId="79517414502-p33r8rq5viqvrb35ukgrdd0fk3a2mr8j.apps.googleusercontent.com";
 // set the configs as an env variable
 process.env.CONFIGS = JSON.stringify(configs);
